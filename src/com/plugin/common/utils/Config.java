@@ -1,0 +1,82 @@
+/**
+ * Config.java
+ */
+package com.plugin.common.utils;
+
+import android.os.Environment;
+import android.text.TextUtils;
+
+/**
+ * @author Guoqing Sun Mar 11, 20133:08:25 PM
+ */
+public class Config {
+	
+	public static final boolean UTILS_DEBUG = true;
+	
+	public static final boolean DEBUG_NETWORK_ST = false & UTILS_DEBUG;
+	public static final boolean RELEASE_UPLOAD_CRASH_LOG = !UTILS_DEBUG;
+	
+	public static final int BITMAP_COMPRESS_LOW = 80;
+	public static final int BITMAP_COMPRESS_MEDIUM = 90;
+	public static final int BITMAP_COMPRESS_HIGH = 100;
+	public static final String DISK_DIR_PATH = Environment.getExternalStorageDirectory() + "/.com.cartoononline/";
+	public static final String DISK_LOG_PATH = Environment.getExternalStorageDirectory() + "/.com.cartoononline/";
+	/*
+	 * 各种图片CacheManager的Category
+	 */
+	public static final String IMAGE_CACHE_CATEGORY_USER_HEAD_ROUNDED = "user_head_rounded";
+	public static final String IMAGE_CACHE_CATEGORY_RAW = "image_cache_category_source";
+	public static final String IMAGE_CACHE_CATEGORY_THUMB = "image_cache_category_thumb";
+	
+	public static DeviceInfo DEVICE_INFO;
+
+	public static void LOGD(String msg, boolean withExtraInfo) {
+		if (Config.UTILS_DEBUG) {
+			String method = "";
+			if (withExtraInfo) {
+				StackTraceElement ste = Thread.currentThread().getStackTrace()[4];
+				String invokeMethodName = ste.getMethodName();
+				String fileName = ste.getFileName();
+				long line = ste.getLineNumber();
+				if (!TextUtils.isEmpty(invokeMethodName)) {
+					method = fileName + "::" + invokeMethodName + "::" + line;
+				}
+			}
+			DebugLog.d(method, msg);
+		}
+	}
+
+	public static void LOGD(String msg, Throwable t) {
+		if (Config.UTILS_DEBUG) {
+			StackTraceElement ste = Thread.currentThread().getStackTrace()[4];
+			String invokeMethodName = ste.getMethodName();
+			String fileName = ste.getFileName();
+			long line = ste.getLineNumber();
+			String method = "com.plugin.common.utils.Config";
+			if (!TextUtils.isEmpty(invokeMethodName)) {
+				method = fileName + "::" + invokeMethodName + "::" + line;
+			}
+			DebugLog.d(method, msg, t);
+		}
+	}
+
+	public static void LOGD(String msg) {
+		LOGD(msg, true);
+	}
+	
+	public static void LOGD_WITH_TIME(String msg) {
+		LOGD(msg + " >>>>>> TIME : " + com.plugin.common.utils.Environment.debugFormatTime(System.currentTimeMillis()));
+	}
+
+	/**
+	 * 流量统计关键字
+	 */
+	public static final String NETWORK_STATISTICS_TYPE = "newtwork_st";
+
+	public static final String NETWORK_STATISTICS_CATEGORY_IMAGE = "newtwork_image";
+
+	public static final String NETWORK_STATISTICS_UP = "up";
+
+	public static final String NETWORK_STATISTICS_DOWN = "down";
+
+}
