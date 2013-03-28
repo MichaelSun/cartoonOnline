@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scale
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:repeatCount="infinite"
+    android:repeatMode="reverse"
+    android:fromXScale="0.98"
+    android:toXScale="1.02"
+    android:fromYScale="1.02"
+    android:toYScale="0.98"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:duration="1000"
+/>

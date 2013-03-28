@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- base color -->
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    
+    <color name="logo_color">#FFCB553B</color>
+
+    <drawable name="white">#FFFFFF</drawable>
+    <drawable name="black">#000000</drawable>
+    <drawable name="gray1">#AAAAAA</drawable>
+    <drawable name="gray2">#999999</drawable>
+    <drawable name="gray3">#BBBBBB</drawable>
+    <drawable name="gray4">#333333</drawable>
+    <drawable name="gray5">#666666</drawable>
+    <drawable name="gray6">#F2F2F2</drawable>
+    <drawable name="gray7">#DEDEDE</drawable>
+    <drawable name="gray8">#c3c3c1</drawable>
+    <drawable name="transparent">#00000000</drawable>
+
+    <color name="publisher_color_bg">#4C000000</color>
+    <!-- notify center -->
+    <drawable name="notify_normal_bg_drawable">#00000000</drawable>
+    <drawable name="notify_press_bg_drawable">#cb553b</drawable>
+
+    <color name="notify_msg_read">#cccccc</color>
+    <color name="notify_msg_unread">#666666</color>
+    <color name="notify_text_pressed">#ffffff</color>
+
+    <!-- 红色 -->
+    <color name="red">#ff0000</color>
+    <!-- Publisher Navigation Bar -->
+    <color name="publisher_navbar_title">#FFFFFFFF</color>
+    <!-- Publisher Recorder -->
+    <color name="publisher_recorder_btn_progress">#facbd2</color>
+    <color name="publisher_recorder_hint">#959595</color>
+    <color name="publisher_recorder_background">#FFFFFFFF</color>
+    <color name="publisher_recorder_time">#959595</color>
+    <color name="publisher_recorder_color">#CB553B</color>
+    <color name="publisher_filter_tv_timer">#FFFFFFFF</color>
+    <color name="filter_effect_desc_color">#a5a5a5</color>
+    <color name="filter_effect_desc_pressed_color">#CB553B</color>
+    <color name="comment_text_hint_color">#CCCCCC</color>
+    <color name="comment_text_color">#666666</color>
+    <color name="comment_action_bar_title">#CB553B</color>
+    <color name="mic_background">#C1C1C1</color>
+    <color name="publisher_play_time">#D2D7DA</color>
+    <color name="guide_view_bg">#B2000000</color>
+	<color name="filter_restart_color">#9b9b9b</color>
+    <!-- Setting -->
+    <color name="setting_btn_text">#666666</color>
+    <color name="setting_feedback_edittext">#717171</color>
+    <color name="setting_main_text_push">#FFFFFF</color>
+    <color name="setting_main_text_up">#FF000000</color>
+    <color name="setting_notify_types">#A9A9A9</color>
+    <color name="setting_text_push_gray">#b4b4b4</color>
+    <color name="setting_topbar_title">#CB553B</color>
+    <color name="setting_connected_text">#CCCCCC</color>
+    <color name="feedback_hint_color">#CCCCCC</color>
+    <color name="setting_about_gray_deep">#829089</color>
+    <color name="setting_about_gray">#CCCCCC</color>
+
+    <!-- Feed detail -->
+    <color name="detail_dark_grey">#222222</color>
+    <color name="detail_blue">#38A8F7</color>
+
+    <!-- Publisher At List -->
+    <color name="publisher_at_title_bg">#FFCCCCCC</color>
+    <color name="publisher_at_title">#FF666666</color>
+    <color name="publisher_at_et">#666666</color>
+
+    <drawable name="publisher_at_item_bg">#FFF3F3F3</drawable>
+    <drawable name="publisher_at_item_bg_selected">#FFCB553B</drawable>
+
+    <color name="publisher_at_item_fullname">#FF666666</color>
+    <color name="publisher_at_item_username">#FFb5b5b5</color>
+    <color name="publisher_at_item_selected">#FFFFFFFF</color>
+    <color name="user_name">#515151</color>
+    <color name="time_color">#B4B4B4</color>
+    <color name="detail_like_count">#646464</color>
+
+    <!-- nickname -->
+    <color name="nickname_hint_text">#b4b4b4</color>
+    <color name="nickname_linearlayout_bg">#30000000</color>
+    <color name="suggest_btn_text_color">#666666</color>
+    <!-- friend -->
+    <color name="friend_nickname_color">#666666</color>
+    <color name="search_hint_color">#ffcccccc</color>
+    <color name="search_text_color">#ff000000</color>
+    <color name="search_cancel_color">#666666</color>
+    <color name="friend_item_normal_color">#00000000</color>
+    <color name="friend_select_normal_color">#ffffff</color>
+    <color name="friend_fullname_color">#b5b5b5</color>
+    <color name="friend_item_press_color">#cb553b</color>
+    <color name="publisher_description">#FF717171</color>
+    <color name="publish_info_privacy">#FFC7C7C7</color>
+    <color name="publisher_desc_text_background">#F3F3F3</color>
+    <color name="publisher_desc_text_limit">#CCCCCC</color>
+    <color name="publisher_info_bg">#F0F2F3</color>
+    <!-- App Widget -->
+    <color name="widget_record">#CB553B</color>
+    <color name="widget_discription_hint">#CCCCCC</color>
+    <color name= "widget_discription_limit_text">#CCCCCC</color>
+    <color name="widget_discription_text">#717171</color>
+    <color name="widget_discription_bg">#ffffff</color>
+    <color name="widget_post_disable">#8a0010</color>
+
+    <drawable name="popup_menu_item_normal_bg">#F3F3F3</drawable>
+    <drawable name="popup_menu_item_pressed_bg">#CB553B</drawable>
+    <drawable name="likers_listeners_normal_bg">#F3F3F3</drawable>
+    <drawable name="likers_listeners_pressed_bg">#CB553B</drawable>
+    <drawable name="comment_list_normal_bg">#00000000</drawable>
+    <drawable name="comment_list_pressed_bg">#CB553B</drawable>
+    <drawable name="feed_item_has_cover_drawable">#ffffff</drawable>
+    <drawable name="feed_cover_no_gradient_bg">#06000000</drawable>
+
+    <!-- actionbar new msg -->
+    <color name="action_bar_pressed_color">#33cb553b</color>
+    <!-- share dub -->
+    <color name="share_edit_hint_text_color">#FFCCCCCC</color>
+    <color name="share_edit_text_color">#FF666666</color>
+    <color name="shaer_background_color">#FFF3F3F3</color>
+</resources>

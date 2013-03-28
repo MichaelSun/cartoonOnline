@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme_ActionBar_Style" parent="Theme.Sherlock">
+        <item name="actionBarStyle">@style/Style.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Style.ActionBar</item>
+        <item name="actionBarSize">48dp</item>
+        <item name="android:actionBarSize">48dp</item>
+        <item name="popupMenuStyle">@style/Style.PopupMenu</item>
+        <item name="android:popupMenuStyle">@style/Style.PopupMenu</item>
+        <item name="dropdownListPreferredItemHeight">55dip</item>
+        <item name="android:dropDownListViewStyle">@style/Style.DropDownListView</item>
+        <item name="dropDownListViewStyle">@style/Style.DropDownListView</item>
+        <item name="homeAsUpIndicator">@drawable/topbar_btn_back</item>
+        <item name="android:homeAsUpIndicator">@drawable/topbar_btn_back</item>
+        <item name="android:selectableItemBackground">@drawable/android_db_actionbar_selectable_bg</item>
+        <item name="selectableItemBackground">@drawable/android_db_actionbar_selectable_bg</item>
+        <item name="textAppearanceLargePopupMenu">@style/Style.TextAppearance.PopupMenu.Large</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/Style.TextAppearance.PopupMenu.Large</item>
+        <item name="searchViewTextField">@drawable/actionbar_friend_page_search_box_underline</item>
+        <item name="searchViewCloseIcon">@drawable/android_db_actionbar_searchview_close</item>
+        <item name="searchViewSearchIcon">@drawable/android_db_actionbar_searchview_search</item>
+        <item name="searchAutoCompleteTextView">@style/Style.Search.TextView</item>
+        <item name="actionButtonStyle">@style/Style.ActionBar.ActionButton</item>
+        <item name="android:actionButtonStyle">@style/Style.ActionBar.ActionButton</item>
+        <item name="android:textCursorDrawable">@null</item>
+
+        <!-- 页面跳转动画 -->
+
+        <item name="android:windowAnimationStyle">@style/LeftOutRightInActivityAnimation</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+</resources>
