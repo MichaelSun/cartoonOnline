@@ -8,6 +8,8 @@ package com.plugin.common.cache;
  */
 public interface ICacheStrategy {
 
+    String onMakeFileKeyName(String category, String key);
+    
 	String onMakeImageCacheFullPath(String rootPath, String key, String ext);
 	
 }

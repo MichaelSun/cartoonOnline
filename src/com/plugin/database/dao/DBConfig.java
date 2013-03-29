@@ -1,9 +1,9 @@
 package com.plugin.database.dao;
 
-import com.plugin.common.utils.Config;
+import com.plugin.common.utils.UtilsConfig;
 
 public class DBConfig {
-	public static final boolean DEBUG = true && Config.UTILS_DEBUG;
+	public static final boolean DEBUG = true && UtilsConfig.UTILS_DEBUG;
 	
 	public static final String DATABASE_NAME = "data.db";
 

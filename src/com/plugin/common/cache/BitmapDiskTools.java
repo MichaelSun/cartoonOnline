@@ -10,7 +10,7 @@ import java.io.InputStream;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
-import com.plugin.common.utils.Config;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.StringUtils;
 import com.plugin.common.utils.files.DiskManager;
 import com.plugin.common.utils.files.DiskManager.DiskCacheType;
@@ -29,13 +29,13 @@ class BitmapDiskTools {
 		public String onMakeImageCacheFullPath(String rootPath, String key, String ext) {
 	        StringBuilder sb = new StringBuilder(256);
 	        if (!rootPath.endsWith(File.separator)) {
-	            if (Config.UTILS_DEBUG) {
+	            if (UtilsConfig.UTILS_DEBUG) {
 	                sb.append(rootPath).append(File.separator).append(key.replace("/", "_").replace(":", "+").replace(".", "-")).append(ext);
 	            } else {
 	                sb.append(rootPath).append(File.separator).append(StringUtils.MD5Encode(key)).append(ext);
 	            }
 	        } else {
-	            if (Config.UTILS_DEBUG) {
+	            if (UtilsConfig.UTILS_DEBUG) {
 	                sb.append(rootPath).append(key.replace("/", "_").replace(":", "+").replace(".", "-")).append(ext);
 	            } else {
 	                sb.append(rootPath).append(StringUtils.MD5Encode(key)).append(ext);
@@ -43,10 +43,17 @@ class BitmapDiskTools {
 	        }
 	        return sb.toString();
 		}
+		
+		@Override
+		public String onMakeFileKeyName(String category, String key) { 
+	        StringBuilder sb = new StringBuilder(256);
+	        sb.append(category).append("/").append(key);
+	        return sb.toString();
+		}
     	
     };
     
-    private static final String FILE_EX_NAME = Config.UTILS_DEBUG ? ".png" : ".db_bmp";
+    private static final String FILE_EX_NAME = UtilsConfig.UTILS_DEBUG ? ".png" : ".db_bmp";
     private static final String IMAGE_CACHE_PATH = DiskManager.tryToFetchCachePathByType(DiskCacheType.PICTURE);
 
     public static boolean isExistSdcard() {
@@ -204,7 +211,7 @@ class BitmapDiskTools {
     
     private static final void LOGD(String msg) {
         if (DEBUG) {
-            Config.LOGD(msg);
+            UtilsConfig.LOGD(msg);
         }
     }
 }

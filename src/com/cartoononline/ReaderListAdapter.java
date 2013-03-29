@@ -14,7 +14,15 @@ public class ReaderListAdapter extends BaseAdapter {
 
     public static final class ReaderItem {
         public Bitmap image;
+        public String name;
+        public String time;
         public String description;
+        
+        @Override
+        public String toString() {
+            return "ReaderItem [image=" + image + ", name=" + name + ", time=" + time + ", description=" + description
+                    + "]";
+        }
     }
     
     private List<ReaderItem> mReaderItems;
@@ -57,7 +65,8 @@ public class ReaderListAdapter extends BaseAdapter {
         ReaderItem item = mReaderItems.get(position);
         
         ((ImageView) ret.findViewById(R.id.item_icon)).setImageBitmap(item.image);
-        ((TextView) ret.findViewById(R.id.name)).setText(item.description);
+        ((TextView) ret.findViewById(R.id.name)).setText(item.name);
+        ((TextView) ret.findViewById(R.id.description)).setText(item.description);
         
         return ret;
     }

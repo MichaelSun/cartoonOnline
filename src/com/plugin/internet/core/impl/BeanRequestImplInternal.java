@@ -19,7 +19,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.plugin.common.utils.Config;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.internet.core.BeanRequestInterface;
 import com.plugin.internet.core.HttpClientInterface;
 import com.plugin.internet.core.HttpConnectHookListener;
@@ -111,7 +111,7 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 	public <T> T request(RequestBase<T> request) throws NetWorkException {
 		long entryTime = System.currentTimeMillis();
 		if (DEBUG) {
-			Config.LOGD("Entery Internet request, current time = " + entryTime + "ms from 1970");
+			UtilsConfig.LOGD("Entery Internet request, current time = " + entryTime + "ms from 1970");
 		}
 
 		if (request == null) {
@@ -208,7 +208,7 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 				}
 			}
 
-			Config.LOGD("\n\n//***\n| [[RRConnect::request::" + request + "]] \n" + "| RestAPI URL = " + api_url
+			UtilsConfig.LOGD("\n\n//***\n| [[RRConnect::request::" + request + "]] \n" + "| RestAPI URL = " + api_url
 					+ "\n| after getSig bundle params is = \n" + param + "|    secret key = " + secret_key
 					+ " \n\\\\***\n");
 		}
@@ -216,7 +216,7 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 		int size = 0;
 		HttpEntity entity = null;
 		if (contentType.equals(RequestEntity.REQUEST_CONTENT_TYPE_TEXT_PLAIN)) {
-			if (Config.DEBUG_NETWORK_ST) {
+			if (UtilsConfig.DEBUG_NETWORK_ST) {
 				if (baseParams != null) {
 					for (String key : baseParams.keySet()) {
 						size += key.getBytes().length;
@@ -243,13 +243,13 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 			requestEntity.setBasicParams(baseParams);
 			entity = new MultipartHttpEntity(requestEntity);
 
-			if (Config.DEBUG_NETWORK_ST) {
+			if (UtilsConfig.DEBUG_NETWORK_ST) {
 				size += ((MultipartHttpEntity) entity).getRequestSize();
 			}
 		}
 
 		if (DEBUG) {
-			Config.LOGD("before get internet data from server, time cost from entry = "
+			UtilsConfig.LOGD("before get internet data from server, time cost from entry = "
 					+ (System.currentTimeMillis() - entryTime) + "ms");
 		}
 
@@ -282,7 +282,7 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 					.append("|\n")
 					.append("| [[RRConnect::request::" + request + "]] " + " cost time from entry : "
 							+ (endTime - entryTime) + "ms. " + "raw response String = \n");
-			Config.LOGD(sb.toString());
+			UtilsConfig.LOGD(sb.toString());
 			sb.setLength(0);
 			sb.append("| " + response + "\n");
 			int step = 1024;
@@ -292,16 +292,16 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 					break;
 				} else {
 					if ((index + step) < sb.length()) {
-						Config.LOGD(sb.substring(index, index + step), false);
+						UtilsConfig.LOGD(sb.substring(index, index + step), false);
 					} else {
-						Config.LOGD(sb.substring(index, sb.length()), false);
+						UtilsConfig.LOGD(sb.substring(index, sb.length()), false);
 					}
 				}
 				index = index + step;
 			} while (index < sb.length());
 			sb.setLength(0);
 			sb.append("|\n|\n").append("| ------------- end response ------------\n").append("\\\\***");
-			Config.LOGD(sb.toString());
+			UtilsConfig.LOGD(sb.toString());
 
 			// Config.LOGD("\n\n");
 			// Config.LOGD("//***");
@@ -386,7 +386,7 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 //			} else {
 				T ret = JsonUtils.parse(response, request.getGenericType());
 				if (DEBUG) {
-					Config.LOGD("Before return, after success get the data from server, parse cost time from entry = "
+					UtilsConfig.LOGD("Before return, after success get the data from server, parse cost time from entry = "
 							+ (System.currentTimeMillis() - entryTime) + "ms");
 				}
 				return ret;

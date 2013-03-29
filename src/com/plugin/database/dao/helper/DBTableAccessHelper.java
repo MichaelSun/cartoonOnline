@@ -7,7 +7,7 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.plugin.common.utils.Config;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.database.dao.DBConfig;
 import com.plugin.database.dao.Dao;
 import com.plugin.database.dao.DatabaseManager;
@@ -29,7 +29,7 @@ public class DBTableAccessHelper<T> {
 	public long getCount() {
 		if (DBConfig.DEBUG) {
 			long ret = mDaoObj.count();
-			Config.LOGD("[[getCount]] count = " + ret);
+			UtilsConfig.LOGD("[[getCount]] count = " + ret);
 			return ret;
 		} else {
 			return mDaoObj.count();
@@ -39,14 +39,14 @@ public class DBTableAccessHelper<T> {
 	public List<T> queryItems() {
 		if (DBConfig.DEBUG) {
 			List<T> ret = mDaoObj.queryRaw(mCl, "");
-			Config.LOGD("[[queryItems]] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			UtilsConfig.LOGD("[[queryItems]] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			if (ret != null) {
 				for (T item : ret) {
-					Config.LOGD(item.toString());
-					Config.LOGD("=======================================================");
+					UtilsConfig.LOGD(item.toString());
+					UtilsConfig.LOGD("=======================================================");
 				}
 			}
-			Config.LOGD("[[queryItems]] <<<<<<<<<<<<<<<<<<<<<<<<<<");
+			UtilsConfig.LOGD("[[queryItems]] <<<<<<<<<<<<<<<<<<<<<<<<<<");
 			return ret;
 		} else {
 			return mDaoObj.queryRaw(mCl, "");
@@ -61,10 +61,10 @@ public class DBTableAccessHelper<T> {
 					args += a + " ";
 				}
 			}
-			Config.LOGD("[[queryItems]] " + " ==== selection : " + selection + " args : " + args);
+			UtilsConfig.LOGD("[[queryItems]] " + " ==== selection : " + selection + " args : " + args);
 			List<T> ret = mDaoObj.queryRaw(mCl, selection, selectionArgs);
 
-			Config.LOGD("[[queryItems]] " + " ==== selection : " + selection + " args : " + args
+			UtilsConfig.LOGD("[[queryItems]] " + " ==== selection : " + selection + " args : " + args
 					+ " data = " + ret);
 			return ret;
 		} else {
@@ -75,8 +75,8 @@ public class DBTableAccessHelper<T> {
 	public List<T> queryLimit(int start, int length) {
 		if (DBConfig.DEBUG) {
 			List<T> ret = mDaoObj.loadByLimit(start, length);
-			Config.LOGD("[[queryLimit]] " + ret);
-			Config.LOGD(" start : " + start + " length : " + length);
+			UtilsConfig.LOGD("[[queryLimit]] " + ret);
+			UtilsConfig.LOGD(" start : " + start + " length : " + length);
 			return ret;
 		} else {
 			return mDaoObj.loadByLimit(start, length);
@@ -86,8 +86,8 @@ public class DBTableAccessHelper<T> {
 	public T queryItem(T searchItem) {
 		if (DBConfig.DEBUG) {
 			T ret = mDaoObj.load(searchItem);
-			Config.LOGD("[[queryItem]]" + ret);
-			Config.LOGD("searck item : " + searchItem);
+			UtilsConfig.LOGD("[[queryItem]]" + ret);
+			UtilsConfig.LOGD("searck item : " + searchItem);
 			return ret;
 		} else {
 			return mDaoObj.load(searchItem);
@@ -100,7 +100,7 @@ public class DBTableAccessHelper<T> {
 		}
 		
 		if (DBConfig.DEBUG) {
-			Config.LOGD("[[insert]]" + item);
+			UtilsConfig.LOGD("[[insert]]" + item);
 		}
 		
 		mDaoObj.insert(item);
@@ -114,11 +114,11 @@ public class DBTableAccessHelper<T> {
 		}
 		
 		if (DBConfig.DEBUG) {
-			Config.LOGD("[[blukInsert]] >>>>>>>>>>>>>>>>>>>>>>>>" + items);
+			UtilsConfig.LOGD("[[blukInsert]] >>>>>>>>>>>>>>>>>>>>>>>>" + items);
 			for (T item : items) {
-				Config.LOGD(item.toString());
+				UtilsConfig.LOGD(item.toString());
 			}
-			Config.LOGD("[[blukInsert]] <<<<<<<<<<<<<<<<<<<<<<<<" + items);
+			UtilsConfig.LOGD("[[blukInsert]] <<<<<<<<<<<<<<<<<<<<<<<<" + items);
 		}
 		
 		mDaoObj.batchInsert(items);
@@ -132,7 +132,7 @@ public class DBTableAccessHelper<T> {
 		}
 		
 		if (DBConfig.DEBUG) {
-			Config.LOGD("[[blukInsertOrReplace]] " + items);
+			UtilsConfig.LOGD("[[blukInsertOrReplace]] " + items);
 		}
 		
 		return mDaoObj.batchInsertOrReplace(items);
@@ -144,7 +144,7 @@ public class DBTableAccessHelper<T> {
 		}
 		
 		if (DBConfig.DEBUG) {
-			Config.LOGD("[[insertOrReplace]] " + item);
+			UtilsConfig.LOGD("[[insertOrReplace]] " + item);
 		}
 		
 		return (mDaoObj.insertOrReplace(item) != -1);
@@ -156,7 +156,7 @@ public class DBTableAccessHelper<T> {
 		}
 		
 		if (DBConfig.DEBUG) {
-			Config.LOGD("[[update]] " + item);
+			UtilsConfig.LOGD("[[update]] " + item);
 		}
 		
 		mDaoObj.update(item);
@@ -174,7 +174,7 @@ public class DBTableAccessHelper<T> {
 		}
 		
 		if (DBConfig.DEBUG) {
-			Config.LOGD("[[delete]] " + item);
+			UtilsConfig.LOGD("[[delete]] " + item);
 		}
 		
 		mDaoObj.delete(item);
@@ -188,7 +188,7 @@ public class DBTableAccessHelper<T> {
 		}
 		
 		if (DBConfig.DEBUG) {
-			Config.LOGD("[[delete]] " + items);
+			UtilsConfig.LOGD("[[delete]] " + items);
 		}
 		
 		mDaoObj.batchDelete(items);
@@ -198,7 +198,7 @@ public class DBTableAccessHelper<T> {
 	
 	public boolean deleteAll() {
 		if (DBConfig.DEBUG) {
-			Config.LOGD("[[deleteAll]]");
+			UtilsConfig.LOGD("[[deleteAll]]");
 		}
 		
 		mDaoObj.deleteAll();
@@ -210,8 +210,8 @@ public class DBTableAccessHelper<T> {
 		T searchObj = mDaoObj.load(searchItem);
 		
 		if (DBConfig.DEBUG) {
-			Config.LOGD("[[search]] origin search item = " + searchItem);
-			Config.LOGD("[[search]] item = " + searchObj);
+			UtilsConfig.LOGD("[[search]] origin search item = " + searchItem);
+			UtilsConfig.LOGD("[[search]] item = " + searchObj);
 		}
 		
 		return searchObj != null;

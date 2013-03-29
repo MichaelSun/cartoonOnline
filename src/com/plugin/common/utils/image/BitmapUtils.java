@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 
 import com.plugin.common.cache.CacheFactory;
-import com.plugin.common.utils.Config;
+import com.plugin.common.utils.UtilsConfig;
 
 /**
  * @author Guoqing Sun Dec 12, 20125:20:20 PM
@@ -24,7 +24,7 @@ public class BitmapUtils {
                 Bitmap microBt = ThumbnailUtils.extractThumbnail(bt, THUMBNAIL_BITMAP_SIZE, THUMBNAIL_BITMAP_SIZE);
                 if (microBt != null && !microBt.isRecycled()) {
                     CacheFactory.getCacheManager(CacheFactory.TYPE_CACHE.TYPE_IMAGE).putResource(
-                            Config.IMAGE_CACHE_CATEGORY_THUMB, key, microBt);
+                            UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB, key, microBt);
                 }
             }
 
@@ -42,7 +42,7 @@ public class BitmapUtils {
                 Bitmap microBt = ThumbnailUtils.extractThumbnail(bt, THUMBNAIL_BITMAP_SIZE, THUMBNAIL_BITMAP_SIZE);
                 if (microBt != null && !microBt.isRecycled()) {
                     CacheFactory.getCacheManager(CacheFactory.TYPE_CACHE.TYPE_IMAGE).putResource(
-                            Config.IMAGE_CACHE_CATEGORY_THUMB, key, microBt);
+                            UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB, key, microBt);
                 }
             }
 

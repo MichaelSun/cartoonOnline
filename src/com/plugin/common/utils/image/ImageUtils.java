@@ -18,7 +18,7 @@ import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.plugin.common.utils.Config;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileUtil;
 
 public class ImageUtils {
@@ -56,7 +56,7 @@ public class ImageUtils {
         } catch (Exception e) {
             e.printStackTrace();
             if (DEBUG) {
-                Config.LOGD("Exception : ", e);
+                UtilsConfig.LOGD("Exception : ", e);
             }
         }
 
@@ -212,7 +212,7 @@ public class ImageUtils {
             return null;
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        src.compress(Bitmap.CompressFormat.PNG, Config.BITMAP_COMPRESS_HIGH, baos);
+        src.compress(Bitmap.CompressFormat.PNG, UtilsConfig.BITMAP_COMPRESS_HIGH, baos);
         byte[] srcSize = baos.toByteArray();
 
         return srcSize;
@@ -227,14 +227,14 @@ public class ImageUtils {
 
             try {
                 FileOutputStream out = new FileOutputStream(saveFile);
-                src.compress(Bitmap.CompressFormat.PNG, Config.BITMAP_COMPRESS_HIGH, out);
+                src.compress(Bitmap.CompressFormat.PNG, UtilsConfig.BITMAP_COMPRESS_HIGH, out);
                 out.close();
 
                 return isBitmapData(saveFullPath);
             } catch (Exception e) {
                 e.printStackTrace();
                 if (DEBUG) {
-                    Config.LOGD("Exception : ", e);
+                    UtilsConfig.LOGD("Exception : ", e);
                 }
             }
         }
@@ -256,7 +256,7 @@ public class ImageUtils {
             } catch (Exception e) {
                 e.printStackTrace();
                 if (DEBUG) {
-                    Config.LOGD("Exception : ", e);
+                    UtilsConfig.LOGD("Exception : ", e);
                 }
             }
         }
@@ -279,7 +279,7 @@ public class ImageUtils {
         } catch (Exception e) {
             e.printStackTrace();
             if (DEBUG) {
-                Config.LOGD("Exception : ", e);
+                UtilsConfig.LOGD("Exception : ", e);
             }
         }
 
@@ -291,7 +291,7 @@ public class ImageUtils {
             try {
                 BitmapFactory.Options opt = new BitmapFactory.Options();
                 if (DEBUG) {
-                    Config.LOGD("check bitmap file : " + fileFullPath);
+                    UtilsConfig.LOGD("check bitmap file : " + fileFullPath);
                 }
                 opt.inPurgeable = true;
                 opt.inJustDecodeBounds = true;
@@ -303,7 +303,7 @@ public class ImageUtils {
             } catch (Exception e) {
                 e.printStackTrace();
                 if (DEBUG) {
-                    Config.LOGD("check bitmap file : " + fileFullPath + " Exception : ", e);
+                    UtilsConfig.LOGD("check bitmap file : " + fileFullPath + " Exception : ", e);
                 }
             }
         }
@@ -335,7 +335,7 @@ public class ImageUtils {
     @SuppressLint("NewApi")
 	public static Bitmap loadBitmapWithSizeCheckAndBitmapReuse(File bitmapFile, Bitmap reuseBt, int orientataion) {
         if (DEBUG) {
-            Config.LOGD("load file from path = " + bitmapFile.getPath());
+            UtilsConfig.LOGD("load file from path = " + bitmapFile.getPath());
         }
 
         Bitmap bmp = null;
@@ -374,19 +374,19 @@ public class ImageUtils {
             long curTime = System.currentTimeMillis();
             if (DEBUG) {
                 if (!reusedBt) {
-                    Config.LOGD("##### begin decode the bitmap file : " + bitmapFile + " #####");
+                    UtilsConfig.LOGD("##### begin decode the bitmap file : " + bitmapFile + " #####");
                 } else {
-                    Config.LOGD("<<<<< reused bitmap >>>>##### begin decode the bitmap file : " + bitmapFile + " #####");
+                    UtilsConfig.LOGD("<<<<< reused bitmap >>>>##### begin decode the bitmap file : " + bitmapFile + " #####");
                 }
             }
             bmp = BitmapFactory.decodeStream(fis, null, newOpt);
             if (DEBUG) {
                 long cost = System.currentTimeMillis() - curTime;
                 if (!reusedBt) {
-                    Config.LOGD("***** end decode the bitmap file : " + bitmapFile + " ***** cost time : " + cost
+                    UtilsConfig.LOGD("***** end decode the bitmap file : " + bitmapFile + " ***** cost time : " + cost
                             + "ms");
                 } else {
-                    Config.LOGD("<<<<< reused bitmap >>>> ***** end decode the bitmap file : " + bitmapFile
+                    UtilsConfig.LOGD("<<<<< reused bitmap >>>> ***** end decode the bitmap file : " + bitmapFile
                             + " ***** cost time : " + cost + "ms");
                 }
             }
@@ -401,7 +401,7 @@ public class ImageUtils {
                     bmp = tmp;
                 }
                 if (DEBUG) {
-                    Config.LOGD("[[loadBitmapWithSizeCheckAndBitmapReuse]] rotation = <<<<<<<<<<<< " + orientataion
+                    UtilsConfig.LOGD("[[loadBitmapWithSizeCheckAndBitmapReuse]] rotation = <<<<<<<<<<<< " + orientataion
                             + " >>>>>>>>>>>>>");
                 }
             }
@@ -410,12 +410,12 @@ public class ImageUtils {
         } catch (Exception e) {
             e.printStackTrace();
             if (DEBUG) {
-                Config.LOGD("Exception : ", e);
+                UtilsConfig.LOGD("Exception : ", e);
             }
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
             if (DEBUG) {
-                Config.LOGD("Exception : ", e);
+                UtilsConfig.LOGD("Exception : ", e);
             }
         } finally {
             try {
@@ -426,7 +426,7 @@ public class ImageUtils {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 if (DEBUG) {
-                    Config.LOGD("Exception : ", ex);
+                    UtilsConfig.LOGD("Exception : ", ex);
                 }
             }
         }
@@ -445,7 +445,7 @@ public class ImageUtils {
         }
         int maxsize = MAX_SIZE;
         if (DEBUG) {
-            Config.LOGD("memSize>>>>>>>>>=" + memSize);
+            UtilsConfig.LOGD("memSize>>>>>>>>>=" + memSize);
         }
         if (memSize < 64) {
             maxsize = (int) MAX_SIZE * memSize * 2 / 64 / 3;
@@ -456,7 +456,7 @@ public class ImageUtils {
 
     private static Bitmap loadBitmapWithMemSizeCheck(File bitmapFile, int orientataion, int maxsize, int errortimes) {
         if (DEBUG) {
-            Config.LOGD("load file from path = " + bitmapFile.getPath());
+            UtilsConfig.LOGD("load file from path = " + bitmapFile.getPath());
         }
 
         Bitmap bmp = null;
@@ -503,7 +503,7 @@ public class ImageUtils {
             }
             
             if (DEBUG) {
-                Config.LOGD("current insamplesize = " + newOpt.inSampleSize);
+                UtilsConfig.LOGD("current insamplesize = " + newOpt.inSampleSize);
             }
             if (errortimes == 1) {
                 int scale = (int) (Math.log(newOpt.inSampleSize) / Math.log(2.0)) + 1;
@@ -558,7 +558,7 @@ public class ImageUtils {
                     bmp = tmp;
                 }
                 if (DEBUG) {
-                    Config.LOGD("rotation = <<<<<<<<<<<< " + orientataion + " >>>>>>>>>>>>>");
+                    UtilsConfig.LOGD("rotation = <<<<<<<<<<<< " + orientataion + " >>>>>>>>>>>>>");
                 }
             }
 
@@ -566,7 +566,7 @@ public class ImageUtils {
         } catch (Exception e) {
             e.printStackTrace();
             if (DEBUG) {
-                Config.LOGD("Exception : ", e);
+                UtilsConfig.LOGD("Exception : ", e);
             }
             if (errortimes == 1) {
                 return null;
@@ -574,7 +574,7 @@ public class ImageUtils {
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
             if (DEBUG) {
-                Config.LOGD("current insamplsesize should be set to 2^n");
+                UtilsConfig.LOGD("current insamplsesize should be set to 2^n");
             }
             if (errortimes == 1) {
                 return null;
@@ -588,7 +588,7 @@ public class ImageUtils {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 if (DEBUG) {
-                    Config.LOGD("Exception : ", ex);
+                    UtilsConfig.LOGD("Exception : ", ex);
                 }
                 if (errortimes == 1) {
                     return null;
@@ -630,7 +630,7 @@ public class ImageUtils {
         int width = opt.outWidth;
         int height = opt.outHeight;
 		if (DEBUG) {
-			Config.LOGD("Information_dest : width =  " + width + " height = " + height + " size = "
+			UtilsConfig.LOGD("Information_dest : width =  " + width + " height = " + height + " size = "
 					+ new File(filePath).length() / 1024 + "k"
 					+ " for file : " + filePath);
 		}
@@ -668,7 +668,7 @@ public class ImageUtils {
     
     private static int makeSample(File srcBitmap, int srcBtWidth, int srcBtHeight) {
         if (DEBUG) {
-            Config.LOGD("source bitmap size : width =  " + srcBtWidth + " height = " + srcBtHeight + " bitmap size : "
+            UtilsConfig.LOGD("source bitmap size : width =  " + srcBtWidth + " height = " + srcBtHeight + " bitmap size : "
                     + FileUtil.convertStorage(srcBitmap.length()));
         }
 

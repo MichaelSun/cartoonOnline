@@ -19,7 +19,7 @@ import org.apache.http.protocol.HTTP;
 
 import android.os.Bundle;
 
-import com.plugin.common.utils.Config;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.internet.core.RequestEntity.MultipartFileItem;
 
 public class MultipartHttpEntity extends AbstractHttpEntity {

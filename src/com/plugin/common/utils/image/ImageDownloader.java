@@ -18,7 +18,7 @@ import android.text.TextUtils;
 
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
-import com.plugin.common.utils.Config;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.CustomThreadPool;
 import com.plugin.common.utils.CustomThreadPool.TaskWrapper;
 import com.plugin.common.utils.CustomThreadPool.ThreadPoolSnapShot;
@@ -43,11 +43,11 @@ import com.plugin.internet.core.HttpRequestHookListener;
  */
 public class ImageDownloader extends SingleInstanceBase implements Runnable, Destroyable, HttpRequestHookListener {
 	private static final String TAG = "[[ImageDownloader]]";
-	private static final boolean DEBUG = true & Config.UTILS_DEBUG;
+	private static final boolean DEBUG = true & UtilsConfig.UTILS_DEBUG;
 
 	private static final boolean SUPPORT_RANGED = true;
 
-	private static final String DEFAULT_RAW_IMAGE_CATEGORY = Config.IMAGE_CACHE_CATEGORY_RAW;
+	private static final String DEFAULT_RAW_IMAGE_CATEGORY = UtilsConfig.IMAGE_CACHE_CATEGORY_RAW;
 
 	private static final String INPUT_STREAM_CACHE_PATH = DiskManager
 			.tryToFetchCachePathByType(DiskCacheType.INPUTSTREAM_BIG_FILE_CACHE);
@@ -277,7 +277,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 		}
 
 		if (DEBUG) {
-			Config.LOGD_WITH_TIME("<<<<< [[postRequest]] >>>>> ::::::::: " + request.toString());
+			UtilsConfig.LOGD_WITH_TIME("<<<<< [[postRequest]] >>>>> ::::::::: " + request.toString());
 		}
 		synchronized (mRequestList) {
 			boolean contain = false;
@@ -297,7 +297,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 				mRequestList.add(0, request);
 
 				if (DEBUG) {
-					Config.LOGD("postRequest, add request : " + request.toString() + " into download list");
+					UtilsConfig.LOGD("postRequest, add request : " + request.toString() + " into download list");
 				}
 			}
 			bIsStop = false;
@@ -308,7 +308,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 			} else {
 				if (tss.taskCount < tss.ALLOWED_MAX_TAKS) {
 					if (DEBUG) {
-						Config.LOGD("entry into [[postRequest]] to start process ");
+						UtilsConfig.LOGD("entry into [[postRequest]] to start process ");
 					}
 					processWorks();
 				}
@@ -323,7 +323,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 //			}
 		}
 		if (DEBUG) {
-			Config.LOGD_WITH_TIME("<<<<< [[postRequest]]  end synchronized (mRequestList) >>>>>");
+			UtilsConfig.LOGD_WITH_TIME("<<<<< [[postRequest]]  end synchronized (mRequestList) >>>>>");
 		}
 
 		synchronized (objLock) {
@@ -331,14 +331,14 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 				bIsWaiting = false;
 
 				if (DEBUG) {
-					Config.LOGD("try to notify download process begin");
+					UtilsConfig.LOGD("try to notify download process begin");
 				}
 				objLock.notify();
 			}
 		}
 		
 		if (DEBUG) {
-			Config.LOGD_WITH_TIME("<<<<< [[postRequest]]  end synchronized (objLock) >>>>>");
+			UtilsConfig.LOGD_WITH_TIME("<<<<< [[postRequest]]  end synchronized (objLock) >>>>>");
 		}
 
 		return true;
@@ -351,19 +351,19 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 					bIsWaiting = true;
 
 					if (DEBUG) {
-						Config.LOGD("entry into [[waitforUrl]] for " + DEFAULT_KEEPALIVE + "ms");
+						UtilsConfig.LOGD("entry into [[waitforUrl]] for " + DEFAULT_KEEPALIVE + "ms");
 					}
 					objLock.wait(mKeepAlive);
 
 					if (DEBUG) {
-						Config.LOGD("leave [[waitforUrl]] for " + DEFAULT_KEEPALIVE + "ms");
+						UtilsConfig.LOGD("leave [[waitforUrl]] for " + DEFAULT_KEEPALIVE + "ms");
 					}
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (DEBUG) {
-				Config.LOGD("Excption : ", e);
+				UtilsConfig.LOGD("Excption : ", e);
 			}
 		}
 		bIsWaiting = false;
@@ -376,7 +376,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 			waitforUrl();
 
 			if (DEBUG) {
-				Config.LOGD_WITH_TIME("<<<<< [[run]] >>>>>");
+				UtilsConfig.LOGD_WITH_TIME("<<<<< [[run]] >>>>>");
 			}
 			synchronized (mRequestList) {
 				if (mRequestList.size() == 0) {
@@ -387,7 +387,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 			}
 			
 			if (DEBUG) {
-				Config.LOGD_WITH_TIME("<<<<< [[run]]  end synchronized (mRequestList) >>>>>");
+				UtilsConfig.LOGD_WITH_TIME("<<<<< [[run]]  end synchronized (mRequestList) >>>>>");
 			}
 
 			ImageFetchRequest request = null;
@@ -406,14 +406,14 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 //				}
 				if (request != null && request.mStatus != ImageFetchRequest.STATUS_CANCEL) {
 					if (DEBUG) {
-						Config.LOGD("================ <<" + Thread.currentThread().getName() + ">> working on : ");
-						Config.LOGD("begin operate one request : " + request.toString());
-						Config.LOGD("============================================");
+						UtilsConfig.LOGD("================ <<" + Thread.currentThread().getName() + ">> working on : ");
+						UtilsConfig.LOGD("begin operate one request : " + request.toString());
+						UtilsConfig.LOGD("============================================");
 					}
 
 					String cacheFile = InternetUtils.requestBigResourceWithCache(mContext, request.mFetchBtUrl);
 					if (DEBUG) {
-						Config.LOGD("----- after get the cache file : " + cacheFile + " =======");
+						UtilsConfig.LOGD("----- after get the cache file : " + cacheFile + " =======");
 					}
 					if (!TextUtils.isEmpty(cacheFile)) {
 						Bitmap bt = null;
@@ -422,7 +422,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 								android.os.Environment.MEDIA_MOUNTED)) {
 							try {
 								if (DEBUG) {
-									Config.LOGD("return is cache file path : " + cacheFile);
+									UtilsConfig.LOGD("return is cache file path : " + cacheFile);
 								}
 
 								if (request.mBitmapOperationListener != null) {
@@ -456,7 +456,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 							} catch (Exception e) {
 								e.printStackTrace();
 								if (DEBUG) {
-									Config.LOGD("Excption : ", e);
+									UtilsConfig.LOGD("Excption : ", e);
 								}
 							}
 						} else {
@@ -465,7 +465,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 							} catch (Exception e) {
 								e.printStackTrace();
 								if (DEBUG) {
-									Config.LOGD("Excption : ", e);
+									UtilsConfig.LOGD("Excption : ", e);
 								}
 							}
 						}
@@ -491,14 +491,14 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 					mFailedHandler.notifyAll(-1, -1, request);
 
 					if (DEBUG) {
-						Config.LOGD("success end operate one request : " + request);
+						UtilsConfig.LOGD("success end operate one request : " + request);
 					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				if (DEBUG) {
-					Config.LOGD("Exception : ", e);
-					Config.LOGD("exception end operate one request : " + request);
+					UtilsConfig.LOGD("Exception : ", e);
+					UtilsConfig.LOGD("exception end operate one request : " + request);
 				}
 				handleResponseByListener(DOWNLOAD_FAILED, request.mFetchBtUrl, request);
 				mFailedHandler.notifyAll(-1, -1, request);
@@ -526,7 +526,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 	
 	private ImageFetchRequest findRequestCanOperate(ArrayList<ImageFetchRequest> requestList) {
 		if (DEBUG) {
-			Config.LOGD_WITH_TIME("<<<<< [[findRequestCanOperate]] >>>>>");
+			UtilsConfig.LOGD_WITH_TIME("<<<<< [[findRequestCanOperate]] >>>>>");
 		}
 		
 		synchronized (requestList) {
@@ -535,7 +535,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 					r.requestIsOperating.set(true);
 					
 					if (DEBUG) {
-						Config.LOGD_WITH_TIME("<<<<< [[findRequestCanOperate]] end findRequestCanOperate >>>>>");
+						UtilsConfig.LOGD_WITH_TIME("<<<<< [[findRequestCanOperate]] end findRequestCanOperate >>>>>");
 					}
 					return r;
 				}
@@ -608,7 +608,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 	public String onInputStreamReturn(String requestUrl, InputStream is) {
 		// Config.LOGD("entry into >>>>>");
 		if (!Environment.isSDCardReady()) {
-			Config.LOGD("return because unmount the sdcard");
+			UtilsConfig.LOGD("return because unmount the sdcard");
 			return null;
 		}
 
@@ -622,7 +622,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 
 			long curTime = 0;
 			if (DEBUG) {
-				Config.LOGD("try to download from is to local path = " + INPUT_STREAM_CACHE_PATH + saveUrl
+				UtilsConfig.LOGD("try to download from is to local path = " + INPUT_STREAM_CACHE_PATH + saveUrl
 						+ " for orgin URL : " + requestUrl);
 				curTime = System.currentTimeMillis();
 			}
@@ -637,7 +637,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 				if (ImageUtils.isBitmapData(savePath)) {
 					if (DEBUG) {
 						long successTime = System.currentTimeMillis();
-						Config.LOGD("[[onInputStreamReturn]] save Request url : " + saveUrl
+						UtilsConfig.LOGD("[[onInputStreamReturn]] save Request url : " + saveUrl
 								+ " success ||||||| and the saved image size : "
 								+ FileUtil.convertStorage(new File(savePath).length()) + ", save cost time = "
 								+ (successTime - curTime) + "ms");
@@ -652,13 +652,13 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 			} else {
 				// 遗留文件，用于下次的断点下载
 				if (DEBUG) {
-					Config.LOGD("===== failed to downlaod requestUrl : " + requestUrl + " beacuse the debug 断点 =====");
+					UtilsConfig.LOGD("===== failed to downlaod requestUrl : " + requestUrl + " beacuse the debug 断点 =====");
 				}
 				return null;
 			}
 		} else {
 			if (DEBUG) {
-				Config.LOGD("===== failed to downlaod requestUrl : " + requestUrl + " beacuse requestUrl is NULL =====");
+				UtilsConfig.LOGD("===== failed to downlaod requestUrl : " + requestUrl + " beacuse requestUrl is NULL =====");
 			}
 		}
 

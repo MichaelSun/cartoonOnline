@@ -6,7 +6,7 @@ package com.plugin.common.cache;
 import android.support.v4.util.LruCache;
 import android.text.TextUtils;
 
-import com.plugin.common.utils.Config;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileOperatorHelper;
 import com.plugin.common.utils.files.FileUtil;
 import com.plugin.common.utils.image.BitmapUtils;
@@ -18,7 +18,7 @@ final class BigBitmapCacheManager extends AbsBitmapCacheManager {
 
 	@Override
 	LruCache<String, BitmapObject> makeLruCacheObj() {
-		return new LruCache<String, BitmapObject>(Config.DEVICE_INFO.image_cache_size) {
+		return new LruCache<String, BitmapObject>(UtilsConfig.DEVICE_INFO.image_cache_size) {
 			@Override
 			protected int sizeOf(String key, BitmapObject value) {
 				if (value != null) {
@@ -44,7 +44,7 @@ final class BigBitmapCacheManager extends AbsBitmapCacheManager {
 							+ " current size = " + curCacheSize(mLruCache) + " ===========");
 				}
 				if (oldValue != null && oldValue.bt != null) {
-					if (Config.IMAGE_CACHE_CATEGORY_USER_HEAD_ROUNDED.equals(oldValue.category)
+					if (UtilsConfig.IMAGE_CACHE_CATEGORY_USER_HEAD_ROUNDED.equals(oldValue.category)
 							&& BitmapUtils.USER_HEAD_STANDARD_SIZE == oldValue.bt.getWidth()
 							&& BitmapUtils.USER_HEAD_STANDARD_SIZE == oldValue.bt.getHeight()) {
 						// save the head bt obj for reuse
@@ -68,7 +68,7 @@ final class BigBitmapCacheManager extends AbsBitmapCacheManager {
 
 	@Override
 	BitmapObject searchReusedBitmapObj(String category) {
-		if (Config.IMAGE_CACHE_CATEGORY_USER_HEAD_ROUNDED.equals(category)) {
+		if (UtilsConfig.IMAGE_CACHE_CATEGORY_USER_HEAD_ROUNDED.equals(category)) {
 			return loopupOneReusedBitmap(mBitmapReusedObjectObj, BitmapUtils.USER_HEAD_STANDARD_SIZE,
 					BitmapUtils.USER_HEAD_STANDARD_SIZE);
 		}
@@ -77,7 +77,7 @@ final class BigBitmapCacheManager extends AbsBitmapCacheManager {
 
 	@Override
 	public String putResource(String category, String key, CharSequence sourceFullFile) {
-		if (Config.IMAGE_CACHE_CATEGORY_USER_HEAD_ROUNDED.equals(category)) {
+		if (UtilsConfig.IMAGE_CACHE_CATEGORY_USER_HEAD_ROUNDED.equals(category)) {
 			try {
 				synchronized (mIOLockObject) {
 					String path = BitmapDiskTools.getBitmapSavePath(makeFileKeyName(category, key));

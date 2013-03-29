@@ -2,12 +2,14 @@ package com.cartoononline;
 
 import com.plugin.common.utils.files.DiskManager;
 
-public class Config {
+public class AppConfig {
 
     public static final boolean DEBUG = true;
     
     public static final String ROOT_DIR = DiskManager.tryToFetchCachePathByType(DiskManager.DiskCacheType.PICTURE);
     
-    public static final String SDCARD_INFO_FILE = ROOT_DIR + "info.ini";
+    public static final String INTERNAL_SESSION_ONE = ROOT_DIR + "session1/";
+    
+    public static final String INI_FILE = "info.ini";
     
 }

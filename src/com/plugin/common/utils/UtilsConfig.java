@@ -9,18 +9,20 @@ import android.text.TextUtils;
 /**
  * @author Guoqing Sun Mar 11, 20133:08:25 PM
  */
-public class Config {
+public class UtilsConfig {
 	
 	public static final boolean UTILS_DEBUG = true;
 	
 	public static final boolean DEBUG_NETWORK_ST = false & UTILS_DEBUG;
 	public static final boolean RELEASE_UPLOAD_CRASH_LOG = !UTILS_DEBUG;
 	
+	public static final String CURRENT_PACKAGE_NAME = "com.cartoononline";
+	
 	public static final int BITMAP_COMPRESS_LOW = 80;
 	public static final int BITMAP_COMPRESS_MEDIUM = 90;
 	public static final int BITMAP_COMPRESS_HIGH = 100;
-	public static final String DISK_DIR_PATH = Environment.getExternalStorageDirectory() + "/.com.cartoononline/";
-	public static final String DISK_LOG_PATH = Environment.getExternalStorageDirectory() + "/.com.cartoononline/";
+	public static final String DISK_DIR_PATH = Environment.getExternalStorageDirectory() + "/." + CURRENT_PACKAGE_NAME + "/";
+	public static final String DISK_LOG_PATH = Environment.getExternalStorageDirectory() + "/." + CURRENT_PACKAGE_NAME + "/";
 	/*
 	 * 各种图片CacheManager的Category
 	 */
@@ -31,7 +33,7 @@ public class Config {
 	public static DeviceInfo DEVICE_INFO;
 
 	public static void LOGD(String msg, boolean withExtraInfo) {
-		if (Config.UTILS_DEBUG) {
+		if (UtilsConfig.UTILS_DEBUG) {
 			String method = "";
 			if (withExtraInfo) {
 				StackTraceElement ste = Thread.currentThread().getStackTrace()[4];
@@ -47,7 +49,7 @@ public class Config {
 	}
 
 	public static void LOGD(String msg, Throwable t) {
-		if (Config.UTILS_DEBUG) {
+		if (UtilsConfig.UTILS_DEBUG) {
 			StackTraceElement ste = Thread.currentThread().getStackTrace()[4];
 			String invokeMethodName = ste.getMethodName();
 			String fileName = ste.getFileName();

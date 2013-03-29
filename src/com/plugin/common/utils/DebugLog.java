@@ -24,12 +24,12 @@ import android.util.Log;
 public class DebugLog {
 	private static final String TAG = "Dubbler";
 
-	private static final String LOG_DIR = Config.DISK_LOG_PATH;
+	private static final String LOG_DIR = UtilsConfig.DISK_LOG_PATH;
 	private static final String LOG_CURR_FILENAME = "debug_log.txt";
 
 	private static final long MAX_LOGFILE_SIZE = 2 * 1024 * 1024;
 
-	public static final boolean DEBUG = Config.UTILS_DEBUG;
+	public static final boolean DEBUG = UtilsConfig.UTILS_DEBUG;
 	public static final boolean LOGVV = true && DEBUG;
 	public static final boolean LOGV = true && DEBUG;
 	public static final boolean LOGD = true && DEBUG;

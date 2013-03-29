@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 import android.text.TextUtils;
 
-import com.plugin.common.utils.Config;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.Environment;
 
 /**
@@ -21,7 +21,7 @@ public class DiskManager {
 	/**
 	 * dubbler的cache目录，所有的cache文件都存储在此目录下
 	 */
-	private static final String DISK_DIR = Config.DISK_DIR_PATH;
+	private static final String DISK_DIR = UtilsConfig.DISK_DIR_PATH;
 
 	private static final long MAX_DISK_SIZE = ((long) 100) * 1024 * 1024;
 	private static final long MAX_FLASH_SIZE = ((long) 5) * 1024 * 1024;
@@ -50,7 +50,7 @@ public class DiskManager {
 			if (FileUtil.isSDCardReady()) {
 				retDir = retDir + "audio_download/";
 			} else {
-				retDir = Config.DEVICE_INFO.flashDataPath;
+				retDir = UtilsConfig.DEVICE_INFO.flashDataPath;
 			}
 			break;
 		case CRASH_LOG:
@@ -85,19 +85,19 @@ public class DiskManager {
 	}
 
 	public static LinkedList<FileInfo> collectCrashLogs() {
-		if (!Config.RELEASE_UPLOAD_CRASH_LOG) {
+		if (!UtilsConfig.RELEASE_UPLOAD_CRASH_LOG) {
 			return null;
 		}
 		
 		LinkedList<FileInfo> files = FileOperatorHelper
 				.getFileInfoUnderDir(tryToFetchCachePathByType(DiskCacheType.CRASH_LOG));
 
-		if (Config.UTILS_DEBUG && files != null) {
-			Config.LOGD("=================== beign list tryToUploadCrash ==================");
+		if (UtilsConfig.UTILS_DEBUG && files != null) {
+			UtilsConfig.LOGD("=================== beign list tryToUploadCrash ==================");
 			for (FileInfo info : files) {
-				Config.LOGD("        info : " + info.toString());
+				UtilsConfig.LOGD("        info : " + info.toString());
 			}
-			Config.LOGD("=================== end list tryToUploadCrash ==================");
+			UtilsConfig.LOGD("=================== end list tryToUploadCrash ==================");
 		}
 
 		if (files != null && files.size() > 0) {
@@ -119,12 +119,12 @@ public class DiskManager {
 				}
 			});
 
-			if (Config.UTILS_DEBUG) {
-				Config.LOGD("=================== beign tryToUploadCrash after sort file ==================");
+			if (UtilsConfig.UTILS_DEBUG) {
+				UtilsConfig.LOGD("=================== beign tryToUploadCrash after sort file ==================");
 				for (FileInfo info : files) {
-					Config.LOGD("        info : " + info.toString());
+					UtilsConfig.LOGD("        info : " + info.toString());
 				}
-				Config.LOGD("=================== beign tryToUploadCrash end sort file ==================");
+				UtilsConfig.LOGD("=================== beign tryToUploadCrash end sort file ==================");
 			}
 		}
 		
@@ -215,37 +215,37 @@ public class DiskManager {
 //	}
 
 	private static void tryToCleanDiskUnderDir(String fullPath, long maxSize) {
-		Config.LOGD("[[tryToCleanDiskUnderDir]] try to clean path : " + fullPath + " }}}}}}}} =================");
+		UtilsConfig.LOGD("[[tryToCleanDiskUnderDir]] try to clean path : " + fullPath + " }}}}}}}} =================");
 
 		if (!TextUtils.isEmpty(fullPath)) {
 			File cleanDir = new File(fullPath);
 			if (cleanDir.exists()) {
 				long beginTime = System.currentTimeMillis();
-				if (Config.UTILS_DEBUG) {
-					Config.LOGD("[[tryToCleanDisk]] entry +++++++++++++++ current time = "
+				if (UtilsConfig.UTILS_DEBUG) {
+					UtilsConfig.LOGD("[[tryToCleanDisk]] entry +++++++++++++++ current time = "
 							+ Environment.debugFormatTime(beginTime));
 				}
 
 				long diskSize = FileOperatorHelper.getDirectorySize(new File(fullPath));
 
-				if (Config.UTILS_DEBUG) {
-					Config.LOGD("          current disk Size = " + FileUtil.convertStorage(diskSize) + " max size = "
+				if (UtilsConfig.UTILS_DEBUG) {
+					UtilsConfig.LOGD("          current disk Size = " + FileUtil.convertStorage(diskSize) + " max size = "
 							+ FileUtil.convertStorage(maxSize) + " current time = "
 							+ Environment.debugFormatTime(System.currentTimeMillis()));
 				}
 
 				if (diskSize >= maxSize) {
-					Config.LOGD("          disk size > MaxSize, so begin clean the disk to 1.0 of MAX");
+					UtilsConfig.LOGD("          disk size > MaxSize, so begin clean the disk to 1.0 of MAX");
 					LinkedList<FileInfo> fileList = FileOperatorHelper.getFileInfoUnderDir(new File(fullPath));
-					if (Config.UTILS_DEBUG) {
-						Config.LOGD("------------------------------------------------");
-						Config.LOGD("  before sort list by time : file under " + fullPath + " list : ");
+					if (UtilsConfig.UTILS_DEBUG) {
+						UtilsConfig.LOGD("------------------------------------------------");
+						UtilsConfig.LOGD("  before sort list by time : file under " + fullPath + " list : ");
 						if (fileList != null) {
 							for (FileInfo info : fileList) {
-								Config.LOGD("          Info : " + info.toString());
+								UtilsConfig.LOGD("          Info : " + info.toString());
 							}
 						}
-						Config.LOGD("------------------------------------------------");
+						UtilsConfig.LOGD("------------------------------------------------");
 					}
 
 					if (fileList == null || fileList.size() == 0) {
@@ -271,25 +271,25 @@ public class DiskManager {
 
 					});
 
-					if (Config.UTILS_DEBUG) {
-						Config.LOGD("-------------------============------------------");
-						Config.LOGD("  after sort list by time : file under " + fullPath + " list : ");
+					if (UtilsConfig.UTILS_DEBUG) {
+						UtilsConfig.LOGD("-------------------============------------------");
+						UtilsConfig.LOGD("  after sort list by time : file under " + fullPath + " list : ");
 						for (FileInfo info : fileList) {
-							Config.LOGD("          Info : " + info.toString());
+							UtilsConfig.LOGD("          Info : " + info.toString());
 						}
-						Config.LOGD("-------------------============------------------");
+						UtilsConfig.LOGD("-------------------============------------------");
 					}
 
 					long cleanSize = diskSize - ((long) (maxSize * 1.0 * 0.75));
-					Config.LOGD(" should delete size = " + FileUtil.convertStorage(cleanSize));
+					UtilsConfig.LOGD(" should delete size = " + FileUtil.convertStorage(cleanSize));
 
 					LinkedList<FileInfo> cleanFileInfo = new LinkedList<FileInfo>();
 					long curSize = 0;
 					for (FileInfo info : fileList) {
 						if (!info.isDir) {
 							curSize += info.fileSize;
-							if (Config.UTILS_DEBUG) {
-								Config.LOGD("    add file [[" + info.toString() + "]] into delete list. delete Size = "
+							if (UtilsConfig.UTILS_DEBUG) {
+								UtilsConfig.LOGD("    add file [[" + info.toString() + "]] into delete list. delete Size = "
 										+ FileUtil.convertStorage(curSize));
 							}
 							cleanFileInfo.add(info);
@@ -298,27 +298,27 @@ public class DiskManager {
 							}
 						}
 					}
-					if (Config.UTILS_DEBUG) {
-						Config.LOGD(" curSize = " + FileUtil.convertStorage(curSize));
+					if (UtilsConfig.UTILS_DEBUG) {
+						UtilsConfig.LOGD(" curSize = " + FileUtil.convertStorage(curSize));
 					}
 
-					if (Config.UTILS_DEBUG) {
-						Config.LOGD("<><><><><><><><><><><><><><><><><><><><><><>");
-						Config.LOGD(" should clean file info : file under " + fullPath + " list : ");
+					if (UtilsConfig.UTILS_DEBUG) {
+						UtilsConfig.LOGD("<><><><><><><><><><><><><><><><><><><><><><>");
+						UtilsConfig.LOGD(" should clean file info : file under " + fullPath + " list : ");
 						for (FileInfo info : cleanFileInfo) {
-							Config.LOGD("          Info : " + info.toString());
+							UtilsConfig.LOGD("          Info : " + info.toString());
 						}
-						Config.LOGD("<><><><><><><><><><><><><><><><><><><><><><>");
+						UtilsConfig.LOGD("<><><><><><><><><><><><><><><><><><><><><><>");
 					}
 
 					for (FileInfo info : cleanFileInfo) {
-						Config.LOGD("        delete file : " + info.toString());
+						UtilsConfig.LOGD("        delete file : " + info.toString());
 						FileOperatorHelper.DeleteFile(info);
 					}
 				}
 
-				if (Config.UTILS_DEBUG) {
-					Config.LOGD("[[tryToCleanDisk]] leave +++++++++++++++ current time = "
+				if (UtilsConfig.UTILS_DEBUG) {
+					UtilsConfig.LOGD("[[tryToCleanDisk]] leave +++++++++++++++ current time = "
 							+ Environment.debugFormatTime(System.currentTimeMillis()) + " begin time = "
 							+ Environment.debugFormatTime(beginTime));
 				}
@@ -328,7 +328,7 @@ public class DiskManager {
 
 	public static void tryToCleanDisk() {
 		tryToCleanDiskUnderDir(DISK_DIR, MAX_DISK_SIZE);
-		tryToCleanDiskUnderDir(Config.DEVICE_INFO.flashDataPath, MAX_FLASH_SIZE);
+		tryToCleanDiskUnderDir(UtilsConfig.DEVICE_INFO.flashDataPath, MAX_FLASH_SIZE);
 	}
 
 }

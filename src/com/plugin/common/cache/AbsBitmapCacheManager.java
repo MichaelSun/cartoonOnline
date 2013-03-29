@@ -360,7 +360,7 @@ abstract class AbsBitmapCacheManager implements ICacheManager<Bitmap> {
 
     protected String makeFileKeyName(String category, String key) {
         StringBuilder sb = new StringBuilder(256);
-        sb.append(category).append("+").append(key);
+        sb.append(category).append("/").append(key);
         return sb.toString();
     }
 
