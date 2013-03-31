@@ -28,8 +28,8 @@ import android.widget.TextView;
 
 import com.cartoononline.ReaderListAdapter.ReaderItem;
 import com.plugin.common.utils.UtilsConfig;
+import com.plugin.common.utils.files.FileDownloader.DownloadListener;
 import com.plugin.common.utils.image.ImageDownloader;
-import com.plugin.common.utils.image.ImageDownloader.DownloadListener;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchRequest;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
 import com.plugin.common.utils.image.ImageUtils;

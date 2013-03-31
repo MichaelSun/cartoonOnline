@@ -33,11 +33,11 @@ import com.plugin.internet.core.HttpRequestHookListener;
 public class FileDownloader extends SingleInstanceBase implements Runnable, Destroyable, HttpRequestHookListener {
 
     private static final String TAG = FileDownloader.class.getSimpleName();
-    private static final boolean DEBUG = true & UtilsConfig.UTILS_DEBUG;
+    protected static final boolean DEBUG = true & UtilsConfig.UTILS_DEBUG;
 
-    private static final boolean SUPPORT_RANGED = true;
+    protected static final boolean SUPPORT_RANGED = true;
 
-    private static final String INPUT_STREAM_CACHE_PATH = DiskManager
+    protected static final String INPUT_STREAM_CACHE_PATH = DiskManager
             .tryToFetchCachePathByType(DiskCacheType.INPUTSTREAM_BIG_FILE_CACHE);
 
     /**
@@ -72,7 +72,7 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         
     }
     
-    private DownloadFilenameCreateListener mDownloadFilenameCreateListener = new DefaultDownloadUrlEncodeListener();
+    protected DownloadFilenameCreateListener mDownloadFilenameCreateListener = new DefaultDownloadUrlEncodeListener();
     
     public static final int DOWNLOAD_SUCCESS = 10001;
     public static final int DOWNLOAD_FAILED = 20001;
@@ -84,7 +84,8 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         void onDownloadFinished(int status, Object response);
     }
 
-    private static class DownloadListenerObj {
+    protected static class DownloadListenerObj {
+        
         public final DownloadListener mDownloadListener;
 
         public final String mFileUrl;
@@ -108,7 +109,7 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         }
     }
 
-    private List<DownloadListenerObj> mListenerList;
+    protected List<DownloadListenerObj> mListenerList;
 
     public static class DownloadRequest {
         public static final int STATUS_NORMAL = 1000;
@@ -123,7 +124,7 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         protected DOWNLOAD_TYPE mType;
         protected int mStatus;
 
-        private AtomicBoolean requestIsOperating = new AtomicBoolean(false);
+        protected AtomicBoolean requestIsOperating = new AtomicBoolean(false);
 
         public DownloadRequest(String downloadUrl) {
             this(DOWNLOAD_TYPE.RAW, downloadUrl);
@@ -140,6 +141,40 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
             mUrlHashCode = mDownloadUrl.hashCode();
         }
 
+        public void cancelDownload() {
+            mStatus = STATUS_CANCEL;
+        }
+        
+        
+        
+        public static int getStatusNormal() {
+            return STATUS_NORMAL;
+        }
+
+        public static int getStatusCancel() {
+            return STATUS_CANCEL;
+        }
+
+        public String getmDownloadUrl() {
+            return mDownloadUrl;
+        }
+
+        public int getmUrlHashCode() {
+            return mUrlHashCode;
+        }
+
+        public DOWNLOAD_TYPE getmType() {
+            return mType;
+        }
+
+        public int getmStatus() {
+            return mStatus;
+        }
+
+        public AtomicBoolean getRequestIsOperating() {
+            return requestIsOperating;
+        }
+
         @Override
         public String toString() {
             return "DownloadRequest [mDownloadUrl=" + mDownloadUrl + ", mUrlHashCode=" + mUrlHashCode + ", mType="
@@ -149,25 +184,43 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
     }
 
     public static class DownloadResponse {
-        private String mDownloadUrl;
-        private String mRawLocalPath;
+        /**
+         * 下载的URL
+         */
+        protected String mDownloadUrl;
+        
+        /**
+         * 下载的图片的本地存储路径，如果文件下载成功，那么此路劲指向的就是真正的本地图片储存路径，如果文件下载
+         * 失败，或是没有下载完成，那么为空。
+         */
+        protected String mLocalRawPath;
 
-        private DownloadRequest mRequest;
+        /**
+         * 下载请求的Request对象
+         */
+        protected DownloadRequest mRequest;
 
-        private DownloadResponse() {
+        protected DownloadResponse() {
         }
-
-        public String getLocalPath() {
-            return mRawLocalPath;
+        
+        protected DownloadResponse(String downloadUrl, String rawPath, DownloadRequest request) {
+            mDownloadUrl = downloadUrl;
+            mLocalRawPath = rawPath;
+            mRequest = request;
         }
 
         public String getDownloadUrl() {
             return mDownloadUrl;
         }
 
+        public String getRawLocalPath() {
+            return mLocalRawPath;
+        }
+
         public DownloadRequest getRequest() {
             return mRequest;
         }
+
     }
 
     public static interface WorkListener {
@@ -177,17 +230,17 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
     public static final int NOTIFY_DOWNLOAD_SUCCESS = -20000;
     public static final int NOTIFY_DOWNLOAD_FAILED = -40000;
 
-    private static final int DEFAULT_KEEPALIVE = 5 * 1000;
+    protected static final int DEFAULT_KEEPALIVE = 5 * 1000;
 
-    private final NotifyHandlerObserver mSuccessHandler = new NotifyHandlerObserver(NOTIFY_DOWNLOAD_SUCCESS);
-    private final NotifyHandlerObserver mFailedHandler = new NotifyHandlerObserver(NOTIFY_DOWNLOAD_FAILED);
-    private Object objLock = new Object();
-    boolean bIsStop = true;
+    protected final NotifyHandlerObserver mSuccessHandler = new NotifyHandlerObserver(NOTIFY_DOWNLOAD_SUCCESS);
+    protected final NotifyHandlerObserver mFailedHandler = new NotifyHandlerObserver(NOTIFY_DOWNLOAD_FAILED);
+    protected Object objLock = new Object();
+    protected boolean bIsStop = true;
 
-    boolean bIsWaiting = false;
-    private ArrayList<DownloadRequest> mRequestList;
-    private Context mContext;
-    private long mKeepAlive;
+    protected boolean bIsWaiting = false;
+    protected ArrayList<DownloadRequest> mRequestList;
+    protected Context mContext;
+    protected long mKeepAlive;
 
     private WorkListener mWorkListener = new WorkListener() {
         @Override
@@ -321,6 +374,15 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
     
     protected boolean checkInputStreamDownloadFile(String filePath) {
         return true;
+    }
+    
+    protected DownloadResponse tryToHandleDownloadFile(String downloadLocalPath, DownloadRequest request) {
+        DownloadResponse response = new DownloadResponse();
+        response.mDownloadUrl = request.mDownloadUrl;
+        response.mLocalRawPath = downloadLocalPath;
+        response.mRequest = request;
+        
+        return response;
     }
 
     private void waitforUrl() {
@@ -539,18 +601,14 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
                         UtilsConfig.LOGD("----- after get the cache file : " + cacheFile + " =======");
                     }
                     if (!TextUtils.isEmpty(cacheFile)) {
-
-                        DownloadResponse response = new DownloadResponse();
-                        response.mDownloadUrl = request.mDownloadUrl;
-                        response.mRawLocalPath = cacheFile;
-                        response.mRequest = request;
-                        
-                        //notify success
-                        mSuccessHandler.notifyAll(-1, -1, response);
-                        handleResponseByListener(DOWNLOAD_SUCCESS, request.mDownloadUrl, response);
-                        removeRequest(request);
-
-                        continue;
+                        DownloadResponse response = tryToHandleDownloadFile(cacheFile, request);
+                        if (response != null) {
+                            //notify success
+                            mSuccessHandler.notifyAll(-1, -1, response);
+                            handleResponseByListener(DOWNLOAD_SUCCESS, request.mDownloadUrl, response);
+                            removeRequest(request);
+                            continue;
+                        }
                     }
 
                     handleResponseByListener(DOWNLOAD_FAILED, request.mDownloadUrl, request);
