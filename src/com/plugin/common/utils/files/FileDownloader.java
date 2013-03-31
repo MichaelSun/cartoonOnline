@@ -1,7 +1,9 @@
 package com.plugin.common.utils.files;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -38,10 +40,47 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
     private static final String INPUT_STREAM_CACHE_PATH = DiskManager
             .tryToFetchCachePathByType(DiskCacheType.INPUTSTREAM_BIG_FILE_CACHE);
 
+    /**
+     * 当下载一个文件的时候，通过一个URL生成下载文件的本地的文件名字
+     * 
+     * @author michael
+     *
+     */
+    public static interface DownloadFilenameCreateListener {
+        /**
+         * 为一个下载URL生成本地的文件路径，注意：要保证生成文件名字的唯一性
+         * 生成的文件会下载到 big_file_cache 文件夹下面
+         * 
+         * @param downloadUrl
+         * @return
+         */
+        String onFilenameCreateWithDownloadUrl(String downloadUrl);
+    }
+    
+    private final class DefaultDownloadUrlEncodeListener implements DownloadFilenameCreateListener {
+
+        @Override
+        public String onFilenameCreateWithDownloadUrl(String downloadUrl) {
+            int pos = downloadUrl.lastIndexOf(".");
+            int sliptor = downloadUrl.lastIndexOf(File.separator);
+            if (pos != -1 && sliptor != -1 && pos > sliptor) {
+                String prefix = downloadUrl.substring(0, pos);
+                return prefix.replace(":", "+").replace("/", "_").replace(".", "-") + downloadUrl.substring(pos);
+            }
+            return downloadUrl.replace(":", "+").replace("/", "_").replace(".", "-");
+        }
+        
+    }
+    
+    private DownloadFilenameCreateListener mDownloadFilenameCreateListener = new DefaultDownloadUrlEncodeListener();
+    
     public static final int DOWNLOAD_SUCCESS = 10001;
     public static final int DOWNLOAD_FAILED = 20001;
 
     public static interface DownloadListener {
+        
+        void onDownloadProcess(int fileSize, int downloadSize);
+        
         void onDownloadFinished(int status, Object response);
     }
 
@@ -71,7 +110,7 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
 
     private List<DownloadListenerObj> mListenerList;
 
-    public static final class DownloadRequest {
+    public static class DownloadRequest {
         public static final int STATUS_NORMAL = 1000;
         public static final int STATUS_CANCEL = 1001;
 
@@ -109,7 +148,7 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
 
     }
 
-    public static final class DownloadResponse {
+    public static class DownloadResponse {
         private String mDownloadUrl;
         private String mRawLocalPath;
 
@@ -187,6 +226,13 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
     public void unRegisteFailedHandler(Handler handler) {
         mFailedHandler.unRegisteObserver(handler);
     }
+    
+    public DownloadFilenameCreateListener setDownloadUrlEncodeListener(DownloadFilenameCreateListener l) {
+        DownloadFilenameCreateListener ret = mDownloadFilenameCreateListener;
+        mDownloadFilenameCreateListener = l;
+        
+        return ret;
+    }
 
     public synchronized Boolean isStopped() {
         return bIsStop;
@@ -250,14 +296,6 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
                     processWorks();
                 }
             }
-            // if (!bIsRunning) {
-            // bIsRunning = true;
-            // if (DEBUG) {
-            // Config.LOGD("entry into [[postRequest]] to start process ");
-            // }
-            //
-            // processWorks();
-            // }
         }
         if (DEBUG) {
             UtilsConfig.LOGD_WITH_TIME("<<<<< [[postRequest]]  end synchronized (mRequestList) >>>>>");
@@ -278,6 +316,10 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
             UtilsConfig.LOGD_WITH_TIME("<<<<< [[postRequest]]  end synchronized (objLock) >>>>>");
         }
 
+        return true;
+    }
+    
+    protected boolean checkInputStreamDownloadFile(String filePath) {
         return true;
     }
 
@@ -360,14 +402,65 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
                         + " for orgin URL : " + requestUrl);
                 curTime = System.currentTimeMillis();
             }
-            String savePath = FileOperatorHelper.saveFileByISSupportAppend(INPUT_STREAM_CACHE_PATH + saveUrl, is);
+            
+            //download file 
+            int totalSize = 0;
+            try {
+                totalSize = is.available();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            long downloadSize = 0;
+            String savePath = null;
+            String targetPath = INPUT_STREAM_CACHE_PATH + saveUrl;
+            byte[] buffer = new byte[4096 * 2];
+            File f = new File(targetPath);
+            int len;
+            OutputStream os = null;
+            
+            try {
+                if (f.exists()) {
+                    downloadSize = f.length();
+                }
+                
+                os = new FileOutputStream(f, true);
+                while ((len = is.read(buffer)) != -1) {
+                    os.write(buffer, 0, len);
+                    
+                    //add listener to Notify UI
+                    downloadSize += len;
+                    handleProcess(requestUrl, totalSize, (int) downloadSize);
+                    
+                    DownloadRequest r = findCacelRequest(requestUrl);
+                    if (r != null && r.mStatus == DownloadRequest.STATUS_CANCEL) {
+                        UtilsConfig.LOGD("try to close is >>>>>>>>>>>>>>>>>>>>");
+                        is.close();
+                    }
+                }
+                savePath = targetPath;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                if (os != null) {
+                    try {
+                        os.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                buffer = null;
+            }
+            //end download
+            
             try {
                 is.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            if (!TextUtils.isEmpty(savePath)) {
+            if (!TextUtils.isEmpty(savePath) && checkInputStreamDownloadFile(savePath)) {
                 if (DEBUG) {
                     long successTime = System.currentTimeMillis();
                     UtilsConfig.LOGD("[[onInputStreamReturn]] save Request url : " + saveUrl
@@ -523,6 +616,28 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         synchronized (mRequestList) {
             mRequestList.remove(r);
         }
+    }
+    
+    private void handleProcess(String requestUrl, int fileSize, int downloadSize) {
+        int hashCode = requestUrl.hashCode();
+        for (DownloadListenerObj l : mListenerList) {
+            if (l.code == hashCode && l.mDownloadListener != null) {
+                l.mDownloadListener.onDownloadProcess(fileSize, downloadSize);
+            }
+        }
+    }
+    
+    private DownloadRequest findCacelRequest(String requestUrl) {
+        int hashCode = requestUrl.hashCode();
+        synchronized (mRequestList) {
+            for (DownloadRequest r : mRequestList) {
+                if (r.mUrlHashCode == hashCode) {
+                    return r;
+                }
+            }
+        }
+        
+        return null;
     }
 
     @Override

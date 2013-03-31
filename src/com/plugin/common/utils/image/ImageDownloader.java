@@ -362,18 +362,12 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 		synchronized (mRequestList) {
 			boolean contain = false;
 			for (ImageFetchRequest r : mRequestList) {
-//				if (r.mFetchBtUrl.equals(request.mFetchBtUrl)) {
-//					contain = true;
-//					break;
-//				}
 				if (r.mUrlHashCode == request.mUrlHashCode) {
 					contain = true;
 					break;
 				}
 			}
 			if (!contain) {
-				// mRequestList.add(request);
-				// 将最新添加的任务放在下载队列的最前面
 				mRequestList.add(0, request);
 
 				if (DEBUG) {
@@ -393,14 +387,6 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 					processWorks();
 				}
 			}
-//			if (!bIsRunning) {
-//				bIsRunning = true;
-//				if (DEBUG) {
-//					Config.LOGD("entry into [[postRequest]] to start process ");
-//				}
-//
-//				processWorks();
-//			}
 		}
 		if (DEBUG) {
 			UtilsConfig.LOGD_WITH_TIME("<<<<< [[postRequest]]  end synchronized (mRequestList) >>>>>");
