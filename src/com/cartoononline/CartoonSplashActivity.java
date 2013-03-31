@@ -20,13 +20,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cartoononline.ReaderListAdapter.ReaderItem;
 import com.plugin.common.utils.UtilsConfig;
-import com.plugin.common.utils.DeviceInfo;
-import com.plugin.common.utils.SingleInstanceBase.SingleInstanceManager;
+import com.plugin.common.utils.image.ImageDownloader;
+import com.plugin.common.utils.image.ImageDownloader.DownloadListener;
+import com.plugin.common.utils.image.ImageDownloader.ImageFetchRequest;
+import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
 import com.plugin.common.utils.image.ImageUtils;
 
 public class CartoonSplashActivity extends BaseActivity {
@@ -38,6 +43,8 @@ public class CartoonSplashActivity extends BaseActivity {
     private LayoutInflater mLayoutInflater;
 
     private ListView mReaderListView;
+    
+    private View mDownloadView;
     
     private ProgressDialog mProgress;
     
@@ -63,8 +70,6 @@ public class CartoonSplashActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        SingleInstanceManager.getInstance().init(getApplicationContext());
-        UtilsConfig.DEVICE_INFO = new DeviceInfo(this);
         initActionbar();
         initProgressBar();
         mListSessionInfos = new ArrayList<SessionInfo>();
@@ -158,17 +163,19 @@ public class CartoonSplashActivity extends BaseActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             // Create a new TextView and set its text to the fragment's section
             // number argument value.
-            final TextView textView = new TextView(getActivity());
-            textView.setGravity(Gravity.CENTER);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+            final Button btView = new Button(getActivity());
+            btView.setGravity(Gravity.CENTER);
+            btView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 
             int index = getArguments().getInt(ARG_SECTION_NUMBER);
             switch (index) {
             case 1:
                 return makeReaderView(mLayoutInflater);
+            case 2:
+                return makeDownloadView(mLayoutInflater);
             }
 
-            return textView;
+            return btView;
         }
     }
     
@@ -190,6 +197,73 @@ public class CartoonSplashActivity extends BaseActivity {
         });
         
         return mReaderListView;
+    }
+    
+    int stopCount = 0;
+    private View makeDownloadView(LayoutInflater layoutInflater) {
+        mDownloadView = layoutInflater.inflate(R.layout.download_content, null);
+        final ProgressBar progress = (ProgressBar) mDownloadView.findViewById(R.id.progress);
+        final TextView textView1 = (TextView) mDownloadView.findViewById(R.id.textView1);
+        
+        //整个文佳大小需要从服务器下载
+        final int totalSize = 181843;
+        progress.setMax(totalSize);
+        textView1.setText("0%");
+        
+        View bt = mDownloadView.findViewById(R.id.download);
+        bt.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                final ImageFetchRequest request = new ImageFetchRequest("http://image.zcool.com.cn/img3/55/58/1364540828542.jpg");
+                ImageDownloader.getInstance(getApplicationContext()).postRequest(
+                        request, 
+                        new DownloadListener() {
+
+                            @Override
+                            public void onDownloadProcess(int fileSize, final int downloadSize) {
+                                UtilsConfig.LOGD("Total file size = " + fileSize + " has download size = " + downloadSize);
+                                
+                                //test cancel downalod
+                                if (stopCount < 2 && downloadSize > 4096 * 4) {
+                                    UtilsConfig.LOGD("try to cancel download when download size = " + 4096 * 4);
+                                    stopCount++;
+                                    request.cancelDownload();
+                                }
+                                
+                                runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        progress.setProgress(downloadSize);
+                                        textView1.setText(String.valueOf(((int) ((1.0) * downloadSize / totalSize * 100))) + "%");
+                                    }
+                                    
+                                });
+                            }
+
+                            @Override
+                            public void onDownloadFinished(int status, Object response) {
+                                if (status == ImageDownloader.DOWNLOAD_SUCCESS) {
+                                    final ImageFetchResponse r = (ImageFetchResponse) response;
+                                    
+                                    UtilsConfig.LOGD(response + "");
+                                    if (r != null && r.getmBt() != null) {
+                                        runOnUiThread(new Runnable() {
+                                            public void run() {
+                                                ImageView iv = (ImageView) mDownloadView.findViewById(R.id.show);
+                                                iv.setImageBitmap(r.getmBt());
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                            
+                        });
+            }
+        });
+        
+        return mDownloadView;
     }
     
     private List<ReaderItem> makeReaderItems() {
@@ -217,7 +291,7 @@ public class CartoonSplashActivity extends BaseActivity {
             for (String name : files) {
                 ReaderItem item = new ReaderItem();
                 SessionInfo sinfo = Utils.getSessionInfo(AppConfig.ROOT_DIR + name);
-                UtilsConfig.LOGD(sinfo.toString());
+                UtilsConfig.LOGD( "" + sinfo);
                 if (sinfo != null) {
                     item.name = sinfo.name;
                     item.description = sinfo.description;
@@ -238,92 +312,5 @@ public class CartoonSplashActivity extends BaseActivity {
         
         return ret;
     }
-
-//    private List<ReaderItem> makeReaderItems() {
-//        List<ReaderItem> ret = new ArrayList<ReaderItem>();
-//        
-////        File root = new File(Config.ROOT_DIR);
-////        if (!root.exists() && !root.mkdirs()) {
-////            return ret;
-////        }
-//        
-//        File infoFile = new File(Config.SDCARD_INFO_FILE);
-//        boolean saveExist = true;
-//        if (!infoFile.exists()) {
-//            saveExist = Utils.saveAssetsFileToDest(this.getApplicationContext(), "content/item_name.ini",
-//                    Config.SDCARD_INFO_FILE);
-//        }
-//
-//        if (saveExist) {
-//            INIFile iniFile = new INIFile(Config.SDCARD_INFO_FILE);
-//            int count = iniFile.getIntegerProperty("infos", "count");
-//            String nameStr = iniFile.getStringProperty("infos", "name");
-//            String[] names = nameStr.split(";");
-//            List<Bitmap> btList = loadListContextItems();
-//            if (names == null || names.length != count || btList.size() != count) {
-//                return ret;
-//            }
-//            
-//            for (int index = 0; index < count; ++index) {
-//                ReaderItem item = new ReaderItem();
-//                item.description = names[index];
-//                item.image = btList.get(index);
-//                ret.add(item);
-//            }
-//        }
-//
-//        return ret;
-//    }
-
-//    private ArrayList<Bitmap> loadListContextItems() {
-//        ArrayList<Bitmap> ret = new ArrayList<Bitmap>();
-//        try {
-//            String[] itemArrayOrg = getAssets().list("content");
-//            ArrayList<String> items = new ArrayList<String>();
-//            for(String item : itemArrayOrg) {
-//                if (!item.equals("item_name.ini")) {
-//                    items.add(item);
-//                }
-//            }
-//            String[] itemArray = new String[items.size()];
-//            items.toArray(itemArray);
-//            
-//            if (itemArray != null && itemArray.length > 0) {
-//                itemArray = sortByInt(itemArray);
-//
-//                for (String item : itemArray) {
-//                    Bitmap itemBt = Utils.loadBitmapFromAsset(getApplicationContext(), "content/" + item + "/icon.jpg");
-//
-//                    if (itemBt != null) {
-//                        try {
-//                            Bitmap roundBt = ImageUtils.createRoundedBitmap(itemBt);
-//                            if (roundBt != null) {
-//                                ret.add(roundBt);
-//                            }
-//
-//                            itemBt.recycle();
-//                            itemBt = null;
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return ret;
-//    }
-
-//    private String[] sortByInt(String[] src) {
-//        String[] ret = new String[src.length];
-//        for (String data : src) {
-//            int index = Integer.valueOf(data);
-//            ret[index - 1] = String.valueOf(index);
-//        }
-//
-//        return ret;
-//    }
 
 }

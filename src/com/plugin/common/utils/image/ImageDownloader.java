@@ -1,7 +1,9 @@
 package com.plugin.common.utils.image;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -18,7 +20,6 @@ import android.text.TextUtils;
 
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
-import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.CustomThreadPool;
 import com.plugin.common.utils.CustomThreadPool.TaskWrapper;
 import com.plugin.common.utils.CustomThreadPool.ThreadPoolSnapShot;
@@ -26,6 +27,7 @@ import com.plugin.common.utils.Destroyable;
 import com.plugin.common.utils.Environment;
 import com.plugin.common.utils.NotifyHandlerObserver;
 import com.plugin.common.utils.SingleInstanceBase;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.DiskManager;
 import com.plugin.common.utils.files.DiskManager.DiskCacheType;
 import com.plugin.common.utils.files.FileOperatorHelper;
@@ -52,6 +54,41 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 	private static final String INPUT_STREAM_CACHE_PATH = DiskManager
 			.tryToFetchCachePathByType(DiskCacheType.INPUTSTREAM_BIG_FILE_CACHE);
 
+
+	/**
+	 * 当下载一个文件的时候，通过一个URL生成下载文件的本地的文件名字
+	 * 
+	 * @author michael
+	 *
+	 */
+	public static interface DownloadFilenameCreateListener {
+	    /**
+	     * 为一个下载URL生成本地的文件路径，注意：要保证生成文件名字的唯一性
+	     * 生成的文件会下载到 big_file_cache 文件夹下面
+	     * 
+	     * @param downloadUrl
+	     * @return
+	     */
+	    String onFilenameCreateWithDownloadUrl(String downloadUrl);
+	}
+
+	private final class DefaultDownloadUrlEncodeListener implements DownloadFilenameCreateListener {
+
+        @Override
+        public String onFilenameCreateWithDownloadUrl(String downloadUrl) {
+            int pos = downloadUrl.lastIndexOf(".");
+            int sliptor = downloadUrl.lastIndexOf(File.separator);
+            if (pos != -1 && sliptor != -1 && pos > sliptor) {
+                String prefix = downloadUrl.substring(0, pos);
+                return prefix.replace(":", "+").replace("/", "_").replace(".", "-") + downloadUrl.substring(pos);
+            }
+            return downloadUrl.replace(":", "+").replace("/", "_").replace(".", "-");
+        }
+	    
+	}
+	
+	private DownloadFilenameCreateListener mDownloadFilenameCreateListener = new DefaultDownloadUrlEncodeListener();
+	
 	public static interface BitmapOperationListener {
 		Bitmap onAfterBitmapDownload(Bitmap downloadBt);
 	}
@@ -60,6 +97,9 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 	public static final int DOWNLOAD_FAILED = 20001;
 	
 	public static interface DownloadListener {
+	    
+	    void onDownloadProcess(int fileSize, int downloadSize);
+	    
 		void onDownloadFinished(int status, Object response);
 	}
 	
@@ -136,6 +176,10 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 			mBitmapOperationListener = l;
 			mUrlHashCode = mFetchBtUrl.hashCode();
 		}
+		
+		public void cancelDownload() {
+		    mStatus = STATUS_CANCEL;
+		}
 
 		@Override
 		public String toString() {
@@ -147,30 +191,57 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 	}
 
 	public static final class ImageFetchResponse {
+	    /**
+	     * 下载的图片的Bitmap对象，可以直接用于显示.
+	     */
 		private Bitmap mBt;
+		/**
+		 * 下载的图片的URL
+		 */
 		private String mBtUrl;
-		private String mRawLocalPath;
-
+		/**
+		 * 下载的图片的cache的路径，此路径中指向的图片是缓存库的一份磁盘镜像，不要使用此路径对文件进行操作。
+		 */
+		private String mLocalCachePath;
+		/**
+		 * 下载的图片的本地存储路径，如果文件下载成功，那么此路劲指向的就是真正的本地图片储存路径，如果文件下载
+		 * 失败，或是没有下载完成，那么为空。
+		 */
+		private String mLocalRawPath;
+		/**
+		 * 下载请求的Request对象
+		 */
 		private ImageFetchRequest mRequest;
 
 		private ImageFetchResponse() {
 		}
 
-		public String getLocalPath() {
-			return mRawLocalPath;
-		}
+        public Bitmap getmBt() {
+            return mBt;
+        }
 
-		public Bitmap getBitmap() {
-			return mBt;
-		}
+        public String getmBtUrl() {
+            return mBtUrl;
+        }
 
-		public String getBtUrl() {
-			return mBtUrl;
-		}
+        public String getmLocalCachePath() {
+            return mLocalCachePath;
+        }
 
-		public ImageFetchRequest getRequest() {
-			return mRequest;
-		}
+        public String getmLocalRawPath() {
+            return mLocalRawPath;
+        }
+
+        public ImageFetchRequest getmRequest() {
+            return mRequest;
+        }
+
+        @Override
+        public String toString() {
+            return "ImageFetchResponse [mBt=" + mBt + ", mBtUrl=" + mBtUrl + ", mLocalCachePath=" + mLocalCachePath
+                    + ", mLocalRawPath=" + mLocalRawPath + ", mRequest=" + mRequest + "]";
+        }
+
 	}
 
 	public static interface WorkListener {
@@ -179,11 +250,13 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 
 	public static final int IMAGE_FETCH_SUCCESS = -20000;
 	public static final int IMAGE_FETCH_FAILED = -40000;
+//	public static final int IMAGE_DOWNLOAD_PROCESS = -20001;
 
 	private static final int DEFAULT_KEEPALIVE = 5 * 1000;
 
 	private final NotifyHandlerObserver mSuccessHandler = new NotifyHandlerObserver(IMAGE_FETCH_SUCCESS);
 	private final NotifyHandlerObserver mFailedHandler = new NotifyHandlerObserver(IMAGE_FETCH_FAILED);
+//	private final NotifyHandlerObserver mDownloadProcessHandler = new NotifyHandlerObserver(IMAGE_DOWNLOAD_PROCESS);
 	private Object objLock = new Object();
 	boolean bIsStop = true;
 	
@@ -252,6 +325,13 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 		mFailedHandler.unRegisteObserver(handler);
 	}
 
+	public DownloadFilenameCreateListener setDownloadUrlEncodeListener(DownloadFilenameCreateListener l) {
+	    DownloadFilenameCreateListener ret = mDownloadFilenameCreateListener;
+	    mDownloadFilenameCreateListener = l;
+	    
+	    return ret;
+	}
+	
 	public boolean postRequest(ImageFetchRequest request, DownloadListener l) {
 		if (mRequestList == null || request == null || TextUtils.isEmpty(request.mFetchBtUrl) || l == null) {
 			return false;
@@ -426,8 +506,8 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 								}
 
 								if (request.mBitmapOperationListener != null) {
-									mCacheManager.putResource(DEFAULT_RAW_IMAGE_CATEGORY, request.mFetchBtUrl,
-											cacheFile);
+                                    mCacheManager.putResource(DEFAULT_RAW_IMAGE_CATEGORY, request.mFetchBtUrl,
+                                            cacheFile);
 									Bitmap downloadBt = mCacheManager.getResource(DEFAULT_RAW_IMAGE_CATEGORY,
 											request.mFetchBtUrl);
 									if (downloadBt != null) {
@@ -473,9 +553,10 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 						if (bt != null) {
 							ImageFetchResponse response = new ImageFetchResponse();
 							response.mBt = bt;
-							response.mRawLocalPath = localPath;
+							response.mLocalCachePath = localPath;
 							response.mBtUrl = request.mFetchBtUrl;
 							response.mRequest = request;
+							response.mLocalRawPath = cacheFile;
 							mSuccessHandler.notifyAll(-1, -1, response);
 							
 							handleResponseByListener(DOWNLOAD_SUCCESS, request.mFetchBtUrl, response);
@@ -571,10 +652,32 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 //		}
 	}
 
-	private String pathFilter(String src) {
-		return src.replace(":", "+").replace("/", "_").replace(".", "-");
+//	private String pathFilter(String src) {
+//		return src.replace(":", "+").replace("/", "_").replace(".", "-");
+//	}
+	
+	private void handleProcess(String requestUrl, int fileSize, int downloadSize) {
+	    int hashCode = requestUrl.hashCode();
+	    for (DownloadListenerObj l : mListenerList) {
+	        if (l.code == hashCode && l.mDownloadListener != null) {
+	            l.mDownloadListener.onDownloadProcess(fileSize, downloadSize);
+	        }
+	    }
 	}
-
+	
+	private ImageFetchRequest findCacelRequest(String requestUrl) {
+	    int hashCode = requestUrl.hashCode();
+        synchronized (mRequestList) {
+            for (ImageFetchRequest r : mRequestList) {
+                if (r.mUrlHashCode == hashCode) {
+                    return r;
+                }
+            }
+        }
+        
+        return null;
+	}
+	
 	@Override
 	public void onCheckRequestHeaders(String requestUrl, HttpRequestBase request) {
 		if (request == null) {
@@ -584,7 +687,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 		if (SUPPORT_RANGED) {
 			// 目前只有大文件下载才会做此接口回调，在此回调中可以增加断点续传
 			if (request instanceof HttpGet) {
-				String saveFile = pathFilter(requestUrl);
+				String saveFile = mDownloadFilenameCreateListener.onFilenameCreateWithDownloadUrl(requestUrl);
 				File bigCacheFile = new File(INPUT_STREAM_CACHE_PATH);
 				if (!bigCacheFile.exists() || !bigCacheFile.isDirectory()) {
 					bigCacheFile.delete();
@@ -613,7 +716,7 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 		}
 
 		if (is != null) {
-			String saveUrl = pathFilter(requestUrl);
+			String saveUrl = mDownloadFilenameCreateListener.onFilenameCreateWithDownloadUrl(requestUrl);
 			File bigCacheFile = new File(INPUT_STREAM_CACHE_PATH);
 			if (!bigCacheFile.exists() || !bigCacheFile.isDirectory()) {
 				bigCacheFile.delete();
@@ -626,7 +729,59 @@ public class ImageDownloader extends SingleInstanceBase implements Runnable, Des
 						+ " for orgin URL : " + requestUrl);
 				curTime = System.currentTimeMillis();
 			}
-			String savePath = FileOperatorHelper.saveFileByISSupportAppend(INPUT_STREAM_CACHE_PATH + saveUrl, is);
+			
+			//download file 
+			int totalSize = 0;
+			try {
+			    totalSize = is.available();
+			} catch (Exception e) {
+			    e.printStackTrace();
+			}
+			
+			long downloadSize = 0;
+			String savePath = null;
+			String targetPath = INPUT_STREAM_CACHE_PATH + saveUrl;
+	        byte[] buffer = new byte[4096 * 2];
+	        File f = new File(targetPath);
+	        int len;
+	        OutputStream os = null;
+	        
+	        try {
+	            if (f.exists()) {
+	                downloadSize = f.length();
+	            }
+	            
+	            os = new FileOutputStream(f, true);
+	            while ((len = is.read(buffer)) != -1) {
+	                os.write(buffer, 0, len);
+	                
+	                //add listener to Notify UI
+	                downloadSize += len;
+	                handleProcess(requestUrl, totalSize, (int) downloadSize);
+	                
+	                ImageFetchRequest r = findCacelRequest(requestUrl);
+	                if (r != null && r.mStatus == ImageFetchRequest.STATUS_CANCEL) {
+	                    UtilsConfig.LOGD("try to close is >>>>>>>>>>>>>>>>>>>>");
+	                    is.close();
+	                }
+	            }
+	            savePath = targetPath;
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        } finally {
+	            if (os != null) {
+	                try {
+	                    os.close();
+	                } catch (Exception e) {
+	                    e.printStackTrace();
+	                }
+	            }
+
+	            buffer = null;
+	        }
+	        //end download
+			
+//			String savePath = FileOperatorHelper.saveFileByISSupportAppend(INPUT_STREAM_CACHE_PATH + saveUrl, is);
 			try {
 				is.close();
 			} catch (Exception e) {
