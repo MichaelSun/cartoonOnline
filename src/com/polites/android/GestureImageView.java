@@ -18,6 +18,7 @@ package com.polites.android;
 import java.io.InputStream;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -37,7 +38,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
-public class GestureImageView extends ImageView  {
+public class GestureImageView extends ImageView {
 
 	public static final String GLOBAL_NS = "http://schemas.android.com/apk/res/android";
 	public static final String LOCAL_NS = "http://schemas.polites.com/android";
@@ -46,7 +47,7 @@ public class GestureImageView extends ImageView  {
 	private Animator animator;
 
 	private Drawable drawable;
-	
+
 	public Context mContext;
 
 	private float x = 0, y = 0;
@@ -56,6 +57,8 @@ public class GestureImageView extends ImageView  {
 	private float scaleAdjust = 1.0f;
 	private float startingScale = -1.0f;
 	private float bakStartingScale = -1.0f;
+	
+	private boolean startBeginTop = false; 
 
 	private float scale = 1.0f;
 	private float maxScale = 5.0f;
@@ -66,16 +69,16 @@ public class GestureImageView extends ImageView  {
 
 	private float centerX;
 	private float centerY;
-	
+
 	private float rectLeft;
 	private float rectTop;
 	private float rectRight;
 	private float rectBottom;
 	private float rectStartX;
 	private float rectStartY;
-	
+
 	private boolean isForCrop = false;
-	
+
 	private int cropDragTop = 0;
 	private int cropDragBottom = 0;
 	private Float startX, startY;
@@ -98,41 +101,42 @@ public class GestureImageView extends ImageView  {
 
 	private GestureImageViewListener gestureImageViewListener;
 	private GestureImageViewTouchListener gestureImageViewTouchListener;
-	
+
 	private OnTouchListener customOnTouchListener;
 	private OnClickListener onClickListener;
-
+	
 	public GestureImageView(Context context, AttributeSet attrs, int defStyle) {
 		this(context, attrs);
 	}
 
 	public GestureImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
+
 		String scaleType = attrs.getAttributeValue(GLOBAL_NS, "scaleType");
-		
-		if(scaleType == null || scaleType.trim().length() == 0) {
+
+		if (scaleType == null || scaleType.trim().length() == 0) {
 			setScaleType(ScaleType.CENTER_INSIDE);
 		}
-		
+
 		String strStartX = attrs.getAttributeValue(LOCAL_NS, "start-x");
 		String strStartY = attrs.getAttributeValue(LOCAL_NS, "start-y");
-		
-		if(strStartX != null && strStartX.trim().length() > 0) {
+
+		if (strStartX != null && strStartX.trim().length() > 0) {
 			startX = Float.parseFloat(strStartX);
 		}
-		
-		if(strStartY != null && strStartY.trim().length() > 0) {
+
+		if (strStartY != null && strStartY.trim().length() > 0) {
 			startY = Float.parseFloat(strStartY);
 		}
-		
+
 		bakStartingScale = attrs.getAttributeFloatValue(LOCAL_NS, "start-scale", startingScale);
 		setStartingScale(bakStartingScale);
 		setMinScale(attrs.getAttributeFloatValue(LOCAL_NS, "min-scale", minScale));
 		setMaxScale(attrs.getAttributeFloatValue(LOCAL_NS, "max-scale", maxScale));
 		setStrict(attrs.getAttributeBooleanValue(LOCAL_NS, "strict", strict));
 		setRecycle(attrs.getAttributeBooleanValue(LOCAL_NS, "recycle", recycle));
-		
+		setStartBeginTop(attrs.getAttributeBooleanValue(LOCAL_NS, "start-top", startBeginTop));
+
 		initImage();
 	}
 
@@ -145,31 +149,27 @@ public class GestureImageView extends ImageView  {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-		if(drawable != null) {
+		if (drawable != null) {
 			int orientation = getResources().getConfiguration().orientation;
-			if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
 				displayHeight = MeasureSpec.getSize(heightMeasureSpec);
 
-				if(getLayoutParams().width == LayoutParams.WRAP_CONTENT) {
+				if (getLayoutParams().width == LayoutParams.WRAP_CONTENT) {
 					float ratio = (float) getImageWidth() / (float) getImageHeight();
-					displayWidth = Math.round( (float) displayHeight * ratio) ;
-				}
-				else {
+					displayWidth = Math.round((float) displayHeight * ratio);
+				} else {
 					displayWidth = MeasureSpec.getSize(widthMeasureSpec);
 				}
-			}
-			else {
+			} else {
 				displayWidth = MeasureSpec.getSize(widthMeasureSpec);
-				if(getLayoutParams().height == LayoutParams.WRAP_CONTENT) {
+				if (getLayoutParams().height == LayoutParams.WRAP_CONTENT) {
 					float ratio = (float) getImageHeight() / (float) getImageWidth();
-					displayHeight = Math.round( (float) displayWidth * ratio) ;
-				}
-				else {
+					displayHeight = Math.round((float) displayWidth * ratio);
+				} else {
 					displayHeight = MeasureSpec.getSize(heightMeasureSpec);
-				}				
+				}
 			}
-		}
-		else {
+		} else {
 			displayHeight = MeasureSpec.getSize(heightMeasureSpec);
 			displayWidth = MeasureSpec.getSize(widthMeasureSpec);
 		}
@@ -180,31 +180,31 @@ public class GestureImageView extends ImageView  {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
-		if(changed || !layout) {
+		if (changed || !layout) {
 			setupCanvas(displayWidth, displayHeight, getResources().getConfiguration().orientation);
 		}
 	}
 
 	protected void setupCanvas(int measuredWidth, int measuredHeight, int orientation) {
 
-		if(deviceOrientation != orientation) {
+		if (deviceOrientation != orientation) {
 			layout = false;
 			deviceOrientation = orientation;
 		}
 
-		if(drawable != null && !layout) {
+		if (drawable != null && !layout) {
 			int imageWidth = getImageWidth();
 			int imageHeight = getImageHeight();
 
-			hWidth = Math.round(((float)imageWidth / 2.0f));
-			hHeight = Math.round(((float)imageHeight / 2.0f));
-			
+			hWidth = Math.round(((float) imageWidth / 2.0f));
+			hHeight = Math.round(((float) imageHeight / 2.0f));
+
 			measuredWidth -= (getPaddingLeft() + getPaddingRight());
 			measuredHeight -= (getPaddingTop() + getPaddingBottom());
-			
+
 			computeCropScale(imageWidth, imageHeight, measuredWidth, measuredHeight);
-			
-			if(startingScale <= 0.0f) {
+
+			if (startingScale <= 0.0f) {
 				computeStartingScale(imageWidth, imageHeight, measuredWidth, measuredHeight);
 			}
 
@@ -212,104 +212,106 @@ public class GestureImageView extends ImageView  {
 
 			this.centerX = (float) measuredWidth / 2.0f;
 			this.centerY = (float) measuredHeight / 2.0f;
-			
+
 			rectStartX = centerX;
 			rectStartY = centerY;
-			
-			if(startX == null) {
+
+			if (startX == null) {
 				x = centerX;
-			}
-			else {
+			} else {
 				x = startX;
 			}
 
-			if(startY == null) {
+			if (startY == null) {
 				y = centerY;
-			}
-			else {
+			} else {
 				y = startY;
-			}	
+			}
+			
+            if (startBeginTop) {
+                float scaleHeight = (imageHeight * scaleAdjust);
+                y += (scaleHeight - measuredHeight) / 2;
+            }
 
 			gestureImageViewTouchListener = new GestureImageViewTouchListener(this, measuredWidth, measuredHeight);
-			
-			if(isLandscape()) {
+
+			if (isLandscape()) {
 				gestureImageViewTouchListener.setMinScale(minScale * fitScaleHorizontal);
-			}
-			else {
+			} else {
 				gestureImageViewTouchListener.setMinScale(minScale * fitScaleVertical);
 			}
-			
-			
+
 			gestureImageViewTouchListener.setIsCrop(isForCrop);
 			cropDragTop = (int) (centerY - centerX);
 			cropDragBottom = (int) (centerY - centerX);
-			gestureImageViewTouchListener.setDragBound(cropDragTop,cropDragBottom);
+			gestureImageViewTouchListener.setDragBound(cropDragTop, cropDragBottom);
 			gestureImageViewTouchListener.setMaxScale(maxScale * startingScale);
-			
+
 			gestureImageViewTouchListener.setFitScaleHorizontal(fitScaleHorizontal);
 			gestureImageViewTouchListener.setFitScaleVertical(fitScaleVertical);
 			gestureImageViewTouchListener.setCanvasWidth(measuredWidth);
 			gestureImageViewTouchListener.setCanvasHeight(measuredHeight);
 			gestureImageViewTouchListener.setOnClickListener(onClickListener);
 
-			drawable.setBounds(-hWidth,-hHeight,hWidth,hHeight);
+			drawable.setBounds(-hWidth, -hHeight, hWidth, hHeight);
 
 			super.setOnTouchListener(new OnTouchListener() {
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
-					if(customOnTouchListener != null) {
+					if (customOnTouchListener != null) {
 						customOnTouchListener.onTouch(v, event);
 					}
 					return gestureImageViewTouchListener.onTouch(v, event);
 				}
-			});	
+			});
 
 			layout = true;
 		}
 	}
-	
+
 	protected void computeCropScale(int imageWidth, int imageHeight, int measuredWidth, int measuredHeight) {
 		fitScaleHorizontal = (float) measuredWidth / (float) imageWidth;
 		fitScaleVertical = (float) measuredHeight / (float) imageHeight;
 	}
-	
+
 	protected void computeStartingScale(int imageWidth, int imageHeight, int measuredWidth, int measuredHeight) {
-		switch(getScaleType()) {
-			case CENTER: 
-				// Center the image in the view, but perform no scaling. 
-				startingScale = 1.0f;
-				break;
-				
-			case CENTER_CROP: 
-				startingScale = Math.max((float) measuredHeight / (float) imageHeight, (float) measuredWidth/ (float) imageWidth);
-				break;
-				
-			case CENTER_INSIDE: 
-				if (!isForCrop) {
-					if(isLandscape()){
-						startingScale = fitScaleHorizontal;
-					}
-					else{
-						startingScale = fitScaleVertical;
-					}
-//					startingScale = fitScaleHorizontal < fitScaleVertical ? fitScaleHorizontal : fitScaleVertical;
+		switch (getScaleType()) {
+		case CENTER:
+			// Center the image in the view, but perform no scaling.
+			startingScale = 1.0f;
+			break;
+
+		case CENTER_CROP:
+			startingScale = Math.max((float) measuredHeight / (float) imageHeight, (float) measuredWidth
+					/ (float) imageWidth);
+			break;
+
+		case CENTER_INSIDE:
+			if (!isForCrop) {
+				if (isLandscape()) {
+					startingScale = fitScaleHorizontal;
 				} else {
-					if(getImageWidth() >= getImageHeight()) {
-						startingScale = (float) measuredWidth / (float) imageHeight;
-					}else {
-						startingScale = (float) measuredWidth / (float) imageWidth;
-					}
+					startingScale = fitScaleVertical;
 				}
-				break;
-			default:
-			    break;
+				// startingScale = fitScaleHorizontal < fitScaleVertical ?
+				// fitScaleHorizontal : fitScaleVertical;
+			} else {
+				if (getImageWidth() >= getImageHeight()) {
+					startingScale = (float) measuredWidth / (float) imageHeight;
+				} else {
+					startingScale = (float) measuredWidth / (float) imageWidth;
+				}
+			}
+			break;
+		default:
+			break;
 		}
 	}
 
 	protected boolean isRecycled() {
-		if(drawable != null && drawable instanceof BitmapDrawable) {
-			Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
-			if(bitmap != null) {
+		if (drawable != null && drawable instanceof BitmapDrawable) {
+			Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+			if (bitmap != null) {
 				return bitmap.isRecycled();
 			}
 		}
@@ -317,31 +319,32 @@ public class GestureImageView extends ImageView  {
 	}
 
 	protected void recycle() {
-		if(recycle && drawable != null && drawable instanceof BitmapDrawable) {
-			Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
-			if(bitmap != null) {
+		if (recycle && drawable != null && drawable instanceof BitmapDrawable) {
+			Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+			if (bitmap != null) {
 				bitmap.recycle();
 			}
 		}
 	}
-	
+
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if(layout) {
-			if(drawable != null && !isRecycled()) {
+		if (layout) {
+			if (drawable != null && !isRecycled()) {
 				canvas.save();
 				float adjustedScale = scale * scaleAdjust;
-				rectLeft = (float) ((0-(getImageX() - scaleAdjust * getImageWidth()*0.5))/scaleAdjust);
-				rectTop = (float) ((rectStartY - rectStartX-(getImageY() - scaleAdjust * getImageHeight()*0.5))/scaleAdjust);
-				rectRight = rectLeft + displayWidth/scaleAdjust;
-				rectBottom = rectTop + displayWidth/scaleAdjust;
+				rectLeft = (float) ((0 - (getImageX() - scaleAdjust * getImageWidth() * 0.5)) / scaleAdjust);
+				rectTop = (float) ((rectStartY - rectStartX - (getImageY() - scaleAdjust * getImageHeight() * 0.5)) / scaleAdjust);
+				rectRight = rectLeft + displayWidth / scaleAdjust;
+				rectBottom = rectTop + displayWidth / scaleAdjust;
 				canvas.translate(x, y);
-				if(rotation != 0.0f) {
+				if (rotation != 0.0f) {
 					canvas.rotate(rotation);
 				}
 
-				if(adjustedScale != 1.0f) {
-//					if(adjustedScale < startingScale)adjustedScale = startingScale;
+				if (adjustedScale != 1.0f) {
+					// if(adjustedScale < startingScale)adjustedScale =
+					// startingScale;
 					canvas.scale(adjustedScale, adjustedScale);
 				}
 
@@ -350,7 +353,7 @@ public class GestureImageView extends ImageView  {
 				canvas.restore();
 			}
 
-			if(drawLock.availablePermits() <= 0) {
+			if (drawLock.availablePermits() <= 0) {
 				drawLock.release();
 			}
 		}
@@ -358,7 +361,9 @@ public class GestureImageView extends ImageView  {
 
 	/**
 	 * Waits for a draw
-	 * @param max time to wait for draw (ms)
+	 * 
+	 * @param max
+	 *            time to wait for draw (ms)
 	 * @throws InterruptedException
 	 */
 	public boolean waitForDraw(long timeout) throws InterruptedException {
@@ -370,7 +375,7 @@ public class GestureImageView extends ImageView  {
 		animator = new Animator(this, "GestureImageViewAnimator");
 		animator.start();
 
-		if(resId >= 0 && drawable == null) {
+		if (resId >= 0 && drawable == null) {
 			setImageResource(resId);
 		}
 
@@ -378,38 +383,38 @@ public class GestureImageView extends ImageView  {
 	}
 
 	public void animationStart(Animation animation) {
-		if(animator != null) {
+		if (animator != null) {
 			animator.play(animation);
 		}
 	}
 
 	public void animationStop() {
-		if(animator != null) {
+		if (animator != null) {
 			animator.cancel();
 		}
 	}
 
 	@Override
 	protected void onDetachedFromWindow() {
-		if(animator != null) {
+		if (animator != null) {
 			animator.finish();
 		}
-		if(recycle && drawable != null && !isRecycled()) {
-//			recycle();
+		if (recycle && drawable != null && !isRecycled()) {
+			// recycle();
 			drawable = null;
 		}
 		super.onDetachedFromWindow();
 	}
 
 	protected void initImage() {
-		if(this.drawable != null) {
+		if (this.drawable != null) {
 			this.drawable.setAlpha(alpha);
 			this.drawable.setFilterBitmap(true);
-			if(colorFilter != null) {
+			if (colorFilter != null) {
 				this.drawable.setColorFilter(colorFilter);
 			}
 		}
-		
+
 		layout = false;
 		this.startingScale = this.bakStartingScale;
 		requestLayout();
@@ -429,10 +434,10 @@ public class GestureImageView extends ImageView  {
 	}
 
 	public void setImageResource(int id) {
-//		if(this.drawable != null) {
-//			this.recycle();
-//		}
-		if(id >= 0) {
+		// if(this.drawable != null) {
+		// this.recycle();
+		// }
+		if (id >= 0) {
 			this.resId = id;
 			setImageDrawable(getContext().getResources().getDrawable(id));
 		}
@@ -441,20 +446,20 @@ public class GestureImageView extends ImageView  {
 	public int getScaledWidth() {
 		return Math.round(getImageWidth() * getScale());
 	}
-	
+
 	public int getScaledHeight() {
 		return Math.round(getImageHeight() * getScale());
 	}
-	
+
 	public int getImageWidth() {
-		if(drawable != null) {
+		if (drawable != null) {
 			return drawable.getIntrinsicWidth();
 		}
 		return 0;
 	}
 
 	public int getImageHeight() {
-		if(drawable != null) { 
+		if (drawable != null) {
 			return drawable.getIntrinsicHeight();
 		}
 		return 0;
@@ -476,19 +481,19 @@ public class GestureImageView extends ImageView  {
 
 	public void setMinScale(float min) {
 		this.minScale = min;
-		if(gestureImageViewTouchListener != null) {
+		if (gestureImageViewTouchListener != null) {
 			gestureImageViewTouchListener.setMinScale(min * fitScaleHorizontal);
 		}
 	}
 
 	public void setMaxScale(float max) {
 		this.maxScale = max;
-		if(gestureImageViewTouchListener != null) {
+		if (gestureImageViewTouchListener != null) {
 			gestureImageViewTouchListener.setMaxScale(max * startingScale);
 		}
 	}
-	
-	public void setIsCrop(boolean isCrop){
+
+	public void setIsCrop(boolean isCrop) {
 		isForCrop = isCrop;
 	}
 
@@ -523,6 +528,10 @@ public class GestureImageView extends ImageView  {
 	public void setRecycle(boolean recycle) {
 		this.recycle = recycle;
 	}
+	
+	public void setStartBeginTop(boolean startBeginTop) {
+	    this.startBeginTop = startBeginTop;
+	}
 
 	public void reset() {
 		x = centerX;
@@ -551,7 +560,7 @@ public class GestureImageView extends ImageView  {
 	@Override
 	public void setAlpha(int alpha) {
 		this.alpha = alpha;
-		if(drawable != null) {
+		if (drawable != null) {
 			drawable.setAlpha(alpha);
 		}
 	}
@@ -559,7 +568,7 @@ public class GestureImageView extends ImageView  {
 	@Override
 	public void setColorFilter(ColorFilter cf) {
 		this.colorFilter = cf;
-		if(drawable != null) {
+		if (drawable != null) {
 			drawable.setColorFilter(cf);
 		}
 	}
@@ -568,46 +577,42 @@ public class GestureImageView extends ImageView  {
 	public void setImageURI(Uri mUri) {
 		if ("content".equals(mUri.getScheme())) {
 			try {
-				String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
-				
+				String[] orientationColumn = { MediaStore.Images.Media.ORIENTATION };
+
 				Cursor cur = getContext().getContentResolver().query(mUri, orientationColumn, null, null, null);
-				
+
 				if (cur != null && cur.moveToFirst()) {
 					imageOrientation = cur.getInt(cur.getColumnIndex(orientationColumn[0]));
-				}  
-				
+				}
+
 				InputStream in = null;
-				
+
 				try {
 					in = getContext().getContentResolver().openInputStream(mUri);
 					Bitmap bmp = BitmapFactory.decodeStream(in);
-					
-					if(imageOrientation != 0) {
+
+					if (imageOrientation != 0) {
 						Matrix m = new Matrix();
 						m.postRotate(imageOrientation);
 						Bitmap rotated = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), m, true);
 						bmp.recycle();
 						setImageDrawable(new BitmapDrawable(getResources(), rotated));
-					}
-					else {
+					} else {
 						setImageDrawable(new BitmapDrawable(getResources(), bmp));
 					}
-				}
-				finally {
-					if(in != null) {
+				} finally {
+					if (in != null) {
 						in.close();
 					}
-					
-					if(cur != null) {
+
+					if (cur != null) {
 						cur.close();
 					}
 				}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				Log.w("GestureImageView", "Unable to open content: " + mUri, e);
 			}
-		}
-		else {
+		} else {
 			setImageDrawable(Drawable.createFromPath(mUri.toString()));
 		}
 
@@ -620,28 +625,25 @@ public class GestureImageView extends ImageView  {
 
 	@Override
 	public Matrix getImageMatrix() {
-		if(strict) {
+		if (strict) {
 			throw new UnsupportedOperationException("Not supported");
-		}		
+		}
 		return super.getImageMatrix();
 	}
 
 	@Override
 	public void setScaleType(ScaleType scaleType) {
-		if(scaleType == ScaleType.CENTER ||
-			scaleType == ScaleType.CENTER_CROP ||
-			scaleType == ScaleType.CENTER_INSIDE) {
-			
+		if (scaleType == ScaleType.CENTER || scaleType == ScaleType.CENTER_CROP || scaleType == ScaleType.CENTER_INSIDE) {
+
 			super.setScaleType(scaleType);
-		}
-		else if(strict) {
+		} else if (strict) {
 			throw new UnsupportedOperationException("Not supported");
 		}
 	}
 
 	@Override
 	public void invalidateDrawable(Drawable dr) {
-		if(strict) {
+		if (strict) {
 			throw new UnsupportedOperationException("Not supported");
 		}
 		super.invalidateDrawable(dr);
@@ -649,7 +651,7 @@ public class GestureImageView extends ImageView  {
 
 	@Override
 	public int[] onCreateDrawableState(int extraSpace) {
-		if(strict) {
+		if (strict) {
 			throw new UnsupportedOperationException("Not supported");
 		}
 		return super.onCreateDrawableState(extraSpace);
@@ -657,7 +659,7 @@ public class GestureImageView extends ImageView  {
 
 	@Override
 	public void setAdjustViewBounds(boolean adjustViewBounds) {
-		if(strict) {
+		if (strict) {
 			throw new UnsupportedOperationException("Not supported");
 		}
 		super.setAdjustViewBounds(adjustViewBounds);
@@ -665,7 +667,7 @@ public class GestureImageView extends ImageView  {
 
 	@Override
 	public void setImageLevel(int level) {
-		if(strict) {
+		if (strict) {
 			throw new UnsupportedOperationException("Not supported");
 		}
 		super.setImageLevel(level);
@@ -673,21 +675,21 @@ public class GestureImageView extends ImageView  {
 
 	@Override
 	public void setImageMatrix(Matrix matrix) {
-		if(strict) {
+		if (strict) {
 			throw new UnsupportedOperationException("Not supported");
 		}
 	}
 
 	@Override
 	public void setImageState(int[] state, boolean merge) {
-		if(strict) {
+		if (strict) {
 			throw new UnsupportedOperationException("Not supported");
 		}
 	}
 
 	@Override
 	public void setSelected(boolean selected) {
-		if(strict) {
+		if (strict) {
 			throw new UnsupportedOperationException("Not supported");
 		}
 		super.setSelected(selected);
@@ -697,52 +699,52 @@ public class GestureImageView extends ImageView  {
 	public void setOnTouchListener(OnTouchListener l) {
 		this.customOnTouchListener = l;
 	}
-	
+
 	public float getCenterX() {
 		return centerX;
 	}
-	
+
 	public float getCenterY() {
 		return centerY;
 	}
-	
-	public float getRectLeft(){
+
+	public float getRectLeft() {
 		return rectLeft;
 	}
-	
-	public float getRectTop(){
+
+	public float getRectTop() {
 		return rectTop;
 	}
-	
-	public float getRectRight(){
+
+	public float getRectRight() {
 		return rectRight;
 	}
-	
-	public float getRectBottom(){
+
+	public float getRectBottom() {
 		return rectBottom;
 	}
-	
-	public float getRectStartX(){
+
+	public float getRectStartX() {
 		return rectStartX;
 	}
-	
-	public float getRectStartY(){
+
+	public float getRectStartY() {
 		return rectStartY;
 	}
-	
+
 	public boolean isLandscape() {
-//		return getImageWidth() >= getImageHeight();
+		// return getImageWidth() >= getImageHeight();
 		return fitScaleHorizontal <= fitScaleVertical;
 	}
-	
+
 	public boolean isPortrait() {
 		return getImageWidth() <= getImageHeight();
 	}
-	
+
 	public void setStartingScale(float startingScale) {
 		this.startingScale = startingScale;
 	}
-	
+
 	public void setStartingPosition(float x, float y) {
 		this.startX = x;
 		this.startY = y;
@@ -751,26 +753,27 @@ public class GestureImageView extends ImageView  {
 	@Override
 	public void setOnClickListener(OnClickListener l) {
 		this.onClickListener = l;
-		
-		if(gestureImageViewTouchListener != null) {
+
+		if (gestureImageViewTouchListener != null) {
 			gestureImageViewTouchListener.setOnClickListener(l);
 		}
 	}
 
 	/**
-	 * Returns true if the image dimensions are aligned with the orientation of the device.
+	 * Returns true if the image dimensions are aligned with the orientation of
+	 * the device.
+	 * 
 	 * @return
 	 */
 	public boolean isOrientationAligned() {
-		if(deviceOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+		if (deviceOrientation == Configuration.ORIENTATION_LANDSCAPE) {
 			return isLandscape();
-		}
-		else if(deviceOrientation == Configuration.ORIENTATION_PORTRAIT) {
+		} else if (deviceOrientation == Configuration.ORIENTATION_PORTRAIT) {
 			return isPortrait();
 		}
 		return true;
 	}
-	
+
 	public int getDeviceOrientation() {
 		return deviceOrientation;
 	}

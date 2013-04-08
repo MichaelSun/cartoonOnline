@@ -20,6 +20,8 @@ import com.plugin.common.utils.zip.ZipUtil;
 
 public class Utils {
     
+    private static final boolean DEBUG = AppConfig.DEBUG;
+    
     private static final String SESSION_KEY = "infos";
     
     public static final void asyncUnzipInternalSessions(final Context context, final Handler mHandler) {
@@ -46,6 +48,21 @@ public class Utils {
         }));
     }
     
+    public static final boolean syncUnzipInternalSessions(Context context, String filename) {
+        try {
+            if (DEBUG) {
+                UtilsConfig.LOGD("[[syncUnzipInternalSessions]] filename = " + filename);
+            }
+            
+            InputStream is = context.getAssets().open(filename);
+            return Utils.unzipInputToTarget(is, AppConfig.ROOT_DIR);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    
     public static final SessionInfo getSessionInfo(String sessionPath) {
         UtilsConfig.LOGD("[[getSessionInfo]] sesssion path = " + sessionPath);
         
@@ -63,9 +80,9 @@ public class Utils {
             SessionInfo ret = new SessionInfo();
             ret.name = iniFile.getStringProperty(SESSION_KEY, "name");
             ret.time = iniFile.getStringProperty(SESSION_KEY, "time");
-            ret.cover = iniFile.getStringProperty(SESSION_KEY, "cover");
+            ret.cover = sessionPath + iniFile.getStringProperty(SESSION_KEY, "cover");
             ret.description = iniFile.getStringProperty(SESSION_KEY, "description");
-            ret.path = sessionPath + "/";
+            ret.path = sessionPath;
             ret.sessionName = sessionPath.substring(AppConfig.ROOT_DIR.length());
             
             UtilsConfig.LOGD("[[getSessionInfo]] ret = " + ret.toString());
@@ -113,7 +130,7 @@ public class Utils {
         return false;
     }
     
-    public static String[] getFileCountUnderDir(Context context, String dir) {
+    public static String[] getFileCountUnderAssetsDir(Context context, String dir) {
         if (dir == null || context == null) {
             return null;
         }

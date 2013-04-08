@@ -30,7 +30,8 @@
     <color name="notify_text_pressed">#ffffff</color>
 
     <!-- 红色 -->
-    <color name="red">#ff0000</color>
+    <color name="red">#873324</color>
+    <color name="green">#228B22</color>
     <!-- Publisher Navigation Bar -->
     <color name="publisher_navbar_title">#FFFFFFFF</color>
     <!-- Publisher Recorder -->

@@ -6,6 +6,7 @@
     android:background="@color/transparent"
     android:cacheColorHint="@color/transparent"
     android:layoutAnimation="@anim/layout_bottom_to_top_slide"
-    android:divider="@color/transparent" >
+    android:divider="@color/transparent"
+    android:listSelector="@color/transparent" >
 
 </ListView>

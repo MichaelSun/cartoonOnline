@@ -24,7 +24,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    
+
     <application
         android:name="com.cartoononline.CartoonApplication"
         android:allowBackup="true"
@@ -50,6 +50,34 @@
             android:theme="@style/Theme_ActionBar_Style"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
+
+        <!-- youmi usage -->
+        <meta-data
+            android:name="YOUMI_CHANNEL"
+            android:value="10020" />
+
+        <activity
+            android:name="net.youmi.android.AdBrowser"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+
+        <service
+            android:name="net.youmi.android.AdService"
+            android:exported="false" >
+        </service>
+
+        <receiver android:name="net.youmi.android.AdReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="net.youmi.android.offers.OffersReceiver"
+            android:exported="false" >
+        </receiver>
     </application>
 
 </manifest>

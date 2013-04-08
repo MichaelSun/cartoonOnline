@@ -5,6 +5,7 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import net.youmi.android.spot.SpotManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import android.view.View;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.cache.ICacheStrategy;
-import com.polites.android.GestureImageView;
+import com.polites.android.RegionImageView;
 
 public class AlbumActivity extends BaseActivity {
     
@@ -64,6 +65,12 @@ public class AlbumActivity extends BaseActivity {
         mViewPager.setAdapter(new MyPagerAdapter());
         
         initActionbar();
+    }
+    
+    @Override
+    public void onStart() {
+        super.onStart();
+        SpotManager.getInstance(this.getApplicationContext()).showSpotAds(this);
     }
     
     @Override  
@@ -149,22 +156,58 @@ public class AlbumActivity extends BaseActivity {
                 View v = mViewArray.get(pos);
                 Holder holder = (Holder) v.getTag();
                 holder.imageView.setImageBitmap(mCacheManager.getResource(mSessionName, String.valueOf(pos + 1)));
+                holder.imageView.setImageFullPath(mCacheManager.getResourcePath(mSessionName, String.valueOf(pos + 1)));
+                
+//                //计算startx starty
+//                int width = holder.imageView.getWidth();
+//                int btWidth = holder.imageView.getImageWidth();
+//                int height = holder.imageView.getHeight();
+//                int btHeight = holder.imageView.getImageHeight();
+//                if (width != 0 && btWidth != 0 && height != 0 && btHeight != 0 && btHeight > height && width > btWidth) {
+//                    float scaleX = (float) (width * 1.0 / btWidth);
+//                    float curHeight = btHeight * scaleX;
+//                    float startY = (curHeight - height) / 2;
+//                    
+//                    holder.imageView.setStartingPosition(0, startY);
+//                }
+                
                 ((ViewPager) arg0).addView(v);
             } else {
                 View addView = mLayoutInflater.inflate(R.layout.content_item, null);
                 Holder holder = new Holder();
-                GestureImageView image = (GestureImageView) addView.findViewById(R.id.view_photo_gallery_item_image);
+                RegionImageView image = (RegionImageView) addView.findViewById(R.id.view_photo_gallery_item_image);
                 holder.imageView = image;
                 addView.setTag(holder);
                 
                 image.setIsCrop(true);
                 image.setImageBitmap(mCacheManager.getResource(mSessionName, String.valueOf(pos + 1)));
-
+                image.setImageFullPath(mCacheManager.getResourcePath(mSessionName, String.valueOf(pos + 1)));
+                //计算startx starty
+//                int width = image.getWidth();
+//                int btWidth = image.getImageWidth();
+//                int height = image.getHeight();
+//                int btHeight = image.getImageHeight();
+//                if (width != 0 && btWidth != 0 && height != 0 && btHeight != 0 && btHeight > height && width > btWidth) {
+//                    float scaleX = (float) (width * 1.0 / btWidth);
+//                    float curHeight = btHeight * scaleX;
+//                    float startY = (curHeight - height) / 2;
+                    
+//                    image.setStartingPosition(0, 0);
+//                }
+                
                 mViewArray.add(addView);
                 ((ViewPager) arg0).addView(mViewArray.get(pos));
             }
             
-            return mViewArray.get(pos);
+             View ret = mViewArray.get(pos);
+//             GestureImageView image = (GestureImageView) ret.findViewById(R.id.view_photo_gallery_item_image);
+//             for (GestureImageView imageView : mImageViewArray) {
+//                 if (!imageView.equals(image)) {
+//                     imageView.setImageBitmap(null);
+//                 }
+//             }
+             
+             return ret;
         }
 
         @Override
@@ -186,7 +229,7 @@ public class AlbumActivity extends BaseActivity {
         }
         
         private class Holder {
-            GestureImageView imageView;
+            RegionImageView imageView;
         }
     }
     

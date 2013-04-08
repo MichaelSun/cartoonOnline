@@ -2,7 +2,7 @@ package com.cartoononline;
 
 import java.util.List;
 
-import android.graphics.Bitmap;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,28 +10,25 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cartoononline.model.SessionReadModel;
+
 public class ReaderListAdapter extends BaseAdapter {
 
-    public static final class ReaderItem {
-        public Bitmap image;
-        public String name;
-        public String time;
-        public String description;
-        
-        @Override
-        public String toString() {
-            return "ReaderItem [image=" + image + ", name=" + name + ", time=" + time + ", description=" + description
-                    + "]";
-        }
-    }
-    
-    private List<ReaderItem> mReaderItems;
+    private List<SessionReadModel> mReaderItems;
     
     private LayoutInflater mLayoutInflater;
     
-    public ReaderListAdapter(List<ReaderItem> items, LayoutInflater lf) {
+    private Context mContext;
+    
+    public ReaderListAdapter(List<SessionReadModel> items, LayoutInflater lf, Context context) {
         mReaderItems = items;
         mLayoutInflater = lf;
+        mContext = context;
+    }
+    
+    public void setReadItems(List<SessionReadModel> items) {
+        mReaderItems = items;
+        this.notifyDataSetChanged();
     }
     
     @Override
@@ -62,11 +59,18 @@ public class ReaderListAdapter extends BaseAdapter {
             ret = mLayoutInflater.inflate(R.layout.list_item, null);
         }
         
-        ReaderItem item = mReaderItems.get(position);
+        SessionReadModel item = mReaderItems.get(position);
         
-        ((ImageView) ret.findViewById(R.id.item_icon)).setImageBitmap(item.image);
+        ((ImageView) ret.findViewById(R.id.item_icon)).setImageBitmap(item.coverBt);
         ((TextView) ret.findViewById(R.id.name)).setText(item.name);
         ((TextView) ret.findViewById(R.id.description)).setText(item.description);
+        if (item.isRead != 0) {
+            ((TextView) ret.findViewById(R.id.readstatus)).setText(R.string.readed);
+            ((TextView) ret.findViewById(R.id.readstatus)).setBackgroundResource(R.color.green);
+        } else {
+            ((TextView) ret.findViewById(R.id.readstatus)).setText(R.string.unreaded);
+            ((TextView) ret.findViewById(R.id.readstatus)).setBackgroundResource(R.color.red);
+        }
         
         return ret;
     }

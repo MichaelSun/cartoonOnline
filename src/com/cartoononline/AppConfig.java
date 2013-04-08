@@ -10,6 +10,11 @@ public class AppConfig {
     
     public static final String INTERNAL_SESSION_ONE = ROOT_DIR + "session1/";
     
+    public static final String SESSION_REFIX = "session";
+    
     public static final String INI_FILE = "info.ini";
+    
+    public static final String YOUMI_APP_ID = "53e13f6906527b33";
+    public static final String YOUMI_APP_SECRET_KEY = "e1703eadcc64253b";
     
 }

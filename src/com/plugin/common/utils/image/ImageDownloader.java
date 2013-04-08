@@ -10,7 +10,6 @@ import com.plugin.common.utils.Destroyable;
 import com.plugin.common.utils.SingleInstanceBase;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileDownloader;
-import com.plugin.common.utils.files.FileDownloader.DownloadRequest;
 import com.plugin.internet.core.HttpRequestHookListener;
 
 /**

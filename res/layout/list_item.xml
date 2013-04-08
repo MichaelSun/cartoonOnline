@@ -8,7 +8,8 @@
         android:id="@+id/context_region"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="2dp" >
+        android:padding="2dp"
+        android:background="@drawable/notify_list_selector" >
 
         <ImageView
             android:id="@+id/item_icon"
@@ -42,6 +43,18 @@
             android:paddingTop="3dp"
             android:textColor="@drawable/black"
             android:textSize="18dp" >
+        </TextView>
+
+        <TextView android:id="@+id/readstatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/item_icon"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="6dp"
+            android:padding="2dp"
+            android:textSize="12dp"
+            android:textColor="@color/white" >
         </TextView>
     </RelativeLayout>
 

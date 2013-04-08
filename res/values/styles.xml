@@ -179,4 +179,8 @@
         <item name="android:windowBackground">@null</item>
     </style>
 
+    <declare-styleable name="ArrowView">
+        <attr name="loading_src" format="reference" />
+    </declare-styleable>
+
 </resources>

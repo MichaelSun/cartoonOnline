@@ -1,5 +1,6 @@
 package com.cartoononline;
 
+
 public final class SessionInfo {
 
     @Override

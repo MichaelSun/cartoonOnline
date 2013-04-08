@@ -3,6 +3,9 @@
  */
 package com.plugin.common.utils;
 
+import com.plugin.common.utils.SingleInstanceBase.SingleInstanceManager;
+
+import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
 
@@ -31,6 +34,18 @@ public class UtilsConfig {
 	public static final String IMAGE_CACHE_CATEGORY_THUMB = "image_cache_category_thumb";
 	
 	public static DeviceInfo DEVICE_INFO;
+	
+	/**
+	 * init the utils lib
+	 * 
+	 * @param context
+	 */
+	public static void init(Context context) {
+	    if (context != null) {
+	        SingleInstanceManager.getInstance().init(context.getApplicationContext());
+	        UtilsConfig.DEVICE_INFO = new DeviceInfo(context.getApplicationContext());
+	    }
+	}
 
 	public static void LOGD(String msg, boolean withExtraInfo) {
 		if (UtilsConfig.UTILS_DEBUG) {

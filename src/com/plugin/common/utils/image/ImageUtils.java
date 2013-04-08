@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.lang.reflect.Method;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -27,7 +28,9 @@ public class ImageUtils {
 
     private static final int MAX_SIZE = 400 * 1024;
     
-    private static final long MAX_MEMORY_SIZE = 720 * 720 * 4;
+    private static final long MAX_MEMORY_SIZE = 720 * 1028 * 4;
+    
+    private static final long MAX_WIDTH = 2048;
     
     private static final int MAX_HEIGHT = 2048;
 
@@ -355,7 +358,7 @@ public class ImageUtils {
             BitmapFactory.Options newOpt = new BitmapFactory.Options();
             newOpt.inSampleSize = makeSample(bitmapFile, width, height);
 
-            newOpt.inScaled = true;
+//            newOpt.inScaled = true;
             newOpt.inPurgeable = true;
             newOpt.inInputShareable = true;
 
@@ -514,7 +517,7 @@ public class ImageUtils {
                 Log.d(TAG, "dest insamplesize = " + newOpt.inSampleSize);
             }
 
-            newOpt.inScaled = true;
+//            newOpt.inScaled = true;
             newOpt.inPurgeable = true;
             newOpt.inInputShareable = true;
 
@@ -622,6 +625,31 @@ public class ImageUtils {
     	return null;
     }
     
+    public static Bitmap getBitmapFromRegionDecoder(Rect rect, String srcPath) {
+        Bitmap bmp = null;
+        try {
+            Class<?> clazz = Class.forName("android.graphics.BitmapRegionDecoder");
+            if (clazz != null) {
+                Method newInstanceMethod = clazz.getDeclaredMethod("newInstance", String.class, boolean.class);
+                Object decoder = newInstanceMethod.invoke(null, srcPath, true);
+                Method decodeRegionMethod = clazz.getDeclaredMethod("decodeRegion", Rect.class,
+                        BitmapFactory.Options.class);
+
+                bmp = (Bitmap) decodeRegionMethod.invoke(decoder, rect, null);
+
+                Method recycleMethod = clazz.getDeclaredMethod("recycle");
+                recycleMethod.invoke(decoder);
+
+                return bmp;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public static void printBitmapInfo(String filePath) {
         BitmapFactory.Options opt = new BitmapFactory.Options();
         opt.inPurgeable = true;
@@ -647,7 +675,7 @@ public class ImageUtils {
     	
     	BitmapFactory.Options ret = new BitmapFactory.Options();
     	
-    	ret.inScaled = true;
+//    	ret.inScaled = true;
     	ret.inPurgeable = true;
     	ret.inInputShareable = true;
     	ret.inSampleSize = makeSample(new File(bitmapFilePath), width, height);
@@ -658,7 +686,7 @@ public class ImageUtils {
     public static BitmapFactory.Options createBitmapFactoryOptions(String bitmapFilePath, int targetWidth, int targetHeight) {
     	BitmapFactory.Options ret = new BitmapFactory.Options();
     	
-    	ret.inScaled = true;
+//    	ret.inScaled = true;
     	ret.inPurgeable = true;
     	ret.inInputShareable = true;
     	ret.inSampleSize = makeSample(new File(bitmapFilePath), targetWidth, targetHeight);
@@ -681,6 +709,10 @@ public class ImageUtils {
         } else {
             long times = fileMemorySize / MAX_MEMORY_SIZE;
             sample = (int) (Math.log(times) / Math.log(2.0)) + 1;
+        }
+        
+        if (sample == 1 && (srcBtWidth > MAX_WIDTH || srcBtHeight > MAX_WIDTH)) {
+            sample = 2;
         }
         
         return sample;

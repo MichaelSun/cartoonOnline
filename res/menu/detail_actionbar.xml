@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_load"
+        android:icon="@drawable/actionbar_refresh"
+        android:showAsAction="ifRoom"
+        android:title="@string/refresh">
+    </item>
+    <item
+        android:id="@+id/detail_action_more"
+        android:icon="@drawable/android_db_actionbar_more"
+        android:showAsAction="always"
+        android:title="etc">
+        <menu>
+            <item
+                android:id="@+id/more_apps"
+                android:showAsAction="ifRoom"
+                android:title="@string/more">
+            </item>
+        </menu>
+    </item>
+
+</menu>

@@ -563,8 +563,6 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
 
     @Override
     public void run() {
-        InternetUtils.setHttpReturnListener(mContext, SingleInstanceBase.getInstance(ImageDownloader.class));
-
         while (!bIsStop) {
             waitforUrl();
 
@@ -631,8 +629,6 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
 
             removeRequest(request);
         }
-
-        InternetUtils.setHttpReturnListener(mContext, null);
     }
 
     private void handleResponseByListener(int status, String fetchUrl, Object notfiyObj) {
@@ -705,6 +701,7 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         bIsStop = false;
         mKeepAlive = DEFAULT_KEEPALIVE;
         mListenerList = Collections.synchronizedList(new LinkedList<DownloadListenerObj>());
+        InternetUtils.setHttpReturnListener(mContext, this);
     }
 
 }
