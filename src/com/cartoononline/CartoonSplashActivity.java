@@ -288,19 +288,18 @@ public class CartoonSplashActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a DummySectionFragment (defined as a static inner class
-            // below) with the page number as its lone argument.
-            Fragment fragment = new DummySectionFragment();
-            Bundle args = new Bundle();
-            args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-            fragment.setArguments(args);
-            return fragment;
+            switch (position) {
+            case 0:
+                return new ReaderFragment();
+            case 1:
+                return new DownloadFragment();
+            }
+            
+            return null;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 2;
         }
 
@@ -318,34 +317,32 @@ public class CartoonSplashActivity extends BaseActivity {
         }
     }
 
-    public class DummySectionFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        public static final String ARG_SECTION_NUMBER = "section_number";
+    public class ReaderFragment extends Fragment {
 
-        public DummySectionFragment() {
+        public ReaderFragment() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            // Create a new TextView and set its text to the fragment's section
-            // number argument value.
-            final Button btView = new Button(getActivity());
-            btView.setGravity(Gravity.CENTER);
-            btView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-
-            int index = getArguments().getInt(ARG_SECTION_NUMBER);
-            switch (index) {
-            case 1:
-                return makeReaderView(mLayoutInflater);
-            case 2:
-                return makeDownloadView(mLayoutInflater);
-            }
-
-            return btView;
+            return makeReaderView(mLayoutInflater);
         }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+        }
+    }
+
+    public class DownloadFragment extends Fragment {
+
+        public DownloadFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            return makeDownloadView(mLayoutInflater);
+        }
+
     }
 
     private View makeReaderView(LayoutInflater layoutInflater) {

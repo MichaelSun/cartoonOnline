@@ -9,15 +9,15 @@
         android:layout_height="match_parent"
         android:background="@drawable/background" >
 
-        <android.support.v4.view.PagerTitleStrip
+        <android.support.v4.view.PagerTabStrip
             android:id="@+id/pager_title_strip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@drawable/gray5"
+            android:background="#C0C0C0"
             android:paddingBottom="2dp"
             android:paddingTop="2dp"
-            android:textColor="#fff" />
+            android:textColor="#cb553b" />
     </android.support.v4.view.ViewPager>
 
     <ImageView
