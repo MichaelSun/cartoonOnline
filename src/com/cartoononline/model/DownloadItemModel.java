@@ -6,7 +6,16 @@ import com.plugin.database.dao.annotations.Ignore;
 import com.plugin.database.dao.annotations.PrimaryKey;
 
 public final class DownloadItemModel {
+    
+    @Ignore()
+    public static final int UNDOWNLOAD = 1;
+    @Ignore()
+    public static final int DOWNLOADED = 2;
+    @Ignore()
+    public static final int UNZIPED = 3;
 
+    public String localFullPath;
+    
     public String downloadUrl;
     
     public String sessionName;
@@ -20,10 +29,21 @@ public final class DownloadItemModel {
     @PrimaryKey()
     public int downloadUrlHashCode;
 
-    public int size;
+    public String size;
     
     @Ignore()
     public Bitmap coverBt;
+    
+    @Ignore()
+    public int status;
+    
+    public String getLocalFullPath() {
+        return localFullPath;
+    }
+
+    public void setLocalFullPath(String localFullPath) {
+        this.localFullPath = localFullPath;
+    }
 
     public String getDownloadUrl() {
         return downloadUrl;
@@ -73,11 +93,11 @@ public final class DownloadItemModel {
         this.downloadUrlHashCode = downloadUrlHashCode;
     }
 
-    public int getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(String size) {
         this.size = size;
     }
 

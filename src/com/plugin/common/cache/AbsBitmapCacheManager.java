@@ -128,9 +128,9 @@ abstract class AbsBitmapCacheManager implements ICacheManager<Bitmap> {
                 } else {
                     ret = BitmapDiskTools.getBitmapFromDiskWithReuseBitmap(makeFileKeyName(category, key), null);
                 }
-            }
-            if (ret != null) {
-                cacheBitmapByCategoryAndKey(category, key, ret, false, mLruCache);
+                if (ret != null) {
+                    cacheBitmapByCategoryAndKey(category, key, ret, false, mLruCache);
+                }
             }
         }
 

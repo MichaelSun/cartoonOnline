@@ -37,7 +37,7 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
 
     protected static final boolean SUPPORT_RANGED = true;
 
-    protected static final String INPUT_STREAM_CACHE_PATH = DiskManager
+    protected String INPUT_STREAM_CACHE_PATH = DiskManager
             .tryToFetchCachePathByType(DiskCacheType.INPUTSTREAM_BIG_FILE_CACHE);
 
     /**
@@ -72,7 +72,8 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         
     }
     
-    protected DownloadFilenameCreateListener mDownloadFilenameCreateListener = new DefaultDownloadUrlEncodeListener();
+    protected DownloadFilenameCreateListener mDefaultDownloadFilenameCreateListener = new DefaultDownloadUrlEncodeListener();
+    protected DownloadFilenameCreateListener mDownloadFilenameCreateListener = mDefaultDownloadFilenameCreateListener;
     
     public static final int DOWNLOAD_SUCCESS = 10001;
     public static final int DOWNLOAD_FAILED = 20001;
@@ -256,6 +257,29 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         return SingleInstanceBase.getInstance(FileDownloader.class);
     }
 
+    public void setDownloadDir(String dirFullPath) {
+        if (!TextUtils.isEmpty(dirFullPath)) {
+            File dirFile = new File(dirFullPath);
+            if (dirFile.exists() && dirFile.isFile()) {
+                dirFile.delete();
+            }
+            
+            boolean mkSuccess = false;
+            if (!dirFile.exists()) {
+                mkSuccess = dirFile.mkdirs();
+            } else {
+                mkSuccess = true;
+            }
+            
+            if (mkSuccess) {
+                INPUT_STREAM_CACHE_PATH = dirFullPath;
+                return;
+            }
+        }
+        
+        throw new IllegalArgumentException("Can't make dir : " + dirFullPath);
+    }
+    
     protected FileDownloader() {
         super();
     }
@@ -410,10 +434,6 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         bIsWaiting = false;
     }
 
-    private String pathFilter(String src) {
-        return src.replace(":", "+").replace("/", "_").replace(".", "-");
-    }
-
     @Override
     public void onCheckRequestHeaders(String requestUrl, HttpRequestBase request) {
         if (request == null) {
@@ -423,7 +443,9 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         if (SUPPORT_RANGED) {
             // 目前只有大文件下载才会做此接口回调，在此回调中可以增加断点续传
             if (request instanceof HttpGet) {
-                String saveFile = pathFilter(requestUrl);
+                String saveFile = mDownloadFilenameCreateListener != null 
+                                    ? mDownloadFilenameCreateListener.onFilenameCreateWithDownloadUrl(requestUrl)
+                                    : mDefaultDownloadFilenameCreateListener.onFilenameCreateWithDownloadUrl(requestUrl);
                 File bigCacheFile = new File(INPUT_STREAM_CACHE_PATH);
                 if (!bigCacheFile.exists() || !bigCacheFile.isDirectory()) {
                     bigCacheFile.delete();
@@ -451,7 +473,9 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         }
 
         if (is != null) {
-            String saveUrl = pathFilter(requestUrl);
+            String saveUrl = mDownloadFilenameCreateListener != null 
+                    ? mDownloadFilenameCreateListener.onFilenameCreateWithDownloadUrl(requestUrl)
+                    : mDefaultDownloadFilenameCreateListener.onFilenameCreateWithDownloadUrl(requestUrl);
             File bigCacheFile = new File(INPUT_STREAM_CACHE_PATH);
             if (!bigCacheFile.exists() || !bigCacheFile.isDirectory()) {
                 bigCacheFile.delete();
@@ -629,6 +653,8 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
 
             removeRequest(request);
         }
+        
+        System.gc();
     }
 
     private void handleResponseByListener(int status, String fetchUrl, Object notfiyObj) {

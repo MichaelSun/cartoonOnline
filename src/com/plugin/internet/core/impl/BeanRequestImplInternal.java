@@ -48,9 +48,7 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 	private static final String KEY_CLIENT_INFO = "client_info";
 	private static final String KEY_CALL_ID = "call_id";
 
-	// 20130326 mcr域名修改
-	private static final String MCR_BASE_URL = "http://db.t.qxmid.com/api";
-	private static final String BASE_URL = "";
+	private static final String BASE_URL = "http://booklink.sinaapp.com/";
 
 	private static BeanRequestImplInternal mInstance;
 
@@ -158,7 +156,7 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 		if (baseParams.containsKey("method")) {
 			method = baseParams.getString(KEY_METHOD);
 			baseParams.remove(KEY_METHOD);
-			api_url = api_url + "/" + method.replace(".", "/");
+			api_url = api_url + method;
 		} else {
 			if (!ignore && mHttpHookListener != null) {
 				mHttpHookListener.onHttpConnectError(NetWorkException.MISS_API_NAME, "缺少Rest API Method的名字", request);
@@ -167,23 +165,23 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 			throw new NetWorkException(NetWorkException.MISS_API_NAME, "缺少Rest API Method的名字", null);
 		}
 
-		if (!baseParams.containsKey(KEY_CLIENT_INFO)) {
-			if (mBaseApiInfo.containsKey(KEY_CLIENT_INFO)) {
-				baseParams.putString(KEY_CLIENT_INFO, mBaseApiInfo.get(KEY_CLIENT_INFO));
-			}
-		}
+//		if (!baseParams.containsKey(KEY_CLIENT_INFO)) {
+//			if (mBaseApiInfo.containsKey(KEY_CLIENT_INFO)) {
+//				baseParams.putString(KEY_CLIENT_INFO, mBaseApiInfo.get(KEY_CLIENT_INFO));
+//			}
+//		}
 
-		baseParams.putString(KEY_APPID, mBaseApiInfo.get(KEY_APPID));
-		baseParams.putString(KEY_VERSION, mBaseApiInfo.get(KEY_VERSION));
-		baseParams.putString(KEY_GZ, mBaseApiInfo.get(KEY_GZ));
-		baseParams.putString(KEY_CALL_ID, String.valueOf(System.currentTimeMillis()));
+//		baseParams.putString(KEY_APPID, mBaseApiInfo.get(KEY_APPID));
+//		baseParams.putString(KEY_VERSION, mBaseApiInfo.get(KEY_VERSION));
+//		baseParams.putString(KEY_GZ, mBaseApiInfo.get(KEY_GZ));
+//		baseParams.putString(KEY_CALL_ID, String.valueOf(System.currentTimeMillis()));
 		// baseParams.putString(KEY_GZ, mBaseApiInfo.get(KEY_GZ));
-		String secret_key = "";
-		if (sessionConfig == RequestBase.NEED_TICKET) {
-			secret_key = mBaseApiInfo.get(KEY_USER_SECRETKEY);
-			baseParams.putString(KEY_TICKET, mBaseApiInfo.get(KEY_TICKET));
-		}
-		baseParams.putString(KEY_SIG, getSig(baseParams, secret_key));
+//		String secret_key = "";
+//		if (sessionConfig == RequestBase.NEED_TICKET) {
+//			secret_key = mBaseApiInfo.get(KEY_USER_SECRETKEY);
+//			baseParams.putString(KEY_TICKET, mBaseApiInfo.get(KEY_TICKET));
+//		}
+//		baseParams.putString(KEY_SIG, getSig(baseParams, secret_key));
 
 		// send the http info to hook listener
 		if (mHttpHookListener != null) {
@@ -208,9 +206,8 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 				}
 			}
 
-			UtilsConfig.LOGD("\n\n//***\n| [[RRConnect::request::" + request + "]] \n" + "| RestAPI URL = " + api_url
-					+ "\n| after getSig bundle params is = \n" + param + "|    secret key = " + secret_key
-					+ " \n\\\\***\n");
+            UtilsConfig.LOGD("\n\n//***\n| [[request::" + request + "]] \n" + "| RestAPI URL = " + api_url
+                    + "\n| after getSig bundle params is = \n" + param + " \n\\\\***\n");
 		}
 
 		int size = 0;
@@ -280,7 +277,7 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 					.append("//***\n")
 					.append("| ------------- begin response ------------\n")
 					.append("|\n")
-					.append("| [[RRConnect::request::" + request + "]] " + " cost time from entry : "
+					.append("| [[request::" + request + "]] " + " cost time from entry : "
 							+ (endTime - entryTime) + "ms. " + "raw response String = \n");
 			UtilsConfig.LOGD(sb.toString());
 			sb.setLength(0);
@@ -344,8 +341,8 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 			// }
 		}
 
-		JsonErrorResponse failureResponse = JsonUtils.parseError(response);
-		if (failureResponse == null) {
+//		JsonErrorResponse failureResponse = JsonUtils.parseError(response);
+//		if (failureResponse == null) {
 //			if (!TextUtils.isEmpty(method) && method.equals("batch.batchRun")) {
 //				// 特殊处理batch.batchRun
 //				BatchRunResponse responeObj = new BatchRunResponse();
@@ -391,13 +388,13 @@ class BeanRequestImplInternal implements BeanRequestInterface {
 				}
 				return ret;
 //			}
-		} else {
-			if (!ignore && mHttpHookListener != null) {
-				mHttpHookListener.onHttpConnectError(failureResponse.errorCode, failureResponse.errorMsg, request);
-			}
-
-			throw new NetWorkException(failureResponse.errorCode, failureResponse.errorMsg, response);
-		}
+//		} else {
+//			if (!ignore && mHttpHookListener != null) {
+//				mHttpHookListener.onHttpConnectError(failureResponse.errorCode, failureResponse.errorMsg, request);
+//			}
+//
+//			throw new NetWorkException(failureResponse.errorCode, failureResponse.errorMsg, response);
+//		}
 	}
 
 	@Override
