@@ -63,11 +63,21 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/item_icon"
             android:layout_marginRight="6dp"
-            android:layout_marginTop="16dp"
+            android:layout_centerVertical="true"
             android:padding="2dp"
             android:textColor="@color/white"
             android:textSize="12dp" >
         </TextView>
+
+        <ProgressBar
+            android:id="@+id/download_progress"
+            style="@android:style/Widget.ProgressBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <View

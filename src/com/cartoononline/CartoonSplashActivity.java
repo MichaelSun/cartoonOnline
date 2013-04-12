@@ -33,9 +33,12 @@ import com.cartoononline.api.NewSessionRequest;
 import com.cartoononline.api.NewSessionResponse;
 import com.cartoononline.api.NewSessionResponse.SessionItem;
 import com.cartoononline.model.DownloadItemModel;
+import com.cartoononline.model.DownloadModel;
 import com.cartoononline.model.SessionReadModel;
 import com.plugin.common.utils.CustomThreadPool;
 import com.plugin.common.utils.CustomThreadPool.TaskWrapper;
+import com.plugin.common.utils.DataModelBase.DataDownloadListener;
+import com.plugin.common.utils.SingleInstanceBase;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileDownloader.DownloadListener;
 import com.plugin.common.utils.files.FileInfo;
@@ -67,11 +70,12 @@ public class CartoonSplashActivity extends BaseActivity {
     private ProgressDialog mProgress;
 
     private DBTableAccessHelper<SessionReadModel> mHelper;
-    private DBTableAccessHelper<DownloadItemModel> mDownloadHelper;
 
     private List<SessionReadModel> mShowSessionList;
 
-    private List<DownloadItemModel> mDownloadList;
+    private List<DownloadItemModel> mDownloadList = new ArrayList<DownloadItemModel>();
+
+    private DownloadModel mDownloadModel;
 
     private ReaderListAdapter mReaderListAdapter;
 
@@ -82,6 +86,7 @@ public class CartoonSplashActivity extends BaseActivity {
     public static final int REFRESH_READER_LIST = 10001;
     public static final int NOTIFY_DATA_CHANGED = 10002;
     public static final int NOTIFY_DOWNLOAD_CHANGED = 10003;
+    public static final int DISSMISS_PROGRESS = 10004;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -103,11 +108,16 @@ public class CartoonSplashActivity extends BaseActivity {
                 break;
             case NOTIFY_DOWNLOAD_CHANGED:
                 if (mDownlaodListAdapter == null) {
-                    mDownlaodListAdapter = new DownloadItemAdapter(mDownloadList, mLayoutInflater);
+                    mDownlaodListAdapter = new DownloadItemAdapter(CartoonSplashActivity.this, mDownloadList, mLayoutInflater);
                     mDownloadListView.setAdapter(mDownlaodListAdapter);
                 } else {
                     mDownlaodListAdapter.setData(mDownloadList);
                 }
+                if (mProgress.isShowing()) {
+                    mProgress.dismiss();
+                }
+                break;
+            case DISSMISS_PROGRESS:
                 if (mProgress.isShowing()) {
                     mProgress.dismiss();
                 }
@@ -123,7 +133,7 @@ public class CartoonSplashActivity extends BaseActivity {
         mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         mHelper = new DBTableAccessHelper<SessionReadModel>(this.getApplicationContext(), SessionReadModel.class);
-        mDownloadHelper = new DBTableAccessHelper<DownloadItemModel>(this.getApplicationContext(), DownloadItemModel.class);
+        mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
 
         initActionbar();
         initProgressBar();
@@ -148,41 +158,10 @@ public class CartoonSplashActivity extends BaseActivity {
                 LOGD("<<<<< on select page : " + arg0 + " >>>>>");
                 mCurPageIndex = arg0;
                 if (mCurPageIndex == 1) {
-                    mProgress.show();
-                }
-                CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            NewSessionResponse response = InternetUtils.request(getApplicationContext(), new NewSessionRequest(0));
-                            LOGD("[[:::::::::]] response = " + response);
-                            
-                            if (response.items != null) {
-                                DownloadItemModel[] saveData = new DownloadItemModel[response.items.length];
-                                for (int index = 0; index < response.items.length; ++index) {
-                                    SessionItem item = response.items[index];
-                                    DownloadItemModel ditem = new DownloadItemModel();
-                                    ditem.coverUrl = item.imageUrl;
-                                    ditem.description = item.description;
-                                    ditem.downloadUrl = item.downloadUrl;
-                                    ditem.downloadUrlHashCode = item.downloadUrl.hashCode();
-                                    ditem.sessionName = item.name;
-                                    ditem.size = item.size;
-                                    saveData[index] = ditem;
-                                }
-                                
-                                mDownloadHelper.blukInsertOrReplace(saveData);
-                                
-                                mDownloadList.clear();
-                                mDownloadList = mDownloadHelper.queryItems();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        
-                        mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
+                    if (mDownloadList == null || mDownloadList.size() == 0) {
+                        loadDownloadData(false);
                     }
-                }));
+                }
             }
 
         });
@@ -221,6 +200,8 @@ public class CartoonSplashActivity extends BaseActivity {
                 asyncCheckInternalContent();
                 break;
             case 1:
+                mDownloadModel.resetPageNo();
+                loadDownloadData(true);
                 break;
             }
             break;
@@ -306,6 +287,31 @@ public class CartoonSplashActivity extends BaseActivity {
         }
     }
 
+    public void loadDownloadData(final boolean repalceOld) {
+        mProgress.show();
+        mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
+
+            @Override
+            public void onDataLoadSuccess(Object loadData) {
+                if (loadData != null) {
+                    if (repalceOld) {
+                        mDownloadList.clear();
+                    }
+                    mDownloadList.addAll((List<DownloadItemModel>) loadData);
+                    checkDownloadItemStatus(mDownloadList);
+                    mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
+                }
+            }
+
+            @Override
+            public void onDataLoadFailed(Object errorData) {
+                LOGD("failed to load page " + (Integer) errorData);
+                mHandler.sendEmptyMessage(DISSMISS_PROGRESS);
+            }
+
+        });
+    }
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -320,7 +326,7 @@ public class CartoonSplashActivity extends BaseActivity {
             case 1:
                 return new DownloadFragment();
             }
-            
+
             return null;
         }
 
@@ -410,6 +416,22 @@ public class CartoonSplashActivity extends BaseActivity {
                                 FileInfo finfo = FileUtil.getFileInfo(m.localFullPath);
                                 FileOperatorHelper.DeleteFile(finfo);
 
+                                if (!TextUtils.isEmpty(m.srcURI) && !m.srcURI.startsWith("assets")) {
+                                    try {
+                                        DownloadItemModel dm = new DownloadItemModel();
+                                        dm.setDownloadUrlHashCode(m.srcURI.hashCode());
+                                        DownloadItemModel data = mDownloadModel.getItem(dm);
+                                        mDownloadModel.deleteItemModel(dm);
+                                        
+                                        File zipFile = new File(data.localFullPath);
+                                        zipFile.delete();
+                                        
+                                        asyncLoadDataLocal();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                
                                 mHelper.delete(m);
                                 mShowSessionList.remove(m);
                                 mHandler.sendEmptyMessage(NOTIFY_DATA_CHANGED);
@@ -430,122 +452,52 @@ public class CartoonSplashActivity extends BaseActivity {
 
     private View makeDownloadView(LayoutInflater layoutInflater) {
         mDownloadListView = (ListView) layoutInflater.inflate(R.layout.main_list, null);
-        mDownloadList = makeDownloadItems();
-
-        mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
+        asyncLoadDataLocal();
 
         return mDownloadListView;
     }
-
-    private View makeDownloadViewTest(LayoutInflater layoutInflater) {
-        mDownloadView = layoutInflater.inflate(R.layout.download_content, null);
-        final ProgressBar progress = (ProgressBar) mDownloadView.findViewById(R.id.progress);
-        final TextView textView1 = (TextView) mDownloadView.findViewById(R.id.textView1);
-
-        // 整个文佳大小需要从服务器下载
-        final int totalSize = 181843;
-        progress.setMax(totalSize);
-        textView1.setText("0%");
-
-        View bt = mDownloadView.findViewById(R.id.download);
-        bt.setOnClickListener(new View.OnClickListener() {
+    
+    private void asyncLoadDataLocal() {
+        mDownloadModel.asyncLoadDataLocal(new DataDownloadListener() {
 
             @Override
-            public void onClick(View v) {
-                final ImageFetchRequest request = new ImageFetchRequest(
-                        "http://image.zcool.com.cn/img3/55/58/1364540828542.jpg");
-                ImageDownloader.getInstance(getApplicationContext()).postRequest(request, new DownloadListener() {
-
-                    @Override
-                    public void onDownloadProcess(int fileSize, final int downloadSize) {
-                        UtilsConfig.LOGD("Total file size = " + fileSize + " has download size = " + downloadSize);
-
-                        // test cancel downalod
-                        if (stopCount < 2 && downloadSize > 4096 * 4) {
-                            UtilsConfig.LOGD("try to cancel download when download size = " + 4096 * 4);
-                            stopCount++;
-                            request.cancelDownload();
-                        }
-
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                progress.setProgress(downloadSize);
-                                textView1.setText(String.valueOf(((int) ((1.0) * downloadSize / totalSize * 100)))
-                                        + "%");
-                            }
-
-                        });
-                    }
-
-                    @Override
-                    public void onDownloadFinished(int status, Object response) {
-                        if (status == ImageDownloader.DOWNLOAD_SUCCESS) {
-                            final ImageFetchResponse r = (ImageFetchResponse) response;
-
-                            UtilsConfig.LOGD(response + "");
-                            if (r != null && r.getmBt() != null) {
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        ImageView iv = (ImageView) mDownloadView.findViewById(R.id.show);
-                                        iv.setImageBitmap(r.getmBt());
-                                    }
-                                });
-                            }
-                        }
-                    }
-
-                });
-            }
-        });
-
-        return mDownloadView;
-    }
-
-    private List<DownloadItemModel> makeDownloadItems() {
-        List<DownloadItemModel> ret = new ArrayList<DownloadItemModel>();
-        
-        List<DownloadItemModel> lists = mDownloadHelper.queryItems();
-        if (lists != null) {
-            for (DownloadItemModel item : lists) {
-                if (!TextUtils.isEmpty(item.localFullPath)) {
-                    File localFile = new File(item.localFullPath);
-                    if (localFile.exists()) {
-                        item.status = DownloadItemModel.UNDOWNLOAD;
-                    }
-                    //TODO: check if the file is unziped
+            public void onDataLoadSuccess(Object loadData) {
+                if (loadData != null) {
+                    List<DownloadItemModel> ret = (List<DownloadItemModel>) loadData;
+                    checkDownloadItemStatus(ret);
+                    mDownloadList.clear();
+                    mDownloadList.addAll(ret);
+                    mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
                 } else {
-                    item.status = DownloadItemModel.UNDOWNLOAD;
+                    mDownloadList.clear();
+                    mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
                 }
             }
-        }
-        
-        ret.addAll(lists);
-        return ret;
+
+            @Override
+            public void onDataLoadFailed(Object errorData) {
+                mHandler.sendEmptyMessage(DISSMISS_PROGRESS);
+            }
+
+        });
     }
-    
+
+    private void checkDownloadItemStatus(List<DownloadItemModel> data) {
+        for (DownloadItemModel item : data) {
+            if (!TextUtils.isEmpty(item.localFullPath)) {
+                File localFile = new File(item.localFullPath);
+                if (localFile.exists()) {
+                    item.status = DownloadItemModel.DOWNLOADED;
+                }
+                // TODO: check if the file is unziped
+            } else {
+                item.status = DownloadItemModel.UNDOWNLOAD;
+            }
+        }
+    }
+
     private List<SessionReadModel> makeReaderItems() {
         List<SessionReadModel> ret = new ArrayList<SessionReadModel>();
-        // File root = new File(AppConfig.ROOT_DIR);
-        // String[] files = root.list(new FilenameFilter() {
-        //
-        // @Override
-        // public boolean accept(File dir, String filename) {
-        // if (!filename.startsWith("session")) {
-        // return false;
-        // }
-        //
-        // String fileFullname = dir.getAbsolutePath() + "/" + filename;
-        // File f = new File(fileFullname);
-        // if (f.isDirectory()) {
-        // return true;
-        // }
-        // return false;
-        // }
-        //
-        // });
-
         List<SessionReadModel> lists = mHelper.queryItems();
         if (lists != null) {
             for (SessionReadModel m : lists) {
@@ -556,24 +508,6 @@ public class CartoonSplashActivity extends BaseActivity {
                 }
             }
         }
-
-        // if (files != null && files.length > 0) {
-        // for (String name : files) {
-        // ReaderItem item = new ReaderItem();
-        // SessionInfo sinfo = Utils.getSessionInfo(AppConfig.ROOT_DIR + name);
-        // UtilsConfig.LOGD( "" + sinfo);
-        // if (sinfo != null) {
-        // item.name = sinfo.name;
-        // item.description = sinfo.description;
-        // item.image = ImageUtils.loadBitmapWithSizeCheck(new
-        // File(AppConfig.ROOT_DIR + name + "/" + sinfo.cover));
-        // item.time = sinfo.time;
-        //
-        // ret.add(item);
-        // mListSessionInfos.add(sinfo);
-        // }
-        // }
-        // }
 
         if (AppConfig.DEBUG) {
             for (SessionReadModel item : ret) {

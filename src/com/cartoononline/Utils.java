@@ -109,6 +109,22 @@ public class Utils {
         return false;
     }
     
+    public static final boolean unzipSrcToTarget(String src, String targetDirPath) {
+        if (!TextUtils.isEmpty(targetDirPath) && !TextUtils.isEmpty(src)) {
+            File target = new File(targetDirPath);
+            if (target.exists() && !target.isDirectory()) {
+                target.delete();
+            }
+            if (!target.exists()) {
+                target.mkdirs();
+            }
+            
+            return ZipUtil.UnZipFile(src, targetDirPath);
+        }
+        
+        return false;
+    }
+    
     public static final boolean saveAssetsFileToDest(Context context, String fileName, String destPath) {
         if (!TextUtils.isEmpty(fileName) && !TextUtils.isEmpty(destPath)) {
             try {

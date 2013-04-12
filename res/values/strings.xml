@@ -10,6 +10,8 @@
     <string name="delete_tips" formatted="false">是否要删除%s</string>
     <string name="cancel">取消</string>
     <string name="ok">删除</string>
+    <string name="delete">删除</string>
+    <string name="download">下载</string>
 
     <!-- RefreshListView -->
     <string name="refresh_listview_header_hint_normal">下拉刷新列表&#8230;</string>
@@ -17,5 +19,13 @@
     <string name="refresh_listview_header_hint_loading">加载中&#8230;</string>
     <string name="refresh_listview_footer_hint_normal">加载中&#8230;</string>
     <string name="refresh_listview_the_end">没有更多信息</string>
-
+    
+    <string name="downloaded">已下载</string>
+    <string name="undownload">未下载</string>
+    <string name="unziped">以解压</string>
+    <string name="unknown">未知</string>
+    
+    <string name="download_tips" formatted="false">是否要下载%s</string>
+    
+    <item name="is_downloading" type="id"></item>
 </resources>

@@ -222,6 +222,12 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
             return mRequest;
         }
 
+        @Override
+        public String toString() {
+            return "DownloadResponse [mDownloadUrl=" + mDownloadUrl + ", mLocalRawPath=" + mLocalRawPath
+                    + ", mRequest=" + mRequest + "]";
+        }
+
     }
 
     public static interface WorkListener {
