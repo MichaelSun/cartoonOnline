@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
+import com.cartoononline.model.SessionModel;
 import com.cartoononline.model.SessionReadModel;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
@@ -46,8 +47,6 @@ import com.plugin.database.dao.helper.DBTableAccessHelper;
 public class DownloadItemAdapter extends BaseAdapter {
 
     private List<DownloadItemModel> mDownloadItemModelList;
-    
-    private DBTableAccessHelper<SessionReadModel> mHelper;
     
     private LayoutInflater mLayoutInflater;
     
@@ -109,7 +108,6 @@ public class DownloadItemAdapter extends BaseAdapter {
         mFileDownloader = SingleInstanceBase.getInstance(FileDownloader.class);
         initProgressBar();
         initUnZipProgressBar();
-        mHelper = new DBTableAccessHelper<SessionReadModel>(a.getApplicationContext(), SessionReadModel.class);
     }
     
     private void asyncUnzipSession(final DownloadItemModel r) {
@@ -155,8 +153,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                                 m.sessionMakeTime = sInfo.time;
                                 m.unzipTime = System.currentTimeMillis();
                                 m.localFullPathHashCode = m.localFullPath.hashCode();
-                                mHelper.insertOrReplace(m);
-                                
+                                SingleInstanceBase.getInstance(SessionModel.class).insertOrRelace(m);
                                 SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(r);
                                 
                                 mHandler.sendEmptyMessage(DISMISS_UNZIP_DIALOG);

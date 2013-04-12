@@ -24,32 +24,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.cartoononline.api.NewSessionRequest;
-import com.cartoononline.api.NewSessionResponse;
-import com.cartoononline.api.NewSessionResponse.SessionItem;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
+import com.cartoononline.model.SessionModel;
 import com.cartoononline.model.SessionReadModel;
 import com.plugin.common.utils.CustomThreadPool;
 import com.plugin.common.utils.CustomThreadPool.TaskWrapper;
 import com.plugin.common.utils.DataModelBase.DataDownloadListener;
 import com.plugin.common.utils.SingleInstanceBase;
 import com.plugin.common.utils.UtilsConfig;
-import com.plugin.common.utils.files.FileDownloader.DownloadListener;
 import com.plugin.common.utils.files.FileInfo;
 import com.plugin.common.utils.files.FileOperatorHelper;
 import com.plugin.common.utils.files.FileUtil;
-import com.plugin.common.utils.image.ImageDownloader;
-import com.plugin.common.utils.image.ImageDownloader.ImageFetchRequest;
-import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
-import com.plugin.common.utils.image.ImageUtils;
-import com.plugin.database.dao.helper.DBTableAccessHelper;
-import com.plugin.internet.InternetUtils;
 
 public class CartoonSplashActivity extends BaseActivity {
 
@@ -65,17 +53,15 @@ public class CartoonSplashActivity extends BaseActivity {
 
     private ListView mDownloadListView;
 
-    private View mDownloadView;
-
     private ProgressDialog mProgress;
 
-    private DBTableAccessHelper<SessionReadModel> mHelper;
-
-    private List<SessionReadModel> mShowSessionList;
+    private List<SessionReadModel> mShowSessionList = new ArrayList<SessionReadModel>();
 
     private List<DownloadItemModel> mDownloadList = new ArrayList<DownloadItemModel>();
 
     private DownloadModel mDownloadModel;
+    
+    private SessionModel mSessionModel;
 
     private ReaderListAdapter mReaderListAdapter;
 
@@ -91,13 +77,11 @@ public class CartoonSplashActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case REFRESH_READER_LIST:
-                mShowSessionList = makeReaderItems();
-                mHandler.sendEmptyMessage(NOTIFY_DATA_CHANGED);
+                break;
+            case NOTIFY_DATA_CHANGED:
                 if (mProgress.isShowing()) {
                     mProgress.dismiss();
                 }
-                break;
-            case NOTIFY_DATA_CHANGED:
                 if (mReaderListAdapter == null) {
                     mReaderListAdapter = new ReaderListAdapter(mShowSessionList, mLayoutInflater,
                             CartoonSplashActivity.this.getApplicationContext());
@@ -132,8 +116,8 @@ public class CartoonSplashActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        mHelper = new DBTableAccessHelper<SessionReadModel>(this.getApplicationContext(), SessionReadModel.class);
         mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
+        mSessionModel = SingleInstanceBase.getInstance(SessionModel.class);
 
         initActionbar();
         initProgressBar();
@@ -157,10 +141,17 @@ public class CartoonSplashActivity extends BaseActivity {
             public void onPageSelected(int arg0) {
                 LOGD("<<<<< on select page : " + arg0 + " >>>>>");
                 mCurPageIndex = arg0;
-                if (mCurPageIndex == 1) {
+                switch (mCurPageIndex) {
+                case 0:
+                    if (mSessionModel.isDataChanged()) {
+                        loadSessionData();
+                    }
+                    break;
+                case 1:
                     if (mDownloadList == null || mDownloadList.size() == 0) {
                         loadDownloadData(false);
                     }
+                    break;
                 }
             }
 
@@ -251,7 +242,7 @@ public class CartoonSplashActivity extends BaseActivity {
                                 m.sessionMakeTime = sInfo.time;
                                 m.unzipTime = System.currentTimeMillis();
                                 m.localFullPathHashCode = m.localFullPath.hashCode();
-                                mHelper.insertOrReplace(m);
+                                mSessionModel.insertOrRelace(m);
                             }
                         } else {
                             File tFile = new File(targetPath);
@@ -263,12 +254,12 @@ public class CartoonSplashActivity extends BaseActivity {
         }
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(200);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        mHandler.sendEmptyMessage(CartoonSplashActivity.REFRESH_READER_LIST);
+        loadSessionData();
     }
 
     private void initActionbar() {
@@ -377,9 +368,31 @@ public class CartoonSplashActivity extends BaseActivity {
 
     }
 
+    private void loadSessionData() {
+        mSessionModel.asyncLoadDataLocal(new DataDownloadListener() {
+
+            @Override
+            public void onDataLoadSuccess(Object loadData) {
+                if (loadData != null) {
+                    mShowSessionList.clear();
+                    mShowSessionList.addAll((List<SessionReadModel>) loadData);
+                    
+                    mHandler.sendEmptyMessage(NOTIFY_DATA_CHANGED);
+                }
+            }
+
+            @Override
+            public void onDataLoadFailed(Object errorData) {
+                // TODO Auto-generated method stub
+                
+            }
+
+        });
+    }
+    
     private View makeReaderView(LayoutInflater layoutInflater) {
         mReaderListView = (ListView) layoutInflater.inflate(R.layout.main_list, null);
-        mShowSessionList = makeReaderItems();
+        loadSessionData();
         mReaderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -393,7 +406,7 @@ public class CartoonSplashActivity extends BaseActivity {
                 startActivity(intent);
 
                 m.isRead = 1;
-                mHelper.update(m);
+                mSessionModel.updateItem(m);
             }
         });
         mReaderListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -432,7 +445,7 @@ public class CartoonSplashActivity extends BaseActivity {
                                     }
                                 }
                                 
-                                mHelper.delete(m);
+                                mSessionModel.deleteItem(m);
                                 mShowSessionList.remove(m);
                                 mHandler.sendEmptyMessage(NOTIFY_DATA_CHANGED);
                             }
@@ -496,27 +509,27 @@ public class CartoonSplashActivity extends BaseActivity {
         }
     }
 
-    private List<SessionReadModel> makeReaderItems() {
-        List<SessionReadModel> ret = new ArrayList<SessionReadModel>();
-        List<SessionReadModel> lists = mHelper.queryItems();
-        if (lists != null) {
-            for (SessionReadModel m : lists) {
-                File localFile = new File(m.localFullPath);
-                if (localFile.exists() && localFile.isDirectory()) {
-                    m.coverBt = ImageUtils.loadBitmapWithSizeCheck(new File(m.coverPath));
-                    ret.add(m);
-                }
-            }
-        }
-
-        if (AppConfig.DEBUG) {
-            for (SessionReadModel item : ret) {
-                UtilsConfig.LOGD(item.toString());
-            }
-        }
-
-        return ret;
-    }
+//    private List<SessionReadModel> makeReaderItems() {
+//        List<SessionReadModel> ret = new ArrayList<SessionReadModel>();
+//        List<SessionReadModel> lists = mHelper.queryItems();
+//        if (lists != null) {
+//            for (SessionReadModel m : lists) {
+//                File localFile = new File(m.localFullPath);
+//                if (localFile.exists() && localFile.isDirectory()) {
+//                    m.coverBt = ImageUtils.loadBitmapWithSizeCheck(new File(m.coverPath));
+//                    ret.add(m);
+//                }
+//            }
+//        }
+//
+//        if (AppConfig.DEBUG) {
+//            for (SessionReadModel item : ret) {
+//                UtilsConfig.LOGD(item.toString());
+//            }
+//        }
+//
+//        return ret;
+//    }
 
     private static void LOGD(String msg) {
         if (AppConfig.DEBUG) {
