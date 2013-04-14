@@ -29,6 +29,9 @@
     
     <item name="is_downloading" type="id"></item>
     
-    <string name="local">本地漫画</string>
-    <string name="server">书城</string>
+    <string name="local">本地图书</string>
+    <string name="server">漫画书城</string>
+    <string name="more">更多图书</string>
+    
+    <string name="more_tips">更多图书稍后公开，敬请期待，各种你想看的哦，你懂的~</string>
 </resources>

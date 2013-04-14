@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.cartoononline.fragment.MoreBookFragment;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
 import com.cartoononline.model.SessionModel;
@@ -60,7 +61,7 @@ public class CartoonSplashActivity extends BaseActivity {
     private List<DownloadItemModel> mDownloadList = new ArrayList<DownloadItemModel>();
 
     private DownloadModel mDownloadModel;
-    
+
     private SessionModel mSessionModel;
 
     private ReaderListAdapter mReaderListAdapter;
@@ -92,7 +93,8 @@ public class CartoonSplashActivity extends BaseActivity {
                 break;
             case NOTIFY_DOWNLOAD_CHANGED:
                 if (mDownlaodListAdapter == null) {
-                    mDownlaodListAdapter = new DownloadItemAdapter(CartoonSplashActivity.this, mDownloadList, mLayoutInflater);
+                    mDownlaodListAdapter = new DownloadItemAdapter(CartoonSplashActivity.this, mDownloadList,
+                            mLayoutInflater);
                     mDownloadListView.setAdapter(mDownlaodListAdapter);
                 } else {
                     mDownlaodListAdapter.setData(mDownloadList);
@@ -305,25 +307,34 @@ public class CartoonSplashActivity extends BaseActivity {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        private ArrayList<Fragment> mItems;
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            mItems = new ArrayList<Fragment>();
         }
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-            case 0:
-                return new ReaderFragment();
-            case 1:
-                return new DownloadFragment();
+            LOGD("[[getitem]] position = " + position + " mItems size = " + mItems.size());
+
+            if (mItems.size() <= position) {
+                switch (position) {
+                case 0:
+                    mItems.add(new ReaderFragment());
+                case 1:
+                    mItems.add(new DownloadFragment());
+                case 2:
+                    mItems.add(new MoreBookFragment());
+                }
             }
 
-            return null;
+            return mItems.get(position);
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -333,6 +344,8 @@ public class CartoonSplashActivity extends BaseActivity {
                 return getString(R.string.local);
             case 1:
                 return getString(R.string.server);
+            case 2:
+                return getString(R.string.more);
             }
             return null;
         }
@@ -345,12 +358,22 @@ public class CartoonSplashActivity extends BaseActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            LOGD("[[ReaderFragment::onCreateView]]");
+
             return makeReaderView(mLayoutInflater);
         }
 
         @Override
         public void onResume() {
             super.onResume();
+        }
+
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            
+            mReaderListAdapter = null;
+            LOGD("[[ReaderFragment::onDestroyView]]");
         }
     }
 
@@ -361,9 +384,15 @@ public class CartoonSplashActivity extends BaseActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            LOGD("[[DownloadFragment::onCreateView]]");
             return makeDownloadView(mLayoutInflater);
         }
 
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            mDownlaodListAdapter = null;
+        }
     }
 
     private void loadSessionData() {
@@ -374,7 +403,7 @@ public class CartoonSplashActivity extends BaseActivity {
                 if (loadData != null) {
                     mShowSessionList.clear();
                     mShowSessionList.addAll((List<SessionReadModel>) loadData);
-                    
+
                     mHandler.sendEmptyMessage(NOTIFY_DATA_CHANGED);
                 }
             }
@@ -382,12 +411,12 @@ public class CartoonSplashActivity extends BaseActivity {
             @Override
             public void onDataLoadFailed(Object errorData) {
                 // TODO Auto-generated method stub
-                
+
             }
 
         });
     }
-    
+
     private View makeReaderView(LayoutInflater layoutInflater) {
         mReaderListView = (ListView) layoutInflater.inflate(R.layout.main_list, null);
         loadSessionData();
@@ -433,16 +462,16 @@ public class CartoonSplashActivity extends BaseActivity {
                                         dm.setDownloadUrlHashCode(m.srcURI.hashCode());
                                         DownloadItemModel data = mDownloadModel.getItem(dm);
                                         mDownloadModel.deleteItemModel(dm);
-                                        
+
                                         File zipFile = new File(data.localFullPath);
                                         zipFile.delete();
-                                        
+
                                         asyncLoadDataLocal();
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
-                                
+
                                 mSessionModel.deleteItem(m);
                                 mShowSessionList.remove(m);
                                 mHandler.sendEmptyMessage(NOTIFY_DATA_CHANGED);
@@ -467,7 +496,7 @@ public class CartoonSplashActivity extends BaseActivity {
 
         return mDownloadListView;
     }
-    
+
     private void asyncLoadDataLocal() {
         mDownloadModel.asyncLoadDataLocal(new DataDownloadListener() {
 
@@ -509,27 +538,27 @@ public class CartoonSplashActivity extends BaseActivity {
         }
     }
 
-//    private List<SessionReadModel> makeReaderItems() {
-//        List<SessionReadModel> ret = new ArrayList<SessionReadModel>();
-//        List<SessionReadModel> lists = mHelper.queryItems();
-//        if (lists != null) {
-//            for (SessionReadModel m : lists) {
-//                File localFile = new File(m.localFullPath);
-//                if (localFile.exists() && localFile.isDirectory()) {
-//                    m.coverBt = ImageUtils.loadBitmapWithSizeCheck(new File(m.coverPath));
-//                    ret.add(m);
-//                }
-//            }
-//        }
-//
-//        if (AppConfig.DEBUG) {
-//            for (SessionReadModel item : ret) {
-//                UtilsConfig.LOGD(item.toString());
-//            }
-//        }
-//
-//        return ret;
-//    }
+    // private List<SessionReadModel> makeReaderItems() {
+    // List<SessionReadModel> ret = new ArrayList<SessionReadModel>();
+    // List<SessionReadModel> lists = mHelper.queryItems();
+    // if (lists != null) {
+    // for (SessionReadModel m : lists) {
+    // File localFile = new File(m.localFullPath);
+    // if (localFile.exists() && localFile.isDirectory()) {
+    // m.coverBt = ImageUtils.loadBitmapWithSizeCheck(new File(m.coverPath));
+    // ret.add(m);
+    // }
+    // }
+    // }
+    //
+    // if (AppConfig.DEBUG) {
+    // for (SessionReadModel item : ret) {
+    // UtilsConfig.LOGD(item.toString());
+    // }
+    // }
+    //
+    // return ret;
+    // }
 
     private static void LOGD(String msg) {
         if (AppConfig.DEBUG) {

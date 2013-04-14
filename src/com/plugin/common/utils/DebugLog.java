@@ -22,7 +22,7 @@ import android.util.Log;
  * 
  */
 public class DebugLog {
-	private static final String TAG = "Dubbler";
+	private static final String TAG = "com.cartoonOnline";
 
 	private static final String LOG_DIR = UtilsConfig.DISK_LOG_PATH;
 	private static final String LOG_CURR_FILENAME = "debug_log.txt";

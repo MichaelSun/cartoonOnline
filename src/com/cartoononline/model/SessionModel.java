@@ -64,9 +64,12 @@ public class SessionModel extends DataModelBase {
                     for (SessionReadModel m : lists) {
                         File localFile = new File(m.localFullPath);
                         if (localFile.exists() && localFile.isDirectory()) {
-                            m.coverBt = ImageUtils.loadBitmapWithSizeCheck(new File(m.coverPath));
-                            mCacheManager.putResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, m.coverPath, m.coverBt);
-                            m.coverBt = null;
+                            Bitmap bt = mCacheManager.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, m.coverPath);
+                            if (bt == null) {
+                                m.coverBt = ImageUtils.loadBitmapWithSizeCheck(new File(m.coverPath));
+                                mCacheManager.putResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, m.coverPath, m.coverBt);
+                                m.coverBt = null;
+                            }
                             ret.add(m);
                         }
                     }

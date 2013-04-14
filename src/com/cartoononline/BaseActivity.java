@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.umeng.analytics.MobclickAgent;
 
 public class BaseActivity extends SherlockFragmentActivity {
 
@@ -17,6 +18,18 @@ public class BaseActivity extends SherlockFragmentActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
     
     @Override
