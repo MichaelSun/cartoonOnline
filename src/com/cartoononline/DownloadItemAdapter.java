@@ -42,32 +42,35 @@ import com.plugin.common.utils.files.FileUtil;
 import com.plugin.common.utils.image.ImageDownloader;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchRequest;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
-import com.plugin.database.dao.helper.DBTableAccessHelper;
 
 public class DownloadItemAdapter extends BaseAdapter {
 
     private List<DownloadItemModel> mDownloadItemModelList;
-    
+
     private LayoutInflater mLayoutInflater;
-    
+
     private ICacheManager<Bitmap> mCacheManager = CacheFactory.getCacheManager(CacheFactory.TYPE_CACHE.TYPE_IMAGE);
-    
+
     private Set<ImageView> mIconImageViewList;
-    
+
     private ImageDownloader mImageDownloader;
-    
+
     private FileDownloader mFileDownloader;
-    
+
     private Activity mActivity;
-    
+
     private ProgressDialog mProgress;
-    
+
     private ProgressDialog mUnZipProgress;
+    
+//    private CustomCycleBitmapOpration mCustomCycleBitmapOpration = new CustomCycleBitmapOpration();
+    private CustomCycleBitmapOpration mCustomCycleBitmapOpration = null;
 
     private static final int REFRESH_ICONS = 1;
     private static final int REFRESH_LIST = 2;
     private static final int DISMISS_DIALOG = 3;
     private static final int DISMISS_UNZIP_DIALOG = 4;
+    private static final int DELETE_ITEM_REFRESH = 5;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -85,8 +88,10 @@ public class DownloadItemAdapter extends BaseAdapter {
                 break;
             case REFRESH_LIST:
                 notifyDataSetChanged();
-                mProgress.dismiss();
-                //try to unzip
+                if (mProgress.isShowing()) {
+                    mProgress.dismiss();
+                }
+                // try to unzip
                 asyncUnzipSession((DownloadItemModel) msg.obj);
                 break;
             case DISMISS_DIALOG:
@@ -95,10 +100,14 @@ public class DownloadItemAdapter extends BaseAdapter {
             case DISMISS_UNZIP_DIALOG:
                 mUnZipProgress.dismiss();
                 break;
+            case DELETE_ITEM_REFRESH:
+                notifyDataSetChanged();
+                deleteSession((DownloadItemModel) msg.obj);
+                break;
             }
         }
     };
-    
+
     public DownloadItemAdapter(Activity a, List<DownloadItemModel> data, LayoutInflater lf) {
         mActivity = a;
         mDownloadItemModelList = data;
@@ -108,6 +117,42 @@ public class DownloadItemAdapter extends BaseAdapter {
         mFileDownloader = SingleInstanceBase.getInstance(FileDownloader.class);
         initProgressBar();
         initUnZipProgressBar();
+    }
+
+    private void deleteSession(DownloadItemModel r) {
+        if (r == null) {
+            return;
+        }
+        
+        String localPath = r.getLocalFullPath();
+        if (TextUtils.isEmpty(localPath)) {
+            return;
+        }
+
+        String downloadUrl = r.getDownloadUrl();
+        String unzipTarget = null;
+        int pos = downloadUrl.indexOf(AppConfig.SESSION_REFIX);
+        if (pos != -1) {
+            int endPos = downloadUrl.lastIndexOf(".zip");
+            if (endPos != -1) {
+                unzipTarget = downloadUrl.substring(pos, endPos);
+            }
+        }
+        
+        if (!TextUtils.isEmpty(unzipTarget)) {
+            String targetPath = AppConfig.ROOT_DIR + unzipTarget + File.separator;
+            File targetFile = new File(targetPath);
+            if (targetFile.exists()) {
+                FileInfo info = FileUtil.getFileInfo(targetFile);
+                FileOperatorHelper.DeleteFile(info);
+            }
+            
+            if (!TextUtils.isEmpty(targetPath)) {
+                SessionReadModel m = new SessionReadModel();
+                m.localFullPathHashCode = targetPath.hashCode();
+                SingleInstanceBase.getInstance(SessionModel.class).deleteItem(m);
+            }
+        }
     }
     
     private void asyncUnzipSession(final DownloadItemModel r) {
@@ -119,7 +164,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                 if (TextUtils.isEmpty(localPath)) {
                     return;
                 }
-                
+
                 String downloadUrl = r.getDownloadUrl();
                 String unzipTarget = null;
                 int pos = downloadUrl.indexOf(AppConfig.SESSION_REFIX);
@@ -129,7 +174,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                         unzipTarget = downloadUrl.substring(pos, endPos);
                     }
                 }
-                
+
                 if (!TextUtils.isEmpty(unzipTarget)) {
                     String targetPath = AppConfig.ROOT_DIR + unzipTarget + File.separator;
                     File targetFile = new File(targetPath);
@@ -137,7 +182,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                         FileInfo info = FileUtil.getFileInfo(targetFile);
                         FileOperatorHelper.DeleteFile(info);
                     }
-                    
+
                     if (!targetFile.exists()) {
                         if (Utils.unzipSrcToTarget(localPath, AppConfig.ROOT_DIR)) {
                             SessionInfo sInfo = Utils.getSessionInfo(targetPath);
@@ -155,36 +200,36 @@ public class DownloadItemAdapter extends BaseAdapter {
                                 m.localFullPathHashCode = m.localFullPath.hashCode();
                                 SingleInstanceBase.getInstance(SessionModel.class).insertOrRelace(m);
                                 SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(r);
-                                
+
                                 mHandler.sendEmptyMessage(DISMISS_UNZIP_DIALOG);
-                                
+
                                 return;
                             }
                         }
                     }
                 }
-                
-//                File local = new File(localPath);
-//                local.delete();
-//                r.localFullPath = null;
-//                r.status = DownloadItemModel.UNDOWNLOAD;
-                
+
+                // File local = new File(localPath);
+                // local.delete();
+                // r.localFullPath = null;
+                // r.status = DownloadItemModel.UNDOWNLOAD;
+
                 mHandler.sendEmptyMessage(DISMISS_UNZIP_DIALOG);
             }
         }));
     }
-    
+
     public void setData(List<DownloadItemModel> data) {
         mDownloadItemModelList = data;
         this.notifyDataSetChanged();
     }
-    
+
     @Override
     public int getCount() {
         if (mDownloadItemModelList != null) {
             return mDownloadItemModelList.size();
         }
-        
+
         return 0;
     }
 
@@ -213,28 +258,33 @@ public class DownloadItemAdapter extends BaseAdapter {
             holder.size = (TextView) ret.findViewById(R.id.size);
             holder.status = (TextView) ret.findViewById(R.id.status);
             holder.progress = (ProgressBar) ret.findViewById(R.id.download_progress);
+            holder.statusIcon = (ImageView) ret.findViewById(R.id.status_icon);
             ret.setTag(holder);
         } else {
             holder = (ViewHolder) ret.getTag();
         }
-        
+
         DownloadItemModel item = mDownloadItemModelList.get(position);
         holder.name.setText(item.sessionName);
         holder.description.setText(item.description);
         holder.size.setText(item.size);
-        
+
         if (item.status == DownloadItemModel.DOWNLOADED) {
-            holder.status.setText(R.string.downloaded);
+            // holder.status.setText(R.string.downloaded);
+            holder.statusIcon.setImageResource(R.drawable.uninstall);
         } else if (item.status == DownloadItemModel.UNDOWNLOAD) {
-            holder.status.setText(R.string.undownload);
+            // holder.status.setText(R.string.undownload);
+            holder.statusIcon.setImageResource(R.drawable.download);
         } else if (item.status == DownloadItemModel.UNZIPED) {
-            holder.status.setText(R.string.unziped);
+            // holder.status.setText(R.string.unziped);
+            holder.statusIcon.setImageResource(R.drawable.download);
         } else {
-            holder.status.setText(R.string.unknown);
+            // holder.status.setText(R.string.unknown);
+            holder.statusIcon.setImageResource(R.drawable.info);
         }
-        holder.status.setBackgroundResource(R.color.download_status);
-        
-        //set icon image
+        // holder.status.setBackgroundResource(R.color.download_status);
+
+        // set icon image
         Bitmap icon = mCacheManager.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverUrl);
         if (icon != null) {
             holder.icon.setImageBitmap(icon);
@@ -243,7 +293,7 @@ public class DownloadItemAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(item.coverUrl)) {
                 holder.icon.setTag(item.coverUrl);
                 mIconImageViewList.add(holder.icon);
-                mImageDownloader.postRequest(new ImageFetchRequest(item.coverUrl), new DownloadListener() {
+                mImageDownloader.postRequest(new ImageFetchRequest(item.coverUrl, mCustomCycleBitmapOpration), new DownloadListener() {
 
                     @Override
                     public void onDownloadProcess(int fileSize, int downloadSize) {
@@ -258,22 +308,21 @@ public class DownloadItemAdapter extends BaseAdapter {
                             mHandler.sendMessage(msg);
                         }
                     }
-                    
+
                 });
             }
         }
-        
-        setViewListener(ret, position);
-        
+
+        setViewListener(ret, position, item, holder);
+
         return ret;
     }
-    
-    private void setViewListener(View view, final int position) {
-        view.setOnClickListener(new OnClickListener() {
+
+    private void setViewListener(View view, final int position, final DownloadItemModel item, ViewHolder holder) {
+        View.OnClickListener itemOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
-                    final DownloadItemModel item = mDownloadItemModelList.get(position);
                     if (item.status == DownloadItemModel.UNDOWNLOAD) {
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
                                                     .setMessage(String.format(mActivity.getString(R.string.download_tips), item.sessionName))
@@ -324,14 +373,13 @@ public class DownloadItemAdapter extends BaseAdapter {
                     }
                 }
             }
-        });
+        };
         
-        view.setOnLongClickListener(new View.OnLongClickListener() {
+        View.OnLongClickListener itemLongClickListener = new View.OnLongClickListener() {
 
             @Override
             public boolean onLongClick(View v) {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
-                    final DownloadItemModel item = mDownloadItemModelList.get(position);
                     final String local = item.getLocalFullPath();
                     if (!TextUtils.isEmpty(local)) {
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
@@ -340,8 +388,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        File localFile = new File(local);
-                                        localFile.deleteOnExit();
+                                        onDeleteItem(item);
                                     }
                                 }).create();
                         dialog.show();
@@ -349,9 +396,63 @@ public class DownloadItemAdapter extends BaseAdapter {
                 }
                 return true;
             }
-        });
+        };
+        
+        
+        View.OnClickListener itemClickDelete = new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
+                    final String local = item.getLocalFullPath();
+                    if (!TextUtils.isEmpty(local)) {
+                        AlertDialog dialog = new AlertDialog.Builder(mActivity)
+                                .setMessage(String.format(mActivity.getString(R.string.delete_tips), item.sessionName))
+                                .setNegativeButton(R.string.cancel, null)
+                                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        onDeleteItem(item);
+                                    }
+                                }).create();
+                        dialog.show();
+                    }
+                }
+            }
+        };
+        
+        
+        if (item.status == DownloadItemModel.UNDOWNLOAD) {
+            holder.statusIcon.setOnClickListener(itemOnClickListener);
+        } else {
+            holder.statusIcon.setOnClickListener(itemClickDelete);
+        }
+        
+        view.setOnClickListener(itemOnClickListener);
+        view.setOnLongClickListener(itemLongClickListener);
     }
     
+    private void onDeleteItem(DownloadItemModel item) {
+        if (!TextUtils.isEmpty(item.getLocalFullPath())) {
+            File localFile = new File(item.localFullPath);
+            localFile.delete();
+        }
+        if (!TextUtils.isEmpty(item.coverUrl)) {
+            String imagePath = mCacheManager.getResourcePath(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverUrl);
+            File file = new File(imagePath);
+            file.delete();
+            mCacheManager.releaseResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverUrl);
+        }
+        
+        item.status = DownloadItemModel.UNDOWNLOAD;
+//        SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(item);
+        
+        Message msg = new Message();
+        msg.what = DELETE_ITEM_REFRESH;
+        msg.obj = item;
+        mHandler.sendMessage(msg);
+    }
+
     private void initProgressBar() {
         if (mProgress == null) {
             mProgress = new ProgressDialog(mActivity);
@@ -359,7 +460,7 @@ public class DownloadItemAdapter extends BaseAdapter {
             mProgress.setMessage("正在下载中，请稍后...");
         }
     }
-    
+
     private void initUnZipProgressBar() {
         if (mUnZipProgress == null) {
             mUnZipProgress = new ProgressDialog(mActivity);
@@ -375,8 +476,9 @@ public class DownloadItemAdapter extends BaseAdapter {
         TextView size;
         TextView status;
         ProgressBar progress;
+        ImageView statusIcon;
     }
-    
+
     private static void LOGD(String msg) {
         if (AppConfig.DEBUG) {
             UtilsConfig.LOGD(msg);

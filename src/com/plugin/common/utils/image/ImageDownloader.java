@@ -41,6 +41,10 @@ public class ImageDownloader extends FileDownloader implements Runnable, Destroy
         public ImageFetchRequest(String downloadUrl) {
             this(DOWNLOAD_TYPE.IMAGE, downloadUrl);
         }
+        
+        public ImageFetchRequest(String downloadUrl, BitmapOperationListener l) {
+            this(DOWNLOAD_TYPE.IMAGE, downloadUrl, DEFAULT_RAW_IMAGE_CATEGORY, l);
+        }
 
         /*
          * 默认的category是 DEFAULT_RAW_IMAGE_CATEGORY
@@ -52,7 +56,7 @@ public class ImageDownloader extends FileDownloader implements Runnable, Destroy
         public ImageFetchRequest(DOWNLOAD_TYPE type, String downloadUrl, String category) {
             this(type, downloadUrl, category, null);
         }
-
+        
         public ImageFetchRequest(DOWNLOAD_TYPE type, String downloadUrl, String category, BitmapOperationListener l) {
             super(type, downloadUrl);
 

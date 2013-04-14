@@ -127,7 +127,7 @@ public class ImageUtils {
         return output;
     }
 
-    private static Bitmap createRoundedCornerBitmap(Bitmap bitmap, int targetWidth, int targetHeight, float roundPx,
+    public static Bitmap createRoundedCornerBitmap(Bitmap bitmap, int targetWidth, int targetHeight, float roundPx,
             boolean isRoundLT, boolean isRoundRT, boolean isRoundRB, boolean isRoundLB) {
         if (bitmap == null || bitmap.isRecycled() || targetWidth <= 0 || targetHeight <= 0) {
             return null;

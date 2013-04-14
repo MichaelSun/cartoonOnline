@@ -330,11 +330,9 @@ public class CartoonSplashActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
             case 0:
-                return "Reader";
+                return getString(R.string.local);
             case 1:
-                return "Download";
-            case 2:
-                return "More";
+                return getString(R.string.server);
             }
             return null;
         }
@@ -501,6 +499,8 @@ public class CartoonSplashActivity extends BaseActivity {
                 File localFile = new File(item.localFullPath);
                 if (localFile.exists()) {
                     item.status = DownloadItemModel.DOWNLOADED;
+                } else {
+                    item.status = DownloadItemModel.UNDOWNLOAD;
                 }
                 // TODO: check if the file is unziped
             } else {
