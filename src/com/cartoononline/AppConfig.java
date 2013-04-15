@@ -14,7 +14,7 @@ public class AppConfig {
     
     public static final String INI_FILE = "info.ini";
     
-    public static final String YOUMI_APP_ID = "53e13f6906527b33";
-    public static final String YOUMI_APP_SECRET_KEY = "e1703eadcc64253b";
+    public static final String YOUMI_APP_ID = "e3ff884a6cc7b41a";
+    public static final String YOUMI_APP_SECRET_KEY = "26ab38202db7d6fc";
     
 }

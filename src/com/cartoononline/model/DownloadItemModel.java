@@ -111,9 +111,10 @@ public final class DownloadItemModel {
 
     @Override
     public String toString() {
-        return "DownloadItemModel [downloadUrl=" + downloadUrl + ", sessionName=" + sessionName + ", time=" + time
-                + ", coverUrl=" + coverUrl + ", description=" + description + ", downloadUrlHashCode="
-                + downloadUrlHashCode + ", size=" + size + ", coverBt=" + coverBt + "]";
+        return "DownloadItemModel [localFullPath=" + localFullPath + ", downloadUrl=" + downloadUrl + ", sessionName="
+                + sessionName + ", time=" + time + ", coverUrl=" + coverUrl + ", description=" + description
+                + ", downloadUrlHashCode=" + downloadUrlHashCode + ", size=" + size + ", coverBt=" + coverBt
+                + ", status=" + status + "]";
     }
     
 }

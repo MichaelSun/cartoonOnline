@@ -1,5 +1,6 @@
 package com.cartoononline.model;
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -88,9 +89,25 @@ public class DownloadModel extends DataModelBase {
                                 ditem.size = item.size;
                                 saveData[index] = ditem;
                             }
+
+                            List<DownloadItemModel> old = mDownloadHelper.queryItems();
+                            if (old != null && old.size() > 0) {
+                                HashMap<Integer, DownloadItemModel> map = new HashMap<Integer, DownloadItemModel>();
+                                for (DownloadItemModel item : old) {
+                                    map.put(item.downloadUrlHashCode, item);
+                                }
+                                
+                                for (DownloadItemModel iItem : saveData) {
+                                    DownloadItemModel oldItem = map.get(iItem.downloadUrlHashCode);
+                                    if (oldItem != null) {
+                                        iItem.localFullPath = oldItem.localFullPath;
+                                    }
+                                }
+                            }
                             
                             mDownloadHelper.blukInsertOrReplace(saveData);
                             List<DownloadItemModel> ret = mDownloadHelper.queryItems();
+                            UtilsConfig.LOGD("[[:::::::::]] after replace code, lit  = " + ret);
                             
                             if (l != null) {
                                 l.onDataLoadSuccess(ret);
