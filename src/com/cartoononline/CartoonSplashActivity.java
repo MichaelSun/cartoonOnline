@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cartoononline.fragment.MoreBookFragment;
 import com.cartoononline.model.DownloadItemModel;
@@ -67,8 +68,37 @@ public class CartoonSplashActivity extends BaseActivity {
     private ReaderListAdapter mReaderListAdapter;
 
     private DownloadItemAdapter mDownlaodListAdapter;
-
+    
+    private View mFooterView;
+    
     private int mCurPageIndex;
+    
+    private View.OnClickListener mLoadMoreListener = new View.OnClickListener() {
+        
+        @Override
+        public void onClick(View v) {
+            mDownloadModel.increasePageNo();
+            mProgress.show();
+            mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
+
+                @Override
+                public void onDataLoadSuccess(Object loadData) {
+                    if (loadData != null) {
+                        mDownloadList.clear();
+                        mDownloadList.addAll((List<DownloadItemModel>) loadData);
+                        checkDownloadItemStatus(mDownloadList);
+                        mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
+                    }
+                }
+
+                @Override
+                public void onDataLoadFailed(Object errorData) {
+                    mHandler.sendEmptyMessage(DISSMISS_PROGRESS);
+                }
+                
+            });
+        }
+    };
 
     public static final int REFRESH_READER_LIST = 10001;
     public static final int NOTIFY_DATA_CHANGED = 10002;
@@ -86,7 +116,9 @@ public class CartoonSplashActivity extends BaseActivity {
                 if (mReaderListAdapter == null) {
                     mReaderListAdapter = new ReaderListAdapter(mShowSessionList, mLayoutInflater,
                             CartoonSplashActivity.this.getApplicationContext());
-                    mReaderListView.setAdapter(mReaderListAdapter);
+                    if (mReaderListView != null) {
+                        mReaderListView.setAdapter(mReaderListAdapter);
+                    }
                 } else {
                     mReaderListAdapter.setReadItems(mShowSessionList);
                 }
@@ -95,9 +127,28 @@ public class CartoonSplashActivity extends BaseActivity {
                 if (mDownlaodListAdapter == null) {
                     mDownlaodListAdapter = new DownloadItemAdapter(CartoonSplashActivity.this, mDownloadList,
                             mLayoutInflater);
-                    mDownloadListView.setAdapter(mDownlaodListAdapter);
+                    if (mDownloadListView != null) {
+                        if (mFooterView != null) {
+                            mDownloadListView.removeFooterView(mFooterView);
+                            mFooterView = null;
+                        }
+                        if (mFooterView == null) {
+                            mFooterView = mLayoutInflater.inflate(R.layout.footer_view, null);
+                        }
+                        mDownloadListView.addFooterView(mFooterView);
+                        mDownloadListView.setAdapter(mDownlaodListAdapter);
+                    }
                 } else {
                     mDownlaodListAdapter.setData(mDownloadList);
+                }
+                if (mFooterView != null) {
+                    if (mDownloadModel.hasMore()) {
+                        ((TextView) mFooterView.findViewById(R.id.info)).setText(R.string.more_tips);
+                        mFooterView.setOnClickListener(mLoadMoreListener);
+                    } else {
+                        ((TextView) mFooterView.findViewById(R.id.info)).setText(R.string.no_more_tips);
+                        mFooterView.setOnClickListener(null);
+                    }
                 }
                 if (mProgress.isShowing()) {
                     mProgress.dismiss();
@@ -220,6 +271,9 @@ public class CartoonSplashActivity extends BaseActivity {
 
         String[] filenames = Utils.getFileCountUnderAssetsDir(this, "");
         if (filenames != null) {
+            
+            List<SessionReadModel> oldData = mSessionModel.syncLoadDataLocal();
+            
             for (String name : filenames) {
                 if (DEBUG) {
                     UtilsConfig.LOGD("[[checkInternalContent]] now check file : " + name);
@@ -249,6 +303,31 @@ public class CartoonSplashActivity extends BaseActivity {
                         } else {
                             File tFile = new File(targetPath);
                             tFile.deleteOnExit();
+                        }
+                    } else {
+                        if (oldData != null) {
+                            int hashCode = targetPath.hashCode();
+                            boolean contain = false;
+                            for (SessionReadModel d : oldData) {
+                                if (d.localFullPathHashCode == hashCode) {
+                                    contain = true;
+                                }
+                            }
+                            
+                            if (!contain) {
+                                SessionReadModel m = new SessionReadModel();
+                                m.isRead = 0;
+                                m.localFullPath = targetPath;
+                                m.coverPath = sInfo.cover;
+                                m.description = sInfo.description;
+                                m.name = sInfo.name;
+                                m.sessionName = sInfo.sessionName;
+                                m.srcURI = "assets/" + name;//TODO: this session maybe download from server
+                                m.sessionMakeTime = sInfo.time;
+                                m.unzipTime = System.currentTimeMillis();
+                                m.localFullPathHashCode = m.localFullPath.hashCode();
+                                mSessionModel.insertOrRelace(m);
+                            }
                         }
                     }
                 }
@@ -392,6 +471,7 @@ public class CartoonSplashActivity extends BaseActivity {
         public void onDestroyView() {
             super.onDestroyView();
             mDownlaodListAdapter = null;
+            mFooterView = null;
         }
     }
 

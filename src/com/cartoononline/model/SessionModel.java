@@ -52,6 +52,10 @@ public class SessionModel extends DataModelBase {
     public void asyncLoadDataServer(DataDownloadListener l) {
 
     }
+    
+    public List<SessionReadModel> syncLoadDataLocal() {
+        return mHelper.queryItems();
+    }
 
     @Override
     public void asyncLoadDataLocal(final DataDownloadListener l) {

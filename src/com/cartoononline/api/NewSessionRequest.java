@@ -12,8 +12,12 @@ public class NewSessionRequest extends RequestBase<NewSessionResponse> {
     @OptionalParam("page")
     private int mPageNo;
     
-    public NewSessionRequest(int pageNo) {
+    @OptionalParam("pageSize")
+    private int mPageSize;
+    
+    public NewSessionRequest(int pageNo, int pageSize) {
         mPageNo = pageNo;
+        mPageSize = pageSize;
     }
     
 }

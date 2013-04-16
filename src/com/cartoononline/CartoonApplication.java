@@ -14,6 +14,7 @@ public class CartoonApplication extends Application {
         super.onCreate();
         
         UtilsConfig.init(getApplicationContext());
+        SettingManager.getInstance().init(getApplicationContext());
         
         initYoumi();
         initUMeng();

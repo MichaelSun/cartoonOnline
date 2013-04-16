@@ -1,10 +1,12 @@
 package com.cartoononline.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
 
+import com.cartoononline.SettingManager;
 import com.cartoononline.api.NewSessionRequest;
 import com.cartoononline.api.NewSessionResponse;
 import com.cartoononline.api.NewSessionResponse.SessionItem;
@@ -19,8 +21,6 @@ public class DownloadModel extends DataModelBase {
     
     private boolean mOnLoading;
     
-    private boolean mHasMore;
-    
     private DBTableAccessHelper<DownloadItemModel> mDownloadHelper;
     
     @Override
@@ -29,11 +29,10 @@ public class DownloadModel extends DataModelBase {
         mCurPage = 0;
         mOnLoading = false;
         mDownloadHelper = new DBTableAccessHelper<DownloadItemModel>(context, DownloadItemModel.class);
-        mHasMore = true;
     }
 
     public boolean hasMore() {
-        return mHasMore;
+        return SettingManager.getInstance().getHasMore();
     }
     
     public DownloadItemModel getItem(DownloadItemModel searchObj) {
@@ -46,7 +45,7 @@ public class DownloadModel extends DataModelBase {
     
     public void resetPageNo() {
         mCurPage = 0;
-        mHasMore = true;
+        SettingManager.getInstance().setHasMore(true);
     }
     
     public void deleteItemModel(DownloadItemModel item) {
@@ -71,14 +70,15 @@ public class DownloadModel extends DataModelBase {
             @Override
             public void run() {
                 try {
-                    NewSessionResponse response = InternetUtils.request(mContext, new NewSessionRequest(mCurPage));
+                    NewSessionResponse response = InternetUtils.request(mContext, new NewSessionRequest(mCurPage, 20));
                     UtilsConfig.LOGD("[[:::::::::]] response = " + response);
                     
                     if (response != null) {
-                        mHasMore = response.hasmore;                 
+                        SettingManager.getInstance().setHasMore(response.hasmore);
                         if (response.items != null) {
                             DownloadItemModel[] saveData = new DownloadItemModel[response.items.length];
-                            for (int index = 0; index < response.items.length; ++index) {
+                            int timeIndex = 0;
+                            for (int index = 0; index < saveData.length; ++index) {
                                 SessionItem item = response.items[index];
                                 DownloadItemModel ditem = new DownloadItemModel();
                                 ditem.coverUrl = item.imageUrl;
@@ -87,7 +87,10 @@ public class DownloadModel extends DataModelBase {
                                 ditem.downloadUrlHashCode = item.downloadUrl.hashCode();
                                 ditem.sessionName = item.name;
                                 ditem.size = item.size;
+                                ditem.downloadTime = System.currentTimeMillis() + timeIndex;
                                 saveData[index] = ditem;
+                                
+                                timeIndex++;
                             }
 
                             List<DownloadItemModel> old = mDownloadHelper.queryItems();
@@ -105,8 +108,13 @@ public class DownloadModel extends DataModelBase {
                                 }
                             }
                             
+                            List<DownloadItemModel> ret = new ArrayList<DownloadItemModel>();
+                            if (mCurPage == 0) {
+                                mDownloadHelper.deleteAll();
+                            }
                             mDownloadHelper.blukInsertOrReplace(saveData);
-                            List<DownloadItemModel> ret = mDownloadHelper.queryItems();
+                            ret = mDownloadHelper.queryItems();
+                            
                             UtilsConfig.LOGD("[[:::::::::]] after replace code, lit  = " + ret);
                             
                             if (l != null) {

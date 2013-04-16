@@ -3,6 +3,7 @@ package com.cartoononline.model;
 import android.graphics.Bitmap;
 
 import com.plugin.database.dao.annotations.Ignore;
+import com.plugin.database.dao.annotations.OrderBy;
 import com.plugin.database.dao.annotations.PrimaryKey;
 
 public final class DownloadItemModel {
@@ -26,6 +27,9 @@ public final class DownloadItemModel {
     
     public String description;
     
+    @OrderBy(order = "ASC")
+    public long downloadTime;
+    
     @PrimaryKey()
     public int downloadUrlHashCode;
 
@@ -37,6 +41,14 @@ public final class DownloadItemModel {
     @Ignore()
     public int status;
     
+    public long getDownloadTime() {
+        return downloadTime;
+    }
+
+    public void setDownloadTime(long downloadTime) {
+        this.downloadTime = downloadTime;
+    }
+
     public String getLocalFullPath() {
         return localFullPath;
     }
