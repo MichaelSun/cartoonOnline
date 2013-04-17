@@ -228,16 +228,17 @@ public class CartoonSplashActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.detail_actionbar, menu);
+//        getSupportMenuInflater().inflate(R.menu.detail_actionbar, menu);
+        getSupportMenuInflater().inflate(R.menu.action_refresh, menu);
         return true;
     }
 
     @Override
     public boolean onMenuItemSelected(int featureId, com.actionbarsherlock.view.MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.more_apps:
-            OffersManager.getInstance(getApplicationContext()).showOffersWall();
-            break;
+//        case R.id.more_apps:
+//            OffersManager.getInstance(getApplicationContext()).showOffersWall();
+//            break;
         case R.id.action_load:
             switch (mCurPageIndex) {
             case 0:

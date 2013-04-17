@@ -88,6 +88,7 @@ public class AlbumActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        mCacheManager.releaseAllResource();
     }
     
     private void initActionbar() {
@@ -149,28 +150,38 @@ public class AlbumActivity extends BaseActivity {
         public int getCount() {
             return mCount;
         }
+        
+        private boolean startTop(Bitmap bt) {
+            if (bt != null) {
+                if (bt.getHeight() > (bt.getWidth() * 2)) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        private boolean isCrop(Bitmap bt) {
+            if (bt != null) {
+                if (bt.getHeight() > (bt.getWidth() * 3)) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
 
         @Override
         public Object instantiateItem(View arg0, int pos) {
             if (mViewArray.size() > pos) {
                 View v = mViewArray.get(pos);
                 Holder holder = (Holder) v.getTag();
-                holder.imageView.setImageBitmap(mCacheManager.getResource(mSessionName, String.valueOf(pos + 1)));
+                
+                Bitmap show = mCacheManager.getResource(mSessionName, String.valueOf(pos + 1));
+                holder.imageView.setIsCrop(isCrop(show));
+                holder.imageView.setStartBeginTop(startTop(show));
+                holder.imageView.setImageBitmap(show);
                 holder.imageView.setImageFullPath(mCacheManager.getResourcePath(mSessionName, String.valueOf(pos + 1)));
-                
-//                //计算startx starty
-//                int width = holder.imageView.getWidth();
-//                int btWidth = holder.imageView.getImageWidth();
-//                int height = holder.imageView.getHeight();
-//                int btHeight = holder.imageView.getImageHeight();
-//                if (width != 0 && btWidth != 0 && height != 0 && btHeight != 0 && btHeight > height && width > btWidth) {
-//                    float scaleX = (float) (width * 1.0 / btWidth);
-//                    float curHeight = btHeight * scaleX;
-//                    float startY = (curHeight - height) / 2;
-//                    
-//                    holder.imageView.setStartingPosition(0, startY);
-//                }
-                
                 ((ViewPager) arg0).addView(v);
             } else {
                 View addView = mLayoutInflater.inflate(R.layout.content_item, null);
@@ -179,22 +190,11 @@ public class AlbumActivity extends BaseActivity {
                 holder.imageView = image;
                 addView.setTag(holder);
                 
-                image.setIsCrop(true);
-                image.setImageBitmap(mCacheManager.getResource(mSessionName, String.valueOf(pos + 1)));
+                Bitmap show = mCacheManager.getResource(mSessionName, String.valueOf(pos + 1));
+                image.setIsCrop(isCrop(show));
+                holder.imageView.setStartBeginTop(startTop(show));
+                image.setImageBitmap(show);
                 image.setImageFullPath(mCacheManager.getResourcePath(mSessionName, String.valueOf(pos + 1)));
-                //计算startx starty
-//                int width = image.getWidth();
-//                int btWidth = image.getImageWidth();
-//                int height = image.getHeight();
-//                int btHeight = image.getImageHeight();
-//                if (width != 0 && btWidth != 0 && height != 0 && btHeight != 0 && btHeight > height && width > btWidth) {
-//                    float scaleX = (float) (width * 1.0 / btWidth);
-//                    float curHeight = btHeight * scaleX;
-//                    float startY = (curHeight - height) / 2;
-                    
-//                    image.setStartingPosition(0, 0);
-//                }
-                
                 mViewArray.add(addView);
                 ((ViewPager) arg0).addView(mViewArray.get(pos));
             }

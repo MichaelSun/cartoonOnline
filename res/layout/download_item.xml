@@ -55,8 +55,8 @@
             android:layout_alignLeft="@id/name"
             android:layout_below="@id/name"
             android:paddingTop="5dp"
-            android:textColor="@drawable/black"
-            android:textSize="12dp" >
+            android:textColor="@color/download_size"
+            android:textSize="14dp" >
         </TextView>
 
         <TextView
@@ -79,8 +79,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:scaleType="fitXY"
             android:padding="2dp"
+            android:scaleType="fitXY"
             android:src="@drawable/download" >
         </ImageView>
 

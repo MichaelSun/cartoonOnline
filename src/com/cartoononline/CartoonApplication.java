@@ -21,7 +21,7 @@ public class CartoonApplication extends Application {
     }
     
     private void initYoumi() {
-        AdManager.getInstance(this.getApplicationContext()).init(AppConfig.YOUMI_APP_ID, AppConfig.YOUMI_APP_SECRET_KEY, true);
+        AdManager.getInstance(this.getApplicationContext()).init(AppConfig.YOUMI_APP_ID, AppConfig.YOUMI_APP_SECRET_KEY, false);
         OffersManager.getInstance(this.getApplicationContext()).onAppLaunch();
         SingleInstanceManager.getInstance().init(getApplicationContext());
     }

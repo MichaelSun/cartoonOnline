@@ -20,7 +20,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:text="@string/more_tips"
+        android:text="@string/more_app_tips"
         android:textColor="@drawable/gray5"
         android:textSize="18sp" >
     </TextView>
