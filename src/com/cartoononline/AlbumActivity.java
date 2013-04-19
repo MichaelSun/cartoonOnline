@@ -90,6 +90,10 @@ public class AlbumActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        
+        mViewPager.setAdapter(null);
+        mViewPager = null;
+        
         mCacheManager.setCacheStrategy(mOldICacheStrategy);
         mCacheManager.releaseAllResource();
         
