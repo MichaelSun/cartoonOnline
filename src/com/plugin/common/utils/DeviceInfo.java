@@ -35,7 +35,7 @@ public class DeviceInfo {
 		density = context.getResources().getDisplayMetrics().density;
 		int memClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
 		mem_size = memClass;
-		image_cache_size = 1024 * 1024 * memClass / 4;
+		image_cache_size = 1024 * 1024 * memClass / 8;
 
 		screenWidth = context.getResources().getDisplayMetrics().widthPixels;
 		screenHeight = context.getResources().getDisplayMetrics().heightPixels;

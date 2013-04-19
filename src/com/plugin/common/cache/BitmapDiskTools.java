@@ -21,7 +21,7 @@ import com.plugin.common.utils.image.ImageUtils;
  * @author Guoqing Sun Jan 22, 201312:04:05 PM
  */
 class BitmapDiskTools {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = UtilsConfig.UTILS_DEBUG;
     
     public static ICacheStrategy sDefaultCacheStrategy = new ICacheStrategy() {
 
@@ -163,6 +163,7 @@ class BitmapDiskTools {
                 return cacheFile;
             }
         } catch (IOException e) {
+            LOGD("Error for make file : " + cache);
             e.printStackTrace();
             return null;
         }

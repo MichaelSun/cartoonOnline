@@ -143,7 +143,8 @@ class StringCacheManager implements ICacheManager<String> {
 	 * @see com.plugin.cache.ICacheManager#setCacheStrategy(com.plugin.cache.ICacheStrategy)
 	 */
 	@Override
-	public void setCacheStrategy(ICacheStrategy strategy) {
+	public ICacheStrategy setCacheStrategy(ICacheStrategy strategy) {
+	    return null;
 	}
 
 }

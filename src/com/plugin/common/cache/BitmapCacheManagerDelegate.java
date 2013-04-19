@@ -5,20 +5,23 @@ package com.plugin.common.cache;
 
 import java.io.InputStream;
 
+import android.graphics.Bitmap;
+
+import com.plugin.common.cache.CacheFactory.Option;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.image.BitmapUtils;
-
-import android.graphics.Bitmap;
 
 /**
  * @author Guoqing Sun Jan 22, 20134:02:00 PM
  */
 
 final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
-
+    
     private static BitmapCacheManagerDelegate gBitmapCacheManagerDelegate;
 
     private static Object mIOLockObject = new Object();
+    
+    private Option mOption;
 
     private ICacheManager<Bitmap> mBigBitmapCacheManager = new BigBitmapCacheManager();
 
@@ -36,6 +39,15 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
         return gBitmapCacheManagerDelegate;
     }
 
+    private BitmapCacheManagerDelegate() {
+        mOption = new Option();
+        mOption.needThumbnail = true;
+    }
+    
+    public void init(Option opt) {
+        mOption = opt;
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -49,7 +61,7 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
         } else {
             // 其他的目前使用BigCacheManager
             Bitmap ret = mBigBitmapCacheManager.getResource(category, key);
-            if (ret != null) {
+            if (mOption.needThumbnail && ret != null) {
                 Bitmap thumbRet = mThumbnailBitmapCacheManager.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB, key);
                 if (thumbRet == null) {
                     BitmapUtils.makeThumbnail(ret, UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB, key);
@@ -69,7 +81,7 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
      */
     @Override
     public Bitmap getResourceFromMem(String category, String key) {
-        if (UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
+        if (mOption.needThumbnail && UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
             return mThumbnailBitmapCacheManager.getResourceFromMem(category, key);
         } else {
             return mBigBitmapCacheManager.getResourceFromMem(category, key);
@@ -85,7 +97,7 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
      */
     @Override
     public String getResourcePath(String category, String key) {
-        if (UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
+        if (mOption.needThumbnail && UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
             return mThumbnailBitmapCacheManager.getResourcePath(category, key);
         } else {
             return mBigBitmapCacheManager.getResourcePath(category, key);
@@ -100,7 +112,7 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
      */
     @Override
     public String putResource(String category, String key, Bitmap res) {
-        if (UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
+        if (mOption.needThumbnail && UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
             return mThumbnailBitmapCacheManager.putResource(category, key, res);
         } else {
             return mBigBitmapCacheManager.putResource(category, key, res);
@@ -115,7 +127,7 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
      */
     @Override
     public String putResource(String category, String key, CharSequence sourceFullFile) {
-        if (UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
+        if (mOption.needThumbnail && UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
             return mThumbnailBitmapCacheManager.putResource(category, key, sourceFullFile);
         } else {
             return mBigBitmapCacheManager.putResource(category, key, sourceFullFile);
@@ -130,7 +142,7 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
      */
     @Override
     public String putResource(String category, String key, InputStream is) {
-        if (UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
+        if (mOption.needThumbnail && UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
             return mThumbnailBitmapCacheManager.putResource(category, key, is);
         } else {
             return mBigBitmapCacheManager.putResource(category, key, is);
@@ -145,7 +157,7 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
      */
     @Override
     public void releaseResource(String category) {
-        if (UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
+        if (mOption.needThumbnail && UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
             mThumbnailBitmapCacheManager.releaseResource(category);
         } else {
             mBigBitmapCacheManager.releaseResource(category);
@@ -161,7 +173,7 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
      */
     @Override
     public void releaseResource(String category, String key) {
-        if (UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
+        if (mOption.needThumbnail && UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB.equals(category)) {
             mThumbnailBitmapCacheManager.releaseResource(category, key);
         } else {
             mBigBitmapCacheManager.releaseResource(category, key);
@@ -175,7 +187,9 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
      */
     @Override
     public void releaseAllResource() {
-        mThumbnailBitmapCacheManager.releaseAllResource();
+        if (mOption.needThumbnail) {
+            mThumbnailBitmapCacheManager.releaseAllResource();
+        }
         mBigBitmapCacheManager.releaseAllResource();
     }
 
@@ -186,7 +200,9 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
      */
     @Override
     public void clearResource() {
-        mThumbnailBitmapCacheManager.clearResource();
+        if (mOption.needThumbnail) {
+            mThumbnailBitmapCacheManager.clearResource();
+        }
         mBigBitmapCacheManager.clearResource();
     }
 
@@ -194,13 +210,15 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
 	 * @see com.plugin.cache.ICacheManager#setCacheStrategy(com.plugin.cache.ICacheStrategy)
 	 */
 	@Override
-	public void setCacheStrategy(ICacheStrategy strategy) {
+	public ICacheStrategy setCacheStrategy(ICacheStrategy strategy) {
 		if (strategy == null) {
 			throw new IllegalArgumentException("strategy can not be NULL");
 		}
 		
-		mThumbnailBitmapCacheManager.setCacheStrategy(strategy);
-		mBigBitmapCacheManager.setCacheStrategy(strategy);
+		if (mOption.needThumbnail) {
+		    mThumbnailBitmapCacheManager.setCacheStrategy(strategy);
+		}
+		return mBigBitmapCacheManager.setCacheStrategy(strategy);
 	}
 
 }

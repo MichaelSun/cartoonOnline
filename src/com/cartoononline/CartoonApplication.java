@@ -6,6 +6,8 @@ import android.app.Application;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
+import com.plugin.common.cache.CacheFactory;
+import com.plugin.common.cache.CacheFactory.Option;
 import com.plugin.common.utils.SingleInstanceBase.SingleInstanceManager;
 import com.plugin.common.utils.UtilsConfig;
 import com.umeng.analytics.MobclickAgent;
@@ -17,6 +19,8 @@ public class CartoonApplication extends Application {
 
         UtilsConfig.init(getApplicationContext());
         SettingManager.getInstance().init(getApplicationContext());
+        Option opt = new Option();
+        CacheFactory.init(opt);
 
         initYoumi();
         initUMeng();

@@ -26,8 +26,6 @@ public class RegionImageView extends GestureImageView implements GestureImageVie
 
 	private RegionBitmap mRegionBitmap;
 
-	private Drawable mRegionDrawable;
-
 	private Rect mRegionDrawRect;
 
 	private String mFullPath;
@@ -62,6 +60,13 @@ public class RegionImageView extends GestureImageView implements GestureImageVie
 
 	public void setImageFullPath(String path) {
 		mFullPath = path;
+		
+		if (TextUtils.isEmpty(path)) {
+		    if (mRegionBitmap != null && mRegionBitmap.btDraw != null && !mRegionBitmap.btDraw.isRecycled()) {
+		        mRegionBitmap.btDraw.recycle();
+		    }
+		    mRegionBitmap = null;
+		}
 	}
 	
 	public void setStartDrawRegion(boolean drawRegion) {
@@ -88,7 +93,7 @@ public class RegionImageView extends GestureImageView implements GestureImageVie
 						&& !mRegionBitmap.btDraw.isRecycled()) {
 					canvas.save();
 
-					mRegionDrawable = new BitmapDrawable(getResources(), mRegionBitmap.btDraw);
+					Drawable regionDrawable = new BitmapDrawable(getResources(), mRegionBitmap.btDraw);
 
 					if (mRegionDrawRect == null) {
 						mRegionDrawRect = new Rect();
@@ -97,9 +102,9 @@ public class RegionImageView extends GestureImageView implements GestureImageVie
 							Math.round(mRegionBitmap.bitmapDrawRect.top),
 							Math.round(mRegionBitmap.bitmapDrawRect.right),
 							Math.round(mRegionBitmap.bitmapDrawRect.bottom));
-					mRegionDrawable.setBounds(mRegionDrawRect);
+					regionDrawable.setBounds(mRegionDrawRect);
 
-					mRegionDrawable.draw(canvas);
+					regionDrawable.draw(canvas);
 
 					canvas.restore();
 				}

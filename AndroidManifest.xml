@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cartoononline"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="3"
+    android:versionName="1.2" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -51,7 +51,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="hiapk" />
+            android:value="appchina" />
 
         <activity
             android:name="com.cartoononline.CartoonSplashActivity"
@@ -77,7 +77,7 @@
         <!-- youmi usage -->
         <meta-data
             android:name="YOUMI_CHANNEL"
-            android:value="10020" />
+            android:value="10070" />
 
         <activity
             android:name="net.youmi.android.AdBrowser"

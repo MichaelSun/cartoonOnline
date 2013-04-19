@@ -69,8 +69,6 @@ public class ReaderListAdapter extends BaseAdapter {
         SessionReadModel item = mReaderItems.get(position);
         
         Bitmap bt = mCacheManager.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverPath);
-//        item.coverBt = bt;
-        
         ((ImageView) ret.findViewById(R.id.item_icon)).setImageBitmap(bt);
         ((TextView) ret.findViewById(R.id.name)).setText(item.name);
         ((TextView) ret.findViewById(R.id.description)).setText(item.description);

@@ -60,6 +60,6 @@ public interface ICacheManager <T> {
     
     public void clearResource();
     
-    public void setCacheStrategy(ICacheStrategy strategy);
+    public ICacheStrategy setCacheStrategy(ICacheStrategy strategy);
     
 }

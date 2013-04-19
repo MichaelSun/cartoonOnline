@@ -12,6 +12,7 @@ import android.support.v4.util.LruCache;
 import android.text.TextUtils;
 
 import com.plugin.common.utils.DebugLog;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileOperatorHelper;
 import com.plugin.common.utils.files.FileUtil;
 import com.plugin.common.utils.image.ImageUtils;
@@ -23,7 +24,7 @@ abstract class AbsBitmapCacheManager implements ICacheManager<Bitmap> {
 	
 	private static final String TAG = "AbsBitmapCacheManager";
 
-    protected static final boolean DEBUG = false;
+    protected static final boolean DEBUG = UtilsConfig.UTILS_DEBUG;
 
     protected final boolean ENABLE_BITMAP_REUSE;
 
@@ -249,8 +250,11 @@ abstract class AbsBitmapCacheManager implements ICacheManager<Bitmap> {
     }
 
     @Override
-    public final void setCacheStrategy(ICacheStrategy strategy) {
+    public final ICacheStrategy setCacheStrategy(ICacheStrategy strategy) {
+        ICacheStrategy def = BitmapDiskTools.sDefaultCacheStrategy;
     	BitmapDiskTools.sDefaultCacheStrategy = strategy;
+    	
+    	return def;
     }
     
     private void releaseByCategory(String category, boolean ifRecyle) {

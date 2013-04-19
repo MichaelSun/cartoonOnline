@@ -32,6 +32,9 @@ import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
 import com.cartoononline.model.SessionModel;
 import com.cartoononline.model.SessionReadModel;
+import com.plugin.common.cache.CacheFactory;
+import com.plugin.common.cache.ICacheManager;
+import com.plugin.common.cache.ICacheStrategy;
 import com.plugin.common.utils.CustomThreadPool;
 import com.plugin.common.utils.CustomThreadPool.TaskWrapper;
 import com.plugin.common.utils.DataModelBase.DataDownloadListener;
@@ -72,6 +75,10 @@ public class CartoonSplashActivity extends BaseActivity {
     private View mFooterView;
     
     private int mCurPageIndex;
+    
+    private ICacheStrategy mDefICacheStrategy;
+    
+    private ICacheManager mCacheManager;
     
     private View.OnClickListener mLoadMoreListener = new View.OnClickListener() {
         
@@ -167,6 +174,23 @@ public class CartoonSplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        mCacheManager = CacheFactory.getCacheManager(CacheFactory.TYPE_CACHE.TYPE_IMAGE);
+        mDefICacheStrategy = mCacheManager.setCacheStrategy(new ICacheStrategy() {
+
+            @Override
+            public String onMakeFileKeyName(String category, String key) {
+                return null;
+            }
+
+            @Override
+            public String onMakeImageCacheFullPath(String rootPath, String key, String ext) {
+                return null;
+            }
+            
+        });
+        mCacheManager.setCacheStrategy(mDefICacheStrategy);
+        
         mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
@@ -223,22 +247,29 @@ public class CartoonSplashActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
+        mCacheManager.setCacheStrategy(mDefICacheStrategy);
         mHandler.sendEmptyMessage(NOTIFY_DATA_CHANGED);
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OffersManager.getInstance(this).onAppExit();
     }
 
     @Override
     public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
-//        getSupportMenuInflater().inflate(R.menu.detail_actionbar, menu);
-        getSupportMenuInflater().inflate(R.menu.action_refresh, menu);
+        getSupportMenuInflater().inflate(R.menu.detail_actionbar, menu);
+//        getSupportMenuInflater().inflate(R.menu.action_refresh, menu);
         return true;
     }
 
     @Override
     public boolean onMenuItemSelected(int featureId, com.actionbarsherlock.view.MenuItem item) {
         switch (item.getItemId()) {
-//        case R.id.more_apps:
-//            OffersManager.getInstance(getApplicationContext()).showOffersWall();
-//            break;
+        case R.id.more_apps:
+            OffersManager.getInstance(getApplicationContext()).showOffersWall();
+            break;
         case R.id.action_load:
             switch (mCurPageIndex) {
             case 0:
