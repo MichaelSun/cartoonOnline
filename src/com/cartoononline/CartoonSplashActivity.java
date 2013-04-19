@@ -255,6 +255,7 @@ public class CartoonSplashActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         OffersManager.getInstance(this).onAppExit();
+        mCacheManager.releaseAllResource();
     }
 
     @Override

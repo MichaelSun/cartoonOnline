@@ -31,7 +31,7 @@ public class AlbumActivity extends BaseActivity {
     private String mSessionName;
 
     private ICacheManager<Bitmap> mCacheManager;
-    
+
     private ICacheStrategy mOldICacheStrategy;
 
     @Override
@@ -91,7 +91,9 @@ public class AlbumActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mCacheManager.setCacheStrategy(mOldICacheStrategy);
-        // mCacheManager.releaseAllResource();
+        mCacheManager.releaseAllResource();
+        
+        System.gc();
     }
 
     private void initActionbar() {
@@ -179,7 +181,7 @@ public class AlbumActivity extends BaseActivity {
 
         @Override
         public Object instantiateItem(View arg0, int pos) {
-            View retView= null;
+            View retView = null;
             if (mViewArray.size() > pos) {
                 retView = mViewArray.get(pos);
                 Holder holder = (Holder) retView.getTag();
@@ -189,15 +191,15 @@ public class AlbumActivity extends BaseActivity {
                 holder.imageView.setStartBeginTop(startTop(show));
                 holder.imageView.setImageBitmap(show);
                 holder.imageView.setImageFullPath(mCacheManager.getResourcePath(mSessionName, String.valueOf(pos + 1)));
-                
-//                for (View v : mViewArray) {
-//                    if (v != retView) {
-//                        Holder holderC = (Holder) v.getTag();
-//                        holderC.imageView.setImageBitmap(null);
-//                        holderC.imageView.setImageFullPath(null);
-//                    }
-//                }
-                
+
+                // for (View v : mViewArray) {
+                // if (v != retView) {
+                // Holder holderC = (Holder) v.getTag();
+                // holderC.imageView.setImageBitmap(null);
+                // holderC.imageView.setImageFullPath(null);
+                // }
+                // }
+
                 ((ViewPager) arg0).addView(retView);
             } else {
                 retView = mLayoutInflater.inflate(R.layout.content_item, null);
@@ -206,14 +208,14 @@ public class AlbumActivity extends BaseActivity {
                 holder.imageView = image;
                 retView.setTag(holder);
 
-//                for (View v : mViewArray) {
-//                    if (v != retView) {
-//                        Holder holderC = (Holder) v.getTag();
-//                        holderC.imageView.setImageBitmap(null);
-//                        holderC.imageView.setImageFullPath(null);
-//                    }
-//                }
-                
+                // for (View v : mViewArray) {
+                // if (v != retView) {
+                // Holder holderC = (Holder) v.getTag();
+                // holderC.imageView.setImageBitmap(null);
+                // holderC.imageView.setImageFullPath(null);
+                // }
+                // }
+
                 Bitmap show = mCacheManager.getResource(mSessionName, String.valueOf(pos + 1));
                 image.setIsCrop(isCrop(show));
                 holder.imageView.setStartBeginTop(startTop(show));
@@ -222,7 +224,7 @@ public class AlbumActivity extends BaseActivity {
                 mViewArray.add(retView);
                 ((ViewPager) arg0).addView(retView);
             }
-            
+
             return retView;
         }
 
