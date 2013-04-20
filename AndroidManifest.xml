@@ -51,7 +51,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="appchina" />
+            android:value="mumayi" />
 
         <activity
             android:name="com.cartoononline.CartoonSplashActivity"
