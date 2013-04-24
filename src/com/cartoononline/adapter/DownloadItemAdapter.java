@@ -296,6 +296,7 @@ public class DownloadItemAdapter extends BaseAdapter {
             holder.icon.setImageBitmap(icon);
             mIconImageViewList.remove(holder.icon);
         } else {
+            holder.icon.setImageBitmap(null);
             if (!TextUtils.isEmpty(item.coverUrl)) {
                 holder.icon.setTag(item.coverUrl);
                 mIconImageViewList.add(holder.icon);
