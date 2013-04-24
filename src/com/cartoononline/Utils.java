@@ -49,29 +49,29 @@ public class Utils {
         return apiKey;
     }
 
-    public static final void asyncUnzipInternalSessions(final Context context, final Handler mHandler) {
-        CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    InputStream is = context.getAssets().open("session1.zip");
-                    Utils.unzipInputToTarget(is, AppConfig.ROOT_DIR);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    Thread.sleep(2000);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                mHandler.sendEmptyMessage(CartoonSplashActivity.REFRESH_READER_LIST);
-            }
-
-        }));
-    }
+//    public static final void asyncUnzipInternalSessions(final Context context, final Handler mHandler) {
+//        CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                try {
+//                    InputStream is = context.getAssets().open("session1.zip");
+//                    Utils.unzipInputToTarget(is, AppConfig.ROOT_DIR);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//                try {
+//                    Thread.sleep(2000);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//                mHandler.sendEmptyMessage(CartoonSplashActivity.REFRESH_READER_LIST);
+//            }
+//
+//        }));
+//    }
 
     public static final boolean syncUnzipInternalSessions(Context context, String filename) {
         try {

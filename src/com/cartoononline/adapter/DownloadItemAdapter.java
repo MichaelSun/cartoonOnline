@@ -1,4 +1,4 @@
-package com.cartoononline;
+package com.cartoononline.adapter;
 
 import java.io.File;
 import java.util.HashSet;
@@ -22,6 +22,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.cartoononline.AppConfig;
+import com.cartoononline.CustomCycleBitmapOpration;
+import com.cartoononline.R;
+import com.cartoononline.SessionInfo;
+import com.cartoononline.Utils;
+import com.cartoononline.R.drawable;
+import com.cartoononline.R.id;
+import com.cartoononline.R.layout;
+import com.cartoononline.R.string;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
 import com.cartoononline.model.SessionModel;
@@ -200,6 +209,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                                 m.localFullPathHashCode = m.localFullPath.hashCode();
                                 SingleInstanceBase.getInstance(SessionModel.class).insertOrRelace(m);
                                 SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(r);
+                                SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(false);
 
                                 mHandler.sendEmptyMessage(DISMISS_UNZIP_DIALOG);
 
@@ -253,11 +263,8 @@ public class DownloadItemAdapter extends BaseAdapter {
             ret = mLayoutInflater.inflate(R.layout.download_item, null);
             holder = new ViewHolder();
             holder.icon = (ImageView) ret.findViewById(R.id.item_icon);
-            holder.name = (TextView) ret.findViewById(R.id.name);
             holder.description = (TextView) ret.findViewById(R.id.description);
             holder.size = (TextView) ret.findViewById(R.id.size);
-            holder.status = (TextView) ret.findViewById(R.id.status);
-            holder.progress = (ProgressBar) ret.findViewById(R.id.download_progress);
             holder.statusIcon = (ImageView) ret.findViewById(R.id.status_icon);
             ret.setTag(holder);
         } else {
@@ -265,19 +272,18 @@ public class DownloadItemAdapter extends BaseAdapter {
         }
 
         DownloadItemModel item = mDownloadItemModelList.get(position);
-        holder.name.setText(item.sessionName);
         holder.description.setText(item.description);
         holder.size.setText(item.size);
 
         if (item.status == DownloadItemModel.DOWNLOADED) {
             // holder.status.setText(R.string.downloaded);
-            holder.statusIcon.setImageResource(R.drawable.uninstall);
+            holder.statusIcon.setImageResource(R.drawable.delete_button);
         } else if (item.status == DownloadItemModel.UNDOWNLOAD) {
             // holder.status.setText(R.string.undownload);
-            holder.statusIcon.setImageResource(R.drawable.download);
+            holder.statusIcon.setImageResource(R.drawable.download_button);
         } else if (item.status == DownloadItemModel.UNZIPED) {
             // holder.status.setText(R.string.unziped);
-            holder.statusIcon.setImageResource(R.drawable.download);
+            holder.statusIcon.setImageResource(R.drawable.download_button);
         } else {
             // holder.status.setText(R.string.unknown);
             holder.statusIcon.setImageResource(R.drawable.info);
@@ -458,6 +464,7 @@ public class DownloadItemAdapter extends BaseAdapter {
             mProgress = new ProgressDialog(mActivity);
             mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgress.setMessage("正在下载中，请稍后...");
+            mProgress.setCanceledOnTouchOutside(false);
         }
     }
 
@@ -466,16 +473,14 @@ public class DownloadItemAdapter extends BaseAdapter {
             mUnZipProgress = new ProgressDialog(mActivity);
             mUnZipProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mUnZipProgress.setMessage("正在解压中，请稍后...");
+            mUnZipProgress.setCanceledOnTouchOutside(false);
         }
     }
 
     private class ViewHolder {
         ImageView icon;
-        TextView name;
         TextView description;
         TextView size;
-        TextView status;
-        ProgressBar progress;
         ImageView statusIcon;
     }
 

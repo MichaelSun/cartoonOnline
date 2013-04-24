@@ -23,12 +23,23 @@ public class DownloadModel extends DataModelBase {
     
     private DBTableAccessHelper<DownloadItemModel> mDownloadHelper;
     
+    private boolean mDataChanged;
+    
     @Override
     protected void init(Context context) {
         super.init(context);
         mCurPage = 0;
         mOnLoading = false;
         mDownloadHelper = new DBTableAccessHelper<DownloadItemModel>(context, DownloadItemModel.class);
+        mDataChanged = false;
+    }
+    
+    public boolean isDataChanged() {
+        return mDataChanged;
+    }
+    
+    public void setDataChanged(boolean changed) {
+        mDataChanged = changed;
     }
 
     public boolean hasMore() {
@@ -36,7 +47,13 @@ public class DownloadModel extends DataModelBase {
     }
     
     public DownloadItemModel getItem(DownloadItemModel searchObj) {
-        return mDownloadHelper.queryItem(searchObj);
+//        return mDownloadHelper.queryItem(searchObj);
+        List<DownloadItemModel> ret = mDownloadHelper.queryItems("downloadUrlHashCode = ?", String.valueOf(searchObj.downloadUrlHashCode));
+        if (ret != null && ret .size() > 0) {
+            return ret.get(0);
+        }
+        
+        return null;
     }
     
     public void increasePageNo() {
@@ -46,16 +63,19 @@ public class DownloadModel extends DataModelBase {
     public void resetPageNo() {
         mCurPage = 0;
         SettingManager.getInstance().setHasMore(true);
+        mDataChanged = false;
     }
     
     public void deleteItemModel(DownloadItemModel item) {
         if (item != null) {
+            mDataChanged = true;
             mDownloadHelper.delete(item);
         }
     }
     
     public void updateItemModel(DownloadItemModel item) {
         if (item != null) {
+            mDataChanged = true;
             mDownloadHelper.update(item);
         }
     }
@@ -123,6 +143,7 @@ public class DownloadModel extends DataModelBase {
                         }
                         
                         mOnLoading = false;
+                        mDataChanged = false;
                         return;
                     }
                 } catch (Exception e) {
@@ -130,9 +151,11 @@ public class DownloadModel extends DataModelBase {
                 }
                 
                 mOnLoading = false;
+                mDataChanged = false;
                 if (l != null) {
                     l.onDataLoadFailed(mCurPage);
                 }
+               
             }
         });
     }
@@ -144,6 +167,7 @@ public class DownloadModel extends DataModelBase {
             public void run() {
                 List<DownloadItemModel> ret = mDownloadHelper.queryItems();
                 
+                mDataChanged = false;
                 if (l != null) {
                     l.onDataLoadSuccess(ret);
                 }

@@ -1,4 +1,4 @@
-package com.cartoononline;
+package com.cartoononline.adapter;
 
 import java.util.List;
 
@@ -11,6 +11,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cartoononline.R;
+import com.cartoononline.R.drawable;
+import com.cartoononline.R.id;
+import com.cartoononline.R.layout;
+import com.cartoononline.R.string;
 import com.cartoononline.model.SessionReadModel;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
@@ -63,14 +68,13 @@ public class ReaderListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View ret = convertView;
         if (ret == null) {
-            ret = mLayoutInflater.inflate(R.layout.list_item, null);
+            ret = mLayoutInflater.inflate(R.layout.reader_item, null);
         }
         
         SessionReadModel item = mReaderItems.get(position);
         
         Bitmap bt = mCacheManager.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverPath);
         ((ImageView) ret.findViewById(R.id.item_icon)).setImageBitmap(bt);
-        ((TextView) ret.findViewById(R.id.name)).setText(item.name);
         ((TextView) ret.findViewById(R.id.description)).setText(item.description);
         if (item.isRead != 0) {
             ((TextView) ret.findViewById(R.id.readstatus)).setText(R.string.readed);

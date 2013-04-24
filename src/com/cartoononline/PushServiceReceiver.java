@@ -15,6 +15,7 @@ public class PushServiceReceiver extends BroadcastReceiver {
             Intent i = new Intent();
             i.setClass(context, CartoonSplashActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.putExtra(CartoonSplashActivity.KEY_FORECE_DOWNLOAD_SHOW, true);
             context.startActivity(i);
         } else if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             PushManager.startWork(context, PushConstants.LOGIN_TYPE_API_KEY, Utils.getMetaValue(context, "api_key"));

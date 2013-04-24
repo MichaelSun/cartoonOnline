@@ -1,104 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/transparent" >
+    android:layout_height="wrap_content"
+    android:padding="5dp" >
 
     <RelativeLayout
-        android:id="@+id/context_region"
+        android:id="@+id/region"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:background="@drawable/notify_list_selector"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_bg"
         android:padding="2dp" >
 
-        <ImageView
-            android:id="@+id/item_icon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/icon_bg"
-            android:padding="2dp"
-            android:scaleType="fitCenter" />
+        <RelativeLayout
+            android:id="@+id/context_region"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="@drawable/notify_list_selector"
+            android:padding="5dp" >
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/item_icon"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/item_icon"
-            android:gravity="center"
-            android:singleLine="true"
-            android:textColor="@drawable/black"
-            android:textSize="18dp" />
+            <ImageView
+                android:id="@+id/item_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/name"
-            android:layout_alignTop="@id/name"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/name"
-            android:gravity="center"
-            android:textColor="@color/download_size"
-            android:textSize="12dp"
-            android:textStyle="bold" >
-        </TextView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_alignBottom="@id/item_icon"
+                android:background="@color/bg_black" >
 
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/name"
-            android:layout_below="@id/name"
-            android:paddingTop="5dp"
-            android:textColor="@color/download_size"
-            android:textSize="14dp" >
-        </TextView>
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" >
+                </TextView>
 
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:padding="2dp"
-            android:textColor="@color/white"
-            android:textSize="14dp"
-            android:visibility="gone" >
-        </TextView>
+                <TextView
+                    android:id="@+id/size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="12dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" >
+                </TextView>
 
-        <ImageView
-            android:id="@+id/status_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/download" >
-        </ImageView>
-
-        <ProgressBar
-            android:id="@+id/download_progress"
-            style="@android:style/Widget.ProgressBar.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:visibility="gone" />
+                <ImageView
+                    android:id="@+id/status_icon"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="5dp"
+                    android:padding="2dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/download_button" >
+                </ImageView>
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/context_region"
+        android:layout_below="@id/region"
         android:background="@drawable/notify_page_item_split_line" />
 
 </RelativeLayout>

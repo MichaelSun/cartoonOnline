@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="grid_state_pressed">#BB7dbcd3</color>
+    <color name="grid_state_focused">#777dbcd3</color>
     <!-- base color -->
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    
     <color name="logo_color">#FFCB553B</color>
-
     <color name="download_status">#385E0F</color>
     <color name="download_size">#191970</color>
-    
+
+    <color name="bg_black">#90000000</color>
     <drawable name="white">#FFFFFF</drawable>
     <drawable name="black">#000000</drawable>
     <drawable name="gray1">#AAAAAA</drawable>
@@ -52,7 +53,7 @@
     <color name="mic_background">#C1C1C1</color>
     <color name="publisher_play_time">#D2D7DA</color>
     <color name="guide_view_bg">#B2000000</color>
-	<color name="filter_restart_color">#9b9b9b</color>
+    <color name="filter_restart_color">#9b9b9b</color>
     <!-- Setting -->
     <color name="setting_btn_text">#666666</color>
     <color name="setting_feedback_edittext">#717171</color>
@@ -106,7 +107,7 @@
     <!-- App Widget -->
     <color name="widget_record">#CB553B</color>
     <color name="widget_discription_hint">#CCCCCC</color>
-    <color name= "widget_discription_limit_text">#CCCCCC</color>
+    <color name="widget_discription_limit_text">#CCCCCC</color>
     <color name="widget_discription_text">#717171</color>
     <color name="widget_discription_bg">#ffffff</color>
     <color name="widget_post_disable">#8a0010</color>
@@ -126,4 +127,5 @@
     <color name="share_edit_hint_text_color">#FFCCCCCC</color>
     <color name="share_edit_text_color">#FF666666</color>
     <color name="shaer_background_color">#FFF3F3F3</color>
+
 </resources>
