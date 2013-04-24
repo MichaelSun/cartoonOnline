@@ -121,6 +121,15 @@ public class CartoonSplashActivity extends BaseActivity {
         super.onResume();
 
         mCacheManager.setCacheStrategy(mDefICacheStrategy);
+        
+        if (mCurPageIndex == 0) {
+            if (mItemsMap.containsKey(0)) {
+                Fragment f = mItemsMap.get(0);
+                if (f != null && f instanceof FragmentStatusInterface) {
+                    ((FragmentStatusInterface) f).onForceRefresh();
+                }
+            }
+        }
     }
 
     @Override

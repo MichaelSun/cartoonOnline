@@ -353,7 +353,6 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
 
     @Override
     public void onForceRefresh() {
-        // TODO Auto-generated method stub
-        
+        mHandler.sendEmptyMessage(NOTIFY_DATA_CHANGED);
     }
 }

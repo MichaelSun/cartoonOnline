@@ -51,7 +51,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="hiapk" />
+            android:value="mumayi" />
 
         <activity
             android:name="com.cartoononline.CartoonSplashActivity"
@@ -77,7 +77,7 @@
         <!-- youmi usage -->
         <meta-data
             android:name="YOUMI_CHANNEL"
-            android:value="10010" />
+            android:value="10020" />
 
         <activity
             android:name="net.youmi.android.AdBrowser"
