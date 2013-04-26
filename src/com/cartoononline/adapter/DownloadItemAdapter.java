@@ -15,11 +15,11 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cartoononline.AppConfig;
@@ -27,10 +27,6 @@ import com.cartoononline.CustomCycleBitmapOpration;
 import com.cartoononline.R;
 import com.cartoononline.SessionInfo;
 import com.cartoononline.Utils;
-import com.cartoononline.R.drawable;
-import com.cartoononline.R.id;
-import com.cartoononline.R.layout;
-import com.cartoononline.R.string;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
 import com.cartoononline.model.SessionModel;
@@ -72,6 +68,8 @@ public class DownloadItemAdapter extends BaseAdapter {
 
     private ProgressDialog mUnZipProgress;
     
+    private Animation mFadeInAnim;
+    
 //    private CustomCycleBitmapOpration mCustomCycleBitmapOpration = new CustomCycleBitmapOpration();
     private CustomCycleBitmapOpration mCustomCycleBitmapOpration = null;
 
@@ -91,6 +89,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                         String url = (String) i.getTag();
                         if (r.getDownloadUrl().equals(url)) {
                             i.setImageBitmap(r.getmBt());
+                            i.startAnimation(mFadeInAnim);
                         }
                     }
                 }
@@ -126,6 +125,8 @@ public class DownloadItemAdapter extends BaseAdapter {
         mFileDownloader = SingleInstanceBase.getInstance(FileDownloader.class);
         initProgressBar();
         initUnZipProgressBar();
+        
+        mFadeInAnim = AnimationUtils.loadAnimation(a.getApplicationContext(), R.anim.fade_in);
     }
 
     private void deleteSession(DownloadItemModel r) {
@@ -293,10 +294,20 @@ public class DownloadItemAdapter extends BaseAdapter {
         // set icon image
         Bitmap icon = mCacheManager.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverUrl);
         if (icon != null) {
+//            String urlOld = (String) holder.icon.getTag();
+//            boolean startAnim = true;
+//            if (!TextUtils.isEmpty(urlOld) && urlOld.equals(item.coverUrl)) {
+//                startAnim = false;
+//            }
             holder.icon.setImageBitmap(icon);
             mIconImageViewList.remove(holder.icon);
+//            holder.icon.setTag(item.coverUrl);
+//            if (startAnim) {
+//                holder.icon.startAnimation(mFadeInAnim);
+//            }
         } else {
             holder.icon.setImageBitmap(null);
+            holder.icon.clearAnimation();
             if (!TextUtils.isEmpty(item.coverUrl)) {
                 holder.icon.setTag(item.coverUrl);
                 mIconImageViewList.add(holder.icon);

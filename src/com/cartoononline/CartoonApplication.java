@@ -1,7 +1,6 @@
 package com.cartoononline;
 
-import net.youmi.android.AdManager;
-import net.youmi.android.offers.OffersManager;
+import net.youmi.android.YoumiAdManager;
 import android.app.Application;
 
 import com.baidu.android.pushservice.PushConstants;
@@ -30,9 +29,9 @@ public class CartoonApplication extends Application {
     }
 
     private void initYoumi() {
-        AdManager.getInstance(this.getApplicationContext()).init(AppConfig.YOUMI_APP_ID,
+        YoumiAdManager.getInstance(this.getApplicationContext()).init(AppConfig.YOUMI_APP_ID,
                 AppConfig.YOUMI_APP_SECRET_KEY, false);
-        OffersManager.getInstance(this.getApplicationContext()).onAppLaunch();
+//        OffersManager.getInstance(this.getApplicationContext()).onAppLaunch();
         SingleInstanceManager.getInstance().init(getApplicationContext());
     }
 

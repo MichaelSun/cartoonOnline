@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/item_bg"
-        android:padding="2dp" >
+        android:padding="1dp" >
 
         <RelativeLayout
             android:id="@+id/context_region"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:background="@drawable/notify_list_selector"
-            android:padding="5dp" >
+            android:padding="2dp" >
 
             <ImageView
                 android:id="@+id/item_icon"
@@ -30,11 +30,11 @@
                 android:layout_height="40dp"
                 android:layout_alignBottom="@id/item_icon"
                 android:background="@color/bg_black"
-                android:textColor="@drawable/white"
-                android:textSize="18sp"
-                android:singleLine="true"
+                android:gravity="center_vertical"
                 android:paddingLeft="10dp"
-                android:gravity="center_vertical" >
+                android:singleLine="true"
+                android:textColor="@drawable/white"
+                android:textSize="18sp" >
             </TextView>
 
             <TextView
@@ -42,23 +42,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/item_icon"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:paddingBottom="3dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:paddingTop="3dp"
                 android:textColor="@color/white"
-                android:textSize="14sp"
-                android:layout_alignTop="@id/item_icon"
-                android:layout_marginTop="10dp" >
+                android:textSize="14sp" >
             </TextView>
         </RelativeLayout>
     </RelativeLayout>
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/region"
-        android:background="@drawable/notify_page_item_split_line" />
+        android:background="@drawable/actionbar_shadow" />
 
 </RelativeLayout>

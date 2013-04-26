@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cartoononline"
-    android:versionCode="4"
-    android:versionName="1.4" >
+    android:versionCode="5"
+    android:versionName="1.5" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -51,7 +51,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="hiapk" />
+            android:value="anzhi" />
 
         <activity
             android:name="com.cartoononline.CartoonSplashActivity"
@@ -80,26 +80,22 @@
             android:value="10020" />
 
         <activity
-            android:name="net.youmi.android.AdBrowser"
+            android:name="net.youmi.android.YoumiActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
 
         <service
-            android:name="net.youmi.android.AdService"
+            android:name="net.youmi.android.YoumiService"
             android:exported="false" >
         </service>
 
-        <receiver android:name="net.youmi.android.AdReceiver" >
+        <receiver android:name="net.youmi.android.YoumiReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
 
                 <data android:scheme="package" />
             </intent-filter>
-        </receiver>
-        <receiver
-            android:name="net.youmi.android.offers.OffersReceiver"
-            android:exported="false" >
         </receiver>
 
         <!-- push service client -->

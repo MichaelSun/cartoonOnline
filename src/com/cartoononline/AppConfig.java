@@ -17,4 +17,6 @@ public class AppConfig {
     public static final String YOUMI_APP_ID = "e3ff884a6cc7b41a";
     public static final String YOUMI_APP_SECRET_KEY = "26ab38202db7d6fc";
     
+    public static final String KEY_SHOW_WALL = "show_app_wall";
+    
 }

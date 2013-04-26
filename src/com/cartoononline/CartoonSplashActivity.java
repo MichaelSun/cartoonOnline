@@ -2,16 +2,14 @@ package com.cartoononline;
 
 import java.util.HashMap;
 
-import net.youmi.android.offers.OffersManager;
 import net.youmi.android.spot.SpotManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
 
 import com.cartoononline.fragment.DownloadFragment;
 import com.cartoononline.fragment.FragmentStatusInterface;
@@ -21,13 +19,16 @@ import com.cartoononline.model.DownloadModel;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.cache.ICacheStrategy;
+import com.plugin.common.utils.CustomThreadPool;
+import com.plugin.common.utils.CustomThreadPool.TaskWrapper;
 import com.plugin.common.utils.SingleInstanceBase;
 import com.plugin.common.utils.UtilsConfig;
+import com.umeng.analytics.MobclickAgent;
 
 public class CartoonSplashActivity extends BaseActivity {
 
     private static final boolean DEBUG = AppConfig.DEBUG;
-    
+
     public static final String KEY_FORECE_DOWNLOAD_SHOW = "force_download_show";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -44,10 +45,14 @@ public class CartoonSplashActivity extends BaseActivity {
 
     private HashMap<Integer, Fragment> mItemsMap = new HashMap<Integer, Fragment>();
 
+    private boolean mShowAppWall = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobclickAgent.updateOnlineConfig(this.getApplicationContext());
 
         mCacheManager = CacheFactory.getCacheManager(CacheFactory.TYPE_CACHE.TYPE_IMAGE);
         mDefICacheStrategy = mCacheManager.setCacheStrategy(new ICacheStrategy() {
@@ -114,6 +119,17 @@ public class CartoonSplashActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         SpotManager.getInstance(this).loadSpotAds();
+
+        CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
+            @Override
+            public void run() {
+                String ret = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
+                        AppConfig.KEY_SHOW_WALL);
+                if (!TextUtils.isEmpty(ret) && ret.equals("true")) {
+                    mShowAppWall = true;
+                }
+            }
+        }));
     }
 
     @Override
@@ -121,7 +137,7 @@ public class CartoonSplashActivity extends BaseActivity {
         super.onResume();
 
         mCacheManager.setCacheStrategy(mDefICacheStrategy);
-        
+
         if (mCurPageIndex == 0) {
             if (mItemsMap.containsKey(0)) {
                 Fragment f = mItemsMap.get(0);
@@ -135,13 +151,17 @@ public class CartoonSplashActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        OffersManager.getInstance(this).onAppExit();
+//        OffersManager.getInstance(this).onAppExit();
         mCacheManager.releaseAllResource();
     }
 
     @Override
     public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.detail_actionbar, menu);
+        if (mShowAppWall) {
+            getSupportMenuInflater().inflate(R.menu.detail_actionbar, menu);
+        } else {
+            getSupportMenuInflater().inflate(R.menu.action_refresh, menu);
+        }
         return true;
     }
 
@@ -149,7 +169,9 @@ public class CartoonSplashActivity extends BaseActivity {
     public boolean onMenuItemSelected(int featureId, com.actionbarsherlock.view.MenuItem item) {
         switch (item.getItemId()) {
         case R.id.more_apps:
-            OffersManager.getInstance(getApplicationContext()).showOffersWall();
+            if (mShowAppWall) {
+//                OffersManager.getInstance(getApplicationContext()).showOffersWall();
+            }
             break;
         case R.id.action_load:
             switch (mCurPageIndex) {

@@ -32,6 +32,6 @@ public class SettingManager {
     }
     
     public boolean getHasMore() {
-        return mSharedPreferences.getBoolean(mContext.getString(R.string.has_more), true);
+        return mSharedPreferences.getBoolean(mContext.getString(R.string.has_more), false);
     }
 }

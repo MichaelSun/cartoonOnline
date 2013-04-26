@@ -16,7 +16,7 @@
             <item
                 android:id="@+id/more_apps"
                 android:showAsAction="ifRoom"
-                android:title="@string/more">
+                android:title="@string/more_app">
             </item>
         </menu>
     </item>

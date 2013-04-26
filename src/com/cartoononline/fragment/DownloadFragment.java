@@ -16,12 +16,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cartoononline.R;
 import com.cartoononline.adapter.DownloadItemAdapter;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 import com.plugin.common.utils.DataModelBase.DataDownloadListener;
 import com.plugin.common.utils.SingleInstanceBase;
 
@@ -37,16 +41,23 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     
     private List<DownloadItemModel> mDownloadList = new ArrayList<DownloadItemModel>();
     
+    private PullToRefreshGridView mPullRefreshGridView;
+    
     private Activity mActivity;
     
     private Context mContext;
     
-    private ProgressDialog mProgress;
+//    private ProgressDialog mProgress;
     
-    private TextView mFooterView;
+    private ILoadingLayout mILoadingLayout;
+    
+    private Toast mToast;
+    
+//    private TextView mFooterView;
     
     private static final int NOTIFY_DOWNLOAD_CHANGED = 10003;
     private static final int DISSMISS_PROGRESS = 10004;
+    private static final int STOP_REFRESH = 10005;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -60,23 +71,31 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
                 } else {
                     mDownlaodListAdapter.setData(mDownloadList);
                 }
-                if (mFooterView != null) {
-                    if (mDownloadModel.hasMore()) {
-                        mFooterView.setText(R.string.more_tips);
-                        mFooterView.setOnClickListener(mLoadMoreListener);
-                    } else {
-                        mFooterView.setText(R.string.no_more_tips);
-                        mFooterView.setOnClickListener(null);
-                    }
-                }
-                if (mProgress != null) {
-                    mProgress.dismiss();
-                }
+//                if (mFooterView != null) {
+//                    if (mDownloadModel.hasMore()) {
+//                        mFooterView.setText(R.string.more_tips);
+//                        mFooterView.setOnClickListener(mLoadMoreListener);
+//                    } else {
+//                        mFooterView.setText(R.string.no_more_tips);
+//                        mFooterView.setOnClickListener(null);
+//                    }
+//                }
+//                if (mProgress != null) {
+//                    mProgress.dismiss();
+//                }
+                
+                mPullRefreshGridView.onRefreshComplete();
+//                if (!mDownloadModel.hasMore() && mPullRefreshGridView != null) {
+//                }
                 break;
             case DISSMISS_PROGRESS:
-                if (mProgress != null) {
-                    mProgress.dismiss();
-                }
+//                if (mProgress != null) {
+//                    mProgress.dismiss();
+//                }
+                mPullRefreshGridView.onRefreshComplete();
+                break;
+            case STOP_REFRESH:
+                mPullRefreshGridView.onRefreshComplete();
                 break;
             }
         }
@@ -88,6 +107,11 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     public DownloadFragment(Activity a) {
         mActivity = a;
         mContext = a.getApplicationContext();
+        
+        //init toast
+        mToast = Toast.makeText(mContext, R.string.tips_no_more, Toast.LENGTH_LONG);
+        mToast.setText(R.string.tips_no_more);
+        mToast.setDuration(Toast.LENGTH_LONG);
     }
 
     @Override
@@ -99,7 +123,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        initProgressBar();
+//        initProgressBar();
         mLayoutInflater = inflater;
         return makeDownloadView(mLayoutInflater);
     }
@@ -112,7 +136,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     }
     
     private void loadDownloadDataServer(final boolean repalceOld) {
-        mProgress.show();
+//        mProgress.show();
         mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
 
             @Override
@@ -137,21 +161,50 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     
     private View makeDownloadView(LayoutInflater layoutInflater) {
         View ret = layoutInflater.inflate(R.layout.download_view, null);
-        mDownloadGridView = (GridView) ret.findViewById(R.id.gridView);
-        mFooterView = (TextView) ret.findViewById(R.id.info);
+        
+        mPullRefreshGridView = (PullToRefreshGridView) ret.findViewById(R.id.pull_refresh_grid);
+        mDownloadGridView = mPullRefreshGridView.getRefreshableView();
+        mILoadingLayout = mPullRefreshGridView.getLoadingLayoutProxy();
+//        mFooterView = (TextView) ret.findViewById(R.id.info);
+        mILoadingLayout.setLoadingDrawable(mContext.getResources().getDrawable(R.drawable.default_ptr_drawable));
+        mILoadingLayout.setPullLabel(mContext.getString(R.string.pull_label));
+        mILoadingLayout.setReleaseLabel(mContext.getString(R.string.release_label));
+        mILoadingLayout.setLastUpdatedLabel(mContext.getString(R.string.pull_label1));
+        
+        mPullRefreshGridView.setOnRefreshListener(new OnRefreshListener2<GridView>() {
+
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
+                loadDownloadDataServer(true);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
+                if (mDownloadModel.hasMore()) {
+                    onLoadMorePage();
+                } else {
+                    mHandler.sendEmptyMessage(STOP_REFRESH);
+                    if (mToast != null) {
+                        mToast.show();
+                    }
+                }
+            }
+            
+        });
+        
         asyncLoadDataLocal();
 
         return ret;
     }
     
-    private void initProgressBar() {
-        if (mProgress == null) {
-            mProgress = new ProgressDialog(mActivity);
-            mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            mProgress.setMessage("正在加载中，请稍后...");
-            mProgress.setCanceledOnTouchOutside(false);
-        }
-    }
+//    private void initProgressBar() {
+//        if (mProgress == null) {
+//            mProgress = new ProgressDialog(mActivity);
+//            mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            mProgress.setMessage("正在加载中，请稍后...");
+//            mProgress.setCanceledOnTouchOutside(false);
+//        }
+//    }
     
     private void asyncLoadDataLocal() {
         mDownloadModel.asyncLoadDataLocal(new DataDownloadListener() {
@@ -198,27 +251,31 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         
         @Override
         public void onClick(View v) {
-            mDownloadModel.increasePageNo();
-            mProgress.show();
-            mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
-
-                @Override
-                public void onDataLoadSuccess(Object loadData) {
-                    if (loadData != null) {
-                        mDownloadList.clear();
-                        mDownloadList.addAll((List<DownloadItemModel>) loadData);
-                        checkDownloadItemStatus(mDownloadList);
-                        mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
-                    }
-                }
-
-                @Override
-                public void onDataLoadFailed(Object errorData) {
-                    mHandler.sendEmptyMessage(DISSMISS_PROGRESS);
-                }
-            });
+            onLoadMorePage();
         }
     };
+    
+    private void onLoadMorePage() {
+        mDownloadModel.increasePageNo();
+//        mProgress.show();
+        mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
+
+            @Override
+            public void onDataLoadSuccess(Object loadData) {
+                if (loadData != null) {
+                    mDownloadList.clear();
+                    mDownloadList.addAll((List<DownloadItemModel>) loadData);
+                    checkDownloadItemStatus(mDownloadList);
+                    mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
+                }
+            }
+
+            @Override
+            public void onDataLoadFailed(Object errorData) {
+                mHandler.sendEmptyMessage(DISSMISS_PROGRESS);
+            }
+        });
+    }
 
     @Override
     public void onShow() {
@@ -234,6 +291,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
 
     @Override
     public void onForceRefresh() {
-        loadDownloadDataServer(true);        
+//        loadDownloadDataServer(true);        
+        mPullRefreshGridView.setRefreshing();
     }
 }
