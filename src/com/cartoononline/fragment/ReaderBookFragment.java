@@ -145,7 +145,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
     }
     
     private void initProgressBar() {
-        if (mProgress == null) {
+        if (mProgress == null && mActivity != null) {
             mProgress = new ProgressDialog(mActivity);
             mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgress.setMessage("正在加载中，请稍后...");
@@ -226,7 +226,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
     }
     
     private void asyncCheckInternalContent() {
-        if (!CRuntime.IS_INIT.get()) {
+        if (!CRuntime.IS_INIT.get() && mProgress != null) {
             mProgress.show();
         }
         CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {

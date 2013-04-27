@@ -1,6 +1,7 @@
 package com.cartoononline.adapter;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,7 +51,8 @@ import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
 
 public class DownloadItemAdapter extends BaseAdapter {
 
-    private List<DownloadItemModel> mDownloadItemModelList;
+    private List<DownloadItemModel> mDownloadItemModelList = new ArrayList<DownloadItemModel>();
+    private Set<Integer> mDownloaddItemHashCode = new HashSet<Integer>();
 
     private LayoutInflater mLayoutInflater;
 
@@ -118,7 +120,6 @@ public class DownloadItemAdapter extends BaseAdapter {
 
     public DownloadItemAdapter(Activity a, List<DownloadItemModel> data, LayoutInflater lf) {
         mActivity = a;
-        mDownloadItemModelList = data;
         mLayoutInflater = lf;
         mIconImageViewList = new HashSet<ImageView>();
         mImageDownloader = SingleInstanceBase.getInstance(ImageDownloader.class);
@@ -127,6 +128,13 @@ public class DownloadItemAdapter extends BaseAdapter {
         initUnZipProgressBar();
         
         mFadeInAnim = AnimationUtils.loadAnimation(a.getApplicationContext(), R.anim.fade_in);
+        
+        if (data != null) {
+            for (DownloadItemModel item : data) {
+                mDownloadItemModelList.add(item);
+                mDownloaddItemHashCode.add(item.downloadUrlHashCode);
+            }
+        }
     }
 
     private void deleteSession(DownloadItemModel r) {

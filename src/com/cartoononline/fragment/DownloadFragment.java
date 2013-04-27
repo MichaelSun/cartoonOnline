@@ -62,6 +62,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case NOTIFY_DOWNLOAD_CHANGED:
+                mPullRefreshGridView.onRefreshComplete();
                 if (mDownlaodListAdapter == null) {
                     mDownlaodListAdapter = new DownloadItemAdapter(mActivity, mDownloadList,
                             mLayoutInflater);
@@ -84,7 +85,6 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
 //                    mProgress.dismiss();
 //                }
                 
-                mPullRefreshGridView.onRefreshComplete();
 //                if (!mDownloadModel.hasMore() && mPullRefreshGridView != null) {
 //                }
                 break;
