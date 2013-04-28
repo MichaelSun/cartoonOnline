@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -24,11 +25,13 @@ public class AlbumActivity extends BaseActivity {
 
     public static final String KEY_INDEX = "index";
     public static final String KEY_SESSION_NAME = "sessionName";
+    public static final String KEY_DESC = "desc";
 
     private LayoutInflater mLayoutInflater;
     private ViewPager mViewPager;
     private String mPath;
     private String mSessionName;
+    private String mDescription;
 
     private ICacheManager<Bitmap> mCacheManager;
 
@@ -42,6 +45,7 @@ public class AlbumActivity extends BaseActivity {
         mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mPath = getIntent().getStringExtra(KEY_INDEX);
         mSessionName = getIntent().getStringExtra(KEY_SESSION_NAME);
+        mDescription = getIntent().getStringExtra(KEY_DESC);
         mCacheManager = CacheFactory.getCacheManager(CacheFactory.TYPE_CACHE.TYPE_IMAGE);
         mOldICacheStrategy = mCacheManager.setCacheStrategy(new ICacheStrategy() {
 
@@ -106,7 +110,11 @@ public class AlbumActivity extends BaseActivity {
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
-        mActionBar.setTitle(R.string.app_name);
+        if (TextUtils.isEmpty(mDescription)) {
+            mActionBar.setTitle(R.string.app_name);
+        } else {
+            mActionBar.setTitle(mDescription);
+        }
         mActionBar.setIcon(R.drawable.icon);
     }
 

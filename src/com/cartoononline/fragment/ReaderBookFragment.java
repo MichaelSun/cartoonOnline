@@ -167,6 +167,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
                 intent.setClass(mContext, AlbumActivity.class);
                 intent.putExtra(AlbumActivity.KEY_INDEX, m.localFullPath);
                 intent.putExtra(AlbumActivity.KEY_SESSION_NAME, m.sessionName);
+                intent.putExtra(AlbumActivity.KEY_DESC, m.description);
                 startActivity(intent);
 
                 m.isRead = 1;
