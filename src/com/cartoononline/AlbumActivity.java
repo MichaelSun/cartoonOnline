@@ -72,7 +72,9 @@ public class AlbumActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-        SpotManager.getInstance(this.getApplicationContext()).showSpotAds(this);
+        if (AppConfig.ADVIEW_SHOW) {
+            SpotManager.getInstance(this.getApplicationContext()).showSpotAds(this);
+        }
     }
 
     @Override

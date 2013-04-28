@@ -18,5 +18,8 @@ public class AppConfig {
     public static final String YOUMI_APP_SECRET_KEY = "26ab38202db7d6fc";
     
     public static final String KEY_SHOW_WALL = "show_app_wall";
+    public static final String KEY_ADVIEW = "_adview";
+    
+    public static boolean ADVIEW_SHOW = false;
     
 }

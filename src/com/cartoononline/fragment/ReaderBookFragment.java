@@ -27,6 +27,7 @@ import com.cartoononline.AppConfig;
 import com.cartoononline.CRuntime;
 import com.cartoononline.R;
 import com.cartoononline.SessionInfo;
+import com.cartoononline.SettingManager;
 import com.cartoononline.Utils;
 import com.cartoononline.adapter.ReaderListAdapter;
 import com.cartoononline.model.DownloadItemModel;
@@ -38,6 +39,8 @@ import com.plugin.common.utils.CustomThreadPool.TaskWrapper;
 import com.plugin.common.utils.DataModelBase.DataDownloadListener;
 import com.plugin.common.utils.SingleInstanceBase;
 import com.plugin.common.utils.UtilsConfig;
+import com.plugin.common.utils.files.DiskManager;
+import com.plugin.common.utils.files.DiskManager.DiskCacheType;
 import com.plugin.common.utils.files.FileInfo;
 import com.plugin.common.utils.files.FileOperatorHelper;
 import com.plugin.common.utils.files.FileUtil;
@@ -232,6 +235,18 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
         CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
             @Override
             public void run() {
+                int preVersion = SettingManager.getInstance().getPreVersion();
+                if (preVersion == 0 || preVersion < UtilsConfig.DEVICE_INFO.versionCode) {
+                    //delete old assets infos
+                    String deleteName = AppConfig.ROOT_DIR + "session1/";
+                    FileInfo finfo = FileUtil.getFileInfo(deleteName);
+                    FileOperatorHelper.DeleteFile(finfo);
+                    deleteName = AppConfig.ROOT_DIR + "session0/";
+                    finfo = FileUtil.getFileInfo(deleteName);
+                    FileOperatorHelper.DeleteFile(finfo);
+                }
+                SettingManager.getInstance().setVersion(UtilsConfig.DEVICE_INFO.versionCode);
+                
                 checkInternalContent();
             }
         }));

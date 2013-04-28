@@ -28,6 +28,34 @@ public class Utils {
 
     private static final String SESSION_KEY = "infos";
 
+    private static Object readKey(Context context, String keyName) {
+        try {
+            ApplicationInfo appi = context.getPackageManager().getApplicationInfo(context.getPackageName(),
+                    PackageManager.GET_META_DATA);
+            Bundle bundle = appi.metaData;
+            Object value = bundle.get(keyName);
+            return value;
+        } catch (NameNotFoundException e) {
+            return null;
+        }
+    }
+
+    public static int getInt(Context context, String keyName) {
+        return (Integer) readKey(context, keyName);
+    }
+
+    public static String getString(Context context, String keyName) {
+        return (String) readKey(context, keyName);
+    }
+
+    public static Boolean getBoolean(Context context, String keyName) {
+        return (Boolean) readKey(context, keyName);
+    }
+
+    public static Object get(Context context, String keyName) {
+        return readKey(context, keyName);
+    }
+
     public static String getMetaValue(Context context, String metaKey) {
         Bundle metaData = null;
         String apiKey = null;
@@ -49,29 +77,30 @@ public class Utils {
         return apiKey;
     }
 
-//    public static final void asyncUnzipInternalSessions(final Context context, final Handler mHandler) {
-//        CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                try {
-//                    InputStream is = context.getAssets().open("session1.zip");
-//                    Utils.unzipInputToTarget(is, AppConfig.ROOT_DIR);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//                try {
-//                    Thread.sleep(2000);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//                mHandler.sendEmptyMessage(CartoonSplashActivity.REFRESH_READER_LIST);
-//            }
-//
-//        }));
-//    }
+    // public static final void asyncUnzipInternalSessions(final Context
+    // context, final Handler mHandler) {
+    // CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
+    //
+    // @Override
+    // public void run() {
+    // try {
+    // InputStream is = context.getAssets().open("session1.zip");
+    // Utils.unzipInputToTarget(is, AppConfig.ROOT_DIR);
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
+    //
+    // try {
+    // Thread.sleep(2000);
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
+    //
+    // mHandler.sendEmptyMessage(CartoonSplashActivity.REFRESH_READER_LIST);
+    // }
+    //
+    // }));
+    // }
 
     public static final boolean syncUnzipInternalSessions(Context context, String filename) {
         try {

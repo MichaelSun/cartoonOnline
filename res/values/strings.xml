@@ -44,6 +44,7 @@
     <string name="more_app_tips">更多图书稍后公开，敬请期待，各种你想看的哦，你懂的~</string>
     
     <string name="has_more">hasMore</string>
+    <string name="pre_version">preVersion</string>
     
     <string name="more_tips">点击加载更多</string>
     <string name="no_more_tips">暂时没有更多了哦~\n温馨提示：每天晚上八点都会更新哦</string>

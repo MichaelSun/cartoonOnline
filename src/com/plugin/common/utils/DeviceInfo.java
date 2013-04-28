@@ -29,6 +29,8 @@ public class DeviceInfo {
 	public final String flashDataPath;
 
 	public final int sdkTarget;
+	
+	public final int versionCode;
 
 	public DeviceInfo(Context context) {
 		densityDpi = context.getResources().getDisplayMetrics().densityDpi;
@@ -48,6 +50,8 @@ public class DeviceInfo {
 		}
 
 		sdkTarget = Build.VERSION.SDK_INT;
+		
+		versionCode = Environment.getVersionCode(context);
 	}
 
 	@Override

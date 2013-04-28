@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 
+import com.cartoononline.CartoonSplashActivity.SectionsPagerAdapter;
 import com.cartoononline.fragment.DownloadFragment;
 import com.cartoononline.fragment.FragmentStatusInterface;
 import com.cartoononline.fragment.MoreBookFragment;
@@ -119,7 +120,7 @@ public class CartoonSplashActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         SpotManager.getInstance(this).loadSpotAds();
-
+        
         CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
             @Override
             public void run() {
@@ -127,6 +128,15 @@ public class CartoonSplashActivity extends BaseActivity {
                         AppConfig.KEY_SHOW_WALL);
                 if (!TextUtils.isEmpty(ret) && ret.equals("true")) {
                     mShowAppWall = true;
+                }
+                
+                String metaChannel = Utils.getString(CartoonSplashActivity.this.getApplicationContext(), "UMENG_CHANNEL");
+                String adViewShow = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
+                        metaChannel + AppConfig.KEY_ADVIEW);
+                
+                LOGD(">>>>>>>> adViewShow = " + adViewShow);
+                if (!TextUtils.isEmpty(adViewShow) && adViewShow.equals("true")) {
+                    AppConfig.ADVIEW_SHOW = true;
                 }
             }
         }));
