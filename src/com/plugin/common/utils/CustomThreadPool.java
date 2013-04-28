@@ -1,7 +1,6 @@
 package com.plugin.common.utils;
 
 import java.util.HashMap;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
@@ -149,6 +148,12 @@ public final class CustomThreadPool extends SingleInstanceBase implements Destro
 
     public static CustomThreadPool getInstance() {
         return SingleInstanceBase.getInstance(CustomThreadPool.class);
+    }
+    
+    public static void asyncWork(Runnable run) {
+        if (run != null) {
+            CustomThreadPool.getInstance().excute(new TaskWrapper(run));
+        }
     }
 
     @Override

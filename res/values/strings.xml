@@ -48,6 +48,7 @@
     
     <string name="more_tips">点击加载更多</string>
     <string name="no_more_tips">暂时没有更多了哦~\n温馨提示：每天晚上八点都会更新哦</string>
+    <string name="empty_download_tips">正在加载中，请稍后~\n温馨提示：每天晚上八点都会更新哦</string>
     
     <string name="tips_no_more">没有更多的画报了哦~</string>
 </resources>

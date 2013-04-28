@@ -16,9 +16,20 @@
         android:numColumns="2"
         android:padding="5dp"
         android:verticalSpacing="2dp"
-        ptr:ptrMode="both"
+        ptr:ptrHeaderSubTextColor="@drawable/gray8"
         ptr:ptrHeaderTextColor="@drawable/gray8"
-        ptr:ptrHeaderSubTextColor="@drawable/gray8" />
-    
+        ptr:ptrMode="both" />
+
+    <TextView
+        android:id="@+id/empty_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/empty_download_tips"
+        android:textColor="@drawable/gray5"
+        android:textSize="18sp"
+        android:visibility="gone" >
+    </TextView>
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="drag_active_color">#80cccccc</color>
     <color name="grid_state_pressed">#BB7dbcd3</color>
     <color name="grid_state_focused">#777dbcd3</color>
     <!-- base color -->
@@ -10,8 +11,8 @@
     <color name="logo_color">#FFCB553B</color>
     <color name="download_status">#385E0F</color>
     <color name="download_size">#191970</color>
-
     <color name="bg_black">#90000000</color>
+
     <drawable name="white">#FFFFFF</drawable>
     <drawable name="black">#000000</drawable>
     <drawable name="gray1">#AAAAAA</drawable>

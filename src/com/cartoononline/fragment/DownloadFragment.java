@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cartoononline.R;
@@ -32,6 +32,8 @@ import com.plugin.common.utils.SingleInstanceBase;
 public class DownloadFragment extends Fragment implements FragmentStatusInterface {
     
     private GridView mDownloadGridView;
+    
+    private TextView mEmptyTV;
     
     private LayoutInflater mLayoutInflater;
     
@@ -63,6 +65,9 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
             switch (msg.what) {
             case NOTIFY_DOWNLOAD_CHANGED:
                 mPullRefreshGridView.onRefreshComplete();
+                if (mDownloadList != null && mDownloadList.size() > 0) {
+                    mEmptyTV.setVisibility(View.GONE);
+                }
                 if (mDownlaodListAdapter == null) {
                     mDownlaodListAdapter = new DownloadItemAdapter(mActivity, mDownloadList,
                             mLayoutInflater);
@@ -72,26 +77,8 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
                 } else {
                     mDownlaodListAdapter.setData(mDownloadList);
                 }
-//                if (mFooterView != null) {
-//                    if (mDownloadModel.hasMore()) {
-//                        mFooterView.setText(R.string.more_tips);
-//                        mFooterView.setOnClickListener(mLoadMoreListener);
-//                    } else {
-//                        mFooterView.setText(R.string.no_more_tips);
-//                        mFooterView.setOnClickListener(null);
-//                    }
-//                }
-//                if (mProgress != null) {
-//                    mProgress.dismiss();
-//                }
-                
-//                if (!mDownloadModel.hasMore() && mPullRefreshGridView != null) {
-//                }
                 break;
             case DISSMISS_PROGRESS:
-//                if (mProgress != null) {
-//                    mProgress.dismiss();
-//                }
                 mPullRefreshGridView.onRefreshComplete();
                 break;
             case STOP_REFRESH:
@@ -163,6 +150,8 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         View ret = layoutInflater.inflate(R.layout.download_view, null);
         
         mPullRefreshGridView = (PullToRefreshGridView) ret.findViewById(R.id.pull_refresh_grid);
+        mPullRefreshGridView.setScrollingWhileRefreshingEnabled(true);
+        this.mEmptyTV = (TextView) ret.findViewById(R.id.empty_tips);
         mDownloadGridView = mPullRefreshGridView.getRefreshableView();
         mILoadingLayout = mPullRefreshGridView.getLoadingLayoutProxy();
 //        mFooterView = (TextView) ret.findViewById(R.id.info);
@@ -192,6 +181,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
             
         });
         
+        mEmptyTV.setVisibility(View.VISIBLE);
         asyncLoadDataLocal();
 
         return ret;
@@ -282,7 +272,8 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         if (mDownloadList == null || mDownloadList.size() == 0 || mDownloadModel.isDataChanged()) {
             if (mDownloadList == null || mDownloadList.size() == 0) {
                 //on local data
-                loadDownloadDataServer(true);
+//                loadDownloadDataServer(true);
+                mPullRefreshGridView.setRefreshing();
             } else {
                 asyncLoadDataLocal();
             }

@@ -2,6 +2,6 @@
 <resources>
 
     <dimen name="image_thumbnail_size">160dp</dimen>
-    <dimen name="image_thumbnail_spacing">5dp</dimen>
+    <dimen name="image_thumbnail_spacing">3dp</dimen>
 
 </resources>
