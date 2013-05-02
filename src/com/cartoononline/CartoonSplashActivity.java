@@ -3,7 +3,10 @@ package com.cartoononline;
 import java.util.HashMap;
 
 import net.youmi.android.spot.SpotManager;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,7 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 
-import com.cartoononline.CartoonSplashActivity.SectionsPagerAdapter;
 import com.cartoononline.fragment.DownloadFragment;
 import com.cartoononline.fragment.FragmentStatusInterface;
 import com.cartoononline.fragment.MoreBookFragment;
@@ -28,7 +30,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class CartoonSplashActivity extends BaseActivity {
 
-    private static final boolean DEBUG = AppConfig.DEBUG;
+    private static final boolean DEBUG = Config.DEBUG;
 
     public static final String KEY_FORECE_DOWNLOAD_SHOW = "force_download_show";
 
@@ -47,7 +49,35 @@ public class CartoonSplashActivity extends BaseActivity {
     private HashMap<Integer, Fragment> mItemsMap = new HashMap<Integer, Fragment>();
 
     private boolean mShowAppWall = false;
-
+    
+    private boolean mForceShowDownload = false;
+    
+    private static final int FROCE_DOWNLOAD_SHOW = 1;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case FROCE_DOWNLOAD_SHOW:
+                if (mViewPager != null) {
+                    int curIndex = mViewPager.getCurrentItem();
+                    if (curIndex != 1) {
+                        mViewPager.setCurrentItem(1);
+                    } else {
+                        mForceShowDownload = false;
+                        if (mItemsMap.containsKey(1)) {
+                            Fragment f = mItemsMap.get(1);
+                            if (f != null && f instanceof FragmentStatusInterface) {
+                                mDownloadModel.resetPageNo();
+                                ((FragmentStatusInterface) f).onForceRefresh();
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    };
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,14 +136,24 @@ public class CartoonSplashActivity extends BaseActivity {
                     if (mItemsMap.containsKey(1)) {
                         Fragment f = mItemsMap.get(1);
                         if (f != null && f instanceof FragmentStatusInterface) {
-                            ((FragmentStatusInterface) f).onShow();
+                            if (!mForceShowDownload) {
+                                ((FragmentStatusInterface) f).onShow();
+                            } else {
+                                mDownloadModel.resetPageNo();
+                                ((FragmentStatusInterface) f).onForceRefresh();
+                            }
                         }
                     }
+                    mForceShowDownload = false;
                     break;
                 }
             }
 
         });
+        
+        if (getIntent() != null) {
+            mForceShowDownload = getIntent().getBooleanExtra(KEY_FORECE_DOWNLOAD_SHOW, false);
+        }
     }
 
     @Override
@@ -125,27 +165,46 @@ public class CartoonSplashActivity extends BaseActivity {
             @Override
             public void run() {
                 String ret = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
-                        AppConfig.KEY_SHOW_WALL);
+                        Config.KEY_SHOW_WALL);
                 if (!TextUtils.isEmpty(ret) && ret.equals("true")) {
                     mShowAppWall = true;
                 }
                 
                 String metaChannel = Utils.getString(CartoonSplashActivity.this.getApplicationContext(), "UMENG_CHANNEL");
                 String adViewShow = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
-                        metaChannel + AppConfig.KEY_ADVIEW);
+                        metaChannel + Config.KEY_ADVIEW);
                 
                 LOGD(">>>>>>>> adViewShow = " + adViewShow);
                 if (!TextUtils.isEmpty(adViewShow) && adViewShow.equals("true")) {
-                    AppConfig.ADVIEW_SHOW = true;
+                    Config.ADVIEW_SHOW = true;
                 }
             }
         }));
+        
+        if (mForceShowDownload) {
+            mHandler.sendEmptyMessageDelayed(FROCE_DOWNLOAD_SHOW, 400);   
+        }
     }
 
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        
+        if (intent != null) {
+            mForceShowDownload = intent.getBooleanExtra(KEY_FORECE_DOWNLOAD_SHOW, false);
+        }
+        
+        if (mForceShowDownload) {
+            mHandler.sendEmptyMessageDelayed(FROCE_DOWNLOAD_SHOW, 400);   
+        }
+    }
+    
     @Override
     protected void onResume() {
         super.onResume();
 
+        CRuntime.CUR_FORMAT_TIME = CRuntime.composeTime();
+        
         mCacheManager.setCacheStrategy(mDefICacheStrategy);
 
         if (mCurPageIndex == 0) {
@@ -262,7 +321,7 @@ public class CartoonSplashActivity extends BaseActivity {
     }
 
     private static void LOGD(String msg) {
-        if (AppConfig.DEBUG) {
+        if (Config.DEBUG) {
             UtilsConfig.LOGD(msg);
         }
     }

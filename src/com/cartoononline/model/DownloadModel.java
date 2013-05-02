@@ -108,6 +108,7 @@ public class DownloadModel extends DataModelBase {
                                 ditem.sessionName = item.name;
                                 ditem.size = item.size;
                                 ditem.downloadTime = System.currentTimeMillis() + timeIndex;
+                                ditem.time = item.time;
                                 saveData[index] = ditem;
                                 
                                 timeIndex++;

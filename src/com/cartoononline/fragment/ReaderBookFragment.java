@@ -23,7 +23,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.cartoononline.AlbumActivity;
-import com.cartoononline.AppConfig;
+import com.cartoononline.Config;
 import com.cartoononline.CRuntime;
 import com.cartoononline.R;
 import com.cartoononline.SessionInfo;
@@ -239,10 +239,10 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
                 int preVersion = SettingManager.getInstance().getPreVersion();
                 if (preVersion == 0 || preVersion < UtilsConfig.DEVICE_INFO.versionCode) {
                     //delete old assets infos
-                    String deleteName = AppConfig.ROOT_DIR + "session1/";
+                    String deleteName = Config.ROOT_DIR + "session1/";
                     FileInfo finfo = FileUtil.getFileInfo(deleteName);
                     FileOperatorHelper.DeleteFile(finfo);
-                    deleteName = AppConfig.ROOT_DIR + "session0/";
+                    deleteName = Config.ROOT_DIR + "session0/";
                     finfo = FileUtil.getFileInfo(deleteName);
                     FileOperatorHelper.DeleteFile(finfo);
                 }
@@ -275,7 +275,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
     }
     
     private void checkInternalContent() {
-        if (AppConfig.DEBUG) {
+        if (Config.DEBUG) {
             UtilsConfig.LOGD("[[checkInternalContent]]");
         }
         
@@ -292,13 +292,13 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
             List<SessionReadModel> oldData = mSessionModel.syncLoadDataLocal();
             
             for (String name : filenames) {
-                if (AppConfig.DEBUG) {
+                if (Config.DEBUG) {
                     UtilsConfig.LOGD("[[checkInternalContent]] now check file : " + name);
                 }
 
-                if (name.startsWith(AppConfig.SESSION_REFIX)) {
+                if (name.startsWith(Config.SESSION_REFIX)) {
                     String sname = name.substring(0, name.lastIndexOf(".zip"));
-                    String targetPath = AppConfig.ROOT_DIR + sname + File.separator;
+                    String targetPath = Config.ROOT_DIR + sname + File.separator;
                     SessionInfo sInfo = Utils.getSessionInfo(targetPath);
                     if (sInfo == null) {
                         if (Utils.syncUnzipInternalSessions(mContext, name)) {

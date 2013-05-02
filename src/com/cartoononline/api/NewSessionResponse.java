@@ -19,24 +19,28 @@ public class NewSessionResponse extends ResponseBase {
         
         public String size;
         
+        public String time;
+        
         @JsonCreator
         public SessionItem(
                 @JsonProperty("downloadUrl") String downloadUrl,
                 @JsonProperty("imageUrl") String imageUrl,
                 @JsonProperty("description") String description,
                 @JsonProperty("name") String name,
+                @JsonProperty("time") String time,
                 @JsonProperty("size") String size) {
             this.downloadUrl = downloadUrl;
             this.imageUrl = imageUrl;
             this.description = description;
             this.name = name;
+            this.time = time;
             this.size = size;
         }
 
         @Override
         public String toString() {
             return "SessionItem [downloadUrl=" + downloadUrl + ", imageUrl=" + imageUrl + ", description="
-                    + description + ", name=" + name + ", size=" + size + "]";
+                    + description + ", name=" + name + ", size=" + size + ", time=" + time + "]";
         }
         
     }

@@ -1,5 +1,8 @@
 package com.cartoononline;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.youmi.android.YoumiAdManager;
 import android.app.Application;
 
@@ -26,11 +29,16 @@ public class CartoonApplication extends Application {
 
         PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
                 Utils.getMetaValue(this, "api_key"));
+        if (Config.DEBUG) {
+            List<String> tags = new ArrayList<String>();
+            tags.add("debug");
+            PushManager.setTags(getApplicationContext(), tags);
+        }
     }
 
     private void initYoumi() {
-        YoumiAdManager.getInstance(this.getApplicationContext()).init(AppConfig.YOUMI_APP_ID,
-                AppConfig.YOUMI_APP_SECRET_KEY, false);
+        YoumiAdManager.getInstance(this.getApplicationContext()).init(Config.YOUMI_APP_ID,
+                Config.YOUMI_APP_SECRET_KEY, false);
 //        OffersManager.getInstance(this.getApplicationContext()).onAppLaunch();
         SingleInstanceManager.getInstance().init(getApplicationContext());
     }

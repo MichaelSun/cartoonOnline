@@ -24,7 +24,7 @@ import com.plugin.common.utils.zip.ZipUtil;
 
 public class Utils {
 
-    private static final boolean DEBUG = AppConfig.DEBUG;
+    private static final boolean DEBUG = Config.DEBUG;
 
     private static final String SESSION_KEY = "infos";
 
@@ -109,7 +109,7 @@ public class Utils {
             }
 
             InputStream is = context.getAssets().open(filename);
-            return Utils.unzipInputToTarget(is, AppConfig.ROOT_DIR);
+            return Utils.unzipInputToTarget(is, Config.ROOT_DIR);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,7 +122,7 @@ public class Utils {
 
         if (!TextUtils.isEmpty(sessionPath)) {
             File sFile = new File(sessionPath);
-            String path = sessionPath + "/" + AppConfig.INI_FILE;
+            String path = sessionPath + "/" + Config.INI_FILE;
             File sINI = new File(path);
             if (!sFile.exists() || !sINI.exists()) {
                 return null;
@@ -130,14 +130,14 @@ public class Utils {
 
             UtilsConfig.LOGD("[[getSessionInfo]] get ini info now");
 
-            INIFile iniFile = new INIFile(sessionPath + "/" + AppConfig.INI_FILE);
+            INIFile iniFile = new INIFile(sessionPath + "/" + Config.INI_FILE);
             SessionInfo ret = new SessionInfo();
             ret.name = iniFile.getStringProperty(SESSION_KEY, "name");
             ret.time = iniFile.getStringProperty(SESSION_KEY, "time");
             ret.cover = sessionPath + iniFile.getStringProperty(SESSION_KEY, "cover");
             ret.description = iniFile.getStringProperty(SESSION_KEY, "description");
             ret.path = sessionPath;
-            ret.sessionName = sessionPath.substring(AppConfig.ROOT_DIR.length());
+            ret.sessionName = sessionPath.substring(Config.ROOT_DIR.length());
 
             UtilsConfig.LOGD("[[getSessionInfo]] ret = " + ret.toString());
 

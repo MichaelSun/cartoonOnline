@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cartoononline.AppConfig;
+import com.cartoononline.Config;
 import com.cartoononline.R;
 import com.plugin.common.utils.UtilsConfig;
 
@@ -26,7 +26,7 @@ public class MoreBookFragment extends Fragment {
     }
     
     private static void LOGD(String msg) {
-        if (AppConfig.DEBUG) {
+        if (Config.DEBUG) {
             UtilsConfig.LOGD(msg);
         }
     }

@@ -23,7 +23,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cartoononline.AppConfig;
+import com.cartoononline.CRuntime;
+import com.cartoononline.Config;
 import com.cartoononline.CustomCycleBitmapOpration;
 import com.cartoononline.R;
 import com.cartoononline.SessionInfo;
@@ -71,6 +72,8 @@ public class DownloadItemAdapter extends BaseAdapter {
     private ProgressDialog mUnZipProgress;
 
     private Animation mFadeInAnim;
+    
+    private boolean mIsFling;
 
     // private CustomCycleBitmapOpration mCustomCycleBitmapOpration = new
     // CustomCycleBitmapOpration();
@@ -92,7 +95,9 @@ public class DownloadItemAdapter extends BaseAdapter {
                         int code = (Integer) i.getTag();
                         if (hashCode == code) {
                             i.setImageBitmap((Bitmap) msg.obj);
-                            i.startAnimation(mFadeInAnim);
+                            if (!mIsFling) {
+                                i.startAnimation(mFadeInAnim);
+                            }
                         }
                     }
                 }
@@ -138,6 +143,10 @@ public class DownloadItemAdapter extends BaseAdapter {
         }
     }
 
+    public void setFlingState(boolean fling) {
+        mIsFling = fling;
+    }
+    
     private void deleteSession(DownloadItemModel r) {
         if (r == null) {
             return;
@@ -150,7 +159,7 @@ public class DownloadItemAdapter extends BaseAdapter {
 
         String downloadUrl = r.getDownloadUrl();
         String unzipTarget = null;
-        int pos = downloadUrl.indexOf(AppConfig.SESSION_REFIX);
+        int pos = downloadUrl.indexOf(Config.SESSION_REFIX);
         if (pos != -1) {
             int endPos = downloadUrl.lastIndexOf(".zip");
             if (endPos != -1) {
@@ -159,7 +168,7 @@ public class DownloadItemAdapter extends BaseAdapter {
         }
 
         if (!TextUtils.isEmpty(unzipTarget)) {
-            String targetPath = AppConfig.ROOT_DIR + unzipTarget + File.separator;
+            String targetPath = Config.ROOT_DIR + unzipTarget + File.separator;
             File targetFile = new File(targetPath);
             if (targetFile.exists()) {
                 FileInfo info = FileUtil.getFileInfo(targetFile);
@@ -186,7 +195,7 @@ public class DownloadItemAdapter extends BaseAdapter {
 
                 String downloadUrl = r.getDownloadUrl();
                 String unzipTarget = null;
-                int pos = downloadUrl.indexOf(AppConfig.SESSION_REFIX);
+                int pos = downloadUrl.indexOf(Config.SESSION_REFIX);
                 if (pos != -1) {
                     int endPos = downloadUrl.lastIndexOf(".zip");
                     if (endPos != -1) {
@@ -195,7 +204,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                 }
 
                 if (!TextUtils.isEmpty(unzipTarget)) {
-                    String targetPath = AppConfig.ROOT_DIR + unzipTarget + File.separator;
+                    String targetPath = Config.ROOT_DIR + unzipTarget + File.separator;
                     File targetFile = new File(targetPath);
                     if (targetFile.exists()) {
                         FileInfo info = FileUtil.getFileInfo(targetFile);
@@ -203,7 +212,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                     }
 
                     if (!targetFile.exists()) {
-                        if (Utils.unzipSrcToTarget(localPath, AppConfig.ROOT_DIR)) {
+                        if (Utils.unzipSrcToTarget(localPath, Config.ROOT_DIR)) {
                             SessionInfo sInfo = Utils.getSessionInfo(targetPath);
                             if (sInfo != null) {
                                 SessionReadModel m = new SessionReadModel();
@@ -276,6 +285,7 @@ public class DownloadItemAdapter extends BaseAdapter {
             holder.description = (TextView) ret.findViewById(R.id.description);
             holder.size = (TextView) ret.findViewById(R.id.size);
             holder.statusIcon = (ImageView) ret.findViewById(R.id.status_icon);
+            holder.newsIcon = (ImageView) ret.findViewById(R.id.news_tips);
             ret.setTag(holder);
         } else {
             holder = (ViewHolder) ret.getTag();
@@ -293,6 +303,12 @@ public class DownloadItemAdapter extends BaseAdapter {
             holder.statusIcon.setImageResource(R.drawable.download_button);
         } else {
             holder.statusIcon.setImageResource(R.drawable.info);
+        }
+        
+        if (CRuntime.CUR_FORMAT_TIME.equals(item.time)) {
+            holder.newsIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.newsIcon.setVisibility(View.GONE);
         }
 
         // set icon image
@@ -316,12 +332,11 @@ public class DownloadItemAdapter extends BaseAdapter {
             return;
         }
 
+        holder.icon.setTag(url.hashCode());
+        mIconImageViewList.add(holder.icon);
         CustomThreadPool.asyncWork(new Runnable() {
             @Override
             public void run() {
-                holder.icon.setTag(url.hashCode());
-                mIconImageViewList.add(holder.icon);
-                
                 Bitmap icon = mCacheManager.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, url);
                 if (icon != null) {
                     Message msg = Message.obtain();
@@ -509,10 +524,11 @@ public class DownloadItemAdapter extends BaseAdapter {
         TextView description;
         TextView size;
         ImageView statusIcon;
+        ImageView newsIcon;
     }
 
     private static void LOGD(String msg) {
-        if (AppConfig.DEBUG) {
+        if (Config.DEBUG) {
             UtilsConfig.LOGD(msg);
         }
     }

@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,8 +55,8 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     private ILoadingLayout mILoadingLayout;
     
     private Toast mToast;
-    
-//    private TextView mFooterView;
+
+    private boolean mIsFling;
     
     private static final int NOTIFY_DOWNLOAD_CHANGED = 10003;
     private static final int DISSMISS_PROGRESS = 10004;
@@ -153,6 +154,33 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         mPullRefreshGridView.setScrollingWhileRefreshingEnabled(true);
         this.mEmptyTV = (TextView) ret.findViewById(R.id.empty_tips);
         mDownloadGridView = mPullRefreshGridView.getRefreshableView();
+        mDownloadGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                case SCROLL_STATE_FLING:
+                    mIsFling = true;
+                    break;
+                case SCROLL_STATE_IDLE:
+                case SCROLL_STATE_TOUCH_SCROLL:
+                    mIsFling = false;                    
+                    break;
+                }
+                
+                if (mDownlaodListAdapter != null) {
+                    mDownlaodListAdapter.setFlingState(mIsFling);
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+        });
+        
         mILoadingLayout = mPullRefreshGridView.getLoadingLayoutProxy();
 //        mFooterView = (TextView) ret.findViewById(R.id.info);
         mILoadingLayout.setLoadingDrawable(mContext.getResources().getDrawable(R.drawable.default_ptr_drawable));
