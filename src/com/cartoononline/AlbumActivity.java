@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import net.youmi.android.spot.SpotManager;
 import android.content.Context;
@@ -21,6 +22,7 @@ import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.cache.ICacheStrategy;
 import com.polites.android.RegionImageView;
+import com.umeng.analytics.MobclickAgent;
 
 public class AlbumActivity extends BaseActivity {
 
@@ -72,6 +74,11 @@ public class AlbumActivity extends BaseActivity {
         mViewPager.setAdapter(new MyPagerAdapter());
 
         initActionbar();
+        
+        //umeng log
+        HashMap<String, String> extra = new HashMap<String, String>();
+        extra.put("name", mDescription);
+        MobclickAgent.onEvent(this.getApplicationContext(), Config.OPEN_ALUBM, extra);
     }
 
     @Override

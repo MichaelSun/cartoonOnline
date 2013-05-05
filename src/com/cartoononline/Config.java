@@ -22,4 +22,8 @@ public class Config {
     
     public static boolean ADVIEW_SHOW = false;
     
+    //umeng event
+    public static final String DOWNLOAD_ALUBM = "download_album";
+    public static final String OPEN_ALUBM = "open_album";
+    
 }

@@ -2,6 +2,7 @@ package com.cartoononline.adapter;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.Set;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -49,6 +51,7 @@ import com.plugin.common.utils.files.FileUtil;
 import com.plugin.common.utils.image.ImageDownloader;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchRequest;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
+import com.umeng.analytics.MobclickAgent;
 
 public class DownloadItemAdapter extends BaseAdapter {
 
@@ -74,6 +77,8 @@ public class DownloadItemAdapter extends BaseAdapter {
     private Animation mFadeInAnim;
     
     private boolean mIsFling;
+    
+    private Context mContext;
 
     // private CustomCycleBitmapOpration mCustomCycleBitmapOpration = new
     // CustomCycleBitmapOpration();
@@ -126,6 +131,9 @@ public class DownloadItemAdapter extends BaseAdapter {
 
     public DownloadItemAdapter(Activity a, List<DownloadItemModel> data, LayoutInflater lf) {
         mActivity = a;
+        if (mActivity != null) {
+            mContext = mActivity.getApplicationContext();
+        }
         mLayoutInflater = lf;
         mIconImageViewList = new HashSet<ImageView>();
         mImageDownloader = SingleInstanceBase.getInstance(ImageDownloader.class);
@@ -378,12 +386,16 @@ public class DownloadItemAdapter extends BaseAdapter {
                     if (item.status == DownloadItemModel.UNDOWNLOAD) {
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
                                 .setMessage(
-                                        String.format(mActivity.getString(R.string.download_tips), item.sessionName))
+                                        String.format(mActivity.getString(R.string.download_tips), item.description))
                                 .setNegativeButton(R.string.cancel, null)
                                 .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (!TextUtils.isEmpty(item.downloadUrl)) {
+                                            HashMap<String, String> extra = new HashMap<String, String>();
+                                            extra.put("name", item.description);
+                                            MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM, extra);
+                                            
                                             if (!mProgress.isShowing()) {
                                                 mProgress.show();
                                             }
