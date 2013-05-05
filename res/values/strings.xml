@@ -41,6 +41,8 @@
     <string name="server">画报书城</string>
     <string name="more">更多图书</string>
     
+    <string name="page_count" formatted="false">%s/%s</string>
+    
     <string name="more_app_tips">更多图书稍后公开，敬请期待，各种你想看的哦，你懂的~</string>
     
     <string name="has_more">hasMore</string>

@@ -92,19 +92,17 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     public DownloadFragment() {
     }
     
-    public DownloadFragment(Activity a) {
-        mActivity = a;
-        mContext = a.getApplicationContext();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        mActivity = getActivity();
+        mContext = mActivity.getApplicationContext();
         
         //init toast
         mToast = Toast.makeText(mContext, R.string.tips_no_more, Toast.LENGTH_LONG);
         mToast.setText(R.string.tips_no_more);
         mToast.setDuration(Toast.LENGTH_LONG);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
     }
@@ -182,7 +180,6 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         });
         
         mILoadingLayout = mPullRefreshGridView.getLoadingLayoutProxy();
-//        mFooterView = (TextView) ret.findViewById(R.id.info);
         mILoadingLayout.setLoadingDrawable(mContext.getResources().getDrawable(R.drawable.default_ptr_drawable));
         mILoadingLayout.setPullLabel(mContext.getString(R.string.pull_label));
         mILoadingLayout.setReleaseLabel(mContext.getString(R.string.release_label));

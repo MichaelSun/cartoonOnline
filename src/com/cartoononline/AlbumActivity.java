@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
@@ -96,13 +97,13 @@ public class AlbumActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        
+
         mViewPager.setAdapter(null);
         mViewPager = null;
-        
+
         mCacheManager.setCacheStrategy(mOldICacheStrategy);
         mCacheManager.releaseAllResource();
-        
+
         System.gc();
     }
 
@@ -205,14 +206,7 @@ public class AlbumActivity extends BaseActivity {
                 holder.imageView.setStartBeginTop(startTop(show));
                 holder.imageView.setImageBitmap(show);
                 holder.imageView.setImageFullPath(mCacheManager.getResourcePath(mSessionName, String.valueOf(pos + 1)));
-
-                // for (View v : mViewArray) {
-                // if (v != retView) {
-                // Holder holderC = (Holder) v.getTag();
-                // holderC.imageView.setImageBitmap(null);
-                // holderC.imageView.setImageFullPath(null);
-                // }
-                // }
+                holder.pageCount.setText(String.format(getString(R.string.page_count), pos, mCount));
 
                 ((ViewPager) arg0).addView(retView);
             } else {
@@ -220,21 +214,16 @@ public class AlbumActivity extends BaseActivity {
                 Holder holder = new Holder();
                 RegionImageView image = (RegionImageView) retView.findViewById(R.id.view_photo_gallery_item_image);
                 holder.imageView = image;
+                holder.pageCount = (TextView) retView.findViewById(R.id.page_count);
                 retView.setTag(holder);
-
-                // for (View v : mViewArray) {
-                // if (v != retView) {
-                // Holder holderC = (Holder) v.getTag();
-                // holderC.imageView.setImageBitmap(null);
-                // holderC.imageView.setImageFullPath(null);
-                // }
-                // }
 
                 Bitmap show = mCacheManager.getResource(mSessionName, String.valueOf(pos + 1));
                 image.setIsCrop(isCrop(show));
                 holder.imageView.setStartBeginTop(startTop(show));
                 image.setImageBitmap(show);
                 image.setImageFullPath(mCacheManager.getResourcePath(mSessionName, String.valueOf(pos + 1)));
+                
+                holder.pageCount.setText(String.format(getString(R.string.page_count), pos, mCount));
                 mViewArray.add(retView);
                 ((ViewPager) arg0).addView(retView);
             }
@@ -262,6 +251,7 @@ public class AlbumActivity extends BaseActivity {
 
         private class Holder {
             RegionImageView imageView;
+            TextView pageCount;
         }
     }
 

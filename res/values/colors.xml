@@ -9,7 +9,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="logo_color">#FFCB553B</color>
-    <color name="download_status">#385E0F</color>
+    <color name="page_count_bg">#e0385E0F</color>
     <color name="download_size">#191970</color>
     <color name="bg_black">#90000000</color>
 

@@ -95,14 +95,12 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
     public ReaderBookFragment() {
     }
     
-    public ReaderBookFragment(Activity a) {
-        mActivity = a;
-        mContext = a.getApplicationContext();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        mActivity = getActivity();
+        mContext = mActivity.getApplicationContext();
 
         mSessionModel = SingleInstanceBase.getInstance(SessionModel.class);
         mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
@@ -117,21 +115,6 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
         
         View ret = inflater.inflate(R.layout.reader_view, null);
         mGridView = (GridView) ret.findViewById(R.id.gridView);
-        
-        mGridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-//                if (mAdapter.getNumColumns() == 0) {
-//                    final int numColumns = (int) Math.floor(mGridView.getWidth()
-//                            / (mImageThumbSize + mImageThumbSpacing));
-//                    if (numColumns > 0) {
-//                        final int columnWidth = (mGridView.getWidth() / numColumns) - mImageThumbSpacing;
-//                        mAdapter.setNumColumns(numColumns);
-//                        mAdapter.setItemHeight(columnWidth);
-//                    }
-//                }
-            }
-        });
         initView();
         initProgressBar();
         asyncCheckInternalContent();

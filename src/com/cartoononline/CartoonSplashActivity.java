@@ -287,10 +287,10 @@ public class CartoonSplashActivity extends BaseActivity {
             if (mItemsMap.size() <= position) {
                 switch (position) {
                 case 0:
-                    mItemsMap.put(position, new ReaderBookFragment(CartoonSplashActivity.this));
+                    mItemsMap.put(position, new ReaderBookFragment());
                     break;
                 case 1:
-                    mItemsMap.put(position, new DownloadFragment(CartoonSplashActivity.this));
+                    mItemsMap.put(position, new DownloadFragment());
                     break;
                 case 2:
                     mItemsMap.put(position, new MoreBookFragment());

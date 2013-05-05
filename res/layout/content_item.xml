@@ -15,4 +15,22 @@
         gesture-image:max-scale="10.0"
         gesture-image:min-scale="0.5" />
 
+    <TextView
+        android:id="@+id/page_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:paddingBottom="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="3dp"
+        android:textColor="@drawable/gray6"
+        android:textSize="18sp"
+        android:background="@drawable/page_count_bg" >
+    </TextView>
+
 </RelativeLayout>
