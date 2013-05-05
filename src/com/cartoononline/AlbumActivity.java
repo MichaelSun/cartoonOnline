@@ -213,7 +213,7 @@ public class AlbumActivity extends BaseActivity {
                 holder.imageView.setStartBeginTop(startTop(show));
                 holder.imageView.setImageBitmap(show);
                 holder.imageView.setImageFullPath(mCacheManager.getResourcePath(mSessionName, String.valueOf(pos + 1)));
-                holder.pageCount.setText(String.format(getString(R.string.page_count), pos, mCount));
+                holder.pageCount.setText(String.format(getString(R.string.page_count), pos + 1, mCount));
 
                 ((ViewPager) arg0).addView(retView);
             } else {
@@ -230,7 +230,7 @@ public class AlbumActivity extends BaseActivity {
                 image.setImageBitmap(show);
                 image.setImageFullPath(mCacheManager.getResourcePath(mSessionName, String.valueOf(pos + 1)));
                 
-                holder.pageCount.setText(String.format(getString(R.string.page_count), pos, mCount));
+                holder.pageCount.setText(String.format(getString(R.string.page_count), pos + 1, mCount));
                 mViewArray.add(retView);
                 ((ViewPager) arg0).addView(retView);
             }
