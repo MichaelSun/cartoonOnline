@@ -38,11 +38,9 @@ public class CartoonApplication extends Application {
 
         PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
                 Utils.getMetaValue(this, "api_key"));
-        if (Config.DEBUG) {
-            List<String> tags = new ArrayList<String>();
-            tags.add("debug");
-            PushManager.setTags(getApplicationContext(), tags);
-        }
+        List<String> tags = new ArrayList<String>();
+        tags.add(Config.PUSH_TAG[Config.INDEX]);
+        PushManager.setTags(getApplicationContext(), tags);
     }
 
     private void initYoumi() {
