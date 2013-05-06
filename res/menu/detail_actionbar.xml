@@ -14,9 +14,9 @@
         android:title="etc">
         <menu>
             <item
-                android:id="@+id/more_apps"
+                android:id="@+id/wall_info"
                 android:showAsAction="ifRoom"
-                android:title="@string/more_app">
+                android:title="@string/wall_info_detail">
             </item>
         </menu>
     </item>

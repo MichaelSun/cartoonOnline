@@ -11,12 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cartoononline.R;
-import com.cartoononline.R.drawable;
-import com.cartoononline.R.id;
-import com.cartoononline.R.layout;
-import com.cartoononline.R.string;
 import com.cartoononline.model.SessionReadModel;
+import com.michael.manhua.R;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.utils.UtilsConfig;

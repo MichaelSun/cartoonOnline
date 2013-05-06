@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cartoononline"
-    android:versionCode="8"
-    android:versionName="1.8" >
+    package="com.michael.manhua"
+    android:versionCode="10"
+    android:versionName="2.0" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -73,27 +73,29 @@
         </activity>
 
         <!-- youmi usage -->
-        <meta-data
-            android:name="YOUMI_CHANNEL"
-            android:value="10020" />
+        <meta-data android:name="YOUMI_CHANNEL" android:value="10020" />
 
         <activity
-            android:name="net.youmi.android.YoumiActivity"
+            android:name="net.youmi.android.AdBrowser"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
 
         <service
-            android:name="net.youmi.android.YoumiService"
+            android:name="net.youmi.android.AdService"
             android:exported="false" >
         </service>
 
-        <receiver android:name="net.youmi.android.YoumiReceiver" >
+        <receiver android:name="net.youmi.android.AdReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
+                <data android:scheme="package"/>
+            </intent-filter>        
+        </receiver>
+        <receiver
+            android:name="net.youmi.android.offers.OffersReceiver"
+            android:exported="false" >
         </receiver>
 
         <!-- push service client -->
@@ -107,6 +109,10 @@
                 <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
+        </receiver>
+        <receiver
+            android:name="net.youmi.android.offers.OffersReceiver"
+            android:exported="false" >
         </receiver>
 
         <!-- push service -->

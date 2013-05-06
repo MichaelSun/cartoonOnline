@@ -2,7 +2,11 @@ package com.cartoononline;
 
 import java.util.HashMap;
 
+import net.youmi.android.offers.OffersManager;
+import net.youmi.android.offers.PointsManager;
 import net.youmi.android.spot.SpotManager;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +23,7 @@ import com.cartoononline.fragment.FragmentStatusInterface;
 import com.cartoononline.fragment.MoreBookFragment;
 import com.cartoononline.fragment.ReaderBookFragment;
 import com.cartoononline.model.DownloadModel;
+import com.michael.manhua.R;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.cache.ICacheStrategy;
@@ -48,10 +53,10 @@ public class CartoonSplashActivity extends BaseActivity {
 
     private HashMap<Integer, Fragment> mItemsMap = new HashMap<Integer, Fragment>();
 
-    private boolean mShowAppWall = false;
-    
+    private boolean mShowAppWallInfo = true;
+
     private boolean mForceShowDownload = false;
-    
+
     private static final int FROCE_DOWNLOAD_SHOW = 1;
     private Handler mHandler = new Handler() {
         @Override
@@ -77,7 +82,7 @@ public class CartoonSplashActivity extends BaseActivity {
             }
         }
     };
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,7 +155,7 @@ public class CartoonSplashActivity extends BaseActivity {
             }
 
         });
-        
+
         if (getIntent() != null) {
             mForceShowDownload = getIntent().getBooleanExtra(KEY_FORECE_DOWNLOAD_SHOW, false);
         }
@@ -160,51 +165,52 @@ public class CartoonSplashActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         SpotManager.getInstance(this).loadSpotAds();
-        
+
         CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
             @Override
             public void run() {
                 String ret = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
                         Config.KEY_SHOW_WALL);
                 if (!TextUtils.isEmpty(ret) && ret.equals("true")) {
-                    mShowAppWall = true;
+                    mShowAppWallInfo = true;
                 }
-                
-                String metaChannel = Utils.getString(CartoonSplashActivity.this.getApplicationContext(), "UMENG_CHANNEL");
+
+                String metaChannel = Utils.getString(CartoonSplashActivity.this.getApplicationContext(),
+                        "UMENG_CHANNEL");
                 String adViewShow = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
                         metaChannel + Config.KEY_ADVIEW);
-                
+
                 LOGD(">>>>>>>> adViewShow = " + adViewShow);
                 if (!TextUtils.isEmpty(adViewShow) && adViewShow.equals("true")) {
                     Config.ADVIEW_SHOW = true;
                 }
             }
         }));
-        
+
         if (mForceShowDownload) {
-            mHandler.sendEmptyMessageDelayed(FROCE_DOWNLOAD_SHOW, 400);   
+            mHandler.sendEmptyMessageDelayed(FROCE_DOWNLOAD_SHOW, 400);
         }
     }
 
     @Override
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        
+
         if (intent != null) {
             mForceShowDownload = intent.getBooleanExtra(KEY_FORECE_DOWNLOAD_SHOW, false);
         }
-        
+
         if (mForceShowDownload) {
-            mHandler.sendEmptyMessageDelayed(FROCE_DOWNLOAD_SHOW, 400);   
+            mHandler.sendEmptyMessageDelayed(FROCE_DOWNLOAD_SHOW, 400);
         }
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
 
         CRuntime.CUR_FORMAT_TIME = CRuntime.composeTime();
-        
+
         mCacheManager.setCacheStrategy(mDefICacheStrategy);
 
         if (mCurPageIndex == 0) {
@@ -220,13 +226,13 @@ public class CartoonSplashActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        OffersManager.getInstance(this).onAppExit();
+        OffersManager.getInstance(this).onAppExit();
         mCacheManager.releaseAllResource();
     }
 
     @Override
     public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
-        if (mShowAppWall) {
+        if (mShowAppWallInfo) {
             getSupportMenuInflater().inflate(R.menu.detail_actionbar, menu);
         } else {
             getSupportMenuInflater().inflate(R.menu.action_refresh, menu);
@@ -237,9 +243,9 @@ public class CartoonSplashActivity extends BaseActivity {
     @Override
     public boolean onMenuItemSelected(int featureId, com.actionbarsherlock.view.MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.more_apps:
-            if (mShowAppWall) {
-//                OffersManager.getInstance(getApplicationContext()).showOffersWall();
+        case R.id.wall_info:
+            if (mShowAppWallInfo) {
+                showWallInfoDialog();
             }
             break;
         case R.id.action_load:
@@ -266,6 +272,24 @@ public class CartoonSplashActivity extends BaseActivity {
         }
 
         return true;
+    }
+
+    private void showWallInfoDialog() {
+        int point = PointsManager.getInstance(this).queryPoints();
+        String tips = String.format(getString(R.string.offer_info_detail), point);
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.tips_title).setMessage(tips)
+                .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        OffersManager.getInstance(CartoonSplashActivity.this).showOffersWall();
+
+                        MobclickAgent.onEvent(CartoonSplashActivity.this.getApplicationContext(), "download_app_open");
+                        MobclickAgent.flush(CartoonSplashActivity.this.getApplicationContext());
+                    }
+                }).setNegativeButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create();
+        dialog.show();
     }
 
     private void initActionbar() {
@@ -312,7 +336,11 @@ public class CartoonSplashActivity extends BaseActivity {
             case 0:
                 return getString(R.string.local);
             case 1:
-                return getString(R.string.server);
+                if (Config.INDEX == 0) {
+                    return getString(R.string.server);
+                } else if (Config.INDEX == 1) {
+                    return getString(R.string.xiee_server);
+                }
             case 2:
                 return getString(R.string.more);
             }

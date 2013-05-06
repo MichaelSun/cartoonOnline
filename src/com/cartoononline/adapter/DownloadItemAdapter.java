@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.youmi.android.offers.OffersManager;
+import net.youmi.android.offers.PointsManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -28,13 +30,13 @@ import android.widget.TextView;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;
 import com.cartoononline.CustomCycleBitmapOpration;
-import com.cartoononline.R;
 import com.cartoononline.SessionInfo;
 import com.cartoononline.Utils;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
 import com.cartoononline.model.SessionModel;
 import com.cartoononline.model.SessionReadModel;
+import com.michael.manhua.R;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.utils.CustomThreadPool;
@@ -75,9 +77,9 @@ public class DownloadItemAdapter extends BaseAdapter {
     private ProgressDialog mUnZipProgress;
 
     private Animation mFadeInAnim;
-    
+
     private boolean mIsFling;
-    
+
     private Context mContext;
 
     // private CustomCycleBitmapOpration mCustomCycleBitmapOpration = new
@@ -154,7 +156,7 @@ public class DownloadItemAdapter extends BaseAdapter {
     public void setFlingState(boolean fling) {
         mIsFling = fling;
     }
-    
+
     private void deleteSession(DownloadItemModel r) {
         if (r == null) {
             return;
@@ -312,7 +314,7 @@ public class DownloadItemAdapter extends BaseAdapter {
         } else {
             holder.statusIcon.setImageResource(R.drawable.info);
         }
-        
+
         if (CRuntime.CUR_FORMAT_TIME.equals(item.time)) {
             holder.newsIcon.setVisibility(View.VISIBLE);
         } else {
@@ -384,6 +386,12 @@ public class DownloadItemAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
                     if (item.status == DownloadItemModel.UNDOWNLOAD) {
+                        if (!Config.DEBUG && Config.INDEX == 1) {
+                            if (!checkeOfferWallShouldShow()) {
+                                return;
+                            }
+                        }
+                        
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
                                 .setMessage(
                                         String.format(mActivity.getString(R.string.download_tips), item.description))
@@ -395,7 +403,8 @@ public class DownloadItemAdapter extends BaseAdapter {
                                             HashMap<String, String> extra = new HashMap<String, String>();
                                             extra.put("name", item.description);
                                             MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM, extra);
-                                            
+                                            MobclickAgent.flush(mContext);
+
                                             if (!mProgress.isShowing()) {
                                                 mProgress.show();
                                             }
@@ -423,7 +432,8 @@ public class DownloadItemAdapter extends BaseAdapter {
                                                                 mHandler.sendMessage(msg);
                                                                 return;
                                                             }
-
+                                                            
+                                                            PointsManager.getInstance(mContext).spendPoints(5);
                                                             mHandler.sendEmptyMessage(DISMISS_DIALOG);
                                                         }
 
@@ -490,6 +500,31 @@ public class DownloadItemAdapter extends BaseAdapter {
 
         view.setOnClickListener(itemOnClickListener);
         view.setOnLongClickListener(itemLongClickListener);
+    }
+
+    private boolean checkeOfferWallShouldShow() {
+        int point = PointsManager.getInstance(mContext).queryPoints();
+        if (point > 5) {
+            return true;
+        } else {
+            String tips = String.format(mContext.getString(R.string.offer_download_tips), point);
+            AlertDialog dialog = new AlertDialog.Builder(mActivity).setTitle(R.string.tips_title).setMessage(tips)
+                    .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            OffersManager.getInstance(mActivity).showOffersWall();
+
+                            MobclickAgent.onEvent(mContext, "download_app_open");
+                            MobclickAgent.flush(mContext);
+                        }
+                    }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            MobclickAgent.onEvent(mContext, "download_app_cancel");
+                            MobclickAgent.flush(mContext);
+                        }
+                    }).create();
+            dialog.show();
+            return false;
+        }
     }
 
     private void onDeleteItem(DownloadItemModel item) {

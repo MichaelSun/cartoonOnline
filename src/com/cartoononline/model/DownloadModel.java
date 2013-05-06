@@ -6,25 +6,29 @@ import java.util.List;
 
 import android.content.Context;
 
+import com.cartoononline.Config;
 import com.cartoononline.SettingManager;
 import com.cartoononline.api.NewSessionRequest;
 import com.cartoononline.api.NewSessionResponse;
 import com.cartoononline.api.NewSessionResponse.SessionItem;
+import com.cartoononline.api.NewSessionXieeRequest;
 import com.plugin.common.utils.DataModelBase;
+import com.plugin.common.utils.Environment;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.database.dao.helper.DBTableAccessHelper;
 import com.plugin.internet.InternetUtils;
+import com.plugin.internet.core.RequestBase;
 
 public class DownloadModel extends DataModelBase {
-    
+
     private int mCurPage;
-    
+
     private boolean mOnLoading;
-    
+
     private DBTableAccessHelper<DownloadItemModel> mDownloadHelper;
-    
+
     private boolean mDataChanged;
-    
+
     @Override
     protected void init(Context context) {
         super.init(context);
@@ -33,11 +37,11 @@ public class DownloadModel extends DataModelBase {
         mDownloadHelper = new DBTableAccessHelper<DownloadItemModel>(context, DownloadItemModel.class);
         mDataChanged = false;
     }
-    
+
     public boolean isDataChanged() {
         return mDataChanged;
     }
-    
+
     public void setDataChanged(boolean changed) {
         mDataChanged = changed;
     }
@@ -45,41 +49,42 @@ public class DownloadModel extends DataModelBase {
     public boolean hasMore() {
         return SettingManager.getInstance().getHasMore();
     }
-    
+
     public DownloadItemModel getItem(DownloadItemModel searchObj) {
-//        return mDownloadHelper.queryItem(searchObj);
-        List<DownloadItemModel> ret = mDownloadHelper.queryItems("downloadUrlHashCode = ?", String.valueOf(searchObj.downloadUrlHashCode));
-        if (ret != null && ret .size() > 0) {
+        // return mDownloadHelper.queryItem(searchObj);
+        List<DownloadItemModel> ret = mDownloadHelper.queryItems("downloadUrlHashCode = ?",
+                String.valueOf(searchObj.downloadUrlHashCode));
+        if (ret != null && ret.size() > 0) {
             return ret.get(0);
         }
-        
+
         return null;
     }
-    
+
     public void increasePageNo() {
         mCurPage++;
     }
-    
+
     public void resetPageNo() {
         mCurPage = 0;
         SettingManager.getInstance().setHasMore(true);
         mDataChanged = false;
     }
-    
+
     public void deleteItemModel(DownloadItemModel item) {
         if (item != null) {
             mDataChanged = true;
             mDownloadHelper.delete(item);
         }
     }
-    
+
     public void updateItemModel(DownloadItemModel item) {
         if (item != null) {
             mDataChanged = true;
             mDownloadHelper.update(item);
         }
     }
-    
+
     @Override
     public void asyncLoadDataServer(final DataDownloadListener l) {
         if (mOnLoading) {
@@ -90,9 +95,16 @@ public class DownloadModel extends DataModelBase {
             @Override
             public void run() {
                 try {
-                    NewSessionResponse response = InternetUtils.request(mContext, new NewSessionRequest(mCurPage, 20));
+                    RequestBase request = null;
+                    if (Config.INDEX == 0) {
+                        request = new NewSessionRequest(mCurPage, 20);
+                    } else if (Config.INDEX == 1) {
+                        request = new NewSessionXieeRequest(mCurPage, 20);
+                    }
+
+                    NewSessionResponse response = InternetUtils.request(mContext, request);
                     UtilsConfig.LOGD("[[:::::::::]] response = " + response);
-                    
+
                     if (response != null) {
                         SettingManager.getInstance().setHasMore(response.hasmore);
                         if (response.items != null) {
@@ -110,7 +122,7 @@ public class DownloadModel extends DataModelBase {
                                 ditem.downloadTime = System.currentTimeMillis() + timeIndex;
                                 ditem.time = item.time;
                                 saveData[index] = ditem;
-                                
+
                                 timeIndex++;
                             }
 
@@ -120,7 +132,7 @@ public class DownloadModel extends DataModelBase {
                                 for (DownloadItemModel item : old) {
                                     map.put(item.downloadUrlHashCode, item);
                                 }
-                                
+
                                 for (DownloadItemModel iItem : saveData) {
                                     DownloadItemModel oldItem = map.get(iItem.downloadUrlHashCode);
                                     if (oldItem != null) {
@@ -128,21 +140,21 @@ public class DownloadModel extends DataModelBase {
                                     }
                                 }
                             }
-                            
+
                             List<DownloadItemModel> ret = new ArrayList<DownloadItemModel>();
                             if (mCurPage == 0) {
                                 mDownloadHelper.deleteAll();
                             }
                             mDownloadHelper.blukInsertOrReplace(saveData);
                             ret = mDownloadHelper.queryItems();
-                            
+
                             UtilsConfig.LOGD("[[:::::::::]] after replace code, lit  = " + ret);
-                            
+
                             if (l != null) {
                                 l.onDataLoadSuccess(ret);
                             }
                         }
-                        
+
                         mOnLoading = false;
                         mDataChanged = false;
                         return;
@@ -150,13 +162,13 @@ public class DownloadModel extends DataModelBase {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                
+
                 mOnLoading = false;
                 mDataChanged = false;
                 if (l != null) {
                     l.onDataLoadFailed(mCurPage);
                 }
-               
+
             }
         });
     }
@@ -167,7 +179,7 @@ public class DownloadModel extends DataModelBase {
             @Override
             public void run() {
                 List<DownloadItemModel> ret = mDownloadHelper.queryItems();
-                
+
                 mDataChanged = false;
                 if (l != null) {
                     l.onDataLoadSuccess(ret);
@@ -175,5 +187,5 @@ public class DownloadModel extends DataModelBase {
             }
         });
     }
-    
+
 }

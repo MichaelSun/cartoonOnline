@@ -19,12 +19,24 @@ import android.telephony.TelephonyManager;
  * @author Guoqing Sun Feb 18, 20133:16:14 PM
  */
 public final class Environment {
-	
-	private static final String DEBUG_DATE_FORMAT = "MM-dd HH:mm:ss:SSS";
-	
+
+    private static final String DEBUG_DATE_FORMAT = "MM-dd HH:mm:ss:SSS";
+
     public static String debugFormatTime(long time) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DEBUG_DATE_FORMAT);
         return dateFormat.format(time);
+    }
+
+    public static String getPackageName(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return info.packageName; // 包名
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return null;
     }
 
     public static String getIMSI(Context context) {
@@ -50,7 +62,7 @@ public final class Environment {
         if (info != null) {
             return info.getMacAddress();
         }
-        
+
         return null;
     }
 
