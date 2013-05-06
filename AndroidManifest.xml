@@ -49,7 +49,7 @@
             android:name="UMENG_APPKEY"
             android:value="516aa2f456240b7648025f88" >
         </meta-data>
-        <meta-data android:name="UMENG_CHANNEL" android:value="anzhi" />
+        <meta-data android:name="UMENG_CHANNEL" android:value="gfan" />
 
         <activity
             android:name="com.cartoononline.CartoonSplashActivity"

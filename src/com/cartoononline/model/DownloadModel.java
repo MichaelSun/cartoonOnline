@@ -95,7 +95,7 @@ public class DownloadModel extends DataModelBase {
             @Override
             public void run() {
                 try {
-                    RequestBase request = null;
+                    RequestBase<NewSessionResponse> request = null;
                     if (Config.INDEX == 0) {
                         request = new NewSessionRequest(mCurPage, 20);
                     } else if (Config.INDEX == 1) {
