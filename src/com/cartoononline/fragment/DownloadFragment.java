@@ -19,6 +19,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cartoononline.R;
 import com.cartoononline.adapter.DownloadItemAdapter;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
@@ -26,7 +27,6 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshGridView;
-import com.michael.manhua.R;
 import com.plugin.common.utils.DataModelBase.DataDownloadListener;
 import com.plugin.common.utils.SingleInstanceBase;
 

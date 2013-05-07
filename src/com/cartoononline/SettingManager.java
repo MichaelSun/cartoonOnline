@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.michael.manhua.R;
-
 public class SettingManager {
 
     private static SettingManager gSettingManager;

@@ -23,7 +23,6 @@ import com.cartoononline.fragment.FragmentStatusInterface;
 import com.cartoononline.fragment.MoreBookFragment;
 import com.cartoononline.fragment.ReaderBookFragment;
 import com.cartoononline.model.DownloadModel;
-import com.michael.manhua.R;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.cache.ICacheStrategy;
@@ -175,8 +174,7 @@ public class CartoonSplashActivity extends BaseActivity {
                     mShowAppWallInfo = true;
                 }
 
-                String metaChannel = Utils.getString(CartoonSplashActivity.this.getApplicationContext(),
-                        "UMENG_CHANNEL");
+                String metaChannel = getString(R.string.umeng_params_channel);
                 String adViewShow = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
                         metaChannel + Config.KEY_ADVIEW);
 
@@ -232,7 +230,7 @@ public class CartoonSplashActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
-        if (mShowAppWallInfo) {
+        if (mShowAppWallInfo && Config.INDEX == 1) {
             getSupportMenuInflater().inflate(R.menu.detail_actionbar, menu);
         } else {
             getSupportMenuInflater().inflate(R.menu.action_refresh, menu);
@@ -244,7 +242,7 @@ public class CartoonSplashActivity extends BaseActivity {
     public boolean onMenuItemSelected(int featureId, com.actionbarsherlock.view.MenuItem item) {
         switch (item.getItemId()) {
         case R.id.wall_info:
-            if (mShowAppWallInfo) {
+            if (mShowAppWallInfo && Config.INDEX == 0) {
                 showWallInfoDialog();
             }
             break;
