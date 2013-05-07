@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cartoononline"
+    package="com.michael.manhua"
     android:versionCode="9"
     android:versionName="1.9" >
 
@@ -44,7 +44,7 @@
         <!-- push service end -->
         <meta-data
             android:name="api_key"
-            android:value="N8ZLcPhSaCFE3nskGNGgncQb" />
+            android:value="qzfG1NZcgubLZON44jGHBsP6" />
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="516aa2f456240b7648025f88" >
@@ -118,7 +118,7 @@
         <!-- push service -->
         <receiver
             android:name="com.baidu.android.pushservice.PushServiceReceiver"
-            android:process=":cartoon_push" >
+            android:process=":manhua_push" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -128,7 +128,7 @@
         </receiver>
         <receiver
             android:name="com.baidu.android.pushservice.RegistratonReceiver"
-            android:process=":cartoon_push" >
+            android:process=":manhua_push" >
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.METHOD" />
                 <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
@@ -143,7 +143,7 @@
         <service
             android:name="com.baidu.android.pushservice.PushService"
             android:exported="true"
-            android:process=":cartoon_push" />
+            android:process=":manhua_push" />
     </application>
 
 </manifest>

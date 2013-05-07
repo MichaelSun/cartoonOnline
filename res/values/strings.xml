@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="umeng_channel">mumayi_懂你画报</string>
-    <string name="umeng_params_channel">mumayi</string>
+    <string name="umeng_channel">xiaomi_邪恶小漫画</string>
+    <string name="umeng_params_channel">xiaomi</string>
     <string name="youmi_channel">10070</string>
-    <string name="app_name">懂你画报Online</string>
+    <string name="app_name">邪恶小漫画Online</string>
     <string name="menu_settings">Settings</string>
     <string name="more_app">更多应用</string>
     <string name="refresh">刷新</string>
