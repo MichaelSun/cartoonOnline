@@ -24,6 +24,7 @@ import com.plugin.common.utils.Destroyable;
 import com.plugin.common.utils.Environment;
 import com.plugin.common.utils.NotifyHandlerObserver;
 import com.plugin.common.utils.SingleInstanceBase;
+import com.plugin.common.utils.StringUtils;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.DiskManager.DiskCacheType;
 import com.plugin.common.utils.image.ImageDownloader;
@@ -65,9 +66,9 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
             int sliptor = downloadUrl.lastIndexOf(File.separator);
             if (pos != -1 && sliptor != -1 && pos > sliptor) {
                 String prefix = downloadUrl.substring(0, pos);
-                return prefix.replace(":", "+").replace("/", "_").replace(".", "-") + downloadUrl.substring(pos);
+                return StringUtils.MD5Encode(prefix.replace(":", "+").replace("/", "_").replace(".", "-") + downloadUrl.substring(pos));
             }
-            return downloadUrl.replace(":", "+").replace("/", "_").replace(".", "-");
+            return StringUtils.MD5Encode(downloadUrl.replace(":", "+").replace("/", "_").replace(".", "-"));
         }
         
     }
