@@ -86,6 +86,9 @@ public class DownloadItemAdapter extends BaseAdapter {
     // CustomCycleBitmapOpration();
     private CustomCycleBitmapOpration mCustomCycleBitmapOpration = null;
 
+    private static final int LOAD_FROM_LOACAL = -1;
+    private static final int LOAD_FROM_SERVER = -2;
+    
     private static final int REFRESH_ICONS = 1;
     private static final int REFRESH_LIST = 2;
     private static final int DISMISS_DIALOG = 3;
@@ -102,7 +105,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                         int code = (Integer) i.getTag();
                         if (hashCode == code) {
                             i.setImageBitmap((Bitmap) msg.obj);
-                            if (!mIsFling) {
+                            if (!mIsFling && msg.arg2 == LOAD_FROM_SERVER) {
                                 i.startAnimation(mFadeInAnim);
                             }
                         }
@@ -352,6 +355,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                     Message msg = Message.obtain();
                     msg.what = REFRESH_ICONS;
                     msg.arg1 = url.hashCode();
+                    msg.arg2 = LOAD_FROM_LOACAL;
                     msg.obj = icon;
                     mHandler.sendMessage(msg);
                 } else {
@@ -369,6 +373,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                                         Message msg = new Message();
                                         msg.what = REFRESH_ICONS;
                                         msg.arg1 = r.getDownloadUrl().hashCode();
+                                        msg.arg2 = LOAD_FROM_SERVER;
                                         msg.obj = r.getmBt();
                                         mHandler.sendMessage(msg);
                                     }
@@ -508,7 +513,10 @@ public class DownloadItemAdapter extends BaseAdapter {
             return true;
         } else {
             String tips = String.format(mContext.getString(R.string.offer_download_tips), point);
-            AlertDialog dialog = new AlertDialog.Builder(mActivity).setTitle(R.string.tips_title).setMessage(tips)
+            View view = mLayoutInflater.inflate(R.layout.offer_tips_view, null);
+            TextView tv = (TextView) view.findViewById(R.id.tips);
+            tv.setText(tips);
+            AlertDialog dialog = new AlertDialog.Builder(mActivity).setTitle(R.string.tips_title).setView(view)
                     .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             OffersManager.getInstance(mActivity).showOffersWall();

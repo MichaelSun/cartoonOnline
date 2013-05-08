@@ -25,23 +25,23 @@ echo
 echo
 echo "finish build channel : $1 >>>>>>>>>"
 
-echo "cp -rf bin/cartoonOnline-release.apk $4/cartoonOnline-release_$5_$2.apk"
-cp -rf bin/cartoonOnline-release.apk $4/cartoonOnline-release_$5_$2.apk
+echo "cp -rf bin/cartoonOnline-release.apk $4/cartoonOnline_xiee-release_$5_$2.apk"
+cp -rf bin/cartoonOnline-release.apk $4/cartoonOnline_xiee-release_$5_$2.apk
 
 }
 
 VERSION=`grep "android:versionName" AndroidManifest.xml | awk -F "\"" '{print $2}'`
-TARGET="/Users/michael/Dropbox/apk_backup/cartoon_$VERSION"
+TARGET="/Users/michael/Dropbox/apk_backup/manhuaOnline_$VERSION"
 echo $TARGET
 rm -rf $TARGET
 cd ~/Dropbox/apk_backup/
-mkdir cartoon_$VERSION
+mkdir manhuaOnline_$VERSION
 cd -
 
-makeChannelApk hiapk_懂你画报 hiapk 10030 $TARGET $VERSION
-makeChannelApk google_懂你画报 google 10000 $TARGET $VERSION
-makeChannelApk appchina_懂你画报 appchina 10050 $TARGET $VERSION
-makeChannelApk gfan_懂你画报 gfan 10020 $TARGET $VERSION
-makeChannelApk mumayi_懂你画报 mumayi 10070 $TARGET $VERSION
-makeChannelApk baidu_懂你画报 baidu 10010 $TARGET $VERSION
-makeChannelApk anzhi_懂你画报 anzhi 10010 $TARGET $VERSION
+makeChannelApk hiapk_邪恶小漫画 hiapk 10030 $TARGET $VERSION
+makeChannelApk google_邪恶小漫画 google 10000 $TARGET $VERSION
+makeChannelApk appchina_邪恶小漫画 appchina 10050 $TARGET $VERSION
+makeChannelApk gfan_邪恶小漫画 gfan 10020 $TARGET $VERSION
+makeChannelApk mumayi_邪恶小漫画 mumayi 10070 $TARGET $VERSION
+makeChannelApk baidu_邪恶小漫画 baidu 10010 $TARGET $VERSION
+makeChannelApk anzhi_邪恶小漫画 anzhi 10010 $TARGET $VERSION

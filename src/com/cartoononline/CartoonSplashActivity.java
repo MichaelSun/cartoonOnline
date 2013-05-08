@@ -17,6 +17,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 
 import com.cartoononline.fragment.DownloadFragment;
 import com.cartoononline.fragment.FragmentStatusInterface;
@@ -276,7 +278,10 @@ public class CartoonSplashActivity extends BaseActivity {
     private void showWallInfoDialog() {
         int point = PointsManager.getInstance(this).queryPoints();
         String tips = String.format(getString(R.string.offer_info_detail), point);
-        AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.tips_title).setMessage(tips)
+        View view = this.getLayoutInflater().inflate(R.layout.offer_tips_view, null);
+        TextView tv = (TextView) view.findViewById(R.id.tips);
+        tv.setText(tips);
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.tips_title).setView(view)
                 .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         OffersManager.getInstance(CartoonSplashActivity.this).showOffersWall();

@@ -35,13 +35,11 @@
     <string name="unziped">以解压</string>
     <string name="unknown">未知</string>
     <string name="download_tips" formatted="false">是否要下载%s</string>
-    
     <string name="wall_info_detail">查看当前书币</string>
 
     <item name="is_downloading" type="id"></item>
-    
-    <string name="tips_title">提示</string>
 
+    <string name="tips_title">提示</string>
     <string name="local">本地图书</string>
     <string name="server">画报书城</string>
     <string name="xiee_server">漫画书城</string>
@@ -54,7 +52,8 @@
     <string name="no_more_tips">暂时没有更多了哦~\n温馨提示：每天晚上八点都会更新哦</string>
     <string name="empty_download_tips">正在加载中，请稍后~\n温馨提示：每天晚上八点都会更新哦</string>
     <string name="tips_no_more">没有更多的画报了哦~</string>
-    <string name="offer_download_tips" formatted="false">您的书币已经不足5(当前书币%s),需要下载软件获得5书币才能继续下载,下载软件不会收取您的费用,请放心下载</string>
+    <string name="offer_download_tips" formatted="false">您的书币已经不足5(当前书币%s),需要下载软件获得5书币才能继续下载,下载软件不会收取您的费用,请放心下载。</string>
     <string name="offer_info_detail" formatted="false">您当前的书币%s,是否要马上下载?\n每下载一本漫画需要5书币。</string>
+    <string name="offer_download_cute_tips">温馨提示:下载应用以后请一定使用应用1分钟以上，才能获得书币哦。如果在几分钟内不能获得书币，请不要删除应用，一段时间以后会获得书币。</string>
 
 </resources>
