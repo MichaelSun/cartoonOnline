@@ -28,6 +28,15 @@ public class SettingManager {
         mEditor = mSharedPreferences.edit();
     }
 
+    public int getPointInt() {
+        return mSharedPreferences.getInt(mContext.getString(R.string.offer_point), 15);
+    }
+    
+    public void setPointInt(int point) {
+        mEditor.putInt(mContext.getString(R.string.offer_point), point);
+        mEditor.commit();
+    }
+    
     public void setHasMore(boolean hasMore) {
         mEditor.putBoolean(mContext.getString(R.string.has_more), hasMore);
         mEditor.commit();

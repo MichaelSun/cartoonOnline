@@ -31,6 +31,7 @@ import com.cartoononline.CRuntime;
 import com.cartoononline.Config;
 import com.cartoononline.CustomCycleBitmapOpration;
 import com.cartoononline.SessionInfo;
+import com.cartoononline.SettingManager;
 import com.cartoononline.Utils;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
@@ -435,10 +436,19 @@ public class DownloadItemAdapter extends BaseAdapter {
                                                                 msg.what = REFRESH_LIST;
                                                                 msg.obj = item;
                                                                 mHandler.sendMessage(msg);
+                                                                
+                                                              //spend point
+                                                                int localPoint = SettingManager.getInstance().getPointInt();
+                                                                if (localPoint >= 5) {
+                                                                    SettingManager.getInstance().setPointInt(localPoint - 5);
+                                                                } else {
+                                                                    SettingManager.getInstance().setPointInt(0);
+                                                                    PointsManager.getInstance(mContext).spendPoints(5);
+                                                                }
+                                                                
                                                                 return;
                                                             }
                                                             
-                                                            PointsManager.getInstance(mContext).spendPoints(5);
                                                             mHandler.sendEmptyMessage(DISMISS_DIALOG);
                                                         }
 
@@ -508,8 +518,10 @@ public class DownloadItemAdapter extends BaseAdapter {
     }
 
     private boolean checkeOfferWallShouldShow() {
-        int point = PointsManager.getInstance(mContext).queryPoints();
-        if (point > 5) {
+        int localPoint = SettingManager.getInstance().getPointInt();
+        int serverPoint = PointsManager.getInstance(mContext).queryPoints();
+        int point = localPoint + serverPoint;
+        if (point >= 5) {
             return true;
         } else {
             String tips = String.format(mContext.getString(R.string.offer_download_tips), point);
