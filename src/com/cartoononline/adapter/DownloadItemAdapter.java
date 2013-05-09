@@ -103,7 +103,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                         if (hashCode == code) {
                             i.setImageBitmap((Bitmap) msg.obj);
                             if (!mIsFling) {
-                                i.startAnimation(mFadeInAnim);
+//                                i.startAnimation(mFadeInAnim);
                             }
                         }
                     }
