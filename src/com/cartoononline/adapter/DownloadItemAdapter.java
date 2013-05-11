@@ -89,7 +89,7 @@ public class DownloadItemAdapter extends BaseAdapter {
 
     private static final int LOAD_FROM_LOACAL = -1;
     private static final int LOAD_FROM_SERVER = -2;
-    
+
     private static final int REFRESH_ICONS = 1;
     private static final int REFRESH_LIST = 2;
     private static final int DISMISS_DIALOG = 3;
@@ -115,14 +115,16 @@ public class DownloadItemAdapter extends BaseAdapter {
                 break;
             case REFRESH_LIST:
                 notifyDataSetChanged();
-                if (mProgress.isShowing()) {
+                if (mProgress != null && mProgress.isShowing()) {
                     mProgress.dismiss();
                 }
                 // try to unzip
                 asyncUnzipSession((DownloadItemModel) msg.obj);
                 break;
             case DISMISS_DIALOG:
-                mProgress.dismiss();
+                if (mProgress != null) {
+                    mProgress.dismiss();
+                }
                 break;
             case DISMISS_UNZIP_DIALOG:
                 mUnZipProgress.dismiss();
@@ -397,7 +399,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                                 return;
                             }
                         }
-                        
+
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
                                 .setMessage(
                                         String.format(mActivity.getString(R.string.download_tips), item.description))
@@ -411,7 +413,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                                             MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM, extra);
                                             MobclickAgent.flush(mContext);
 
-                                            if (!mProgress.isShowing()) {
+                                            if (mProgress != null && !mProgress.isShowing()) {
                                                 mProgress.show();
                                             }
 
@@ -436,19 +438,30 @@ public class DownloadItemAdapter extends BaseAdapter {
                                                                 msg.what = REFRESH_LIST;
                                                                 msg.obj = item;
                                                                 mHandler.sendMessage(msg);
-                                                                
-                                                              //spend point
-                                                                int localPoint = SettingManager.getInstance().getPointInt();
+
+                                                                // spend point
+                                                                int localPoint = SettingManager.getInstance()
+                                                                        .getPointInt();
                                                                 if (localPoint >= 5) {
-                                                                    SettingManager.getInstance().setPointInt(localPoint - 5);
+                                                                    SettingManager.getInstance().setPointInt(
+                                                                            localPoint - 5);
                                                                 } else {
                                                                     SettingManager.getInstance().setPointInt(0);
                                                                     PointsManager.getInstance(mContext).spendPoints(5);
                                                                 }
-                                                                
+
+                                                                int point = SettingManager.getInstance().getPointInt()
+                                                                        + PointsManager.getInstance(mContext)
+                                                                                .queryPoints();
+                                                                HashMap<String, String> extra = new HashMap<String, String>();
+                                                                extra.put("point", String.valueOf(point));
+                                                                MobclickAgent.onEvent(mContext, Config.CURRENT_POINT,
+                                                                        extra);
+                                                                MobclickAgent.flush(mContext);
+
                                                                 return;
                                                             }
-                                                            
+
                                                             mHandler.sendEmptyMessage(DISMISS_DIALOG);
                                                         }
 
@@ -542,6 +555,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                             MobclickAgent.flush(mContext);
                         }
                     }).create();
+            dialog.setCanceledOnTouchOutside(false);
             dialog.show();
             return false;
         }
@@ -558,7 +572,7 @@ public class DownloadItemAdapter extends BaseAdapter {
             file.delete();
             mCacheManager.releaseResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverUrl);
         }
-
+        
         item.status = DownloadItemModel.UNDOWNLOAD;
         // SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(item);
 
@@ -569,7 +583,7 @@ public class DownloadItemAdapter extends BaseAdapter {
     }
 
     private void initProgressBar() {
-        if (mProgress == null) {
+        if (mProgress == null && mActivity != null) {
             mProgress = new ProgressDialog(mActivity);
             mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgress.setMessage("正在下载中，请稍后...");

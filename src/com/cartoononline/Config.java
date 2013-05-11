@@ -23,10 +23,12 @@ public class Config {
     public static final String KEY_SHOW_WALL = "show_app_wall";
     public static final String KEY_ADVIEW = "_adview";
     
-    public static boolean ADVIEW_SHOW = false;
+    public static boolean ADVIEW_SHOW = true;
     
     //umeng event
     public static final String DOWNLOAD_ALUBM = "download_album";
+    public static final String CURRENT_POINT = "current_point";
+    public static final String OPEN_WITH_PUSH = "open_with_push";
     public static final String OPEN_ALUBM = "open_album";
     
     public static final String PACKAGE_CARTOON = PACKAGE_NAME[0];

@@ -184,11 +184,16 @@ public class CartoonSplashActivity extends BaseActivity {
                 LOGD(">>>>>>>> adViewShow = " + adViewShow);
                 if (!TextUtils.isEmpty(adViewShow) && adViewShow.equals("true")) {
                     Config.ADVIEW_SHOW = true;
+                } else {
+                    Config.ADVIEW_SHOW = false;
                 }
             }
         }));
 
         if (mForceShowDownload) {
+            MobclickAgent.onEvent(this.getApplicationContext(), Config.OPEN_WITH_PUSH);
+            MobclickAgent.flush(this.getApplicationContext());
+            mHandler.removeMessages(FROCE_DOWNLOAD_SHOW);
             mHandler.sendEmptyMessageDelayed(FROCE_DOWNLOAD_SHOW, 400);
         }
     }
@@ -202,6 +207,9 @@ public class CartoonSplashActivity extends BaseActivity {
         }
 
         if (mForceShowDownload) {
+            MobclickAgent.onEvent(this.getApplicationContext(), Config.OPEN_WITH_PUSH);
+            MobclickAgent.flush(this.getApplicationContext());
+            mHandler.removeMessages(FROCE_DOWNLOAD_SHOW);
             mHandler.sendEmptyMessageDelayed(FROCE_DOWNLOAD_SHOW, 400);
         }
     }
@@ -277,7 +285,7 @@ public class CartoonSplashActivity extends BaseActivity {
 
     private void showWallInfoDialog() {
         int localPoint = SettingManager.getInstance().getPointInt();
-        
+
         int point = PointsManager.getInstance(this).queryPoints();
         String tips = String.format(getString(R.string.offer_info_detail), point + localPoint);
         View view = this.getLayoutInflater().inflate(R.layout.offer_tips_view, null);
