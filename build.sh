@@ -45,3 +45,4 @@ makeChannelApk gfan_邪恶小漫画 gfan 10020 $TARGET $VERSION
 makeChannelApk mumayi_邪恶小漫画 mumayi 10070 $TARGET $VERSION
 makeChannelApk baidu_邪恶小漫画 baidu 10010 $TARGET $VERSION
 makeChannelApk anzhi_邪恶小漫画 anzhi 10010 $TARGET $VERSION
+makeChannelApk xiaomi_邪恶小漫画 xiaomi 10010 $TARGET $VERSION

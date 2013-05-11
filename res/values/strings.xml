@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="umeng_channel">anzhi_邪恶小漫画</string>
-    <string name="umeng_params_channel">anzhi</string>
+    <string name="umeng_channel">xiaomi_邪恶小漫画</string>
+    <string name="umeng_params_channel">xiaomi</string>
     <string name="youmi_channel">10010</string>
     <string name="app_name">邪恶小漫画Online</string>
     <string name="menu_settings">Settings</string>

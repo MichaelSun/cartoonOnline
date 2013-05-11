@@ -392,7 +392,7 @@ public class DownloadItemAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
                     if (item.status == DownloadItemModel.UNDOWNLOAD) {
-                        if (!Config.DEBUG && Config.INDEX == 1) {
+                        if (Config.INDEX == 1) {
                             if (!checkeOfferWallShouldShow()) {
                                 return;
                             }
@@ -521,7 +521,7 @@ public class DownloadItemAdapter extends BaseAdapter {
         int localPoint = SettingManager.getInstance().getPointInt();
         int serverPoint = PointsManager.getInstance(mContext).queryPoints();
         int point = localPoint + serverPoint;
-        if (point >= 5) {
+        if (point >= 5 || !Config.ADVIEW_SHOW) {
             return true;
         } else {
             String tips = String.format(mContext.getString(R.string.offer_download_tips), point);
