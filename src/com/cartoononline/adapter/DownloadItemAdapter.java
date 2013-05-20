@@ -33,6 +33,8 @@ import com.cartoononline.CustomCycleBitmapOpration;
 import com.cartoononline.SessionInfo;
 import com.cartoononline.SettingManager;
 import com.cartoononline.Utils;
+import com.cartoononline.api.DownloadAlbumRequest;
+import com.cartoononline.api.DownloadAlbumResponse;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
 import com.cartoononline.model.SessionModel;
@@ -54,6 +56,7 @@ import com.plugin.common.utils.files.FileUtil;
 import com.plugin.common.utils.image.ImageDownloader;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchRequest;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
+import com.plugin.internet.InternetUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class DownloadItemAdapter extends BaseAdapter {
@@ -416,6 +419,14 @@ public class DownloadItemAdapter extends BaseAdapter {
                                             if (mProgress != null && !mProgress.isShowing()) {
                                                 mProgress.show();
                                             }
+                                            
+                                            int pos = item.downloadUrl.lastIndexOf("session");
+                                            int endPost = item.downloadUrl.lastIndexOf(".zip");
+                                            if (pos != -1 && endPost != -1) {
+                                                String index = item.downloadUrl.substring(pos + "session".length(),
+                                                        endPost);
+                                                increaseDownloadCount(Integer.valueOf(index));
+                                            }
 
                                             mFileDownloader.postRequest(new DownloadRequest(item.downloadUrl),
                                                     new DownloadListener() {
@@ -530,6 +541,27 @@ public class DownloadItemAdapter extends BaseAdapter {
         view.setOnLongClickListener(itemLongClickListener);
     }
 
+
+    private void increaseDownloadCount(final int fileIndex) {
+        CustomThreadPool.asyncWork(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    DownloadAlbumResponse response = InternetUtils.request(mContext, new DownloadAlbumRequest(
+                            Config.DOMAIN_NAME[Config.INDEX], String.valueOf(fileIndex)));
+                    if (response != null) {
+                        UtilsConfig.LOGD(response.toString());
+                    } else {
+                        UtilsConfig.LOGD("response is null");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+    
     private boolean checkeOfferWallShouldShow() {
         int localPoint = SettingManager.getInstance().getPointInt();
         int serverPoint = PointsManager.getInstance(mContext).queryPoints();
@@ -572,7 +604,7 @@ public class DownloadItemAdapter extends BaseAdapter {
             file.delete();
             mCacheManager.releaseResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverUrl);
         }
-        
+
         item.status = DownloadItemModel.UNDOWNLOAD;
         // SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(item);
 
