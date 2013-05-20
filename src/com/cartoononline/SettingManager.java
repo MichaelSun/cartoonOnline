@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.michael.manhua.R;
+import com.michael.rosi.R;
 
 public class SettingManager {
 

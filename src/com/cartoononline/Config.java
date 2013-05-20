@@ -17,11 +17,11 @@ public class Config {
     public static final String INI_FILE = "info.ini";
     
     public static int INDEX = 0;
-    public static final String[] YOUMI_APP_ID = new String[] { "e3ff884a6cc7b41a", "556af9dfcb127141" };
-    public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "26ab38202db7d6fc", "a3b8473046176ba2" };
-    public static final String[] PACKAGE_NAME = new String[] { "com.cartoononline", "com.michael.manhua" };
-    public static final String[] PUSH_TAG = new String[] { "yaojing", "manhua" };
-    public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee" };
+    public static final String[] YOUMI_APP_ID = new String[] { "e3ff884a6cc7b41a", "556af9dfcb127141", "556af9dfcb127141" };
+    public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "26ab38202db7d6fc", "a3b8473046176ba2", "a3b8473046176ba2" };
+    public static final String[] PACKAGE_NAME = new String[] { "com.cartoononline", "com.michael.manhua", "com.michael.rosi" };
+    public static final String[] PUSH_TAG = new String[] { "yaojing", "manhua", "rosi" };
+    public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi" };
     
     public static final String KEY_SHOW_WALL = "show_app_wall";
     public static final String KEY_ADVIEW = "_adview";
@@ -36,5 +36,6 @@ public class Config {
     
     public static final String PACKAGE_CARTOON = PACKAGE_NAME[0];
     public static final String PACKAGE_XIEE = PACKAGE_NAME[1];
+    public static final String PACKAGE_ROSI = PACKAGE_NAME[2];
     
 }

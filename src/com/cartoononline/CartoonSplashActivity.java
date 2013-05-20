@@ -25,7 +25,7 @@ import com.cartoononline.fragment.FragmentStatusInterface;
 import com.cartoononline.fragment.MoreBookFragment;
 import com.cartoononline.fragment.ReaderBookFragment;
 import com.cartoononline.model.DownloadModel;
-import com.michael.manhua.R;
+import com.michael.rosi.R;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.cache.ICacheStrategy;
@@ -241,7 +241,7 @@ public class CartoonSplashActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
-        if (mShowAppWallInfo && Config.INDEX == 1) {
+        if (mShowAppWallInfo) {
             getSupportMenuInflater().inflate(R.menu.detail_actionbar, menu);
         } else {
             getSupportMenuInflater().inflate(R.menu.action_refresh, menu);
@@ -253,7 +253,7 @@ public class CartoonSplashActivity extends BaseActivity {
     public boolean onMenuItemSelected(int featureId, com.actionbarsherlock.view.MenuItem item) {
         switch (item.getItemId()) {
         case R.id.wall_info:
-            if (mShowAppWallInfo && Config.INDEX == 1) {
+            if (mShowAppWallInfo) {
                 showWallInfoDialog();
             }
             break;
@@ -315,9 +315,11 @@ public class CartoonSplashActivity extends BaseActivity {
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        private String[] mTitleArray;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            mTitleArray = CartoonSplashActivity.this.getResources().getStringArray(R.array.title_array);
         }
 
         @Override
@@ -350,11 +352,7 @@ public class CartoonSplashActivity extends BaseActivity {
             case 0:
                 return getString(R.string.local);
             case 1:
-                if (Config.INDEX == 0) {
-                    return getString(R.string.server);
-                } else if (Config.INDEX == 1) {
-                    return getString(R.string.xiee_server);
-                }
+                return mTitleArray[Config.INDEX];
             case 2:
                 return getString(R.string.more);
             }

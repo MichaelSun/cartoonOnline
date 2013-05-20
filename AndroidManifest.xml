@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.michael.manhua"
-    android:versionCode="13"
-    android:versionName="2.3" >
+    package="com.michael.rosi"
+    android:versionCode="10"
+    android:versionName="2.0" >
 
     <uses-sdk
         android:minSdkVersion="10"

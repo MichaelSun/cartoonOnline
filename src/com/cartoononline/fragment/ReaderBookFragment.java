@@ -32,7 +32,7 @@ import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
 import com.cartoononline.model.SessionModel;
 import com.cartoononline.model.SessionReadModel;
-import com.michael.manhua.R;
+import com.michael.rosi.R;
 import com.plugin.common.utils.CustomThreadPool;
 import com.plugin.common.utils.CustomThreadPool.TaskWrapper;
 import com.plugin.common.utils.DataModelBase.DataDownloadListener;

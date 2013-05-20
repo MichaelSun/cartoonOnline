@@ -8,12 +8,10 @@ import android.content.Context;
 
 import com.cartoononline.Config;
 import com.cartoononline.SettingManager;
-import com.cartoononline.api.NewSessionRequest;
+import com.cartoononline.api.NewSessionRequest1;
 import com.cartoononline.api.NewSessionResponse;
 import com.cartoononline.api.NewSessionResponse.SessionItem;
-import com.cartoononline.api.NewSessionXieeRequest;
 import com.plugin.common.utils.DataModelBase;
-import com.plugin.common.utils.Environment;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.database.dao.helper.DBTableAccessHelper;
 import com.plugin.internet.InternetUtils;
@@ -95,12 +93,13 @@ public class DownloadModel extends DataModelBase {
             @Override
             public void run() {
                 try {
-                    RequestBase<NewSessionResponse> request = null;
-                    if (Config.INDEX == 0) {
-                        request = new NewSessionRequest(mCurPage, 20);
-                    } else if (Config.INDEX == 1) {
-                        request = new NewSessionXieeRequest(mCurPage, 20);
-                    }
+                    RequestBase<NewSessionResponse> request = new NewSessionRequest1(mCurPage, 20,
+                            Config.DOMAIN_NAME[Config.INDEX]);
+//                    if (Config.INDEX == 0) {
+//                        request = new NewSessionRequest(mCurPage, 20);
+//                    } else if (Config.INDEX == 1) {
+//                        request = new NewSessionXieeRequest(mCurPage, 20);
+//                    }
 
                     NewSessionResponse response = InternetUtils.request(mContext, request);
                     UtilsConfig.LOGD("[[:::::::::]] response = " + response);

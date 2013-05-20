@@ -18,7 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.michael.manhua.R;
+import com.michael.rosi.R;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.cache.ICacheStrategy;
@@ -30,7 +30,7 @@ public class AlbumActivity extends BaseActivity {
     public static final String KEY_INDEX = "index";
     public static final String KEY_SESSION_NAME = "sessionName";
     public static final String KEY_DESC = "desc";
-
+ 
     private LayoutInflater mLayoutInflater;
     private ViewPager mViewPager;
     private String mPath;

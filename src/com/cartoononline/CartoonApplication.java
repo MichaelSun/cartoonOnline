@@ -26,6 +26,8 @@ public class CartoonApplication extends Application {
             Config.INDEX = 0;
         } else if (Config.PACKAGE_XIEE.equals(packageName)) {
             Config.INDEX = 1;
+        } else if (Config.PACKAGE_ROSI.equals(packageName)) {
+            Config.INDEX = 2;
         }
 
         UtilsConfig.init(getApplicationContext());

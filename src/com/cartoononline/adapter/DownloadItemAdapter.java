@@ -39,7 +39,7 @@ import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
 import com.cartoononline.model.SessionModel;
 import com.cartoononline.model.SessionReadModel;
-import com.michael.manhua.R;
+import com.michael.rosi.R;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.utils.CustomThreadPool;
@@ -403,7 +403,7 @@ public class DownloadItemAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
                     if (item.status == DownloadItemModel.UNDOWNLOAD) {
-                        if (Config.INDEX == 1) {
+                        if (Config.INDEX != 0) {
                             if (!checkeOfferWallShouldShow()) {
                                 return;
                             }
