@@ -35,12 +35,22 @@ public final class DownloadItemModel {
 
     public String size;
     
+    public int downloadCount;
+    
     @Ignore()
     public Bitmap coverBt;
     
     @Ignore()
     public int status;
     
+    public int getDownloadCount() {
+        return downloadCount;
+    }
+
+    public void setDownloadCount(int downloadCount) {
+        this.downloadCount = downloadCount;
+    }
+
     public long getDownloadTime() {
         return downloadTime;
     }

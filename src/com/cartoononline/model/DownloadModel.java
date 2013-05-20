@@ -121,6 +121,7 @@ public class DownloadModel extends DataModelBase {
                                 ditem.size = item.size;
                                 ditem.downloadTime = System.currentTimeMillis() + timeIndex;
                                 ditem.time = item.time;
+                                ditem.downloadCount = item.count;
                                 saveData[index] = ditem;
 
                                 timeIndex++;

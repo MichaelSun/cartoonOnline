@@ -305,6 +305,7 @@ public class DownloadItemAdapter extends BaseAdapter {
             holder.size = (TextView) ret.findViewById(R.id.size);
             holder.statusIcon = (ImageView) ret.findViewById(R.id.status_icon);
             holder.newsIcon = (ImageView) ret.findViewById(R.id.news_tips);
+            holder.downloadTV = (TextView) ret.findViewById(R.id.download_count);
             ret.setTag(holder);
         } else {
             holder = (ViewHolder) ret.getTag();
@@ -328,6 +329,11 @@ public class DownloadItemAdapter extends BaseAdapter {
             holder.newsIcon.setVisibility(View.VISIBLE);
         } else {
             holder.newsIcon.setVisibility(View.GONE);
+        }
+
+        if (item.downloadCount > 0) {
+            holder.downloadTV.setText(String.format(mContext.getString(R.string.download_count_text),
+                    String.valueOf(item.downloadCount)));
         }
 
         // set icon image
@@ -419,7 +425,7 @@ public class DownloadItemAdapter extends BaseAdapter {
                                             if (mProgress != null && !mProgress.isShowing()) {
                                                 mProgress.show();
                                             }
-                                            
+
                                             int pos = item.downloadUrl.lastIndexOf("session");
                                             int endPost = item.downloadUrl.lastIndexOf(".zip");
                                             if (pos != -1 && endPost != -1) {
@@ -541,7 +547,6 @@ public class DownloadItemAdapter extends BaseAdapter {
         view.setOnLongClickListener(itemLongClickListener);
     }
 
-
     private void increaseDownloadCount(final int fileIndex) {
         CustomThreadPool.asyncWork(new Runnable() {
             @Override
@@ -561,7 +566,7 @@ public class DownloadItemAdapter extends BaseAdapter {
         });
 
     }
-    
+
     private boolean checkeOfferWallShouldShow() {
         int localPoint = SettingManager.getInstance().getPointInt();
         int serverPoint = PointsManager.getInstance(mContext).queryPoints();
@@ -638,6 +643,7 @@ public class DownloadItemAdapter extends BaseAdapter {
         TextView size;
         ImageView statusIcon;
         ImageView newsIcon;
+        TextView downloadTV;
     }
 
     private static void LOGD(String msg) {

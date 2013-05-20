@@ -6,6 +6,8 @@ public class Config {
 
     public static final boolean DEBUG = false;
     
+    public static final boolean WALL_DEBUG = true && DEBUG;
+    
     public static final String ROOT_DIR = DiskManager.tryToFetchCachePathByType(DiskManager.DiskCacheType.PICTURE);
     
     public static final String SESSION_REFIX = "session";

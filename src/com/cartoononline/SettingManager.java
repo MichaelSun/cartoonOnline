@@ -29,10 +29,10 @@ public class SettingManager {
     }
 
     public int getPointInt() {
-        if (Config.DEBUG) {
+        if (Config.WALL_DEBUG) {
             return 0;
         }
-        return mSharedPreferences.getInt(mContext.getString(R.string.offer_point), 15);
+        return mSharedPreferences.getInt(mContext.getString(R.string.offer_point), 10);
     }
     
     public void setPointInt(int point) {
