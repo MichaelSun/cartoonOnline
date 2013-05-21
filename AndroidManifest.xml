@@ -42,9 +42,9 @@
         android:theme="@style/LeftOutRightInActivityAnimationNoTitleTheme" >
 
         <!-- push service end -->
-        <meta-data
+        <!--  meta-data
             android:name="api_key"
-            android:value="qzfG1NZcgubLZON44jGHBsP6" />
+            android:value="qzfG1NZcgubLZON44jGHBsP6" /-->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="516aa2f456240b7648025f88" >
@@ -99,24 +99,18 @@
         </receiver>
 
         <!-- push service client -->
-        <receiver android:name="com.cartoononline.PushServiceReceiver" >
+        <!--  receiver android:name="com.cartoononline.PushServiceReceiver" >
             <intent-filter>
 
-                <!-- 接收push消息 -->
                 <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
-                <!-- 接收bind,unbind,fetch,delete等反馈消息 -->
                 <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
                 <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-        </receiver>
-        <receiver
-            android:name="net.youmi.android.offers.OffersReceiver"
-            android:exported="false" >
-        </receiver>
+        </receiver -->
 
         <!-- push service -->
-        <receiver
+        <!--  receiver
             android:name="com.baidu.android.pushservice.PushServiceReceiver"
             android:process=":manhua_push" >
             <intent-filter>
@@ -143,7 +137,7 @@
         <service
             android:name="com.baidu.android.pushservice.PushService"
             android:exported="true"
-            android:process=":manhua_push" />
+            android:process=":manhua_push" / -->
     </application>
 
 </manifest>
