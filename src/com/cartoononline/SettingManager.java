@@ -28,11 +28,20 @@ public class SettingManager {
         mEditor = mSharedPreferences.edit();
     }
 
+    public int getPrePoint() {
+        return this.mSharedPreferences.getInt(mContext.getString(R.string.pre_point), 0);
+    }
+    
+    public void setPrePoint(int point) {
+        mEditor.putInt(mContext.getString(R.string.pre_point), point);
+        mEditor.commit();
+    }
+    
     public int getPointInt() {
         if (Config.WALL_DEBUG) {
             return 0;
         }
-        return mSharedPreferences.getInt(mContext.getString(R.string.offer_point), 10);
+        return mSharedPreferences.getInt(mContext.getString(R.string.offer_point), Config.DEFAULT_POINT);
     }
     
     public void setPointInt(int point) {

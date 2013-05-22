@@ -34,6 +34,8 @@ public class Config {
     public static final String OPEN_WITH_PUSH = "open_with_push";
     public static final String OPEN_ALUBM = "open_album";
     
+    public static final int DEFAULT_POINT = 0;
+    
     public static final String PACKAGE_CARTOON = PACKAGE_NAME[0];
     public static final String PACKAGE_XIEE = PACKAGE_NAME[1];
     public static final String PACKAGE_ROSI = PACKAGE_NAME[2];
