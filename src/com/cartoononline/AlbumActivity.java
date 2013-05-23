@@ -10,6 +10,7 @@ import net.youmi.android.spot.SpotManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -40,7 +41,9 @@ public class AlbumActivity extends BaseActivity {
     private ICacheManager<Bitmap> mCacheManager;
 
     private ICacheStrategy mOldICacheStrategy;
-
+    
+    private Handler mHandler = new Handler();
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +89,13 @@ public class AlbumActivity extends BaseActivity {
     public void onStart() {
         super.onStart();
         if (Config.ADVIEW_SHOW) {
-            SpotManager.getInstance(this.getApplicationContext()).showSpotAds(this);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    SpotManager.getInstance(getApplicationContext()).showSpotAds(AlbumActivity.this);
+                }
+            }, 100);
+            
         }
     }
 

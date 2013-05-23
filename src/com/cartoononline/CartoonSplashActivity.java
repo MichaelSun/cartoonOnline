@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -237,6 +238,17 @@ public class CartoonSplashActivity extends BaseActivity {
         super.onDestroy();
         OffersManager.getInstance(this).onAppExit();
         mCacheManager.releaseAllResource();
+    }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            overridePendingTransition(R.anim.activity_slide_in_from_left, R.anim.activity_slide_out_to_right);
+            return true;
+        }
+        
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
