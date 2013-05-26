@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cartoononline.model.SessionReadModel;
-import com.michael.rosi.R;
+import com.michael.manhua.R;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.utils.UtilsConfig;

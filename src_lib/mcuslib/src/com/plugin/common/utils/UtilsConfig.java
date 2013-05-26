@@ -19,7 +19,7 @@ public class UtilsConfig {
 	public static final boolean DEBUG_NETWORK_ST = false & UTILS_DEBUG;
 	public static final boolean RELEASE_UPLOAD_CRASH_LOG = !UTILS_DEBUG;
 	
-	public static final String CURRENT_PACKAGE_NAME = "com.michael.rosi";
+	public static final String CURRENT_PACKAGE_NAME = "com.michael.manhua";
 	
 	public static final int BITMAP_COMPRESS_LOW = 80;
 	public static final int BITMAP_COMPRESS_MEDIUM = 90;

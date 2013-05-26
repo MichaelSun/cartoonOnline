@@ -26,7 +26,7 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshGridView;
-import com.michael.rosi.R;
+import com.michael.manhua.R;
 import com.plugin.common.utils.DataModelBase.DataDownloadListener;
 import com.plugin.common.utils.SingleInstanceBase;
 
