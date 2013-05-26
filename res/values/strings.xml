@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="umeng_channel">baidu_rosi</string>
+    <string name="umeng_channel">baidu_leg</string>
     <string name="umeng_params_channel">baidu</string>
     <string name="youmi_channel">10010</string>
-    <string name="app_name">Rosi美女写真Online</string>
+    <string name="app_name">美腿丝袜Online</string>
     <string name="menu_settings">Settings</string>
     <string name="offer_point">offer_point</string>
     <string name="pre_point">pre_point</string>
@@ -70,7 +70,7 @@
     <string name="offer_download_cute_tips">温馨提示:下载应用以后请一定使用应用1分钟以上，才能获得书币哦。如果在几分钟内不能获得书币，请不要删除应用，一段时间以后会获得书币。</string>
     
     <string-array name="title_array">
-        <item>画报书城</item>
+        <item>美腿丝袜城</item>
         <item>漫画书城</item>
         <item>Rosi画报</item>
     </string-array>

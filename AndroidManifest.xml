@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.michael.rosi"
+    package="com.cartoononline"
     android:versionCode="13"
     android:versionName="2.4" >
 
@@ -110,8 +110,8 @@
             android:name="MyPointsReceiver"
             android:exported="false" >
             <intent-filter>
-                <action android:name="eb90ce5fc3bca339" />
-                <action android:name="eb90ce5fc3bca339" />
+                <action android:name="e3ff884a6cc7b41a" />
+                <action android:name="e3ff884a6cc7b41a" />
             </intent-filter>
         </receiver>
 
