@@ -38,7 +38,8 @@ cd ~/Dropbox/apk_backup/
 mkdir manhuaOnline
 cd -
 
-makeChannelApk hiapk_邪恶小漫画 hiapk 10030 $TARGET $VERSION
+makeChannelApk luntan_邪恶小漫画 luntan 10030 $TARGET $VERSION
+#makeChannelApk hiapk_邪恶小漫画 hiapk 10030 $TARGET $VERSION
 makeChannelApk google_邪恶小漫画 google 10000 $TARGET $VERSION
 #makeChannelApk appchina_邪恶小漫画 appchina 10050 $TARGET $VERSION
 makeChannelApk gfan_邪恶小漫画 gfan 10020 $TARGET $VERSION
