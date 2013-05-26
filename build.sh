@@ -38,6 +38,7 @@ cd ~/Dropbox/apk_backup/
 mkdir leg
 cd -
 
+makeChannelApk luntan_leg luntan 10000 $TARGET $VERSION
 #makeChannelApk hiapk_邪恶小漫画 hiapk 10030 $TARGET $VERSION
 makeChannelApk google_leg google 10000 $TARGET $VERSION
 #makeChannelApk appchina_邪恶小漫画 appchina 10050 $TARGET $VERSION
