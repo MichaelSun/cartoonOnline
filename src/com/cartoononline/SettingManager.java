@@ -27,6 +27,9 @@ public class SettingManager {
     }
 
     public boolean getShowAdView() {
+        if (Config.DIS_ADVIEW_DEBUG) {
+            return false;
+        }
         return this.mSharedPreferences.getBoolean(mContext.getString(R.string.show_adview), true);
     }
     
