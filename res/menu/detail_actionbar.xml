@@ -18,6 +18,9 @@
                 android:showAsAction="ifRoom"
                 android:title="@string/wall_info_detail">
             </item>
+            <item android:id="@+id/close_adview"
+                android:showAsAction="ifRoom"
+                android:title="@string/adview_setting"/>
         </menu>
     </item>
 

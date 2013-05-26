@@ -467,19 +467,19 @@ public class DownloadItemAdapter extends BaseAdapter {
                                                                     PointsManager.getInstance(mContext).spendPoints(5);
                                                                 }
 
-                                                                int point = SettingManager.getInstance().getPointInt()
-                                                                        + PointsManager.getInstance(mContext)
-                                                                                .queryPoints();
-                                                                int prePoint = SettingManager.getInstance()
-                                                                        .getPointInt();
-                                                                if ((prePoint < point) && point >= Config.DEFAULT_POINT) {
-                                                                    SettingManager.getInstance().setPrePoint(prePoint);
-                                                                    HashMap<String, String> extra = new HashMap<String, String>();
-                                                                    extra.put("point", String.valueOf(point));
-                                                                    MobclickAgent.onEvent(mContext,
-                                                                            Config.CURRENT_POINT, extra);
-                                                                    MobclickAgent.flush(mContext);
-                                                                }
+//                                                                int point = SettingManager.getInstance().getPointInt()
+//                                                                        + PointsManager.getInstance(mContext)
+//                                                                                .queryPoints();
+//                                                                int prePoint = SettingManager.getInstance()
+//                                                                        .getPointInt();
+//                                                                if ((prePoint < point) && point >= Config.DEFAULT_POINT) {
+//                                                                    SettingManager.getInstance().setPrePoint(prePoint);
+//                                                                    HashMap<String, String> extra = new HashMap<String, String>();
+//                                                                    extra.put("point", String.valueOf(point));
+//                                                                    MobclickAgent.onEvent(mContext,
+//                                                                            Config.CURRENT_POINT, extra);
+//                                                                    MobclickAgent.flush(mContext);
+//                                                                }
 
                                                                 return;
                                                             }

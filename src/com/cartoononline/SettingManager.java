@@ -28,6 +28,15 @@ public class SettingManager {
         mEditor = mSharedPreferences.edit();
     }
 
+    public boolean getShowAdView() {
+        return this.mSharedPreferences.getBoolean(mContext.getString(R.string.show_adview), true);
+    }
+    
+    public void setShowAdView(boolean show) {
+        mEditor.putBoolean(mContext.getString(R.string.show_adview), show);
+        mEditor.commit();
+    }
+    
     public int getPrePoint() {
         return this.mSharedPreferences.getInt(mContext.getString(R.string.pre_point), 0);
     }

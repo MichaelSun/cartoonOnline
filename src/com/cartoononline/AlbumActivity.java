@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import net.youmi.android.banner.AdSize;
+import net.youmi.android.banner.AdView;
 import net.youmi.android.spot.SpotManager;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,6 +19,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.michael.rosi.R;
@@ -83,8 +86,19 @@ public class AlbumActivity extends BaseActivity {
         HashMap<String, String> extra = new HashMap<String, String>();
         extra.put("name", mDescription);
         MobclickAgent.onEvent(this.getApplicationContext(), Config.OPEN_ALUBM, extra);
+        
+        if (SettingManager.getInstance().getShowAdView()) {
+            initAdView();
+        }
     }
 
+    private void initAdView() {
+        AdView adView = new AdView(this, AdSize.SIZE_320x50);
+        LinearLayout adLayout = (LinearLayout) findViewById(R.id.ad_region);
+        adLayout.setVisibility(View.VISIBLE);
+        adLayout.addView(adView);
+    }
+    
     @Override
     public void onStart() {
         super.onStart();
