@@ -14,8 +14,8 @@
         android:horizontalSpacing="@dimen/image_thumbnail_spacing"
         android:listSelector="@color/transparent"
         android:numColumns="2"
-        android:padding="5dp"
-        android:verticalSpacing="2dp"
+        android:padding="3dp"
+        android:verticalSpacing="@dimen/image_thumbnail_spacing"
         ptr:ptrHeaderSubTextColor="@drawable/gray8"
         ptr:ptrHeaderTextColor="@drawable/gray8"
         ptr:ptrMode="both" />
