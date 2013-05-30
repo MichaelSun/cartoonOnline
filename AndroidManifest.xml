@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.michael.rosi"
-    android:versionCode="13"
+    android:versionCode="14"
     android:versionName="2.4" >
 
     <uses-sdk
@@ -79,7 +79,7 @@
         <!-- youmi usage -->
         <meta-data
             android:name="YOUMI_CHANNEL"
-            android:value="10070" />
+            android:value="10020" />
 
         <activity
             android:name="net.youmi.android.AdBrowser"
