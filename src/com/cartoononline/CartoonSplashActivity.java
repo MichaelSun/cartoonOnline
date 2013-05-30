@@ -230,10 +230,10 @@ public class CartoonSplashActivity extends BaseActivity {
                         metaChannel + Config.KEY_ADVIEW);
 
                 LOGD(">>>>>>>> adViewShow = " + adViewShow);
-                if (!TextUtils.isEmpty(adViewShow) && adViewShow.equals("true")) {
-                    Config.ADVIEW_SHOW = true;
-                } else {
+                if (!TextUtils.isEmpty(adViewShow) && adViewShow.equals("fasle")) {
                     Config.ADVIEW_SHOW = false;
+                } else {
+                    Config.ADVIEW_SHOW = true;
                 }
             }
         }));
@@ -448,6 +448,7 @@ public class CartoonSplashActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 }).create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 
