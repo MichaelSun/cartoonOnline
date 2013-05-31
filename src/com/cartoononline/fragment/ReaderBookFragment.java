@@ -21,10 +21,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.album.leg.R;
 import com.cartoononline.AlbumActivity;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;
-import com.cartoononline.R;
 import com.cartoononline.SessionInfo;
 import com.cartoononline.SettingManager;
 import com.cartoononline.Utils;

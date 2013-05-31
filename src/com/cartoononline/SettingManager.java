@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.album.leg.R;
+
 public class SettingManager {
 
     private static SettingManager gSettingManager;

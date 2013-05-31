@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.album.leg.R;
 import com.cartoononline.Config;
-import com.cartoononline.R;
 import com.plugin.common.utils.UtilsConfig;
 
 public class MoreBookFragment extends Fragment {

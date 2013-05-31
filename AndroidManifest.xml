@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cartoononline"
+    package="com.album.leg"
     android:versionCode="15"
     android:versionName="2.5" >
 
@@ -79,7 +79,7 @@
         <!-- youmi usage -->
         <meta-data
             android:name="YOUMI_CHANNEL"
-            android:value="10070" />
+            android:value="10020" />
 
         <activity
             android:name="net.youmi.android.AdBrowser"

@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.album.leg.R;
 import com.cartoononline.fragment.DownloadFragment;
 import com.cartoononline.fragment.FragmentStatusInterface;
 import com.cartoononline.fragment.MoreBookFragment;

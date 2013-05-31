@@ -19,9 +19,9 @@ public class Config {
     public static final String INI_FILE = "info.ini";
     
     public static int INDEX = 0;
-    public static final String[] YOUMI_APP_ID = new String[] { "e3ff884a6cc7b41a", "556af9dfcb127141", "eb90ce5fc3bca339" };
-    public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "26ab38202db7d6fc", "a3b8473046176ba2", "af8d30ec5dbc40aa" };
-    public static final String[] PACKAGE_NAME = new String[] { "com.cartoononline", "com.michael.manhua", "com.michael.rosi" };
+    public static final String[] YOUMI_APP_ID = new String[] { "debbd13b5914aa88", "556af9dfcb127141", "eb90ce5fc3bca339" };
+    public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "b9eff83f525ef086", "a3b8473046176ba2", "af8d30ec5dbc40aa" };
+    public static final String[] PACKAGE_NAME = new String[] { "com.album.leg", "com.michael.manhua", "com.michael.rosi" };
     public static final String[] PUSH_TAG = new String[] { "yaojing", "manhua", "rosi" };
     public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi" };
     

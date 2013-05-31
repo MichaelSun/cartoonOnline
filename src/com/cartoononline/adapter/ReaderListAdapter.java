@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cartoononline.R;
+import com.album.leg.R;
 import com.cartoononline.model.SessionReadModel;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
