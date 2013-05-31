@@ -27,6 +27,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.album.rosi.R;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;
 import com.cartoononline.CustomCycleBitmapOpration;
@@ -39,7 +40,6 @@ import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
 import com.cartoononline.model.SessionModel;
 import com.cartoononline.model.SessionReadModel;
-import com.michael.rosi.R;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.utils.CustomThreadPool;
