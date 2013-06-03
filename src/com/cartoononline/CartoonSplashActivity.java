@@ -27,9 +27,10 @@ import android.widget.TextView;
 import com.album.rosi.R;
 import com.cartoononline.fragment.DownloadFragment;
 import com.cartoononline.fragment.FragmentStatusInterface;
-import com.cartoononline.fragment.MoreBookFragment;
+import com.cartoononline.fragment.HotFragment;
 import com.cartoononline.fragment.ReaderBookFragment;
 import com.cartoononline.model.DownloadModel;
+import com.cartoononline.model.HotModel;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.cache.ICacheStrategy;
@@ -56,6 +57,8 @@ public class CartoonSplashActivity extends BaseActivity {
     private ICacheManager mCacheManager;
 
     private DownloadModel mDownloadModel;
+    
+    private HotModel mHotModel;
 
     private HashMap<Integer, Fragment> mItemsMap = new HashMap<Integer, Fragment>();
 
@@ -125,7 +128,8 @@ public class CartoonSplashActivity extends BaseActivity {
         mCacheManager.setCacheStrategy(mDefICacheStrategy);
 
         mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
-
+        mHotModel = SingleInstanceBase.getInstance(HotModel.class);
+        
         initActionbar();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -154,6 +158,8 @@ public class CartoonSplashActivity extends BaseActivity {
                             ((FragmentStatusInterface) f).onShow();
                         }
                     }
+                    releaseRes(1);
+                    releaseRes(2);
                     break;
                 case 1:
                     if (mItemsMap.containsKey(1)) {
@@ -168,6 +174,24 @@ public class CartoonSplashActivity extends BaseActivity {
                         }
                     }
                     mForceShowDownload = false;
+                    releaseRes(0);
+                    releaseRes(2);
+                    break;
+                case 2:
+                    if (mItemsMap.containsKey(2)) {
+                        Fragment f = mItemsMap.get(2);
+                        if (f != null && f instanceof FragmentStatusInterface) {
+                            if (!mForceShowDownload) {
+                                ((FragmentStatusInterface) f).onShow();
+                            } else {
+                                mHotModel.resetPageNo();
+                                ((FragmentStatusInterface) f).onForceRefresh();
+                            }
+                        }
+                    }
+                    mForceShowDownload = false;
+                    releaseRes(0);
+                    releaseRes(1);
                     break;
                 }
             }
@@ -182,6 +206,15 @@ public class CartoonSplashActivity extends BaseActivity {
         if (!Config.APP_STARTED) {
             showCloseTipsDialog();
             Config.APP_STARTED = true;
+        }
+    }
+    
+    private void releaseRes(int index) {
+        if (mItemsMap.containsKey(index)) {
+            Fragment f = mItemsMap.get(index);
+            if (f != null && f instanceof FragmentStatusInterface) {
+                ((FragmentStatusInterface) f).onStopShow();
+            }
         }
     }
 
@@ -270,15 +303,13 @@ public class CartoonSplashActivity extends BaseActivity {
 
         mCacheManager.setCacheStrategy(mDefICacheStrategy);
 
-        if (mCurPageIndex == 0) {
-            if (mItemsMap.containsKey(0)) {
-                Fragment f = mItemsMap.get(0);
-                if (f != null && f instanceof FragmentStatusInterface) {
-                    ((FragmentStatusInterface) f).onForceRefresh();
-                }
+        if (mItemsMap.containsKey(mCurPageIndex)) {
+            Fragment f = mItemsMap.get(mCurPageIndex);
+            if (f != null && f instanceof FragmentStatusInterface) {
+                ((FragmentStatusInterface) f).onShow();
             }
         }
-
+        
         if (!SettingManager.getInstance().getShowAdView()) {
             LinearLayout adLayout = (LinearLayout) findViewById(R.id.ad_region);
             if (adLayout != null) {
@@ -288,6 +319,15 @@ public class CartoonSplashActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        
+        releaseRes(0);
+        releaseRes(1);
+        releaseRes(2);
+    }
+    
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -341,6 +381,15 @@ public class CartoonSplashActivity extends BaseActivity {
                 mDownloadModel.resetPageNo();
                 if (mItemsMap.containsKey(1)) {
                     Fragment f = mItemsMap.get(1);
+                    if (f != null && f instanceof FragmentStatusInterface) {
+                        ((FragmentStatusInterface) f).onForceRefresh();
+                    }
+                }
+                break;
+            case 2:
+                mHotModel.resetPageNo();
+                if (mItemsMap.containsKey(2)) {
+                    Fragment f = mItemsMap.get(2);
                     if (f != null && f instanceof FragmentStatusInterface) {
                         ((FragmentStatusInterface) f).onForceRefresh();
                     }
@@ -478,7 +527,7 @@ public class CartoonSplashActivity extends BaseActivity {
                     mItemsMap.put(position, new DownloadFragment());
                     break;
                 case 2:
-                    mItemsMap.put(position, new MoreBookFragment());
+                    mItemsMap.put(position, new HotFragment());
                     break;
                 }
             }
@@ -488,7 +537,11 @@ public class CartoonSplashActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            if (Config.OPEN_HOT) {
+                return 3;
+            } else {
+                return 2;
+            }
         }
 
         @Override
@@ -499,7 +552,7 @@ public class CartoonSplashActivity extends BaseActivity {
             case 1:
                 return mTitleArray[Config.INDEX];
             case 2:
-                return getString(R.string.more);
+                return getString(R.string.hot);
             }
             return null;
         }

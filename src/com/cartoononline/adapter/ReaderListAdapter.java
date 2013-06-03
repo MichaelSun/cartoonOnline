@@ -1,5 +1,6 @@
 package com.cartoononline.adapter;
 
+import java.util.HashSet;
 import java.util.List;
 
 import android.content.Context;
@@ -17,7 +18,7 @@ import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.utils.UtilsConfig;
 
-public class ReaderListAdapter extends BaseAdapter {
+public class ReaderListAdapter extends BaseAdapter implements OnStateChangedListener {
 
     private List<SessionReadModel> mReaderItems;
     
@@ -26,6 +27,8 @@ public class ReaderListAdapter extends BaseAdapter {
     private Context mContext;
     
     private ICacheManager<Bitmap> mCacheManager;
+    
+    private HashSet<ImageView> mCoverImageView = new HashSet<ImageView>();
     
     public ReaderListAdapter(List<SessionReadModel> items, LayoutInflater lf, Context context) {
         mReaderItems = items;
@@ -69,8 +72,10 @@ public class ReaderListAdapter extends BaseAdapter {
         
         SessionReadModel item = mReaderItems.get(position);
         
+        ImageView iv = (ImageView) ret.findViewById(R.id.item_icon);
+        mCoverImageView.add(iv);
         Bitmap bt = mCacheManager.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverPath);
-        ((ImageView) ret.findViewById(R.id.item_icon)).setImageBitmap(bt);
+        iv.setImageBitmap(bt);
         ((TextView) ret.findViewById(R.id.description)).setText(item.description);
         if (item.isRead != 0) {
             ((TextView) ret.findViewById(R.id.readstatus)).setText(R.string.readed);
@@ -80,7 +85,28 @@ public class ReaderListAdapter extends BaseAdapter {
             ((TextView) ret.findViewById(R.id.readstatus)).setBackgroundResource(R.drawable.unread_bg);
         }
         
+        
+        
         return ret;
+    }
+
+    @Override
+    public void onPause() {
+    }
+
+    @Override
+    public void onStop() {
+        for (ImageView v : mCoverImageView) {
+            v.setImageBitmap(null);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        for (ImageView v : mCoverImageView) {
+            v.setImageBitmap(null);
+        }
+        mCoverImageView.clear();
     }
     
 }

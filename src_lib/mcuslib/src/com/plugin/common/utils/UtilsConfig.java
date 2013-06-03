@@ -14,7 +14,7 @@ import android.text.TextUtils;
  */
 public class UtilsConfig {
 	
-	public static final boolean UTILS_DEBUG = false;
+	public static final boolean UTILS_DEBUG = true;
 	
 	public static final boolean DEBUG_NETWORK_ST = false & UTILS_DEBUG;
 	public static final boolean RELEASE_UPLOAD_CRASH_LOG = !UTILS_DEBUG;

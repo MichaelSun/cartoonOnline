@@ -15,45 +15,45 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.album.rosi.R;
 import com.cartoononline.Config;
-import com.cartoononline.adapter.DownloadItemAdapter;
+import com.cartoononline.adapter.HotIAdapter;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
+import com.cartoononline.model.HotItemModel;
+import com.cartoononline.model.HotModel;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
-import com.handmark.pulltorefresh.library.PullToRefreshGridView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.plugin.common.utils.DataModelBase.DataDownloadListener;
 import com.plugin.common.utils.SingleInstanceBase;
 
-public class DownloadFragment extends Fragment implements FragmentStatusInterface {
-
-    private GridView mDownloadGridView;
-
-    private TextView mEmptyTV;
-
-    private LayoutInflater mLayoutInflater;
-
-    private DownloadModel mDownloadModel;
-
-    private DownloadItemAdapter mDownlaodListAdapter;
-
-    private List<DownloadItemModel> mDownloadList = new ArrayList<DownloadItemModel>();
-
-    private PullToRefreshGridView mPullRefreshGridView;
+public class HotFragment extends Fragment implements FragmentStatusInterface {
 
     private Activity mActivity;
 
     private Context mContext;
 
-    // private ProgressDialog mProgress;
+    private LayoutInflater mLayoutInflater;
+
+    private PullToRefreshListView mListView;
+
+    private ListView mRealListView;
+
+    private HotIAdapter mHotAdapter;
 
     private ILoadingLayout mILoadingLayout;
+
+    private List<HotItemModel> mDownloadList = new ArrayList<HotItemModel>();
+
+    private HotModel mDownloadModel;
+
+    private TextView mEmptyTV;
 
     private Toast mToast;
 
@@ -66,97 +66,73 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case NOTIFY_DOWNLOAD_CHANGED:
-                mPullRefreshGridView.onRefreshComplete();
+                mListView.onRefreshComplete();
                 if (mDownloadList != null && mDownloadList.size() > 0) {
                     mEmptyTV.setVisibility(View.GONE);
                 }
-                if (mDownlaodListAdapter == null) {
-                    mDownlaodListAdapter = new DownloadItemAdapter(mActivity, mDownloadList, mLayoutInflater);
-                    if (mDownloadGridView != null) {
-                        mDownloadGridView.setAdapter(mDownlaodListAdapter);
+                if (mHotAdapter == null) {
+                    mHotAdapter = new HotIAdapter(mActivity, mDownloadList, mLayoutInflater);
+                    if (mRealListView != null) {
+                        mRealListView.setAdapter(mHotAdapter);
                     }
                 } else {
-                    mDownlaodListAdapter.setData(mDownloadList);
+                    mHotAdapter.setData(mDownloadList);
                 }
                 break;
             case DISSMISS_PROGRESS:
-                mPullRefreshGridView.onRefreshComplete();
+                mListView.onRefreshComplete();
                 break;
             case STOP_REFRESH:
-                mPullRefreshGridView.onRefreshComplete();
+                mListView.onRefreshComplete();
                 break;
             }
         }
     };
 
-    public DownloadFragment() {
+    public HotFragment() {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
 
-        mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
+        mDownloadModel = SingleInstanceBase.getInstance(HotModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
         mContext = mActivity.getApplicationContext();
-        mToast = Toast.makeText(mContext, R.string.tips_no_more, Toast.LENGTH_LONG);
-        mToast.setText(R.string.tips_no_more);
-        mToast.setDuration(Toast.LENGTH_LONG);
-
+        
         mLayoutInflater = inflater;
-        return makeDownloadView(mLayoutInflater);
+        return makeHotView();
     }
 
-    @Override
-    public void onDestroyView() {
-        Config.LOGD("[[DownloadFragment::onDestroyView]]");
+    private View makeHotView() {
+        View ret = mLayoutInflater.inflate(R.layout.hot_content, null);
+        mListView = (PullToRefreshListView) ret.findViewById(R.id.pull_refresh_list);
 
-        super.onDestroyView();
-        if (mDownlaodListAdapter != null) {
-            mDownlaodListAdapter.onDestroy();
-        }
-
-        mDownlaodListAdapter = null;
-        mActivity = null;
-        mToast = null;
-    }
-
-    private void loadDownloadDataServer(final boolean repalceOld) {
-        // mProgress.show();
-        mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
+        mListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 
             @Override
-            public void onDataLoadSuccess(Object loadData) {
-                if (loadData != null) {
-                    if (repalceOld) {
-                        mDownloadList.clear();
-                    }
-                    mDownloadList.addAll((List<DownloadItemModel>) loadData);
-                    checkDownloadItemStatus(mDownloadList);
-                    mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
-                }
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                loadDownloadDataServer(true);
             }
 
             @Override
-            public void onDataLoadFailed(Object errorData) {
-                mHandler.sendEmptyMessage(DISSMISS_PROGRESS);
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
             }
 
         });
-    }
 
-    private View makeDownloadView(LayoutInflater layoutInflater) {
-        View ret = layoutInflater.inflate(R.layout.download_view, null);
+        mILoadingLayout = mListView.getLoadingLayoutProxy();
+        mILoadingLayout.setLoadingDrawable(mContext.getResources().getDrawable(R.drawable.default_ptr_drawable));
+        mILoadingLayout.setPullLabel(mContext.getString(R.string.pull_label));
+        mILoadingLayout.setReleaseLabel(mContext.getString(R.string.release_label));
+        mILoadingLayout.setLastUpdatedLabel(mContext.getString(R.string.pull_label1));
 
-        mPullRefreshGridView = (PullToRefreshGridView) ret.findViewById(R.id.pull_refresh_grid);
-        mPullRefreshGridView.setScrollingWhileRefreshingEnabled(true);
-        this.mEmptyTV = (TextView) ret.findViewById(R.id.empty_tips);
-        mDownloadGridView = mPullRefreshGridView.getRefreshableView();
-        mDownloadGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        mRealListView = mListView.getRefreshableView();
+        mRealListView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -170,46 +146,19 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
                     break;
                 }
 
-                if (mDownlaodListAdapter != null) {
-                    mDownlaodListAdapter.setFlingState(mIsFling);
+                if (mHotAdapter != null) {
+                    mHotAdapter.setFlingState(mIsFling);
                 }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                // TODO Auto-generated method stub
 
             }
 
         });
 
-        mILoadingLayout = mPullRefreshGridView.getLoadingLayoutProxy();
-        mILoadingLayout.setLoadingDrawable(mContext.getResources().getDrawable(R.drawable.default_ptr_drawable));
-        mILoadingLayout.setPullLabel(mContext.getString(R.string.pull_label));
-        mILoadingLayout.setReleaseLabel(mContext.getString(R.string.release_label));
-        mILoadingLayout.setLastUpdatedLabel(mContext.getString(R.string.pull_label1));
-
-        mPullRefreshGridView.setOnRefreshListener(new OnRefreshListener2<GridView>() {
-
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
-                loadDownloadDataServer(true);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
-                if (mDownloadModel.hasMore()) {
-                    onLoadMorePage();
-                } else {
-                    mHandler.sendEmptyMessage(STOP_REFRESH);
-                    if (mToast != null) {
-                        mToast.show();
-                    }
-                }
-            }
-
-        });
-
+        this.mEmptyTV = (TextView) ret.findViewById(R.id.empty_tips);
         mEmptyTV.setVisibility(View.VISIBLE);
         asyncLoadDataLocal();
 
@@ -222,7 +171,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
             @Override
             public void onDataLoadSuccess(Object loadData) {
                 if (loadData != null) {
-                    List<DownloadItemModel> ret = (List<DownloadItemModel>) loadData;
+                    List<HotItemModel> ret = (List<HotItemModel>) loadData;
                     checkDownloadItemStatus(ret);
                     mDownloadList.clear();
                     mDownloadList.addAll(ret);
@@ -241,7 +190,30 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         });
     }
 
-    private void checkDownloadItemStatus(List<DownloadItemModel> data) {
+    private void loadDownloadDataServer(final boolean repalceOld) {
+        mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
+
+            @Override
+            public void onDataLoadSuccess(Object loadData) {
+                if (loadData != null) {
+                    if (repalceOld) {
+                        mDownloadList.clear();
+                    }
+                    mDownloadList.addAll((List<HotItemModel>) loadData);
+                    checkDownloadItemStatus(mDownloadList);
+                    mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
+                }
+            }
+
+            @Override
+            public void onDataLoadFailed(Object errorData) {
+                mHandler.sendEmptyMessage(DISSMISS_PROGRESS);
+            }
+
+        });
+    }
+
+    private void checkDownloadItemStatus(List<HotItemModel> data) {
         for (DownloadItemModel item : data) {
             if (!TextUtils.isEmpty(item.localFullPath)) {
                 File localFile = new File(item.localFullPath);
@@ -257,14 +229,6 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         }
     }
 
-    private View.OnClickListener mLoadMoreListener = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            onLoadMorePage();
-        }
-    };
-
     private void onLoadMorePage() {
         mDownloadModel.increasePageNo();
         // mProgress.show();
@@ -274,7 +238,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
             public void onDataLoadSuccess(Object loadData) {
                 if (loadData != null) {
                     mDownloadList.clear();
-                    mDownloadList.addAll((List<DownloadItemModel>) loadData);
+                    mDownloadList.addAll((List<HotItemModel>) loadData);
                     checkDownloadItemStatus(mDownloadList);
                     mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
                 }
@@ -291,27 +255,39 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     public void onShow() {
         if (mDownloadList == null || mDownloadList.size() == 0 || mDownloadModel.isDataChanged()) {
             if (mDownloadList == null || mDownloadList.size() == 0) {
-                mPullRefreshGridView.setRefreshing();
+                mListView.setRefreshing();
             } else {
                 asyncLoadDataLocal();
             }
         } else {
-            if (mDownlaodListAdapter != null) {
-                mDownlaodListAdapter.notifyDataSetChanged();
+            if (mHotAdapter != null) {
+                mHotAdapter.notifyDataSetChanged();
             }
         }
     }
 
     @Override
     public void onForceRefresh() {
-        // loadDownloadDataServer(true);
-        mPullRefreshGridView.setRefreshing();
+        mListView.setRefreshing();
     }
     
     @Override
     public void onStopShow() {
-        if (mDownlaodListAdapter != null) {
-            mDownlaodListAdapter.onStop();
+        if (mHotAdapter != null) {
+            mHotAdapter.onStop();
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        Config.LOGD("[[HotFragment::onDestroyView]]");
+        
+        super.onDestroyView();
+        if (mHotAdapter != null) {
+            mHotAdapter.onDestroy();
+        }
+        mHotAdapter = null;
+        mActivity = null;
+    }
+
 }

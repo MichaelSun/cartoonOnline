@@ -45,17 +45,6 @@ public class CartoonApplication extends Application {
         List<String> tags = new ArrayList<String>();
         tags.add(Config.PUSH_TAG[Config.INDEX]);
         PushManager.setTags(getApplicationContext(), tags);
-
-        // int point = SettingManager.getInstance().getPointInt() +
-        // PointsManager.getInstance(this).queryPoints();
-        // int prePoint = SettingManager.getInstance().getPointInt();
-        // if ((prePoint < point) && point > Config.DEFAULT_POINT) {
-        // SettingManager.getInstance().setPrePoint(prePoint);
-        // HashMap<String, String> extra = new HashMap<String, String>();
-        // extra.put("point", String.valueOf(Config.DEFAULT_POINT) + "+");
-        // MobclickAgent.onEvent(this, Config.CURRENT_POINT, extra);
-        // MobclickAgent.flush(this);
-        // }
     }
 
     private void initYoumi() {

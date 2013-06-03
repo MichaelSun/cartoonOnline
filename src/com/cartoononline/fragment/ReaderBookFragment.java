@@ -121,10 +121,15 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
     
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
+        Config.LOGD("[[ReaderBookFragment::onDestroyView]]");
         
-        mActivity = null;
+        super.onDestroyView();
+        if (mReaderListAdapter != null) {
+            mReaderListAdapter.onDestroy();
+        }
+        
         mReaderListAdapter = null;
+        mActivity = null;
     }
     
     private void initProgressBar() {
@@ -248,7 +253,6 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
 
             @Override
             public void onDataLoadFailed(Object errorData) {
-                // TODO Auto-generated method stub
             }
 
         });
@@ -344,11 +348,22 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
     public void onShow() {
         if (mSessionModel != null && mSessionModel.isDataChanged()) {
             loadSessionData();
-        }        
+        } else {
+            if (mReaderListAdapter != null) {
+                mReaderListAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @Override
     public void onForceRefresh() {
         mHandler.sendEmptyMessage(NOTIFY_DATA_CHANGED);
+    }
+    
+    @Override
+    public void onStopShow() {
+        if (mReaderListAdapter != null) {
+            mReaderListAdapter.onStop();
+        }
     }
 }
