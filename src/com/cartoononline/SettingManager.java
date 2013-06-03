@@ -29,6 +29,10 @@ public class SettingManager {
     }
 
     public boolean getShowAdView() {
+        if (Config.DEBUG) {
+            return false;
+        }
+        
         return this.mSharedPreferences.getBoolean(mContext.getString(R.string.show_adview), true);
     }
     
@@ -48,7 +52,7 @@ public class SettingManager {
     
     public int getPointInt() {
         if (Config.WALL_DEBUG) {
-            return 0;
+            return 200;
         }
         return mSharedPreferences.getInt(mContext.getString(R.string.offer_point), Config.DEFAULT_POINT);
     }
