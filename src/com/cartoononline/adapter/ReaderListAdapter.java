@@ -85,8 +85,6 @@ public class ReaderListAdapter extends BaseAdapter implements OnStateChangedList
             ((TextView) ret.findViewById(R.id.readstatus)).setBackgroundResource(R.drawable.unread_bg);
         }
         
-        
-        
         return ret;
     }
 

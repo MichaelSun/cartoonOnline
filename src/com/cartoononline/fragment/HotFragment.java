@@ -138,10 +138,10 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
                 case SCROLL_STATE_FLING:
+                case SCROLL_STATE_TOUCH_SCROLL:
                     mIsFling = true;
                     break;
                 case SCROLL_STATE_IDLE:
-                case SCROLL_STATE_TOUCH_SCROLL:
                     mIsFling = false;
                     break;
                 }

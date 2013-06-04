@@ -162,10 +162,10 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
                 case SCROLL_STATE_FLING:
+                case SCROLL_STATE_TOUCH_SCROLL:
                     mIsFling = true;
                     break;
                 case SCROLL_STATE_IDLE:
-                case SCROLL_STATE_TOUCH_SCROLL:
                     mIsFling = false;
                     break;
                 }
@@ -177,8 +177,6 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                // TODO Auto-generated method stub
-
             }
 
         });
