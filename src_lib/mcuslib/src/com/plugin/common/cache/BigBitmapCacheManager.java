@@ -3,8 +3,8 @@
  */
 package com.plugin.common.cache;
 
-import android.support.v4.util.LruCache;
 import android.text.TextUtils;
+import android.util.LruCache;
 
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileOperatorHelper;

@@ -28,7 +28,7 @@ public class Config {
     public static final String KEY_SHOW_WALL = "show_app_wall";
     public static final String KEY_ADVIEW = "_adview";
     
-    public static boolean ADVIEW_SHOW = true;
+    public static final boolean ADVIEW_SHOW = true;
     
     //umeng event
     public static final String DOWNLOAD_ALUBM = "download_album";

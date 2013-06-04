@@ -3,7 +3,7 @@
  */
 package com.plugin.common.cache;
 
-import android.support.v4.util.LruCache;
+import android.util.LruCache;
 
 import com.plugin.common.utils.files.FileUtil;
 import com.plugin.common.utils.image.BitmapUtils;

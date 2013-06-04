@@ -8,8 +8,8 @@ import java.io.InputStream;
 import java.util.LinkedList;
 
 import android.graphics.Bitmap;
-import android.support.v4.util.LruCache;
 import android.text.TextUtils;
+import android.util.LruCache;
 
 import com.plugin.common.utils.DebugLog;
 import com.plugin.common.utils.UtilsConfig;
