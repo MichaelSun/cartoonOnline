@@ -95,12 +95,6 @@ public class DownloadModel extends DataModelBase {
                 try {
                     RequestBase<NewSessionResponse> request = new NewSessionRequest1(mCurPage, 20,
                             Config.DOMAIN_NAME[Config.INDEX]);
-//                    if (Config.INDEX == 0) {
-//                        request = new NewSessionRequest(mCurPage, 20);
-//                    } else if (Config.INDEX == 1) {
-//                        request = new NewSessionXieeRequest(mCurPage, 20);
-//                    }
-
                     NewSessionResponse response = InternetUtils.request(mContext, request);
                     UtilsConfig.LOGD("[[:::::::::]] response = " + response);
 

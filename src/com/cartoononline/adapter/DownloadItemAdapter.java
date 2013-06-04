@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
@@ -28,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.album.rosi.R;
+import com.cartoononline.AlbumActivity;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;
 import com.cartoononline.CustomCycleBitmapOpration;
@@ -403,10 +405,8 @@ public class DownloadItemAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
                     if (item.status == DownloadItemModel.UNDOWNLOAD) {
-                        if (Config.INDEX != 0) {
-                            if (!checkeOfferWallShouldShow()) {
-                                return;
-                            }
+                        if (!checkeOfferWallShouldShow()) {
+                            return;
                         }
 
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
@@ -467,19 +467,33 @@ public class DownloadItemAdapter extends BaseAdapter {
                                                                     PointsManager.getInstance(mContext).spendPoints(5);
                                                                 }
 
-//                                                                int point = SettingManager.getInstance().getPointInt()
-//                                                                        + PointsManager.getInstance(mContext)
-//                                                                                .queryPoints();
-//                                                                int prePoint = SettingManager.getInstance()
-//                                                                        .getPointInt();
-//                                                                if ((prePoint < point) && point >= Config.DEFAULT_POINT) {
-//                                                                    SettingManager.getInstance().setPrePoint(prePoint);
-//                                                                    HashMap<String, String> extra = new HashMap<String, String>();
-//                                                                    extra.put("point", String.valueOf(point));
-//                                                                    MobclickAgent.onEvent(mContext,
-//                                                                            Config.CURRENT_POINT, extra);
-//                                                                    MobclickAgent.flush(mContext);
-//                                                                }
+                                                                // int point =
+                                                                // SettingManager.getInstance().getPointInt()
+                                                                // +
+                                                                // PointsManager.getInstance(mContext)
+                                                                // .queryPoints();
+                                                                // int prePoint
+                                                                // =
+                                                                // SettingManager.getInstance()
+                                                                // .getPointInt();
+                                                                // if ((prePoint
+                                                                // < point) &&
+                                                                // point >=
+                                                                // Config.DEFAULT_POINT)
+                                                                // {
+                                                                // SettingManager.getInstance().setPrePoint(prePoint);
+                                                                // HashMap<String,
+                                                                // String> extra
+                                                                // = new
+                                                                // HashMap<String,
+                                                                // String>();
+                                                                // extra.put("point",
+                                                                // String.valueOf(point));
+                                                                // MobclickAgent.onEvent(mContext,
+                                                                // Config.CURRENT_POINT,
+                                                                // extra);
+                                                                // MobclickAgent.flush(mContext);
+                                                                // }
 
                                                                 return;
                                                             }
@@ -542,13 +556,46 @@ public class DownloadItemAdapter extends BaseAdapter {
             }
         };
 
+        View.OnClickListener itemClickOpen = new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
+                    int downloadHasdCode = item.getDownloadUrlHashCode();
+                    if (downloadHasdCode != 0) {
+                        SessionModel sm = SingleInstanceBase.getInstance(SessionModel.class);
+                        if (sm != null) {
+                            SessionReadModel data = sm.syncQueryDataLocalBy(downloadHasdCode);
+                            if (data != null) {
+                                Intent intent = new Intent();
+                                intent.setClass(mContext, AlbumActivity.class);
+                                intent.putExtra(AlbumActivity.KEY_INDEX, data.localFullPath);
+                                intent.putExtra(AlbumActivity.KEY_SESSION_NAME, data.sessionName);
+                                intent.putExtra(AlbumActivity.KEY_DESC, data.description);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
+
+                                data.isRead = 1;
+                                sm.updateItem(data);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
         if (item.status == DownloadItemModel.UNDOWNLOAD) {
             holder.statusIcon.setOnClickListener(itemOnClickListener);
         } else {
             holder.statusIcon.setOnClickListener(itemClickDelete);
         }
 
-        view.setOnClickListener(itemOnClickListener);
+        if (item.status == DownloadItemModel.UNDOWNLOAD) {
+            view.setOnClickListener(itemOnClickListener);
+        } else {
+            view.setOnClickListener(itemClickOpen);
+        }
+
         view.setOnLongClickListener(itemLongClickListener);
     }
 

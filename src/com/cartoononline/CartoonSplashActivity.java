@@ -216,27 +216,27 @@ public class CartoonSplashActivity extends BaseActivity {
         super.onStart();
         SpotManager.getInstance(this).loadSpotAds();
 
-        CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
-            @Override
-            public void run() {
-                String ret = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
-                        Config.KEY_SHOW_WALL);
-                if (!TextUtils.isEmpty(ret) && ret.equals("true")) {
-                    mShowAppWallInfo = true;
-                }
-
-                String metaChannel = getString(R.string.umeng_params_channel);
-                String adViewShow = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
-                        metaChannel + Config.KEY_ADVIEW);
-
-                LOGD(">>>>>>>> adViewShow = " + adViewShow);
-                if (!TextUtils.isEmpty(adViewShow) && adViewShow.equals("true")) {
-                    Config.ADVIEW_SHOW = true;
-                } else {
-                    Config.ADVIEW_SHOW = false;
-                }
-            }
-        }));
+//        CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
+//            @Override
+//            public void run() {
+//                String ret = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
+//                        Config.KEY_SHOW_WALL);
+//                if (!TextUtils.isEmpty(ret) && ret.equals("true")) {
+//                    mShowAppWallInfo = true;
+//                }
+//
+//                String metaChannel = getString(R.string.umeng_params_channel);
+//                String adViewShow = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
+//                        metaChannel + Config.KEY_ADVIEW);
+//
+//                LOGD(">>>>>>>> adViewShow = " + adViewShow);
+//                if (!TextUtils.isEmpty(adViewShow) && adViewShow.equals("true")) {
+//                    Config.ADVIEW_SHOW = true;
+//                } else {
+//                    Config.ADVIEW_SHOW = false;
+//                }
+//            }
+//        }));
 
         if (mForceShowDownload) {
             MobclickAgent.onEvent(this.getApplicationContext(), Config.OPEN_WITH_PUSH);
