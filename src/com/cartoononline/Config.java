@@ -18,12 +18,12 @@ public class Config {
 
     public static int INDEX = 0;
     public static final String[] YOUMI_APP_ID = new String[] { "e3ff884a6cc7b41a", "556af9dfcb127141",
-            "bebe748a9e64ef29" };
+            "bebe748a9e64ef29", "b9a64adc7a5fef64" };
     public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "26ab38202db7d6fc", "a3b8473046176ba2",
-            "310968f5f26311a4" };
+            "310968f5f26311a4", "41b64317cd1280af" };
     public static final String[] PACKAGE_NAME = new String[] { "com.cartoononline", "com.michael.manhua",
-            "com.album.rosi" };
-    public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi" };
+            "com.album.rosi", "com.album.disi" };
+    public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi", "disi" };
 
     public static final String KEY_SHOW_WALL = "show_app_wall";
     public static final String KEY_ADVIEW = "_adview";
@@ -42,6 +42,7 @@ public class Config {
     public static final String PACKAGE_CARTOON = PACKAGE_NAME[0];
     public static final String PACKAGE_XIEE = PACKAGE_NAME[1];
     public static final String PACKAGE_ROSI = PACKAGE_NAME[2];
+    public static final String PACKAGE_DISI = PACKAGE_NAME[3];
 
     public static boolean APP_STARTED = false;
 

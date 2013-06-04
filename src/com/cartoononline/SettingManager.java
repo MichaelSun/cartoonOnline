@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.album.rosi.R;
+import com.album.disi.R;
 
 public class SettingManager {
 
