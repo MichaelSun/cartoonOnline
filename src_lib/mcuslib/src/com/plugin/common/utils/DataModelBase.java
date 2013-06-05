@@ -15,16 +15,10 @@ public abstract class DataModelBase extends SingleInstanceBase {
 
     protected Context mContext;
     
-//    protected DataDownloadListener mDataDownloadListener;
-    
     @Override
     protected void init(Context context) {
         mContext = context;
     }
-    
-//    public void setDataDownloadListener(DataDownloadListener l) {
-//        mDataDownloadListener = l;
-//    }
     
     protected void asyncWork(Runnable run) {
         CustomThreadPool.getInstance().excute(new TaskWrapper(run));
