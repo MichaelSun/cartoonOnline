@@ -36,6 +36,7 @@ import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.cache.ICacheStrategy;
 import com.plugin.common.utils.CustomThreadPool;
 import com.plugin.common.utils.CustomThreadPool.TaskWrapper;
+import com.plugin.common.utils.Environment;
 import com.plugin.common.utils.SingleInstanceBase;
 import com.plugin.common.utils.UtilsConfig;
 import com.umeng.analytics.MobclickAgent;
@@ -359,6 +360,9 @@ public class CartoonSplashActivity extends BaseActivity {
     @Override
     public boolean onMenuItemSelected(int featureId, com.actionbarsherlock.view.MenuItem item) {
         switch (item.getItemId()) {
+        case R.id.about:
+            showAboutDialog();
+            break;
         case R.id.close_adview:
             showAdViewSettingDialog();
             break;
@@ -402,6 +406,22 @@ public class CartoonSplashActivity extends BaseActivity {
         return true;
     }
 
+    private void showAboutDialog() {
+        String version = Environment.getVersionName(getApplicationContext());
+        String versionStr = String.format(getString(R.string.version_info), version);
+        View v = this.getLayoutInflater().inflate(R.layout.about_view, null);
+        TextView versionTV = (TextView) v.findViewById(R.id.version);
+        versionTV.setText(versionStr);
+        
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                                    .setTitle(R.string.about)
+                                    .setView(v)
+                                    .setPositiveButton(R.string.confirm, null)
+                                    .create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+    
     private void showAdViewSettingDialog() {
         final int localPoint = SettingManager.getInstance().getPointInt();
         int point = PointsManager.getInstance(this).queryPoints();
@@ -471,6 +491,7 @@ public class CartoonSplashActivity extends BaseActivity {
             }
 
         }
+        builder.setNegativeButton(R.string.cancel, null);
 
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
@@ -497,6 +518,7 @@ public class CartoonSplashActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 }).create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 

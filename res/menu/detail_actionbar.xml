@@ -21,6 +21,9 @@
             <item android:id="@+id/close_adview"
                 android:showAsAction="ifRoom"
                 android:title="@string/adview_setting"/>
+            <item android:id="@+id/about"
+                android:showAsAction="ifRoom"
+                android:title="@string/about"/>
         </menu>
     </item>
 

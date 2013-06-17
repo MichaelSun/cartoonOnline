@@ -8,7 +8,7 @@ import android.content.Context;
 
 import com.cartoononline.Config;
 import com.cartoononline.SettingManager;
-import com.cartoononline.api.NewSessionRequest1;
+import com.cartoononline.api.HotSessionRequest;
 import com.cartoononline.api.NewSessionResponse;
 import com.cartoononline.api.NewSessionResponse.SessionItem;
 import com.plugin.common.utils.DataModelBase;
@@ -92,8 +92,7 @@ public class HotModel extends DataModelBase {
             @Override
             public void run() {
                 try {
-                    RequestBase<NewSessionResponse> request = new NewSessionRequest1(mCurPage, 20,
-                            Config.DOMAIN_NAME[Config.INDEX]);
+                    RequestBase<NewSessionResponse> request = new HotSessionRequest(Config.DOMAIN_NAME[Config.INDEX]);
                     NewSessionResponse response = InternetUtils.request(mContext, request);
                     UtilsConfig.LOGD("[[:::::::::]] response = " + response);
 

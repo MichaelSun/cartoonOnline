@@ -31,8 +31,10 @@
     <string name="confirm">确定</string>
     <string name="close_now">现在关闭</string>
     <string name="open">打开</string>
-    <string name="hot">热门</string>
-    
+    <string name="hot">热门下载</string>
+    <string name="about">关于</string>
+    <string name="version_info" formatted="false">版本号:%s</string>
+    <string name="about_tips">常见问题解答:\n1，多久更新一次？\n每天都会至少更新一集，所以完全可以满足大家的浏览。\n\n2，不够看怎么办？\n没关系，稍后会有更多的美女推出，请大家不要着急。\n\n3，软件是否会在后台做一些用户不知道的事？\n不会，软件没有任何做用户不知道的事情，没有推送提示。\n\n4，如果联系反馈？\n直接在google play上留言即可。\n\n希望大家在google play上评论打分，你的支持是我最好的动力。</string>
     <string name="adview_close_tips" formatted="false">永久关闭页面下端广告条需要消费20个书币，你现在的书币是%s，是否要立刻关闭广告条?</string>
     <string name="adview_close_nopoint_tips" formatted="false">永久关闭页面下端广告条需要消费20个书币，你现在的书币是%s，是否要立刻下载书币?</string>
     <string name="adview_open">广告条功能已经关闭，是否要打开?</string>
@@ -52,9 +54,8 @@
     <string name="download_count_text" formatted="false">下载次数:%s</string>
 
     <item name="is_downloading" type="id"></item>
-    
-    <string name="tips_adview_close">温馨提示:如果您想关闭最下面的广告条，请点击右上角的设置按钮&#8212;>广告条设置来永久关闭广告条</string>
 
+    <string name="tips_adview_close">温馨提示:如果您想关闭最下面的广告条，请点击右上角的设置按钮&#8212;>广告条设置来永久关闭广告条</string>
     <string name="tips_title">提示</string>
     <string name="local">本地图书</string>
     <string name="more">更多图书</string>
@@ -69,10 +70,10 @@
     <string name="offer_download_tips" formatted="false">您的书币已经不足5(当前书币%s),需要下载软件获得5书币才能继续下载,下载软件不会收取您的费用,请放心下载。</string>
     <string name="offer_info_detail" formatted="false">您当前的书币%s,是否要马上下载?\n每下载一本画报需要5书币。</string>
     <string name="offer_download_cute_tips">温馨提示:下载应用以后请一定使用应用1分钟以上，才能获得书币哦。如果在几分钟内不能获得书币，请不要删除应用，一段时间以后会获得书币。</string>
-    
+
     <string-array name="title_array">
-        <item>画报书城</item>
-        <item>漫画书城</item>
+        <item>美腿丝袜城</item>
+        <item>内涵漫画</item>
         <item>Rosi画报</item>
     </string-array>
 
