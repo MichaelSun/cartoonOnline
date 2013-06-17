@@ -63,9 +63,10 @@ import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
 import com.plugin.internet.InternetUtils;
 import com.umeng.analytics.MobclickAgent;
 
-public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedListener {
+public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
 
-    private List<DownloadItemModel> mDownloadItemModelList = new ArrayList<DownloadItemModel>();
+    private List<HotItemModel> mDownloadItemModelList = new ArrayList<HotItemModel>();
+
     private Set<Integer> mDownloaddItemHashCode = new HashSet<Integer>();
 
     private LayoutInflater mLayoutInflater;
@@ -89,10 +90,10 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
     private boolean mIsFling;
 
     private Context mContext;
-    
-    private HashSet<ImageView> mCoverImageView = new HashSet<ImageView>();
 
     private CustomCycleBitmapOpration mCustomCycleBitmapOpration = null;
+    
+    private HashSet<ImageView> mCoverImageView = new HashSet<ImageView>();
 
     private static final int LOAD_FROM_LOACAL = -1;
     private static final int LOAD_FROM_SERVER = -2;
@@ -114,7 +115,9 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                         if (hashCode == code) {
                             i.setImageBitmap((Bitmap) msg.obj);
                             if (!mIsFling && msg.arg2 == LOAD_FROM_SERVER) {
-                                i.startAnimation(mFadeInAnim);
+                                if (mFadeInAnim != null) {
+                                    i.startAnimation(mFadeInAnim);
+                                }
                             }
                         }
                     }
@@ -126,7 +129,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                     mProgress.dismiss();
                 }
                 // try to unzip
-                asyncUnzipSession((DownloadItemModel) msg.obj);
+                asyncUnzipSession((HotItemModel) msg.obj);
                 break;
             case DISMISS_DIALOG:
                 if (mProgress != null) {
@@ -138,13 +141,13 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                 break;
             case DELETE_ITEM_REFRESH:
                 notifyDataSetChanged();
-                deleteSession((DownloadItemModel) msg.obj);
+                deleteSession((HotItemModel) msg.obj);
                 break;
             }
         }
     };
 
-    public DownloadItemAdapter(Activity a, List<DownloadItemModel> data, LayoutInflater lf) {
+    public HotIAdapter(Activity a, List<HotItemModel> data, LayoutInflater lf) {
         mActivity = a;
         if (mActivity != null) {
             mContext = mActivity.getApplicationContext();
@@ -156,10 +159,12 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         initProgressBar();
         initUnZipProgressBar();
 
-        mFadeInAnim = AnimationUtils.loadAnimation(a.getApplicationContext(), R.anim.fade_in);
+        if (a != null) {
+            mFadeInAnim = AnimationUtils.loadAnimation(a.getApplicationContext(), R.anim.fade_in);
+        }
 
         if (data != null) {
-            for (DownloadItemModel item : data) {
+            for (HotItemModel item : data) {
                 mDownloadItemModelList.add(item);
                 mDownloaddItemHashCode.add(item.downloadUrlHashCode);
             }
@@ -170,7 +175,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         mIsFling = fling;
     }
 
-    private void deleteSession(DownloadItemModel r) {
+    private void deleteSession(HotItemModel r) {
         if (r == null) {
             return;
         }
@@ -206,7 +211,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         }
     }
 
-    private void asyncUnzipSession(final DownloadItemModel r) {
+    private void asyncUnzipSession(final HotItemModel r) {
         mUnZipProgress.show();
         CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
             @Override
@@ -250,15 +255,15 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                 m.unzipTime = System.currentTimeMillis();
                                 m.localFullPathHashCode = m.localFullPath.hashCode();
                                 SingleInstanceBase.getInstance(SessionModel.class).insertOrRelace(m);
-                                SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(r);
-                                SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(false);
+                                SingleInstanceBase.getInstance(HotModel.class).updateItemModel(r);
+                                SingleInstanceBase.getInstance(HotModel.class).setDataChanged(false);
 
-                                HotItemModel searchItem = new HotItemModel();
+                                DownloadItemModel searchItem = new DownloadItemModel();
                                 searchItem.downloadUrlHashCode = r.downloadUrlHashCode;
-                                HotItemModel result = SingleInstanceBase.getInstance(HotModel.class)
-                                        .getItem(searchItem);
+                                DownloadItemModel result = SingleInstanceBase.getInstance(DownloadModel.class).getItem(
+                                        searchItem);
                                 if (result != null) {
-                                    updateHotItem(result, r);
+                                    updateDownloadItem(result, r);
                                     SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(result);
                                     SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(true);
                                 }
@@ -276,7 +281,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         }));
     }
 
-    private void updateHotItem(HotItemModel src, DownloadItemModel data) {
+    private void updateDownloadItem(DownloadItemModel src, HotItemModel data) {
         src.coverBt = data.coverBt;
         src.coverUrl = data.coverUrl;
         src.description = data.description;
@@ -289,7 +294,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         src.time = data.time;
     }
 
-    public void setData(List<DownloadItemModel> data) {
+    public void setData(List<HotItemModel> data) {
         mDownloadItemModelList = data;
         this.notifyDataSetChanged();
     }
@@ -305,13 +310,11 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -320,7 +323,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         View ret = convertView;
         ViewHolder holder = null;
         if (ret == null) {
-            ret = mLayoutInflater.inflate(R.layout.download_item, null);
+            ret = mLayoutInflater.inflate(R.layout.hot_item, null);
             holder = new ViewHolder();
             holder.icon = (ImageView) ret.findViewById(R.id.item_icon);
             holder.description = (TextView) ret.findViewById(R.id.description);
@@ -333,7 +336,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
             holder = (ViewHolder) ret.getTag();
         }
 
-        DownloadItemModel item = mDownloadItemModelList.get(position);
+        HotItemModel item = mDownloadItemModelList.get(position);
         holder.description.setText(item.description);
         holder.size.setText(item.size);
 
@@ -370,10 +373,10 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                 asyncLoadImage(holder, item.coverUrl);
 //            }
         }
-        mCoverImageView.add(holder.icon);
+        this.mCoverImageView.add(holder.icon);
 
         setViewListener(ret, position, item, holder);
-        
+
         return ret;
     }
 
@@ -422,14 +425,16 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         });
     }
 
-    private void setViewListener(View view, final int position, final DownloadItemModel item, ViewHolder holder) {
+    private void setViewListener(View view, final int position, final HotItemModel item, ViewHolder holder) {
         View.OnClickListener itemOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
                     if (item.status == DownloadItemModel.UNDOWNLOAD) {
-                        if (!checkeOfferWallShouldShow()) {
-                            return;
+                        if (Config.INDEX != 0) {
+                            if (!checkeOfferWallShouldShow()) {
+                                return;
+                            }
                         }
 
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
@@ -489,8 +494,6 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                                                     SettingManager.getInstance().setPointInt(0);
                                                                     PointsManager.getInstance(mContext).spendPoints(5);
                                                                 }
-
-                                                                return;
                                                             }
 
                                                             mHandler.sendEmptyMessage(DISMISS_DIALOG);
@@ -645,7 +648,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         }
     }
 
-    private void onDeleteItem(DownloadItemModel item) {
+    private void onDeleteItem(HotItemModel item) {
         if (!TextUtils.isEmpty(item.getLocalFullPath())) {
             File localFile = new File(item.localFullPath);
             localFile.delete();
@@ -657,8 +660,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
             mCacheManager.releaseResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverUrl);
         }
 
-        item.status = DownloadItemModel.UNDOWNLOAD;
-        // SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(item);
+        item.status = HotItemModel.UNDOWNLOAD;
 
         Message msg = new Message();
         msg.what = DELETE_ITEM_REFRESH;
@@ -701,6 +703,8 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
 
     @Override
     public void onPause() {
+        // TODO Auto-generated method stub
+        
     }
 
     @Override
@@ -712,12 +716,12 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
 
     @Override
     public void onDestroy() {
-        Config.LOGD("[[DownloadItemAdapter::onDestroy]]");
+        Config.LOGD("[[HotIAdapter::onDestroy]]");
         
         for (ImageView view : mCoverImageView) {
             view.setImageBitmap(null);
         }
-        this.mCoverImageView.clear();
+        mCoverImageView.clear();
         
         this.mActivity = null;
         mIconImageViewList = null;

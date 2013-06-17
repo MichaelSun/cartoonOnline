@@ -6,7 +6,7 @@ import com.plugin.database.dao.annotations.Ignore;
 import com.plugin.database.dao.annotations.OrderBy;
 import com.plugin.database.dao.annotations.PrimaryKey;
 
-public final class DownloadItemModel {
+public class DownloadItemModel {
     
     @Ignore()
     public static final int UNDOWNLOAD = 1;

@@ -17,13 +17,13 @@ import com.plugin.database.dao.helper.DBTableAccessHelper;
 import com.plugin.internet.InternetUtils;
 import com.plugin.internet.core.RequestBase;
 
-public class DownloadModel extends DataModelBase {
+public class HotModel extends DataModelBase {
 
     private int mCurPage;
 
     private boolean mOnLoading;
 
-    private DBTableAccessHelper<DownloadItemModel> mDownloadHelper;
+    private DBTableAccessHelper<HotItemModel> mDownloadHelper;
 
     private boolean mDataChanged;
 
@@ -32,7 +32,7 @@ public class DownloadModel extends DataModelBase {
         super.init(context);
         mCurPage = 0;
         mOnLoading = false;
-        mDownloadHelper = new DBTableAccessHelper<DownloadItemModel>(context, DownloadItemModel.class);
+        mDownloadHelper = new DBTableAccessHelper<HotItemModel>(context, HotItemModel.class);
         mDataChanged = false;
     }
 
@@ -48,8 +48,8 @@ public class DownloadModel extends DataModelBase {
         return SettingManager.getInstance().getHasMore();
     }
 
-    public DownloadItemModel getItem(DownloadItemModel searchObj) {
-        List<DownloadItemModel> ret = mDownloadHelper.queryItems("downloadUrlHashCode = ?",
+    public HotItemModel getItem(HotItemModel searchObj) {
+        List<HotItemModel> ret = mDownloadHelper.queryItems("downloadUrlHashCode = ?",
                 String.valueOf(searchObj.downloadUrlHashCode));
         if (ret != null && ret.size() > 0) {
             return ret.get(0);
@@ -68,14 +68,14 @@ public class DownloadModel extends DataModelBase {
         mDataChanged = false;
     }
 
-    public void deleteItemModel(DownloadItemModel item) {
+    public void deleteItemModel(HotItemModel item) {
         if (item != null) {
             mDataChanged = true;
             mDownloadHelper.delete(item);
         }
     }
 
-    public void updateItemModel(DownloadItemModel item) {
+    public void updateItemModel(HotItemModel item) {
         if (item != null) {
             mDataChanged = true;
             mDownloadHelper.update(item);
@@ -100,11 +100,11 @@ public class DownloadModel extends DataModelBase {
                     if (response != null) {
                         SettingManager.getInstance().setHasMore(response.hasmore);
                         if (response.items != null) {
-                            DownloadItemModel[] saveData = new DownloadItemModel[response.items.length];
+                            HotItemModel[] saveData = new HotItemModel[response.items.length];
                             int timeIndex = 0;
                             for (int index = 0; index < saveData.length; ++index) {
                                 SessionItem item = response.items[index];
-                                DownloadItemModel ditem = new DownloadItemModel();
+                                HotItemModel ditem = new HotItemModel();
                                 ditem.coverUrl = item.imageUrl;
                                 ditem.description = item.description;
                                 ditem.downloadUrl = item.downloadUrl;
@@ -119,22 +119,22 @@ public class DownloadModel extends DataModelBase {
                                 timeIndex++;
                             }
 
-                            List<DownloadItemModel> old = mDownloadHelper.queryItems();
+                            List<HotItemModel> old = mDownloadHelper.queryItems();
                             if (old != null && old.size() > 0) {
-                                HashMap<Integer, DownloadItemModel> map = new HashMap<Integer, DownloadItemModel>();
-                                for (DownloadItemModel item : old) {
+                                HashMap<Integer, HotItemModel> map = new HashMap<Integer, HotItemModel>();
+                                for (HotItemModel item : old) {
                                     map.put(item.downloadUrlHashCode, item);
                                 }
 
-                                for (DownloadItemModel iItem : saveData) {
-                                    DownloadItemModel oldItem = map.get(iItem.downloadUrlHashCode);
+                                for (HotItemModel iItem : saveData) {
+                                    HotItemModel oldItem = map.get(iItem.downloadUrlHashCode);
                                     if (oldItem != null) {
                                         iItem.localFullPath = oldItem.localFullPath;
                                     }
                                 }
                             }
 
-                            List<DownloadItemModel> ret = new ArrayList<DownloadItemModel>();
+                            List<HotItemModel> ret = new ArrayList<HotItemModel>();
                             if (mCurPage == 0) {
                                 mDownloadHelper.deleteAll();
                             }
@@ -171,7 +171,7 @@ public class DownloadModel extends DataModelBase {
         asyncWork(new Runnable() {
             @Override
             public void run() {
-                List<DownloadItemModel> ret = mDownloadHelper.queryItems();
+                List<HotItemModel> ret = mDownloadHelper.queryItems();
 
                 mDataChanged = false;
                 if (l != null) {
@@ -180,5 +180,4 @@ public class DownloadModel extends DataModelBase {
             }
         });
     }
-
 }

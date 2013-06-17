@@ -1,11 +1,14 @@
 package com.cartoononline;
 
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.DiskManager;
 
 public class Config {
 
-    public static final boolean DEBUG = false;
-
+    public static final boolean DEBUG = true;
+    
+    public static final boolean OPEN_HOT = true;
+    
     public static final boolean WALL_DEBUG = true && DEBUG;
 
     public static final String ROOT_DIR = DiskManager.tryToFetchCachePathByType(DiskManager.DiskCacheType.PICTURE);
@@ -44,5 +47,11 @@ public class Config {
     public static final String PACKAGE_ROSI = PACKAGE_NAME[2];
 
     public static boolean APP_STARTED = false;
-
+    
+    public static void LOGD(String msg) {
+        if (DEBUG) {
+            UtilsConfig.LOGD(msg);
+        }
+    }
+    
 }

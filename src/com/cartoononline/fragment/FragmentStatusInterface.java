@@ -6,4 +6,6 @@ public interface FragmentStatusInterface {
     
     void onForceRefresh();
     
+    void onStopShow();
+    
 }
