@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="umeng_channel">baidu_rosi</string>
+    <string name="umeng_channel">google_rosi</string>
     <string name="umeng_params_channel">google</string>
     <string name="youmi_channel">10010</string>
-    <string name="app_name">Rosi美女写真Online</string>
+    <string name="app_name">肉丝写真</string>
     <string name="menu_settings">Settings</string>
     <string name="offer_point">offer_point</string>
     <string name="pre_point">pre_point</string>

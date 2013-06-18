@@ -41,12 +41,6 @@
         android:label="@string/app_name"
         android:theme="@style/LeftOutRightInActivityAnimationNoTitleTheme" >
 
-        <!-- push service end -->
-        <!--
-              meta-data
-            android:name="api_key"
-            android:value="qzfG1NZcgubLZON44jGHBsP6" /
-        -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="516aa2f456240b7648025f88" >

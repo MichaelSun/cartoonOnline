@@ -94,9 +94,9 @@ def __main(args):
     if not os.path.exists('%s%s' % (BUILD_RES_DIR, new_package)):
         raise RES_ERROR()
 
-    os.system('rm -rf %s*.zip' %s ASSETS_DIR)
-    os.system('cp -rf %s*.zip %s' %s (BUILD_RES_DIR + new_package + '/', ASSETS_DIR))
-    os.system('cp -rf %sicon.png %s' %s (BUILD_RES_DIR + new_package + '/', ICON_RES_PATH))
+    os.system('rm -rf %s*.zip' % ASSETS_DIR)
+    os.system('cp -rf %s*.zip %s' % (BUILD_RES_DIR + new_package + '/', ASSETS_DIR))
+    os.system('cp -rf %sicon.png %s' % (BUILD_RES_DIR + new_package + '/', ICON_RES_PATH))
 
     __replace_package_name(new_package)
     if name != None and len(name) > 0:
