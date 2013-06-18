@@ -447,7 +447,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                                         if (!TextUtils.isEmpty(item.downloadUrl)) {
                                             HashMap<String, String> extra = new HashMap<String, String>();
                                             extra.put("name", item.description);
-                                            MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM, extra);
+                                            MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM_HOT, extra);
                                             MobclickAgent.flush(mContext);
 
                                             if (mProgress != null && !mProgress.isShowing()) {

@@ -223,11 +223,11 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
                     checkDownloadItemStatus(ret);
                     mDownloadList.clear();
                     mDownloadList.addAll(ret);
-                    mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
                 } else {
                     mDownloadList.clear();
-                    mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
                 }
+                
+                mHandler.sendEmptyMessageDelayed(NOTIFY_DOWNLOAD_CHANGED, 200);
             }
 
             @Override

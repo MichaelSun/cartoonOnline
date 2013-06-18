@@ -5,10 +5,10 @@ import com.plugin.common.utils.files.DiskManager;
 
 public class Config {
 
-    public static final boolean DEBUG = true;
-    
+    public static final boolean DEBUG = false;
+
     public static final boolean OPEN_HOT = true;
-    
+
     public static final boolean WALL_DEBUG = true && DEBUG;
 
     public static final String ROOT_DIR = DiskManager.tryToFetchCachePathByType(DiskManager.DiskCacheType.PICTURE);
@@ -35,6 +35,7 @@ public class Config {
 
     // umeng event
     public static final String DOWNLOAD_ALUBM = "download_album";
+    public static final String DOWNLOAD_ALUBM_HOT = "download_album_hot";
     public static final String CURRENT_POINT = "current_point";
     public static final String OPEN_WITH_PUSH = "open_with_push";
     public static final String OPEN_ALUBM = "open_album";
@@ -47,11 +48,11 @@ public class Config {
     public static final String PACKAGE_ROSI = PACKAGE_NAME[2];
 
     public static boolean APP_STARTED = false;
-    
+
     public static void LOGD(String msg) {
         if (DEBUG) {
             UtilsConfig.LOGD(msg);
         }
     }
-    
+
 }
