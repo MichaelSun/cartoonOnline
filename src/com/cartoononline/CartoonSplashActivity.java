@@ -360,6 +360,11 @@ public class CartoonSplashActivity extends BaseActivity {
     @Override
     public boolean onMenuItemSelected(int featureId, com.actionbarsherlock.view.MenuItem item) {
         switch (item.getItemId()) {
+        case R.id.rate:
+            MobclickAgent.onEvent(getApplicationContext(), Config.RATE_APP);
+            MobclickAgent.flush(getApplicationContext());
+            RateDubblerHelper.getInstance(getApplicationContext()).rate();
+            break;
         case R.id.about:
             showAboutDialog();
             break;
