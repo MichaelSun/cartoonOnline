@@ -1,3 +1,6 @@
+#!/usr/bin/python
+#-*- coding: utf-8 -*-
+
 import os
 import sys
 import re
@@ -8,12 +11,24 @@ CHECK_FILE = ['AndroidManifest.xml', 'res', 'src', 'src_lib']
 FILE_SUBFIX = ['.java', '.xml']
 MENIFEST_FILE = 'AndroidManifest.xml'
 
-init_optprarse = optparse.OptionParser(usage='python replace.py -p your_new_package_name')
+STRING_FILE = 'res/values/strings.xml'
+BUILD_RES_DIR = 'build_res/'
+ASSETS_DIR = 'assets/'
+ICON_RES_PATH = 'res/drawable-xhdpi/'
+
+init_optprarse = optparse.OptionParser(usage='python replace.py -p your_new_package_name -n your_app_name')
 init_optprarse.add_option('-p', '--package', dest='package')
+init_optprarse.add_option('-n', '--name', dest='name')
+init_optprarse.add_option('-c', '--channel', dest='channel')
 
 class ARGUMENTS_ERROR(Exception):
     """ replace text failure
     """
+
+class RES_ERROR(Exception):
+    """ build resource error
+    """
+
 
 def __getPackageName():
     if os.path.exists(MENIFEST_FILE):
@@ -34,7 +49,8 @@ def __walk_replace_file(filename, old, new):
     if os.path.isfile(filename):
         if __check_file_extend(filename):
             print 'find one file can replace, file : %s' % filename
-            myLib.replce_text_in_file(filename, old, new)
+            if filename != 'Config.java':
+                myLib.replce_text_in_file(filename, old, new)
     elif os.path.isdir(filename):
         wpath = os.walk(filename)
         for item in wpath:
@@ -42,8 +58,9 @@ def __walk_replace_file(filename, old, new):
             parentPath = item[0]
             for f in files:
                 if __check_file_extend(f):
-                    print 'find one file can replace, file : %s/%s' % (parentPath, f)
-                    myLib.replce_text_in_file('%s/%s' % (parentPath, f), old, new)
+                    if f != 'Config.java':
+                        print 'find one file can replace, file : %s/%s' % (parentPath, f)
+                        myLib.replce_text_in_file('%s/%s' % (parentPath, f), old, new)
     
     return True
                 
@@ -53,18 +70,44 @@ def __check_file_extend(filename):
             return True
     return False
 
-def __main(args):
-    opt, arg = init_optprarse.parse_args(args)
-    new_package = opt.package
-
-    if new_package == None or len(new_package) == 0:
+def __replace_package_name(new_package_name):
+    if new_package_name == None or len(new_package_name) == 0:
         raise ARGUMENTS_ERROR()
 
     old_package = __getPackageName()
 
-    print '[[replace.py]] try to replace old package : %s to new pacakge : %s' % (old_package, new_package)
+    print '[[replace.py]] try to replace old package : %s to new pacakge : %s' % (old_package, new_package_name)
     for item in CHECK_FILE:
-        __walk_replace_file(item, old_package, new_package)
+        __walk_replace_file(item, old_package, new_package_name)
+
+    return True
+
+def __main(args):
+    opt, arg = init_optprarse.parse_args(args)
+    new_package = opt.package
+    name = opt.name
+    channel = opt.channel
+
+    if new_package == None:
+        raise ARGUMENTS_ERROR()
+
+    if not os.path.exists('%s%s' % (BUILD_RES_DIR, new_package)):
+        raise RES_ERROR()
+
+    os.system('rm -rf %s*.zip' %s ASSETS_DIR)
+    os.system('cp -rf %s*.zip %s' %s (BUILD_RES_DIR + new_package + '/', ASSETS_DIR))
+    os.system('cp -rf %sicon.png %s' %s (BUILD_RES_DIR + new_package + '/', ICON_RES_PATH))
+
+    __replace_package_name(new_package)
+    if name != None and len(name) > 0:
+        myLib.replce_text_in_file(STRING_FILE, 'app_name.*>', 'app_name">%s</string>' % name)
+
+    if channel != None and len(channel) > 0:
+        myLib.replce_text_in_file(STRING_FILE, 'umeng_channel.*>', 'umeng_channel">%s</string>' % channel)
+
+    print '='*20 + ' build prepare finish ' + '='*20
+    print 'begin build now'
+    os.system('ant clean ; ant release')
 
     return True
 

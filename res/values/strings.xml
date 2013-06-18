@@ -2,7 +2,7 @@
 <resources>
 
     <string name="umeng_channel">baidu_rosi</string>
-    <string name="umeng_params_channel">baidu</string>
+    <string name="umeng_params_channel">google</string>
     <string name="youmi_channel">10010</string>
     <string name="app_name">Rosi美女写真Online</string>
     <string name="menu_settings">Settings</string>

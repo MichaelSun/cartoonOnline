@@ -38,13 +38,4 @@ cd ~/Dropbox/apk_backup/
 mkdir rosi_$VERSION
 cd -
 
-makeChannelApk luntan_rosi luntan 10000 $TARGET $VERSION
-
-#makeChannelApk hiapk_邪恶小漫画 hiapk 10030 $TARGET $VERSION
 makeChannelApk google_rosi google 10000 $TARGET $VERSION
-#makeChannelApk appchina_邪恶小漫画 appchina 10050 $TARGET $VERSION
-makeChannelApk gfan_rosi gfan 10020 $TARGET $VERSION
-#makeChannelApk mumayi_邪恶小漫画 mumayi 10070 $TARGET $VERSION
-makeChannelApk baidu_rosi baidu 10010 $TARGET $VERSION
-#makeChannelApk anzhi_邪恶小漫画 anzhi 10010 $TARGET $VERSION
-#makeChannelApk xiaomi_邪恶小漫画 xiaomi 10010 $TARGET $VERSION
