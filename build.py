@@ -128,7 +128,7 @@ def __main(args):
             os.makedirs(target)
 
         version_name = __getVersionName()
-        target_apk = '%s_%s.apk' % (new_package, version_name)
+        target_apk = '%s_%s_%s.apk' % (new_package, version_name, channel)
         os.system('cp -rf bin/cartoonOnline-release.apk %s/%s' % (target, target_apk))
 
         print 'backup the build target %s/%s success >>>>>>>>' % (target, target_apk)
