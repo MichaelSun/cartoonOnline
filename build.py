@@ -122,7 +122,7 @@ def __main(args):
     os.system('ant clean ; ant release')
 
     if os.path.exists('bin/cartoonOnline-release.apk') and target != None:
-        os.system('rm -rf %s/*.apk' % target)
+        #os.system('rm -rf %s/*.apk' % target)
 
         if not os.path.exists(target):
             os.makedirs(target)
