@@ -133,8 +133,8 @@ def __main(args):
 
         print 'backup the build target %s/%s success >>>>>>>>' % (target, target_apk)
 
-    print 'after build for new package : %s, just reset code ' % new_package
-    os.system('git reset --hard HEAD')
+    #print 'after build for new package : %s, just reset code ' % new_package
+    #os.system('git reset --hard HEAD')
 
     return True
 
