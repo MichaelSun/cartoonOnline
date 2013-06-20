@@ -54,7 +54,8 @@
     <string name="download_tips" formatted="false">是否要下载:%s</string>
     <string name="wall_info_detail">查看当前书币</string>
     <string name="download_count_text" formatted="false">下载次数:%s</string>
-
+	<string name="book_download_tips" formatted="false">图书 %s 已经下载到 %s</string>
+    
     <item name="is_downloading" type="id"></item>
 
     <string name="tips_adview_close">温馨提示:如果您想关闭最下面的广告条，请点击右上角的设置按钮&#8212;>广告条设置来永久关闭广告条</string>

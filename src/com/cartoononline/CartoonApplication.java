@@ -1,5 +1,7 @@
 package com.cartoononline;
 
+import java.io.File;
+
 import net.youmi.android.AdManager;
 import net.youmi.android.offers.OffersManager;
 import android.app.Application;
@@ -23,6 +25,9 @@ public class CartoonApplication extends Application {
             Config.INDEX = 1;
         } else if (Config.PACKAGE_ROSI.equals(packageName)) {
             Config.INDEX = 2;
+        } else if (Config.PACKAGE_BOOK.equals(packageName)) {
+            Config.INDEX = 3;
+            Config.BOOK_REVIEW = true;
         }
 
         UtilsConfig.init(getApplicationContext());
@@ -32,6 +37,17 @@ public class CartoonApplication extends Application {
 
         initYoumi();
         initUMeng();
+        
+        File file = new File(Config.BOOK_DOWNLOAD_DIR);
+        if (file.exists() && file.isFile()) {
+            file.delete();
+        }
+        
+        if (file.exists() && file.isDirectory()) {
+            return;
+        }
+        
+        file.mkdirs();
     }
 
     private void initYoumi() {
@@ -45,9 +61,7 @@ public class CartoonApplication extends Application {
         MobclickAgent.setSessionContinueMillis(60 * 1000);
         MobclickAgent.setDebugMode(false);
         com.umeng.common.Log.LOG = false;
-
         MobclickAgent.updateOnlineConfig(this);
-
         MobclickAgent.onError(this);
     }
 }

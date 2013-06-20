@@ -1,6 +1,7 @@
 package com.cartoononline.adapter;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,6 +28,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.album.rosi.R;
 import com.cartoononline.AlbumActivity;
@@ -102,6 +104,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
     private static final int DISMISS_DIALOG = 3;
     private static final int DISMISS_UNZIP_DIALOG = 4;
     private static final int DELETE_ITEM_REFRESH = 5;
+    private static final int SHOW_BOOK_DOWNLOAD_TIPS = 6;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -139,6 +142,10 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
             case DELETE_ITEM_REFRESH:
                 notifyDataSetChanged();
                 deleteSession((DownloadItemModel) msg.obj);
+                break;
+            case SHOW_BOOK_DOWNLOAD_TIPS:
+                String data = (String) msg.obj;
+                Toast.makeText(mActivity, data, Toast.LENGTH_LONG).show();
                 break;
             }
         }
@@ -261,6 +268,29 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                     updateHotItem(result, r);
                                     SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
                                     SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
+                                }
+
+                                if (Config.BOOK_REVIEW) {
+                                    File unzipFileDir = new File(m.localFullPath);
+                                    String[] files = unzipFileDir.list(new FilenameFilter() {
+                                        @Override
+                                        public boolean accept(File dir, String filename) {
+                                            if (filename.endsWith(".epub")) {
+                                                return true;
+                                            }
+                                            return false;
+                                        }
+                                    });
+                                    if (files.length > 0) {
+                                        FileOperatorHelper.copyFile(m.localFullPath + files[0],
+                                                Config.BOOK_DOWNLOAD_DIR + files[0]);
+                                    }
+
+                                    Message msg = Message.obtain();
+                                    msg.what = SHOW_BOOK_DOWNLOAD_TIPS;
+                                    msg.obj = String.format(mContext.getString(R.string.book_download_tips), m.name,
+                                            Config.BOOK_DOWNLOAD_DIR + files[0]);
+                                    mHandler.sendMessageDelayed(msg, 200);
                                 }
 
                                 mHandler.sendEmptyMessage(DISMISS_UNZIP_DIALOG);
