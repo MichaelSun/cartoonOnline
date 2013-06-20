@@ -39,6 +39,7 @@
     <string name="adview_close_nopoint_tips" formatted="false">永久关闭页面下端广告条需要消费20个书币，你现在的书币是%s，是否要立刻下载书币?</string>
     <string name="adview_open">广告条功能已经关闭，是否要打开?</string>
     <string name="rate_tips">应用评分</string>
+    <string name="btn_rate">评分</string>
 
     <!-- RefreshListView -->
     <string name="refresh_listview_header_hint_normal">下拉刷新列表&#8230;</string>

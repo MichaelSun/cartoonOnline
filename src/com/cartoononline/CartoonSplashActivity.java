@@ -422,6 +422,14 @@ public class CartoonSplashActivity extends BaseActivity {
                                     .setTitle(R.string.about)
                                     .setView(v)
                                     .setPositiveButton(R.string.confirm, null)
+                                    .setNegativeButton(R.string.btn_rate, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            MobclickAgent.onEvent(getApplicationContext(), Config.RATE_APP);
+                                            MobclickAgent.flush(getApplicationContext());
+                                            RateDubblerHelper.getInstance(getApplicationContext()).rate();
+                                        }
+                                    })
                                     .create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
