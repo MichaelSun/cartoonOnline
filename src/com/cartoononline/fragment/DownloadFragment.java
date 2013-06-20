@@ -243,13 +243,14 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
             if (!TextUtils.isEmpty(item.localFullPath)) {
                 File localFile = new File(item.localFullPath);
                 if (localFile.exists()) {
-                    item.status = DownloadItemModel.DOWNLOADED;
+                    item.downloadStatus = DownloadItemModel.DOWNLOADED;
                 } else {
-                    item.status = DownloadItemModel.UNDOWNLOAD;
+                    item.downloadStatus = DownloadItemModel.UNDOWNLOAD;
+                    item.readStatus = DownloadItemModel.UNREAD;
                 }
                 // TODO: check if the file is unziped
             } else {
-                item.status = DownloadItemModel.UNDOWNLOAD;
+                item.downloadStatus = DownloadItemModel.UNDOWNLOAD;
             }
         }
     }

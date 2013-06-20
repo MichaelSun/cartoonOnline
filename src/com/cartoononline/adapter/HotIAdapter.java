@@ -92,7 +92,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
     private Context mContext;
 
     private CustomCycleBitmapOpration mCustomCycleBitmapOpration = null;
-    
+
     private HashSet<ImageView> mCoverImageView = new HashSet<ImageView>();
 
     private static final int LOAD_FROM_LOACAL = -1;
@@ -290,8 +290,9 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
         src.localFullPath = data.localFullPath;
         src.sessionName = data.sessionName;
         src.size = data.size;
-        src.status = data.status;
+        src.downloadStatus = data.downloadStatus;
         src.time = data.time;
+        src.readStatus = data.readStatus;
     }
 
     public void setData(List<HotItemModel> data) {
@@ -331,6 +332,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
             holder.statusIcon = (ImageView) ret.findViewById(R.id.status_icon);
             holder.newsIcon = (ImageView) ret.findViewById(R.id.news_tips);
             holder.downloadTV = (TextView) ret.findViewById(R.id.download_count);
+            holder.readStatus = (TextView) ret.findViewById(R.id.readstatus);
             ret.setTag(holder);
         } else {
             holder = (ViewHolder) ret.getTag();
@@ -340,14 +342,27 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
         holder.description.setText(item.description);
         holder.size.setText(item.size);
 
-        if (item.status == DownloadItemModel.DOWNLOADED) {
+        if (item.downloadStatus == DownloadItemModel.DOWNLOADED) {
             holder.statusIcon.setImageResource(R.drawable.delete_button);
-        } else if (item.status == DownloadItemModel.UNDOWNLOAD) {
+            if (item.readStatus == DownloadItemModel.UNREAD) {
+                holder.readStatus.setText(R.string.unreaded);
+                holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
+            } else {
+                holder.readStatus.setText(R.string.readed);
+                holder.readStatus.setBackgroundResource(R.drawable.read_bg);
+            }
+        } else if (item.downloadStatus == DownloadItemModel.UNDOWNLOAD) {
             holder.statusIcon.setImageResource(R.drawable.download_button);
-        } else if (item.status == DownloadItemModel.UNZIPED) {
+            holder.readStatus.setText(R.string.undownload);
+            holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
+        } else if (item.downloadStatus == DownloadItemModel.UNZIPED) {
             holder.statusIcon.setImageResource(R.drawable.download_button);
+            holder.readStatus.setText(R.string.undownload);
+            holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
         } else {
             holder.statusIcon.setImageResource(R.drawable.info);
+            holder.readStatus.setText(R.string.undownload);
+            holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
         }
 
         if (CRuntime.CUR_FORMAT_TIME.equals(item.time)) {
@@ -369,9 +384,9 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
         } else {
             holder.icon.setImageBitmap(null);
             holder.icon.clearAnimation();
-//            if (!mIsFling) {
-                asyncLoadImage(holder, item.coverUrl);
-//            }
+            // if (!mIsFling) {
+            asyncLoadImage(holder, item.coverUrl);
+            // }
         }
         this.mCoverImageView.add(holder.icon);
 
@@ -430,7 +445,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
             @Override
             public void onClick(View v) {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
-                    if (item.status == DownloadItemModel.UNDOWNLOAD) {
+                    if (item.downloadStatus == DownloadItemModel.UNDOWNLOAD) {
                         if (Config.INDEX != 0) {
                             if (!checkeOfferWallShouldShow()) {
                                 return;
@@ -476,7 +491,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                                                                     && response != null) {
                                                                 LOGD("Download success, respose = " + response);
                                                                 DownloadResponse r = (DownloadResponse) response;
-                                                                item.status = DownloadItemModel.DOWNLOADED;
+                                                                item.downloadStatus = DownloadItemModel.DOWNLOADED;
                                                                 item.localFullPath = r.getRawLocalPath();
 
                                                                 Message msg = new Message();
@@ -561,9 +576,9 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
                     int downloadHasdCode = item.getDownloadUrlHashCode();
                     if (downloadHasdCode != 0) {
-                        SessionModel sm = SingleInstanceBase.getInstance(SessionModel.class);
+                        final SessionModel sm = SingleInstanceBase.getInstance(SessionModel.class);
                         if (sm != null) {
-                            SessionReadModel data = sm.syncQueryDataLocalBy(downloadHasdCode);
+                            final SessionReadModel data = sm.syncQueryDataLocalBy(downloadHasdCode);
                             if (data != null) {
                                 Intent intent = new Intent();
                                 intent.setClass(mContext, AlbumActivity.class);
@@ -573,8 +588,25 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 mContext.startActivity(intent);
 
-                                data.isRead = 1;
-                                sm.updateItem(data);
+                                CustomThreadPool.asyncWork(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        data.isRead = 1;
+                                        sm.updateItem(data);
+                                        item.readStatus = DownloadItemModel.DOWNLOAD_READ;
+                                        SingleInstanceBase.getInstance(HotModel.class).updateItemModel(item);
+
+                                        DownloadItemModel searchItem = new DownloadItemModel();
+                                        searchItem.downloadUrlHashCode = item.downloadUrlHashCode;
+                                        DownloadItemModel result = SingleInstanceBase.getInstance(DownloadModel.class)
+                                                .getItem(searchItem);
+                                        if (result != null) {
+                                            result.readStatus = DownloadItemModel.DOWNLOAD_READ;
+                                            SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(result);
+                                            SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(true);
+                                        }
+                                    }
+                                });
                             }
                         }
                     }
@@ -582,13 +614,13 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
             }
         };
 
-        if (item.status == DownloadItemModel.UNDOWNLOAD) {
+        if (item.downloadStatus == DownloadItemModel.UNDOWNLOAD) {
             holder.statusIcon.setOnClickListener(itemOnClickListener);
         } else {
             holder.statusIcon.setOnClickListener(itemClickDelete);
         }
 
-        if (item.status == DownloadItemModel.UNDOWNLOAD) {
+        if (item.downloadStatus == DownloadItemModel.UNDOWNLOAD) {
             view.setOnClickListener(itemOnClickListener);
         } else {
             view.setOnClickListener(itemClickOpen);
@@ -660,8 +692,9 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
             mCacheManager.releaseResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverUrl);
         }
 
-        item.status = HotItemModel.UNDOWNLOAD;
-
+        item.downloadStatus = HotItemModel.UNDOWNLOAD;
+        SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(true);
+        
         Message msg = new Message();
         msg.what = DELETE_ITEM_REFRESH;
         msg.obj = item;
@@ -693,6 +726,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
         ImageView statusIcon;
         ImageView newsIcon;
         TextView downloadTV;
+        TextView readStatus;
     }
 
     private static void LOGD(String msg) {
@@ -704,7 +738,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
     @Override
     public void onPause() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -717,12 +751,12 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
     @Override
     public void onDestroy() {
         Config.LOGD("[[HotIAdapter::onDestroy]]");
-        
+
         for (ImageView view : mCoverImageView) {
             view.setImageBitmap(null);
         }
         mCoverImageView.clear();
-        
+
         this.mActivity = null;
         mIconImageViewList = null;
         mDownloadItemModelList.clear();

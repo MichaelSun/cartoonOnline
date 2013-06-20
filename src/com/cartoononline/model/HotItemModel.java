@@ -7,7 +7,7 @@ public class HotItemModel extends DownloadItemModel {
         return "HotItemModel [localFullPath=" + localFullPath + ", downloadUrl=" + downloadUrl + ", sessionName="
                 + sessionName + ", time=" + time + ", coverUrl=" + coverUrl + ", description=" + description
                 + ", downloadTime=" + downloadTime + ", downloadUrlHashCode=" + downloadUrlHashCode + ", size=" + size
-                + ", downloadCount=" + downloadCount + ", coverBt=" + coverBt + ", status=" + status + "]";
+                + ", downloadCount=" + downloadCount + ", coverBt=" + coverBt + ", status=" + downloadStatus + "]";
     }
 
 }

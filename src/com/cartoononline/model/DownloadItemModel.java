@@ -9,11 +9,15 @@ import com.plugin.database.dao.annotations.PrimaryKey;
 public class DownloadItemModel {
     
     @Ignore()
-    public static final int UNDOWNLOAD = 1;
+    public static final int UNDOWNLOAD = 0;
     @Ignore()
-    public static final int DOWNLOADED = 2;
+    public static final int UNREAD = 0;
     @Ignore()
-    public static final int UNZIPED = 3;
+    public static final int DOWNLOADED = 1;
+    @Ignore()
+    public static final int UNZIPED = 2;
+    @Ignore()
+    public static final int DOWNLOAD_READ = 3;
 
     public String localFullPath;
     
@@ -37,12 +41,22 @@ public class DownloadItemModel {
     
     public int downloadCount;
     
+    public int readStatus;
+    
     @Ignore()
     public Bitmap coverBt;
     
     @Ignore()
-    public int status;
+    public int downloadStatus;
     
+    public int getReadStatus() {
+        return readStatus;
+    }
+
+    public void setReadStatus(int readStatus) {
+        this.readStatus = readStatus;
+    }
+
     public int getDownloadCount() {
         return downloadCount;
     }
@@ -136,7 +150,7 @@ public class DownloadItemModel {
         return "DownloadItemModel [localFullPath=" + localFullPath + ", downloadUrl=" + downloadUrl + ", sessionName="
                 + sessionName + ", time=" + time + ", coverUrl=" + coverUrl + ", description=" + description
                 + ", downloadUrlHashCode=" + downloadUrlHashCode + ", size=" + size + ", coverBt=" + coverBt
-                + ", status=" + status + "]";
+                + ", status=" + downloadStatus + "]";
     }
     
 }

@@ -14,6 +14,7 @@ import com.cartoononline.api.NewSessionResponse.SessionItem;
 import com.plugin.common.utils.DataModelBase;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.database.dao.helper.DBTableAccessHelper;
+import com.plugin.database.dao.helper.SyncDBTableAccessHelper;
 import com.plugin.internet.InternetUtils;
 import com.plugin.internet.core.RequestBase;
 
@@ -32,7 +33,7 @@ public class DownloadModel extends DataModelBase {
         super.init(context);
         mCurPage = 0;
         mOnLoading = false;
-        mDownloadHelper = new DBTableAccessHelper<DownloadItemModel>(context, DownloadItemModel.class);
+        mDownloadHelper = new SyncDBTableAccessHelper<DownloadItemModel>(context, DownloadItemModel.class);
         mDataChanged = false;
     }
 

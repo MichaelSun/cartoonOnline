@@ -31,6 +31,8 @@ import com.cartoononline.Utils;
 import com.cartoononline.adapter.ReaderListAdapter;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
+import com.cartoononline.model.HotItemModel;
+import com.cartoononline.model.HotModel;
 import com.cartoononline.model.SessionModel;
 import com.cartoononline.model.SessionReadModel;
 import com.plugin.common.utils.CustomThreadPool;
@@ -47,7 +49,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
     private GridView mGridView;
 
     private SessionModel mSessionModel;
-    
+
     private DownloadModel mDownloadModel;
 
     private List<SessionReadModel> mShowSessionList = new ArrayList<SessionReadModel>();
@@ -55,13 +57,13 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
     private ReaderListAdapter mReaderListAdapter;
 
     private Context mContext;
-    
+
     private LayoutInflater mLayoutInflater;
-    
+
     private ProgressDialog mProgress;
-    
+
     private Activity mActivity;
-    
+
     private int mImageThumbSize;
     private int mImageThumbSpacing;
 
@@ -80,7 +82,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
                 } else {
                     mReaderListAdapter.setReadItems(mShowSessionList);
                 }
-                
+
                 if (mProgress != null) {
                     mProgress.dismiss();
                 }
@@ -91,17 +93,17 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
 
     public ReaderBookFragment() {
     }
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         mActivity = getActivity();
         mContext = mActivity.getApplicationContext();
 
         mSessionModel = SingleInstanceBase.getInstance(SessionModel.class);
         mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
-        
+
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
         mImageThumbSpacing = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_spacing);
     }
@@ -109,29 +111,29 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mLayoutInflater = inflater;
-        
+
         View ret = inflater.inflate(R.layout.reader_view, null);
         mGridView = (GridView) ret.findViewById(R.id.gridView);
         initView();
         initProgressBar();
         asyncCheckInternalContent();
-        
+
         return ret;
     }
-    
+
     @Override
     public void onDestroyView() {
         Config.LOGD("[[ReaderBookFragment::onDestroyView]]");
-        
+
         super.onDestroyView();
         if (mReaderListAdapter != null) {
             mReaderListAdapter.onDestroy();
         }
-        
+
         mReaderListAdapter = null;
         mActivity = null;
     }
-    
+
     private void initProgressBar() {
         if (mProgress == null && mActivity != null) {
             mProgress = new ProgressDialog(mActivity);
@@ -140,13 +142,13 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
             mProgress.setCanceledOnTouchOutside(false);
         }
     }
-    
+
     private void initView() {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SessionReadModel m = mShowSessionList.get(position);
+                final SessionReadModel m = mShowSessionList.get(position);
 
                 Intent intent = new Intent();
                 intent.setClass(mContext, AlbumActivity.class);
@@ -155,8 +157,32 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
                 intent.putExtra(AlbumActivity.KEY_DESC, m.description);
                 startActivity(intent);
 
-                m.isRead = 1;
-                mSessionModel.updateItem(m);
+                CustomThreadPool.asyncWork(new Runnable() {
+                    @Override
+                    public void run() {
+                        m.isRead = 1;
+                        mSessionModel.updateItem(m);
+
+                        HotItemModel searchItem = new HotItemModel();
+                        searchItem.downloadUrlHashCode = m.srcURI.hashCode();
+                        HotItemModel result = SingleInstanceBase.getInstance(HotModel.class).getItem(searchItem);
+                        if (result != null) {
+                            result.readStatus = DownloadItemModel.DOWNLOAD_READ;
+                            SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
+                            SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
+                        }
+
+                        DownloadItemModel downloadSearch = new DownloadItemModel();
+                        downloadSearch.downloadUrlHashCode = m.srcURI.hashCode();
+                        DownloadItemModel downloadResult = SingleInstanceBase.getInstance(DownloadModel.class).getItem(
+                                downloadSearch);
+                        if (downloadResult != null) {
+                            downloadResult.readStatus = DownloadItemModel.DOWNLOAD_READ;
+                            SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(downloadResult);
+                            SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(true);
+                        }
+                    }
+                });
             }
         });
         mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -183,18 +209,28 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
                                     try {
                                         DownloadItemModel dm = new DownloadItemModel();
                                         dm.setDownloadUrlHashCode(m.srcURI.hashCode());
-                                        
-                                        UtilsConfig.LOGD("on Delete item : " + dm.toString());
                                         DownloadItemModel data = mDownloadModel.getItem(dm);
-//                                        mDownloadModel.deleteItemModel(dm);
-                                        
-                                        File zipFile = new File(data.localFullPath);
-                                        zipFile.delete();
-
                                         if (data != null) {
-                                            data.localFullPath = null;
-                                            data.status = DownloadItemModel.UNDOWNLOAD;
-                                            mDownloadModel.updateItemModel(data);
+                                            File zipFile = new File(data.localFullPath);
+                                            zipFile.delete();
+
+                                            if (data != null) {
+                                                data.localFullPath = null;
+                                                data.downloadStatus = DownloadItemModel.UNDOWNLOAD;
+                                                mDownloadModel.updateItemModel(data);
+                                            }
+                                        }
+                                        HotItemModel hm = new HotItemModel();
+                                        hm.setDownloadUrlHashCode(m.srcURI.hashCode());
+                                        HotItemModel ret = SingleInstanceBase.getInstance(HotModel.class).getItem(hm);
+                                        if (ret != null) {
+                                            File zipFile = new File(ret.localFullPath);
+                                            zipFile.delete();
+                                            if (ret != null) {
+                                                ret.localFullPath = null;
+                                                ret.downloadStatus = DownloadItemModel.UNDOWNLOAD;
+                                                SingleInstanceBase.getInstance(HotModel.class).updateItemModel(ret);
+                                            }
                                         }
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -213,7 +249,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
 
         });
     }
-    
+
     private void asyncCheckInternalContent() {
         if (!CRuntime.IS_INIT.get() && mProgress != null) {
             mProgress.show();
@@ -223,7 +259,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
             public void run() {
                 int preVersion = SettingManager.getInstance().getPreVersion();
                 if (preVersion == 0 || preVersion < UtilsConfig.DEVICE_INFO.versionCode) {
-                    //delete old assets infos
+                    // delete old assets infos
                     String deleteName = Config.ROOT_DIR + "session1/";
                     FileInfo finfo = FileUtil.getFileInfo(deleteName);
                     FileOperatorHelper.DeleteFile(finfo);
@@ -232,7 +268,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
                     FileOperatorHelper.DeleteFile(finfo);
                 }
                 SettingManager.getInstance().setVersion(UtilsConfig.DEVICE_INFO.versionCode);
-                
+
                 checkInternalContent();
             }
         }));
@@ -257,12 +293,12 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
 
         });
     }
-    
+
     private void checkInternalContent() {
         if (Config.DEBUG) {
             UtilsConfig.LOGD("[[checkInternalContent]]");
         }
-        
+
         if (CRuntime.IS_INIT.get()) {
             loadSessionData();
             return;
@@ -272,9 +308,9 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
 
         String[] filenames = Utils.getFileCountUnderAssetsDir(mContext, "");
         if (filenames != null) {
-            
+
             List<SessionReadModel> oldData = mSessionModel.syncLoadDataLocal();
-            
+
             for (String name : filenames) {
                 if (Config.DEBUG) {
                     UtilsConfig.LOGD("[[checkInternalContent]] now check file : " + name);
@@ -314,7 +350,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
                                     contain = true;
                                 }
                             }
-                            
+
                             if (!contain) {
                                 SessionReadModel m = new SessionReadModel();
                                 m.isRead = 0;
@@ -323,7 +359,10 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
                                 m.description = sInfo.description;
                                 m.name = sInfo.name;
                                 m.sessionName = sInfo.sessionName;
-                                m.srcURI = "assets/" + name;//TODO: this session maybe download from server
+                                m.srcURI = "assets/" + name;// TODO: this
+                                                            // session maybe
+                                                            // download from
+                                                            // server
                                 m.sessionMakeTime = sInfo.time;
                                 m.unzipTime = System.currentTimeMillis();
                                 m.localFullPathHashCode = m.localFullPath.hashCode();
@@ -359,7 +398,7 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
     public void onForceRefresh() {
         mHandler.sendEmptyMessage(NOTIFY_DATA_CHANGED);
     }
-    
+
     @Override
     public void onStopShow() {
         if (mReaderListAdapter != null) {

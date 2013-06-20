@@ -71,7 +71,7 @@
     <string name="offer_download_tips" formatted="false">您的书币已经不足5(当前书币%s),需要下载软件获得5书币才能继续下载,下载软件不会收取您的费用,请放心下载。</string>
     <string name="offer_info_detail" formatted="false">您当前的书币%s,是否要马上下载?\n每下载一本画报需要5书币。</string>
     <string name="offer_download_cute_tips">温馨提示:下载应用以后请一定使用应用1分钟以上，才能获得书币哦。如果在几分钟内不能获得书币，请不要删除应用，一段时间以后会获得书币。</string>
-
+    
     <string-array name="title_array">
         <item>美腿丝袜城</item>
         <item>内涵漫画</item>
