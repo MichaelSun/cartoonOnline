@@ -27,11 +27,11 @@ public class Config {
     public static final String[] YOUMI_APP_ID = new String[] { "e3ff884a6cc7b41a", 
                                                                "556af9dfcb127141",
                                                                "bebe748a9e64ef29",
-                                                               "bebe748a9e64ef29"};
+                                                               "6e40438e92373bcb"};
     public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "26ab38202db7d6fc", 
                                                                        "a3b8473046176ba2",
                                                                        "310968f5f26311a4",
-                                                                       "310968f5f26311a4"};
+                                                                       "4fff1820c9c76e06"};
     public static final String[] PACKAGE_NAME = new String[] { "com.cartoononline", 
                                                                "com.michael.manhua",
                                                                "com.album.rosi", 
