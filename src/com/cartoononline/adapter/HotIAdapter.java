@@ -656,7 +656,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
         if (point >= 5 || !Config.ADVIEW_SHOW) {
             return true;
         } else {
-            String tips = String.format(mContext.getString(R.string.offer_download_tips), point);
+            String tips = String.format(mContext.getString(R.string.offer_download_tips), Config.DOWNLOAD_NEED_POINT, point, Config.DOWNLOAD_NEED_POINT);
             View view = mLayoutInflater.inflate(R.layout.offer_tips_view, null);
             TextView tv = (TextView) view.findViewById(R.id.tips);
             tv.setText(tips);

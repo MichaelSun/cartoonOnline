@@ -512,7 +512,7 @@ public class CartoonSplashActivity extends BaseActivity {
         int localPoint = SettingManager.getInstance().getPointInt();
 
         int point = PointsManager.getInstance(this).queryPoints();
-        String tips = String.format(getString(R.string.offer_info_detail), point + localPoint);
+        String tips = String.format(getString(R.string.offer_info_detail), point + localPoint, Config.DOWNLOAD_NEED_POINT);
         View view = this.getLayoutInflater().inflate(R.layout.offer_tips_view, null);
         TextView tv = (TextView) view.findViewById(R.id.tips);
         tv.setText(tips);

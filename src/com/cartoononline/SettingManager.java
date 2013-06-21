@@ -54,7 +54,7 @@ public class SettingManager {
         if (Config.WALL_DEBUG) {
             return 200;
         }
-        return mSharedPreferences.getInt(mContext.getString(R.string.offer_point), Config.DEFAULT_POINT);
+        return mSharedPreferences.getInt(mContext.getString(R.string.offer_point), Config.BOOK_REVIEW ? 10 : Config.DEFAULT_POINT);
     }
     
     public void setPointInt(int point) {

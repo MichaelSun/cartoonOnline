@@ -5,7 +5,7 @@ import com.plugin.common.utils.files.DiskManager;
 
 public class Config {
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public static final boolean OPEN_HOT = false;
     
@@ -51,6 +51,7 @@ public class Config {
     public static final String OPEN_ALUBM = "open_album";
     public static final String RATE_APP = "rate_app";
 
+    public static int DOWNLOAD_NEED_POINT = 5;
     public static final int DEFAULT_POINT = 5;
     public static final int CLOSE_ADVIEW_POINT = 20;
 

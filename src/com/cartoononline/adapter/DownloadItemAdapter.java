@@ -272,6 +272,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                 }
 
                                 if (Config.BOOK_REVIEW) {
+                                    //copy book
                                     File unzipFileDir = new File(m.localFullPath);
                                     String[] files = unzipFileDir.list(new FilenameFilter() {
                                         @Override
@@ -701,10 +702,10 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         int localPoint = SettingManager.getInstance().getPointInt();
         int serverPoint = PointsManager.getInstance(mContext).queryPoints();
         int point = localPoint + serverPoint;
-        if (point >= 5 || !Config.ADVIEW_SHOW) {
+        if (point >= Config.DOWNLOAD_NEED_POINT || !Config.ADVIEW_SHOW) {
             return true;
         } else {
-            String tips = String.format(mContext.getString(R.string.offer_download_tips), point);
+            String tips = String.format(mContext.getString(R.string.offer_download_tips), Config.DOWNLOAD_NEED_POINT, point, Config.DOWNLOAD_NEED_POINT);
             View view = mLayoutInflater.inflate(R.layout.offer_tips_view, null);
             TextView tv = (TextView) view.findViewById(R.id.tips);
             tv.setText(tips);

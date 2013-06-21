@@ -28,6 +28,7 @@ public class CartoonApplication extends Application {
         } else if (Config.PACKAGE_BOOK.equals(Config.CURRENT_PACKAGE_NAME)) {
             Config.INDEX = 3;
             Config.BOOK_REVIEW = true;
+            Config.DOWNLOAD_NEED_POINT = 20;
         }
 
         UtilsConfig.init(getApplicationContext());
