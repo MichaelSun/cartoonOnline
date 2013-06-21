@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="umeng_channel">google_rosi</string>
+    <string name="umeng_channel">google_情色全集</string>
     <string name="umeng_params_channel">google</string>
     <string name="youmi_channel">10010</string>
-    <string name="app_name">肉丝写真</string>
+    <string name="app_name">情色全解</string>
     <string name="menu_settings">Settings</string>
     <string name="offer_point">offer_point</string>
     <string name="pre_point">pre_point</string>
@@ -40,6 +40,10 @@
     <string name="adview_open">广告条功能已经关闭，是否要打开?</string>
     <string name="rate_tips">应用评分</string>
     <string name="btn_rate">评分</string>
+    <string name="book_not_find" formatted="false">没有发现图书 %s,请重新下载</string>
+    <string name="fb_download_tips">您的手机中没有安装FBReader(FBReader是第三方开源的读书软件,深受广大机友的喜爱)，只有下载了读书软件您才可以阅读书籍哦。</string>
+    <string name="fb_download_now">Market立刻下载</string>
+    <string name="fb_read_now">继续阅读</string>
 
     <!-- RefreshListView -->
     <string name="refresh_listview_header_hint_normal">下拉刷新列表&#8230;</string>
@@ -78,6 +82,7 @@
         <item>美腿丝袜城</item>
         <item>内涵漫画</item>
         <item>每日更新</item>
+        <item>书城</item>
     </string-array>
 
 </resources>

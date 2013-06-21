@@ -23,7 +23,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.album.rosi.R;
+import com.read.book.R;
 import com.cartoononline.fragment.DownloadFragment;
 import com.cartoononline.fragment.FragmentStatusInterface;
 import com.cartoononline.fragment.HotFragment;
@@ -360,7 +360,7 @@ public class CartoonSplashActivity extends BaseActivity {
         case R.id.rate:
             MobclickAgent.onEvent(getApplicationContext(), Config.RATE_APP);
             MobclickAgent.flush(getApplicationContext());
-            RateDubblerHelper.getInstance(getApplicationContext()).rate();
+            RateDubblerHelper.getInstance(getApplicationContext()).OpenApp(Config.CURRENT_PACKAGE_NAME);
             break;
         case R.id.about:
             showAboutDialog();
@@ -424,7 +424,7 @@ public class CartoonSplashActivity extends BaseActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             MobclickAgent.onEvent(getApplicationContext(), Config.RATE_APP);
                                             MobclickAgent.flush(getApplicationContext());
-                                            RateDubblerHelper.getInstance(getApplicationContext()).rate();
+                                            RateDubblerHelper.getInstance(getApplicationContext()).OpenApp(Config.CURRENT_PACKAGE_NAME);
                                         }
                                     })
                                     .create();

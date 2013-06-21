@@ -5,7 +5,7 @@ import com.plugin.common.utils.files.DiskManager;
 
 public class Config {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     public static final boolean OPEN_HOT = false;
     
@@ -18,6 +18,8 @@ public class Config {
     public static final String SESSION_REFIX = "session";
 
     public static final String BOOK_DOWNLOAD_DIR = "/sdcard/book_download/";
+    
+    public static String CURRENT_PACKAGE_NAME;
 
     public static final String INI_FILE = "info.ini";
 

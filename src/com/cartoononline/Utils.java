@@ -1,32 +1,117 @@
 package com.cartoononline;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
+import android.widget.Toast;
 
-import com.plugin.common.utils.UtilsConfig;
-import com.plugin.common.utils.CustomThreadPool;
-import com.plugin.common.utils.CustomThreadPool.TaskWrapper;
+import com.cartoononline.model.SessionReadModel;
 import com.plugin.common.utils.INIFile;
+import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileOperatorHelper;
 import com.plugin.common.utils.zip.ZipUtil;
+import com.read.book.R;
 
 public class Utils {
 
     private static final boolean DEBUG = Config.DEBUG;
 
     private static final String SESSION_KEY = "infos";
+
+    public static void showDownloadFBDialog(final Activity a, final SessionReadModel m) {
+        AlertDialog dialog = new AlertDialog.Builder(a)
+                                    .setTitle(R.string.tips_title)
+                                    .setMessage(R.string.fb_download_tips)
+                                    .setPositiveButton(R.string.fb_read_now, new DialogInterface.OnClickListener() {
+                                        
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            tryStartRead(a, m);
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.fb_download_now, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            RateDubblerHelper.getInstance(a.getApplicationContext()).OpenApp("org.geometerplus.zlibrary.ui.android");
+                                        }
+                                    })
+                                    .create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+    
+    public static void tryStartRead(Activity a, SessionReadModel m) {
+        if (m != null && !TextUtils.isEmpty(m.localFullPath)) {
+            File file = new File(m.localFullPath);
+            String[] files = file.list(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String filename) {
+                    if (filename.endsWith(".epub")) {
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            if (files != null && file.length() > 0) {
+                String filename = files[0];
+                File downloadDirBook = new File(Config.BOOK_DOWNLOAD_DIR + filename);
+                if (downloadDirBook.exists()) {
+                    startReadBookIntent(a, Config.BOOK_DOWNLOAD_DIR + filename, filename);
+                } else {
+                    startReadBookIntent(a, m.localFullPath + filename, filename);
+                }
+            }
+        }
+    }
+    
+    public static boolean isAvilible(Context context, String packageName) {
+        final PackageManager packageManager = context.getPackageManager();// 获取packagemanager
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
+        List<String> pName = new ArrayList<String>();// 用于存储所有已安装程序的包名
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                pName.add(pn);
+            }
+        }
+        return pName.contains(packageName);// 判断pName中是否有目标程序的包名，有TRUE，没有FALSE
+    }
+
+    public static void startReadBookIntent(Activity a, String bookSrc, String bookName) {
+        if (!TextUtils.isEmpty(bookSrc)) {
+            File file = new File(bookSrc);
+            if (!file.exists()) {
+                Toast.makeText(a, String.format(a.getString(R.string.book_not_find), bookName), Toast.LENGTH_LONG)
+                        .show();
+            } else {
+                Intent intent = new Intent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setAction(android.content.Intent.ACTION_VIEW);
+                intent.setData(Uri.fromFile(new File(bookSrc)));
+                a.startActivity(intent);
+            }
+        }
+    }
 
     private static Object readKey(Context context, String keyName) {
         try {

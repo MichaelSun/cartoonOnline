@@ -13,6 +13,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.plugin.common.utils.DebugLog;
 
@@ -20,8 +21,8 @@ public class RateDubblerHelper {
 
 	private static final String TAG = "RateDubblerHelper";
 
-	private static final String RATE_DUBBLER_URI = "market://details?id=com.album.rosi";
-	private static final String RATE_DUBBLER_BROWSER_URI = "http://play.google.com/store/apps/details?id=com.album.rosi";
+	private static final String RATE_DUBBLER_URI = "market://details?id=";
+	private static final String RATE_DUBBLER_BROWSER_URI = "http://play.google.com/store/apps/details?id=";
 	
 	private static RateDubblerHelper mRateDubblerHelper;
 	private Context mContext;
@@ -41,9 +42,9 @@ public class RateDubblerHelper {
 	}
 
 
-	public void rate() {
+	public void OpenApp(String packageName) {
 
-		if (mContext == null) {
+		if (mContext == null || TextUtils.isEmpty(packageName)) {
 			return;
 		}
 
@@ -52,7 +53,7 @@ public class RateDubblerHelper {
 			DebugLog.d(" has installed google play------------------>", "true");
 			// 跳转google play
 			try {
-				Uri downloadUri = Uri.parse(RATE_DUBBLER_URI);
+				Uri downloadUri = Uri.parse(RATE_DUBBLER_URI + packageName);
 				Intent it = new Intent(Intent.ACTION_VIEW, downloadUri);
 				it.setClassName("com.android.vending", "com.google.android.finsky.activities.LaunchUrlHandlerActivity");
 				it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -63,7 +64,7 @@ public class RateDubblerHelper {
 			}
 			// 失败则跳转google Market
 			try {
-				Uri downloadUri = Uri.parse(RATE_DUBBLER_URI);
+				Uri downloadUri = Uri.parse(RATE_DUBBLER_URI + packageName);
 				Intent it = new Intent(Intent.ACTION_VIEW, downloadUri);
 				it.setClassName("com.android.vending", "com.android.vending.SearchAssetListActivity");
 				it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -74,7 +75,7 @@ public class RateDubblerHelper {
 			}
 			// 仍失败则跳转浏览器
 			try {
-				Uri downloadUri = Uri.parse(RATE_DUBBLER_BROWSER_URI);
+				Uri downloadUri = Uri.parse(RATE_DUBBLER_BROWSER_URI + packageName);
 				Intent it = new Intent(Intent.ACTION_VIEW, downloadUri);
 				it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				PackageManager packageManager = mContext.getPackageManager();
@@ -95,7 +96,7 @@ public class RateDubblerHelper {
 		} else {
 			// 没安装google play时，跳google play浏览器
 			DebugLog.d(" has installed google play----------------->", "false");
-			Uri downloadUri = Uri.parse(RATE_DUBBLER_BROWSER_URI);
+			Uri downloadUri = Uri.parse(RATE_DUBBLER_BROWSER_URI + packageName);
 			Intent it = new Intent(Intent.ACTION_VIEW, downloadUri);
 			it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			PackageManager packageManager = mContext.getPackageManager();

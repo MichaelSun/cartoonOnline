@@ -1,6 +1,7 @@
 package com.cartoononline.fragment;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +22,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.album.rosi.R;
+import com.read.book.R;
 import com.cartoononline.AlbumActivity;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;
+import com.cartoononline.RateDubblerHelper;
 import com.cartoononline.SessionInfo;
 import com.cartoononline.SettingManager;
 import com.cartoononline.Utils;
@@ -143,46 +145,54 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
         }
     }
 
+    
     private void initView() {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final SessionReadModel m = mShowSessionList.get(position);
-
-                Intent intent = new Intent();
-                intent.setClass(mContext, AlbumActivity.class);
-                intent.putExtra(AlbumActivity.KEY_INDEX, m.localFullPath);
-                intent.putExtra(AlbumActivity.KEY_SESSION_NAME, m.sessionName);
-                intent.putExtra(AlbumActivity.KEY_DESC, m.description);
-                startActivity(intent);
-
-                CustomThreadPool.asyncWork(new Runnable() {
-                    @Override
-                    public void run() {
-                        m.isRead = 1;
-                        mSessionModel.updateItem(m);
-
-                        HotItemModel searchItem = new HotItemModel();
-                        searchItem.downloadUrlHashCode = m.srcURI.hashCode();
-                        HotItemModel result = SingleInstanceBase.getInstance(HotModel.class).getItem(searchItem);
-                        if (result != null) {
-                            result.readStatus = DownloadItemModel.DOWNLOAD_READ;
-                            SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
-                            SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
-                        }
-
-                        DownloadItemModel downloadSearch = new DownloadItemModel();
-                        downloadSearch.downloadUrlHashCode = m.srcURI.hashCode();
-                        DownloadItemModel downloadResult = SingleInstanceBase.getInstance(DownloadModel.class).getItem(
-                                downloadSearch);
-                        if (downloadResult != null) {
-                            downloadResult.readStatus = DownloadItemModel.DOWNLOAD_READ;
-                            SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(downloadResult);
-                            SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(true);
-                        }
+                if (Config.BOOK_REVIEW) {
+                    if (Utils.isAvilible(mContext, "org.geometerplus.zlibrary.ui.android")) {
+                        Utils.tryStartRead(mActivity, m);
+                    } else {
+                        Utils.showDownloadFBDialog(mActivity, m);
                     }
-                });
+                } else {
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, AlbumActivity.class);
+                    intent.putExtra(AlbumActivity.KEY_INDEX, m.localFullPath);
+                    intent.putExtra(AlbumActivity.KEY_SESSION_NAME, m.sessionName);
+                    intent.putExtra(AlbumActivity.KEY_DESC, m.description);
+                    startActivity(intent);
+
+                    CustomThreadPool.asyncWork(new Runnable() {
+                        @Override
+                        public void run() {
+                            m.isRead = 1;
+                            mSessionModel.updateItem(m);
+
+                            HotItemModel searchItem = new HotItemModel();
+                            searchItem.downloadUrlHashCode = m.srcURI.hashCode();
+                            HotItemModel result = SingleInstanceBase.getInstance(HotModel.class).getItem(searchItem);
+                            if (result != null) {
+                                result.readStatus = DownloadItemModel.DOWNLOAD_READ;
+                                SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
+                                SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
+                            }
+
+                            DownloadItemModel downloadSearch = new DownloadItemModel();
+                            downloadSearch.downloadUrlHashCode = m.srcURI.hashCode();
+                            DownloadItemModel downloadResult = SingleInstanceBase.getInstance(DownloadModel.class)
+                                    .getItem(downloadSearch);
+                            if (downloadResult != null) {
+                                downloadResult.readStatus = DownloadItemModel.DOWNLOAD_READ;
+                                SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(downloadResult);
+                                SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(true);
+                            }
+                        }
+                    });
+                }
             }
         });
         mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

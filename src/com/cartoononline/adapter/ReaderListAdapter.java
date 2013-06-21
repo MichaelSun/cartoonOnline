@@ -12,7 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.album.rosi.R;
+import com.read.book.R;
+import com.cartoononline.Config;
 import com.cartoononline.model.SessionReadModel;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
@@ -21,33 +22,33 @@ import com.plugin.common.utils.UtilsConfig;
 public class ReaderListAdapter extends BaseAdapter implements OnStateChangedListener {
 
     private List<SessionReadModel> mReaderItems;
-    
+
     private LayoutInflater mLayoutInflater;
-    
+
     private Context mContext;
-    
+
     private ICacheManager<Bitmap> mCacheManager;
-    
+
     private HashSet<ImageView> mCoverImageView = new HashSet<ImageView>();
-    
+
     public ReaderListAdapter(List<SessionReadModel> items, LayoutInflater lf, Context context) {
         mReaderItems = items;
         mLayoutInflater = lf;
         mContext = context;
         mCacheManager = CacheFactory.getCacheManager(CacheFactory.TYPE_CACHE.TYPE_IMAGE);
     }
-    
+
     public void setReadItems(List<SessionReadModel> items) {
         mReaderItems = items;
         this.notifyDataSetChanged();
     }
-    
+
     @Override
     public int getCount() {
         if (mReaderItems == null) {
             return 0;
         }
-        
+
         return mReaderItems.size();
     }
 
@@ -69,22 +70,26 @@ public class ReaderListAdapter extends BaseAdapter implements OnStateChangedList
         if (ret == null) {
             ret = mLayoutInflater.inflate(R.layout.reader_item, null);
         }
-        
+
         SessionReadModel item = mReaderItems.get(position);
-        
+
         ImageView iv = (ImageView) ret.findViewById(R.id.item_icon);
         mCoverImageView.add(iv);
         Bitmap bt = mCacheManager.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverPath);
         iv.setImageBitmap(bt);
         ((TextView) ret.findViewById(R.id.description)).setText(item.description);
-        if (item.isRead != 0) {
-            ((TextView) ret.findViewById(R.id.readstatus)).setText(R.string.readed);
-            ((TextView) ret.findViewById(R.id.readstatus)).setBackgroundResource(R.drawable.read_bg);
+        if (!Config.BOOK_REVIEW) {
+            if (item.isRead != 0) {
+                ((TextView) ret.findViewById(R.id.readstatus)).setText(R.string.readed);
+                ((TextView) ret.findViewById(R.id.readstatus)).setBackgroundResource(R.drawable.read_bg);
+            } else {
+                ((TextView) ret.findViewById(R.id.readstatus)).setText(R.string.unreaded);
+                ((TextView) ret.findViewById(R.id.readstatus)).setBackgroundResource(R.drawable.unread_bg);
+            }
         } else {
-            ((TextView) ret.findViewById(R.id.readstatus)).setText(R.string.unreaded);
-            ((TextView) ret.findViewById(R.id.readstatus)).setBackgroundResource(R.drawable.unread_bg);
+            ((TextView) ret.findViewById(R.id.readstatus)).setVisibility(View.GONE);
         }
-        
+
         return ret;
     }
 
@@ -106,5 +111,5 @@ public class ReaderListAdapter extends BaseAdapter implements OnStateChangedList
         }
         mCoverImageView.clear();
     }
-    
+
 }

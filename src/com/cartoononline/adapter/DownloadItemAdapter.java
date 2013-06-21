@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -30,7 +31,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.album.rosi.R;
 import com.cartoononline.AlbumActivity;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;
@@ -63,6 +63,7 @@ import com.plugin.common.utils.image.ImageDownloader;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchRequest;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
 import com.plugin.internet.InternetUtils;
+import com.read.book.R;
 import com.umeng.analytics.MobclickAgent;
 
 public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedListener {
@@ -225,7 +226,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
 
                 String downloadUrl = r.getDownloadUrl();
                 String unzipTarget = null;
-                int pos = downloadUrl.indexOf(Config.SESSION_REFIX);
+                int pos = downloadUrl.indexOf("session");
                 if (pos != -1) {
                     int endPos = downloadUrl.lastIndexOf(".zip");
                     if (endPos != -1) {
@@ -281,14 +282,14 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                             return false;
                                         }
                                     });
-                                    if (files.length > 0) {
+                                    if (files != null && files.length > 0) {
                                         FileOperatorHelper.copyFile(m.localFullPath + files[0],
                                                 Config.BOOK_DOWNLOAD_DIR + files[0]);
                                     }
 
                                     Message msg = Message.obtain();
                                     msg.what = SHOW_BOOK_DOWNLOAD_TIPS;
-                                    msg.obj = String.format(mContext.getString(R.string.book_download_tips), m.name,
+                                    msg.obj = String.format(mContext.getString(R.string.book_download_tips), m.description,
                                             Config.BOOK_DOWNLOAD_DIR + files[0]);
                                     mHandler.sendMessageDelayed(msg, 200);
                                 }
@@ -371,23 +372,28 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
 
         if (item.downloadStatus == DownloadItemModel.DOWNLOADED) {
             holder.statusIcon.setImageResource(R.drawable.delete_button);
-            if (item.readStatus == DownloadItemModel.UNREAD) {
-                holder.readStatus.setText(R.string.unreaded);
-                holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
-            } else {
-                holder.readStatus.setText(R.string.readed);
-                holder.readStatus.setBackgroundResource(R.drawable.read_bg);
-            }
         } else if (item.downloadStatus == DownloadItemModel.UNDOWNLOAD) {
             holder.statusIcon.setImageResource(R.drawable.download_button);
-            holder.readStatus.setText(R.string.undownload);
-            holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
         } else if (item.downloadStatus == DownloadItemModel.UNZIPED) {
             holder.statusIcon.setImageResource(R.drawable.download_button);
-            holder.readStatus.setText(R.string.undownload);
-            holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
         } else {
             holder.statusIcon.setImageResource(R.drawable.info);
+        }
+
+        if (item.downloadStatus == DownloadItemModel.DOWNLOADED) {
+            if (!Config.BOOK_REVIEW) {
+                if (item.readStatus == DownloadItemModel.UNREAD) {
+                    holder.readStatus.setText(R.string.unreaded);
+                    holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
+                } else {
+                    holder.readStatus.setText(R.string.readed);
+                    holder.readStatus.setBackgroundResource(R.drawable.read_bg);
+                }
+            } else {
+                holder.readStatus.setText(R.string.downloaded);
+                holder.readStatus.setBackgroundResource(R.drawable.read_bg);
+            }
+        } else {
             holder.readStatus.setText(R.string.undownload);
             holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
         }
@@ -601,39 +607,54 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
             @Override
             public void onClick(View v) {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
-                    int downloadHasdCode = item.getDownloadUrlHashCode();
-                    if (downloadHasdCode != 0) {
-                        final SessionModel sm = SingleInstanceBase.getInstance(SessionModel.class);
-                        if (sm != null) {
-                            final SessionReadModel data = sm.syncQueryDataLocalBy(downloadHasdCode);
-                            if (data != null) {
-                                Intent intent = new Intent();
-                                intent.setClass(mContext, AlbumActivity.class);
-                                intent.putExtra(AlbumActivity.KEY_INDEX, data.localFullPath);
-                                intent.putExtra(AlbumActivity.KEY_SESSION_NAME, data.sessionName);
-                                intent.putExtra(AlbumActivity.KEY_DESC, data.description);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                mContext.startActivity(intent);
+                    if (Config.BOOK_REVIEW) {
+                        int downloadHasdCode = item.getDownloadUrlHashCode();
+                        if (downloadHasdCode != 0) {
+                            SessionModel sm = SingleInstanceBase.getInstance(SessionModel.class);
+                            if (sm != null) {
+                                SessionReadModel data = sm.syncQueryDataLocalBy(downloadHasdCode);
+                                if (Utils.isAvilible(mContext, "org.geometerplus.zlibrary.ui.android")) {
+                                    Utils.tryStartRead(mActivity, data);
+                                } else {
+                                    Utils.showDownloadFBDialog(mActivity, data);
+                                }
+                            }
+                        }
+                    } else {
+                        int downloadHasdCode = item.getDownloadUrlHashCode();
+                        if (downloadHasdCode != 0) {
+                            final SessionModel sm = SingleInstanceBase.getInstance(SessionModel.class);
+                            if (sm != null) {
+                                final SessionReadModel data = sm.syncQueryDataLocalBy(downloadHasdCode);
+                                if (data != null) {
+                                    Intent intent = new Intent();
+                                    intent.setClass(mContext, AlbumActivity.class);
+                                    intent.putExtra(AlbumActivity.KEY_INDEX, data.localFullPath);
+                                    intent.putExtra(AlbumActivity.KEY_SESSION_NAME, data.sessionName);
+                                    intent.putExtra(AlbumActivity.KEY_DESC, data.description);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    mContext.startActivity(intent);
 
-                                CustomThreadPool.asyncWork(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        data.isRead = 1;
-                                        sm.updateItem(data);
-                                        item.readStatus = DownloadItemModel.DOWNLOAD_READ;
-                                        SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(item);
-                                        // update hot status
-                                        HotItemModel searchItem = new HotItemModel();
-                                        searchItem.downloadUrlHashCode = item.downloadUrlHashCode;
-                                        HotItemModel result = SingleInstanceBase.getInstance(HotModel.class).getItem(
-                                                searchItem);
-                                        if (result != null) {
-                                            result.readStatus = DownloadItemModel.DOWNLOAD_READ;
-                                            SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
-                                            SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
+                                    CustomThreadPool.asyncWork(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            data.isRead = 1;
+                                            sm.updateItem(data);
+                                            item.readStatus = DownloadItemModel.DOWNLOAD_READ;
+                                            SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(item);
+                                            // update hot status
+                                            HotItemModel searchItem = new HotItemModel();
+                                            searchItem.downloadUrlHashCode = item.downloadUrlHashCode;
+                                            HotItemModel result = SingleInstanceBase.getInstance(HotModel.class)
+                                                    .getItem(searchItem);
+                                            if (result != null) {
+                                                result.readStatus = DownloadItemModel.DOWNLOAD_READ;
+                                                SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
+                                                SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             }
                         }
                     }
@@ -655,7 +676,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
 
         view.setOnLongClickListener(itemLongClickListener);
     }
-
+    
     private void increaseDownloadCount(final int fileIndex) {
         CustomThreadPool.asyncWork(new Runnable() {
             @Override

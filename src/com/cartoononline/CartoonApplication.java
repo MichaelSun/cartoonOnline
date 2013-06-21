@@ -18,14 +18,14 @@ public class CartoonApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        String packageName = Environment.getPackageName(this);
-        if (Config.PACKAGE_CARTOON.equals(packageName)) {
+        Config.CURRENT_PACKAGE_NAME = Environment.getPackageName(this);
+        if (Config.PACKAGE_CARTOON.equals(Config.CURRENT_PACKAGE_NAME)) {
             Config.INDEX = 0;
-        } else if (Config.PACKAGE_XIEE.equals(packageName)) {
+        } else if (Config.PACKAGE_XIEE.equals(Config.CURRENT_PACKAGE_NAME)) {
             Config.INDEX = 1;
-        } else if (Config.PACKAGE_ROSI.equals(packageName)) {
+        } else if (Config.PACKAGE_ROSI.equals(Config.CURRENT_PACKAGE_NAME)) {
             Config.INDEX = 2;
-        } else if (Config.PACKAGE_BOOK.equals(packageName)) {
+        } else if (Config.PACKAGE_BOOK.equals(Config.CURRENT_PACKAGE_NAME)) {
             Config.INDEX = 3;
             Config.BOOK_REVIEW = true;
         }
