@@ -36,7 +36,7 @@ public class Config {
                                                                "com.michael.manhua",
                                                                "com.album.rosi", 
                                                                "com.read.book"};
-    public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi", "book" };
+    public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi", "bookread" };
 
     public static final String KEY_SHOW_WALL = "show_app_wall";
     public static final String KEY_ADVIEW = "_adview";
