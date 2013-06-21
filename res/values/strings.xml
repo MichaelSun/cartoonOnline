@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="umeng_channel">google_情色全集</string>
+    <string name="umeng_channel">google_情色小说</string>
     <string name="umeng_params_channel">google</string>
     <string name="youmi_channel">10010</string>
-    <string name="app_name">情色小说全集(实时更新)</string>
+    <string name="app_name">情色小说(实时更新)</string>
     <string name="menu_settings">Settings</string>
     <string name="offer_point">offer_point</string>
     <string name="pre_point">pre_point</string>
