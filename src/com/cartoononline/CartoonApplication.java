@@ -30,7 +30,7 @@ public class CartoonApplication extends Application {
             Config.BOOK_REVIEW = true;
             Config.DOWNLOAD_NEED_POINT = 20;
         }
-
+        
         UtilsConfig.init(getApplicationContext());
         SettingManager.getInstance().init(getApplicationContext());
         Option opt = new Option();

@@ -5,6 +5,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -30,6 +31,7 @@ import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileOperatorHelper;
 import com.plugin.common.utils.zip.ZipUtil;
 import com.read.book.R;
+import com.umeng.analytics.MobclickAgent;
 
 public class Utils {
 
@@ -46,12 +48,20 @@ public class Utils {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             tryStartRead(a, m);
+                                            
+                                            HashMap<String, String> extra = new HashMap<String, String>();
+                                            extra.put("name", m.description);
+                                            MobclickAgent.onEvent(a.getApplicationContext(), Config.OPEN_BOOK_SELF, extra);
+                                            MobclickAgent.flush(a.getApplicationContext());
                                         }
                                     })
                                     .setNegativeButton(R.string.fb_download_now, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             RateDubblerHelper.getInstance(a.getApplicationContext()).OpenApp("org.geometerplus.zlibrary.ui.android");
+                                            
+                                            MobclickAgent.onEvent(a.getApplicationContext(), Config.OPEN_FB_DOWNLOAD);
+                                            MobclickAgent.flush(a.getApplicationContext());
                                         }
                                     })
                                     .create();
@@ -80,6 +90,11 @@ public class Utils {
                 } else {
                     startReadBookIntent(a, m.localFullPath + filename, filename);
                 }
+                
+                HashMap<String, String> extra = new HashMap<String, String>();
+                extra.put("name", m.description);
+                MobclickAgent.onEvent(a.getApplicationContext(), Config.OPEN_ALUBM, extra);
+                MobclickAgent.flush(a.getApplicationContext());
             }
         }
     }

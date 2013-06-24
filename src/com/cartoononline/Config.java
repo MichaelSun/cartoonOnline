@@ -50,6 +50,8 @@ public class Config {
     public static final String OPEN_WITH_PUSH = "open_with_push";
     public static final String OPEN_ALUBM = "open_album";
     public static final String RATE_APP = "rate_app";
+    public static final String OPEN_FB_DOWNLOAD = "open_fb_download";
+    public static final String OPEN_BOOK_SELF = "open_book_self";
 
     public static int DOWNLOAD_NEED_POINT = 5;
     public static final int DEFAULT_POINT = 5;
