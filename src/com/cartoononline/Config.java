@@ -24,11 +24,11 @@ public class Config {
     public static final String INI_FILE = "info.ini";
 
     public static int INDEX = 0;
-    public static final String[] YOUMI_APP_ID = new String[] { "e3ff884a6cc7b41a", 
+    public static final String[] YOUMI_APP_ID = new String[] { "debbd13b5914aa88", 
                                                                "556af9dfcb127141",
                                                                "bebe748a9e64ef29",
                                                                "6e40438e92373bcb"};
-    public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "26ab38202db7d6fc", 
+    public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "b9eff83f525ef086", 
                                                                        "a3b8473046176ba2",
                                                                        "310968f5f26311a4",
                                                                        "4fff1820c9c76e06"};
