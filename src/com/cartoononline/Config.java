@@ -7,7 +7,7 @@ public class Config {
 
     public static final boolean DEBUG = false;
 
-    public static final boolean OPEN_HOT = false;
+    public static final boolean OPEN_HOT = true;
     
     public static boolean BOOK_REVIEW = false;
 
