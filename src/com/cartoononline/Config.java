@@ -32,7 +32,7 @@ public class Config {
                                                                        "a3b8473046176ba2",
                                                                        "310968f5f26311a4",
                                                                        "4fff1820c9c76e06"};
-    public static final String[] PACKAGE_NAME = new String[] { "com.cartoononline", 
+    public static final String[] PACKAGE_NAME = new String[] { "com.album.leg", 
                                                                "com.michael.manhua",
                                                                "com.album.rosi", 
                                                                "com.read.book"};
