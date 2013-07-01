@@ -28,12 +28,12 @@ public class Config {
                                                                "556af9dfcb127141",
                                                                "7c65aee425325fb0",
                                                                "6e40438e92373bcb",
-                                                               "6e40438e92373bcb"};
+                                                               "e46163352bdba86c"};
     public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "b9eff83f525ef086", 
                                                                        "a3b8473046176ba2",
                                                                        "925dc451e79aba70",
                                                                        "4fff1820c9c76e06",
-                                                                       "6e40438e92373bcb"};
+                                                                       "d1764ac7070d96dd"};
     public static final String[] PACKAGE_NAME = new String[] { "com.album.leg", 
                                                                "com.michael.manhua",
                                                                "com.album.rosinew", 
