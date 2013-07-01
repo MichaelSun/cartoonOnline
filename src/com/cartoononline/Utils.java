@@ -40,35 +40,33 @@ public class Utils {
     private static final String SESSION_KEY = "infos";
 
     public static void showDownloadFBDialog(final Activity a, final SessionReadModel m) {
-        AlertDialog dialog = new AlertDialog.Builder(a)
-                                    .setTitle(R.string.tips_title)
-                                    .setMessage(R.string.fb_download_tips)
-                                    .setPositiveButton(R.string.fb_read_now, new DialogInterface.OnClickListener() {
-                                        
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            tryStartRead(a, m);
-                                            
-                                            HashMap<String, String> extra = new HashMap<String, String>();
-                                            extra.put("name", m.description);
-                                            MobclickAgent.onEvent(a.getApplicationContext(), Config.OPEN_BOOK_SELF, extra);
-                                            MobclickAgent.flush(a.getApplicationContext());
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.fb_download_now, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            RateDubblerHelper.getInstance(a.getApplicationContext()).OpenApp("org.geometerplus.zlibrary.ui.android");
-                                            
-                                            MobclickAgent.onEvent(a.getApplicationContext(), Config.OPEN_FB_DOWNLOAD);
-                                            MobclickAgent.flush(a.getApplicationContext());
-                                        }
-                                    })
-                                    .create();
+        AlertDialog dialog = new AlertDialog.Builder(a).setTitle(R.string.tips_title)
+                .setMessage(R.string.fb_download_tips)
+                .setPositiveButton(R.string.fb_read_now, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tryStartRead(a, m);
+
+                        HashMap<String, String> extra = new HashMap<String, String>();
+                        extra.put("name", m.description);
+                        MobclickAgent.onEvent(a.getApplicationContext(), Config.OPEN_BOOK_SELF, extra);
+                        MobclickAgent.flush(a.getApplicationContext());
+                    }
+                }).setNegativeButton(R.string.fb_download_now, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RateDubblerHelper.getInstance(a.getApplicationContext()).OpenApp(
+                                "org.geometerplus.zlibrary.ui.android");
+
+                        MobclickAgent.onEvent(a.getApplicationContext(), Config.OPEN_FB_DOWNLOAD);
+                        MobclickAgent.flush(a.getApplicationContext());
+                    }
+                }).create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
-    
+
     public static void tryStartRead(Activity a, SessionReadModel m) {
         if (m != null && !TextUtils.isEmpty(m.localFullPath)) {
             File file = new File(m.localFullPath);
@@ -85,12 +83,16 @@ public class Utils {
             if (files != null && file.length() > 0) {
                 String filename = files[0];
                 File downloadDirBook = new File(Config.BOOK_DOWNLOAD_DIR + filename);
+                if (!downloadDirBook.exists()) {
+                    FileOperatorHelper.copyFile(m.localFullPath + filename, Config.BOOK_DOWNLOAD_DIR + filename);
+                }
+                
                 if (downloadDirBook.exists()) {
                     startReadBookIntent(a, Config.BOOK_DOWNLOAD_DIR + filename, filename);
                 } else {
                     startReadBookIntent(a, m.localFullPath + filename, filename);
                 }
-                
+
                 HashMap<String, String> extra = new HashMap<String, String>();
                 extra.put("name", m.description);
                 MobclickAgent.onEvent(a.getApplicationContext(), Config.OPEN_ALUBM, extra);
@@ -98,7 +100,7 @@ public class Utils {
             }
         }
     }
-    
+
     public static boolean isAvilible(Context context, String packageName) {
         final PackageManager packageManager = context.getPackageManager();// 获取packagemanager
         List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
