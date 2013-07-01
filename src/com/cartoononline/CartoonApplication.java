@@ -19,14 +19,15 @@ public class CartoonApplication extends Application {
         super.onCreate();
 
         Config.CURRENT_PACKAGE_NAME = Environment.getPackageName(this);
-        if (Config.PACKAGE_CARTOON.equals(Config.CURRENT_PACKAGE_NAME)) {
-            Config.INDEX = 0;
-        } else if (Config.PACKAGE_XIEE.equals(Config.CURRENT_PACKAGE_NAME)) {
-            Config.INDEX = 1;
-        } else if (Config.PACKAGE_ROSI.equals(Config.CURRENT_PACKAGE_NAME)) {
-            Config.INDEX = 2;
-        } else if (Config.PACKAGE_BOOK.equals(Config.CURRENT_PACKAGE_NAME)) {
-            Config.INDEX = 3;
+        for (int index = 0; index < Config.PACKAGE_NAME.length; ++index) {
+            if (Config.PACKAGE_NAME[index].equals(Config.CURRENT_PACKAGE_NAME)) {
+                Config.INDEX = index;
+                break;
+            }
+        }
+        
+        //init special case
+        if (Config.INDEX == 3 || Config.INDEX == 4) {
             Config.BOOK_REVIEW = true;
             Config.DOWNLOAD_NEED_POINT = 20;
         }

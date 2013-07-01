@@ -23,20 +23,23 @@ public class Config {
 
     public static final String INI_FILE = "info.ini";
 
-    public static int INDEX = 0;
+    public static int INDEX = -1;
     public static final String[] YOUMI_APP_ID = new String[] { "debbd13b5914aa88", 
                                                                "556af9dfcb127141",
                                                                "7c65aee425325fb0",
+                                                               "6e40438e92373bcb",
                                                                "6e40438e92373bcb"};
     public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "b9eff83f525ef086", 
                                                                        "a3b8473046176ba2",
                                                                        "925dc451e79aba70",
-                                                                       "4fff1820c9c76e06"};
+                                                                       "4fff1820c9c76e06",
+                                                                       "6e40438e92373bcb"};
     public static final String[] PACKAGE_NAME = new String[] { "com.album.leg", 
                                                                "com.michael.manhua",
                                                                "com.album.rosinew", 
-                                                               "com.read.book"};
-    public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi", "bookread" };
+                                                               "com.read.book",
+                                                               "com.read.booknew"};
+    public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi", "bookread", "bookread" };
 
     public static final String KEY_SHOW_WALL = "show_app_wall";
     public static final String KEY_ADVIEW = "_adview";
@@ -57,10 +60,11 @@ public class Config {
     public static final int DEFAULT_POINT = 5;
     public static final int CLOSE_ADVIEW_POINT = 20;
 
-    public static final String PACKAGE_CARTOON = PACKAGE_NAME[0];
-    public static final String PACKAGE_XIEE = PACKAGE_NAME[1];
-    public static final String PACKAGE_ROSI = PACKAGE_NAME[2];
-    public static final String PACKAGE_BOOK = PACKAGE_NAME[3];
+//    public static final String PACKAGE_CARTOON = PACKAGE_NAME[0];
+//    public static final String PACKAGE_XIEE = PACKAGE_NAME[1];
+//    public static final String PACKAGE_ROSI = PACKAGE_NAME[2];
+//    public static final String PACKAGE_BOOK = PACKAGE_NAME[3];
+//    public static final String PACKAGE_BOOK_NEW = PACKAGE_NAME[4];
 
     public static boolean APP_STARTED = false;
 
