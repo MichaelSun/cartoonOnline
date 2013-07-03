@@ -30,7 +30,7 @@ import com.plugin.common.utils.INIFile;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileOperatorHelper;
 import com.plugin.common.utils.zip.ZipUtil;
-import com.read.book.R;
+import com.album.leg.R;
 import com.umeng.analytics.MobclickAgent;
 
 public class Utils {

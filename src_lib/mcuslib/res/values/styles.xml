@@ -17,4 +17,8 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <declare-styleable name="WebImageView">
+        <attr name="network_animation" format="reference" />
+    </declare-styleable>
+
 </resources>

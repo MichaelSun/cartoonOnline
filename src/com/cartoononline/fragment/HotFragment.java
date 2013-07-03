@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.read.book.R;
+import com.album.leg.R;
 import com.cartoononline.Config;
 import com.cartoononline.adapter.HotIAdapter;
 import com.cartoononline.model.DownloadItemModel;

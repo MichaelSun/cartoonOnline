@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -28,7 +29,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.read.book.R;
+import com.album.leg.R;
 import com.cartoononline.AlbumActivity;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;
@@ -60,6 +61,7 @@ import com.plugin.common.utils.files.FileUtil;
 import com.plugin.common.utils.image.ImageDownloader;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchRequest;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
+import com.plugin.common.view.WebImageView;
 import com.plugin.internet.InternetUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -326,7 +328,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
         if (ret == null) {
             ret = mLayoutInflater.inflate(R.layout.hot_item, null);
             holder = new ViewHolder();
-            holder.icon = (ImageView) ret.findViewById(R.id.item_icon);
+            holder.icon = (WebImageView) ret.findViewById(R.id.item_icon);
             holder.description = (TextView) ret.findViewById(R.id.description);
             holder.size = (TextView) ret.findViewById(R.id.size);
             holder.statusIcon = (ImageView) ret.findViewById(R.id.status_icon);
@@ -376,18 +378,19 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                     String.valueOf(item.downloadCount)));
         }
 
+        holder.icon.setImageURI(new Uri.Builder().path(item.coverUrl).build());
         // set icon image
-        Bitmap icon = mCacheManager.getResourceFromMem(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverUrl);
-        if (icon != null) {
-            holder.icon.setImageBitmap(icon);
-            mIconImageViewList.remove(holder.icon);
-        } else {
-            holder.icon.setImageBitmap(null);
-            holder.icon.clearAnimation();
-            // if (!mIsFling) {
-            asyncLoadImage(holder, item.coverUrl);
-            // }
-        }
+//        Bitmap icon = mCacheManager.getResourceFromMem(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW, item.coverUrl);
+//        if (icon != null) {
+//            holder.icon.setImageBitmap(icon);
+//            mIconImageViewList.remove(holder.icon);
+//        } else {
+//            holder.icon.setImageBitmap(null);
+//            holder.icon.clearAnimation();
+//            // if (!mIsFling) {
+//            asyncLoadImage(holder, item.coverUrl);
+//            // }
+//        }
         this.mCoverImageView.add(holder.icon);
 
         setViewListener(ret, position, item, holder);
@@ -720,7 +723,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
     }
 
     private class ViewHolder {
-        ImageView icon;
+        WebImageView icon;
         TextView description;
         TextView size;
         ImageView statusIcon;

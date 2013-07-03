@@ -30,6 +30,7 @@ import com.plugin.common.utils.files.DiskManager.DiskCacheType;
 import com.plugin.common.utils.image.ImageDownloader;
 import com.plugin.internet.InternetUtils;
 import com.plugin.internet.core.HttpRequestHookListener;
+import com.plugin.internet.core.RequestBase;
 
 public class FileDownloader extends SingleInstanceBase implements Runnable, Destroyable, HttpRequestHookListener {
 
@@ -145,14 +146,6 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
 
         public void cancelDownload() {
             mStatus = STATUS_CANCEL;
-        }
-
-        public static int getStatusNormal() {
-            return STATUS_NORMAL;
-        }
-
-        public static int getStatusCancel() {
-            return STATUS_CANCEL;
         }
 
         public String getmDownloadUrl() {
@@ -510,7 +503,8 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
             File f = new File(targetPath);
             int len;
             OutputStream os = null;
-
+            boolean isClosed = false;
+            
             try {
                 if (f.exists()) {
                     downloadSize = f.length();
@@ -528,6 +522,7 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
                     if (r != null && r.mStatus == DownloadRequest.STATUS_CANCEL) {
                         UtilsConfig.LOGD("try to close is >>>>>>>>>>>>>>>>>>>>");
                         is.close();
+                        isClosed = true;
                     }
                 }
                 savePath = targetPath;
@@ -547,12 +542,14 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
             // end download
 
             try {
-                is.close();
+                if (!isClosed) {
+                    is.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            if (!TextUtils.isEmpty(savePath) && checkInputStreamDownloadFile(savePath)) {
+            if (!isClosed && !TextUtils.isEmpty(savePath) && checkInputStreamDownloadFile(savePath)) {
                 if (DEBUG) {
                     long successTime = System.currentTimeMillis();
                     UtilsConfig.LOGD("[[onInputStreamReturn]] save Request url : " + saveUrl
@@ -635,14 +632,18 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
                         if (response != null) {
                             // notify success
                             mSuccessHandler.notifyAll(-1, -1, response);
-                            handleResponseByListener(DOWNLOAD_SUCCESS, request.mDownloadUrl, response);
+                            handleResponseByListener(DOWNLOAD_SUCCESS, request.mDownloadUrl, response, false);
                             removeRequest(request);
                             continue;
                         }
                     }
 
-                    handleResponseByListener(DOWNLOAD_FAILED, request.mDownloadUrl, request);
-                    mFailedHandler.notifyAll(-1, -1, request);
+                    if (request.getmStatus() != DownloadRequest.STATUS_CANCEL) {
+                        handleResponseByListener(DOWNLOAD_FAILED, request.mDownloadUrl, request, false);
+                        mFailedHandler.notifyAll(-1, -1, request);
+                    } else {
+                        handleResponseByListener(DOWNLOAD_FAILED, request.mDownloadUrl, request, true);
+                    }
 
                     if (DEBUG) {
                         UtilsConfig.LOGD("success end operate one request : " + request);
@@ -655,8 +656,12 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
                     UtilsConfig.LOGD("exception end operate one request : " + request);
                 }
 
-                handleResponseByListener(DOWNLOAD_FAILED, request.mDownloadUrl, request);
-                mFailedHandler.notifyAll(-1, -1, request);
+                if (request.getmStatus() != DownloadRequest.STATUS_CANCEL) {
+                    handleResponseByListener(DOWNLOAD_FAILED, request.mDownloadUrl, request, false);
+                    mFailedHandler.notifyAll(-1, -1, request);
+                } else {
+                    handleResponseByListener(DOWNLOAD_FAILED, request.mDownloadUrl, request, true);
+                }
             }
 
             removeRequest(request);
@@ -665,14 +670,16 @@ public class FileDownloader extends SingleInstanceBase implements Runnable, Dest
         System.gc();
     }
 
-    private void handleResponseByListener(int status, String fetchUrl, Object notfiyObj) {
+    private void handleResponseByListener(int status, String fetchUrl, Object notfiyObj, boolean ignoreNotify) {
         if (mListenerList.size() > 0) {
             int curCode = fetchUrl.hashCode();
             LinkedList<DownloadListenerObj> removeObj = new LinkedList<DownloadListenerObj>();
             synchronized (mListenerList) {
                 for (DownloadListenerObj d : mListenerList) {
                     if (d.code == curCode) {
-                        d.mDownloadListener.onDownloadFinished(status, notfiyObj);
+                        if (!ignoreNotify) {
+                            d.mDownloadListener.onDownloadFinished(status, notfiyObj);
+                        }
                         removeObj.add(d);
                     }
                 }
