@@ -26,17 +26,17 @@ public class Config {
     public static int INDEX = -1;
     public static final String[] YOUMI_APP_ID = new String[] { "f3d95e27c4e24153", 
                                                                "556af9dfcb127141",
-                                                               "7c65aee425325fb0",
+                                                               "f112e41a8f0b1e6d",
                                                                "6e40438e92373bcb",
                                                                "e46163352bdba86c"};
     public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "82417303556b6b77", 
                                                                        "a3b8473046176ba2",
-                                                                       "925dc451e79aba70",
+                                                                       "22effcfb92694f35",
                                                                        "4fff1820c9c76e06",
                                                                        "d1764ac7070d96dd"};
     public static final String[] PACKAGE_NAME = new String[] { "com.album.legnew", 
                                                                "com.michael.manhua",
-                                                               "com.album.rosinew", 
+                                                               "com.album.rosinil", 
                                                                "com.read.book",
                                                                "com.read.booknew"};
     public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi", "bookread", "bookread" };
