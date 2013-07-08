@@ -37,7 +37,7 @@ public class CartoonApplication extends Application {
         Option opt = new Option();
         CacheFactory.init(opt);
 
-        initYoumi();
+//        initYoumi();
         initUMeng();
         
         File file = new File(Config.BOOK_DOWNLOAD_DIR);
@@ -52,12 +52,12 @@ public class CartoonApplication extends Application {
         file.mkdirs();
     }
 
-    private void initYoumi() {
-        AdManager.getInstance(this).init(Config.YOUMI_APP_ID[Config.INDEX], Config.YOUMI_APP_SECRET_KEY[Config.INDEX],
-                false);
-        OffersManager.getInstance(this.getApplicationContext()).onAppLaunch();
-        SingleInstanceManager.getInstance().init(getApplicationContext());
-    }
+//    private void initYoumi() {
+//        AdManager.getInstance(this).init(Config.YOUMI_APP_ID[Config.INDEX], Config.YOUMI_APP_SECRET_KEY[Config.INDEX],
+//                false);
+//        OffersManager.getInstance(this.getApplicationContext()).onAppLaunch();
+//        SingleInstanceManager.getInstance().init(getApplicationContext());
+//    }
 
     private void initUMeng() {
         MobclickAgent.setSessionContinueMillis(60 * 1000);

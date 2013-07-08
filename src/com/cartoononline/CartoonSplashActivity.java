@@ -1,6 +1,8 @@
 package com.cartoononline;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import net.youmi.android.banner.AdSize;
 import net.youmi.android.banner.AdView;
@@ -8,8 +10,12 @@ import net.youmi.android.offers.OffersManager;
 import net.youmi.android.offers.PointsManager;
 import net.youmi.android.spot.SpotManager;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,12 +24,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.album.leg.R;
+import com.cartoononline.Utils.PointFetchListener;
+import com.cartoononline.api.LoginRequest;
+import com.cartoononline.api.LoginResponse;
 import com.cartoononline.fragment.DownloadFragment;
 import com.cartoononline.fragment.FragmentStatusInterface;
 import com.cartoononline.fragment.HotFragment;
@@ -33,14 +46,23 @@ import com.cartoononline.model.HotModel;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.cache.ICacheStrategy;
+import com.plugin.common.utils.CustomThreadPool;
 import com.plugin.common.utils.Environment;
 import com.plugin.common.utils.SingleInstanceBase;
 import com.plugin.common.utils.UtilsConfig;
+import com.plugin.internet.InternetUtils;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 public class CartoonSplashActivity extends BaseActivity {
 
     private static final boolean DEBUG = Config.DEBUG;
+
+    public interface LoginInterfaceListener {
+        void onLoginSuccess(int currentPoint);
+
+        void onLoginFailed(int code);
+    }
 
     public static final String KEY_FORECE_DOWNLOAD_SHOW = "force_download_show";
 
@@ -55,7 +77,7 @@ public class CartoonSplashActivity extends BaseActivity {
     private ICacheManager mCacheManager;
 
     private DownloadModel mDownloadModel;
-    
+
     private HotModel mHotModel;
 
     private HashMap<Integer, Fragment> mItemsMap = new HashMap<Integer, Fragment>();
@@ -63,6 +85,8 @@ public class CartoonSplashActivity extends BaseActivity {
     private boolean mShowAppWallInfo = true;
 
     private boolean mForceShowDownload = false;
+
+    private ProgressDialog mProgressDialog;
 
     private static final int FROCE_DOWNLOAD_SHOW = 1;
     private static final int FORCE_REFRESH_ADVIEW = 2;
@@ -107,6 +131,9 @@ public class CartoonSplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+
         MobclickAgent.updateOnlineConfig(this.getApplicationContext());
 
         mCacheManager = CacheFactory.getCacheManager(CacheFactory.TYPE_CACHE.TYPE_IMAGE);
@@ -127,7 +154,7 @@ public class CartoonSplashActivity extends BaseActivity {
 
         mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
         mHotModel = SingleInstanceBase.getInstance(HotModel.class);
-        
+
         initActionbar();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -200,13 +227,15 @@ public class CartoonSplashActivity extends BaseActivity {
             mForceShowDownload = getIntent().getBooleanExtra(KEY_FORECE_DOWNLOAD_SHOW, false);
         }
 
-        initAdView();
-        if (!Config.APP_STARTED) {
-            showCloseTipsDialog();
-            Config.APP_STARTED = true;
-        }
+        // initAdView();
+        // if (!Config.APP_STARTED) {
+        // showCloseTipsDialog();
+        // Config.APP_STARTED = true;
+        // }
+
+        UmengUpdateAgent.update(this);
     }
-    
+
     private void releaseRes(int index) {
         if (mItemsMap.containsKey(index)) {
             Fragment f = mItemsMap.get(index);
@@ -245,29 +274,34 @@ public class CartoonSplashActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        SpotManager.getInstance(this).loadSpotAds();
+        if (Config.SPOT_ADVIEW_SHOW) {
+            SpotManager.getInstance(this).loadSpotAds();
+        }
 
-//        CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable() {
-//            @Override
-//            public void run() {
-//                String ret = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
-//                        Config.KEY_SHOW_WALL);
-//                if (!TextUtils.isEmpty(ret) && ret.equals("true")) {
-//                    mShowAppWallInfo = true;
-//                }
-//
-//                String metaChannel = getString(R.string.umeng_params_channel);
-//                String adViewShow = MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
-//                        metaChannel + Config.KEY_ADVIEW);
-//
-//                LOGD(">>>>>>>> adViewShow = " + adViewShow);
-//                if (!TextUtils.isEmpty(adViewShow) && adViewShow.equals("true")) {
-//                    Config.ADVIEW_SHOW = true;
-//                } else {
-//                    Config.ADVIEW_SHOW = false;
-//                }
-//            }
-//        }));
+        // CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable()
+        // {
+        // @Override
+        // public void run() {
+        // String ret =
+        // MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
+        // Config.KEY_SHOW_WALL);
+        // if (!TextUtils.isEmpty(ret) && ret.equals("true")) {
+        // mShowAppWallInfo = true;
+        // }
+        //
+        // String metaChannel = getString(R.string.umeng_params_channel);
+        // String adViewShow =
+        // MobclickAgent.getConfigParams(CartoonSplashActivity.this.getApplicationContext(),
+        // metaChannel + Config.KEY_ADVIEW);
+        //
+        // LOGD(">>>>>>>> adViewShow = " + adViewShow);
+        // if (!TextUtils.isEmpty(adViewShow) && adViewShow.equals("true")) {
+        // Config.ADVIEW_SHOW = true;
+        // } else {
+        // Config.ADVIEW_SHOW = false;
+        // }
+        // }
+        // }));
 
         if (mForceShowDownload) {
             MobclickAgent.onEvent(this.getApplicationContext(), Config.OPEN_WITH_PUSH);
@@ -307,7 +341,7 @@ public class CartoonSplashActivity extends BaseActivity {
                 ((FragmentStatusInterface) f).onShow();
             }
         }
-        
+
         if (!SettingManager.getInstance().getShowAdView()) {
             LinearLayout adLayout = (LinearLayout) findViewById(R.id.ad_region);
             if (adLayout != null) {
@@ -320,12 +354,12 @@ public class CartoonSplashActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        
+
         releaseRes(0);
         releaseRes(1);
         releaseRes(2);
     }
-    
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -365,12 +399,30 @@ public class CartoonSplashActivity extends BaseActivity {
         case R.id.about:
             showAboutDialog();
             break;
-        case R.id.close_adview:
-            showAdViewSettingDialog();
+        case R.id.download_jifen:
+            Utils.downloadJifenbao(getApplicationContext());
             break;
+        // case R.id.close_adview:
+        // showAdViewSettingDialog();
+        // break;
         case R.id.wall_info:
             if (mShowAppWallInfo) {
-                showWallInfoDialog();
+                showPointWithAccountCheck(new LoginInterfaceListener() {
+
+                    @Override
+                    public void onLoginSuccess(final int currentPoint) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showWallInfoDialog(currentPoint);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onLoginFailed(int code) {
+                    }
+                });
             }
             break;
         case R.id.action_load:
@@ -414,24 +466,21 @@ public class CartoonSplashActivity extends BaseActivity {
         View v = this.getLayoutInflater().inflate(R.layout.about_view, null);
         TextView versionTV = (TextView) v.findViewById(R.id.version);
         versionTV.setText(versionStr);
-        
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                                    .setTitle(R.string.about)
-                                    .setView(v)
-                                    .setPositiveButton(R.string.confirm, null)
-                                    .setNegativeButton(R.string.btn_rate, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            MobclickAgent.onEvent(getApplicationContext(), Config.RATE_APP);
-                                            MobclickAgent.flush(getApplicationContext());
-                                            RateDubblerHelper.getInstance(getApplicationContext()).OpenApp(Config.CURRENT_PACKAGE_NAME);
-                                        }
-                                    })
-                                    .create();
+
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.about).setView(v)
+                .setPositiveButton(R.string.confirm, null)
+                .setNegativeButton(R.string.btn_rate, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MobclickAgent.onEvent(getApplicationContext(), Config.RATE_APP);
+                        MobclickAgent.flush(getApplicationContext());
+                        RateDubblerHelper.getInstance(getApplicationContext()).OpenApp(Config.CURRENT_PACKAGE_NAME);
+                    }
+                }).create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
-    
+
     private void showAdViewSettingDialog() {
         final int localPoint = SettingManager.getInstance().getPointInt();
         int point = PointsManager.getInstance(this).queryPoints();
@@ -508,24 +557,175 @@ public class CartoonSplashActivity extends BaseActivity {
         dialog.show();
     }
 
-    private void showWallInfoDialog() {
+    public void showPointWithAccountCheck(final LoginInterfaceListener l) {
+        SettingManager sm = SettingManager.getInstance();
+        if (TextUtils.isEmpty(sm.getUserName()) || TextUtils.isEmpty(sm.getPassword())) {
+            View contentView = this.getLayoutInflater().inflate(R.layout.account_login, null);
+            final EditText userNameEditText = (EditText) contentView.findViewById(R.id.username);
+            final EditText passwordEditText = (EditText) contentView.findViewById(R.id.password);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this).setTitle(R.string.login_title)
+                    .setView(contentView).setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            final String userName = userNameEditText.getEditableText().toString();
+                            final String password = passwordEditText.getEditableText().toString();
+                            tryToLogin(userName, password, l);
+                        }
+                    });
+            if (Utils.isAvilible(getApplicationContext(), "com.jifen.point")) {
+                dialogBuilder.setNegativeButton(R.string.open_jifenbao, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            Intent intent = new Intent();
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            intent.setAction(Intent.ACTION_MAIN);
+//                            intent.setDataAndType(Uri.fromFile(new File("/sdcard/1.jifen")), "*/*.jifen");
+                            intent.setType("*/*.jifen");
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } else {
+                dialogBuilder.setNegativeButton(R.string.download_jifenbao, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Uri downloadUri = Uri.parse(Config.JIFENBAO_DOWNLOAD_URL);
+                        Intent it = new Intent(Intent.ACTION_VIEW, downloadUri);
+                        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        PackageManager packageManager = getPackageManager();
+                        List<ResolveInfo> activities = packageManager.queryIntentActivities(it, 0);
+                        boolean isIntentSafe = activities.size() > 0;
+
+                        // Start an activity if it's safe
+                        if (isIntentSafe) {
+                            startActivity(it);
+                        } else {
+                        }
+                    }
+                });
+            }
+            dialogBuilder.create().show();
+        } else {
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.show();
+            Utils.asyncFetchCurrentPoint(getApplicationContext(), sm.getUserName(), sm.getPassword(),
+                    new PointFetchListener() {
+                        @Override
+                        public void onPointFetchSuccess(final int current) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mProgressDialog.dismiss();
+                                    showWallInfoDialog(current);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onPointFetchFailed(int code, String data) {
+                            runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    mProgressDialog.dismiss();
+                                    Toast.makeText(CartoonSplashActivity.this, R.string.error_sync_point,
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    });
+        }
+    }
+
+    public void tryToLogin(final String username, final String password, final LoginInterfaceListener l) {
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+            mProgressDialog.setMessage(getString(R.string.logining));
+            mProgressDialog.show();
+
+            CustomThreadPool.asyncWork(new Runnable() {
+
+                @Override
+                public void run() {
+                    LoginRequest request = new LoginRequest(username, password);
+                    try {
+                        LoginResponse response = InternetUtils.request(getApplicationContext(), request);
+                        if (response != null) {
+                            Log.d(">>>>>>>", response.toString());
+
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    mProgressDialog.dismiss();
+                                }
+                            });
+
+                            switch (response.code) {
+                            case LoginResponse.CODE_SUCCESS:
+                                final String point = response.data;
+                                SettingManager.getInstance().setUserName(username);
+                                SettingManager.getInstance().setPassword(password);
+                                MobclickAgent.onEvent(getApplicationContext(), "login");
+                                MobclickAgent.flush(getApplicationContext());
+                                if (l != null) {
+                                    l.onLoginSuccess(Integer.valueOf(point));
+                                }
+                                break;
+                            case LoginResponse.CODE_USER_NOT_EXIST:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mProgressDialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), R.string.user_not_exist,
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                break;
+                            case LoginResponse.CODE_PASSWORD_ERROR:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mProgressDialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), R.string.password_error,
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                break;
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), R.string.user_or_password_empty, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    private void showWallInfoDialog(int currentUserPoint) {
         int localPoint = SettingManager.getInstance().getPointInt();
 
-        int point = PointsManager.getInstance(this).queryPoints();
-        String tips = String.format(getString(R.string.offer_info_detail), point + localPoint, Config.DOWNLOAD_NEED_POINT);
+        int point = currentUserPoint;
+        String tips = String.format(getString(R.string.offer_info_detail), point + localPoint,
+                Config.DOWNLOAD_NEED_POINT);
         View view = this.getLayoutInflater().inflate(R.layout.offer_tips_view, null);
         TextView tv = (TextView) view.findViewById(R.id.tips);
         tv.setText(tips);
         AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.tips_title).setView(view)
-                .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        OffersManager.getInstance(CartoonSplashActivity.this).showOffersWall();
+                .setPositiveButton(R.string.confirm, null)
+                .setNegativeButton(R.string.logout, new DialogInterface.OnClickListener() {
 
-                        MobclickAgent.onEvent(CartoonSplashActivity.this.getApplicationContext(), "download_app_open");
-                        MobclickAgent.flush(CartoonSplashActivity.this.getApplicationContext());
-                    }
-                }).setNegativeButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        SettingManager.getInstance().setUserName("");
+                        SettingManager.getInstance().setPassword("");
                     }
                 }).create();
         dialog.setCanceledOnTouchOutside(false);

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp" >
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/username"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@drawable/white" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/username"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@drawable/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/jifenbao_tips"
+        android:textColor="#FFD700"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

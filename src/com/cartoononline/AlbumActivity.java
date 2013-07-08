@@ -102,7 +102,7 @@ public class AlbumActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-        if (Config.ADVIEW_SHOW) {
+        if (Config.SPOT_ADVIEW_SHOW) {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {

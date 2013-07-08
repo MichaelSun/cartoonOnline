@@ -12,6 +12,9 @@ public class SettingManager {
     private Context mContext;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
+    
+    private static final String USER_NAME = "u";
+    private static final String PASSWORD = "p";
 
     public static synchronized SettingManager getInstance() {
         if (gSettingManager == null) {
@@ -26,6 +29,24 @@ public class SettingManager {
         }
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mEditor = mSharedPreferences.edit();
+    }
+    
+    public String getUserName() {
+        return mSharedPreferences.getString(USER_NAME, null);
+    }
+    
+    public void setUserName(String username) {
+        mEditor.putString(USER_NAME, username);
+        mEditor.commit();
+    }
+    
+    public String getPassword() {
+        return mSharedPreferences.getString(PASSWORD, null);
+    }
+    
+    public void setPassword(String password) {
+        mEditor.putString(PASSWORD, password);
+        mEditor.commit();
     }
 
     public boolean getShowAdView() {

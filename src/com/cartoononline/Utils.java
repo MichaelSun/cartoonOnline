@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,14 +24,21 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.album.leg.R;
+import com.cartoononline.api.LoginRequest;
+import com.cartoononline.api.LoginResponse;
+import com.cartoononline.api.UploadPointRequest;
+import com.cartoononline.api.UploadPointResponse;
 import com.cartoononline.model.SessionReadModel;
+import com.plugin.common.utils.CustomThreadPool;
 import com.plugin.common.utils.INIFile;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileOperatorHelper;
 import com.plugin.common.utils.zip.ZipUtil;
-import com.album.leg.R;
+import com.plugin.internet.InternetUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class Utils {
@@ -38,6 +46,95 @@ public class Utils {
     private static final boolean DEBUG = Config.DEBUG;
 
     private static final String SESSION_KEY = "infos";
+    
+    public interface PointFetchListener {
+        void onPointFetchSuccess(int current);
+        
+        void onPointFetchFailed(int code, String data);
+    }
+    
+    public interface PointUploadListener {
+        void onPointUploadSuccess(int currentPoint);
+        
+        void onPointUploadFailed(int code, String data);
+    }
+    
+    public static void downloadJifenbao(Context context) {
+        Uri downloadUri = Uri.parse("http://bcs.duapp.com/jifenbao/jifenbao-release.apk?sign=MBO:27302677c46c1c5b7795853ba23d0329:0yCmmYSUIxd0kvaSYF9l8JtRw8U%3D");
+        Intent it = new Intent(Intent.ACTION_VIEW, downloadUri);
+        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PackageManager packageManager = context.getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(it, 0);
+        boolean isIntentSafe = activities.size() > 0;
+
+        // Start an activity if it's safe
+        if (isIntentSafe) {
+            context.startActivity(it);
+        } else {
+        }
+    }
+    
+    public static void asyncFetchCurrentPoint(final Context context, final String userName, final String password, final PointFetchListener pointFetchListener) {
+        CustomThreadPool.asyncWork(new Runnable() {
+            
+            @Override
+            public void run() {
+                LoginRequest request = new LoginRequest(userName, password);
+                try {
+                    LoginResponse response = InternetUtils.request(context, request);
+                    if (response != null) {
+                        Log.d(">>>>>>>", response.toString());
+                        if (response.code == LoginResponse.CODE_SUCCESS) {
+                            if (pointFetchListener != null) {
+                                pointFetchListener.onPointFetchSuccess(Integer.valueOf(response.data));
+                            }
+                        } else {
+                            if (pointFetchListener != null) {
+                                pointFetchListener.onPointFetchFailed(response.code, response.data);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (pointFetchListener != null) {
+                        pointFetchListener.onPointFetchFailed(LoginResponse.CODE_UNKNOWN, e.getMessage());
+                    }
+                }
+            }
+        });
+    }
+    
+    public static void asyncUploadPoint(final Context context, final String userName, final int currentPoint, final PointUploadListener l) {
+        if (!TextUtils.isEmpty(userName) && currentPoint > 0) {
+            CustomThreadPool.asyncWork(new Runnable() {
+                
+                @Override
+                public void run() {
+                    UploadPointRequest request = new UploadPointRequest(userName, String.valueOf(currentPoint));
+                    try {
+                        UploadPointResponse response = InternetUtils.request(context, request);
+                        if (response != null) {
+                            if (response.code == LoginResponse.CODE_SUCCESS) {
+                                if (l != null) {
+                                    l.onPointUploadSuccess(Integer.valueOf(response.data));
+                                }
+                            } else {
+                                if (l != null) {
+                                    l.onPointUploadFailed(response.code, response.data);
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (l != null) {
+                            l.onPointUploadFailed(LoginResponse.CODE_UNKNOWN, e.getMessage());
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
 
     public static void showDownloadFBDialog(final Activity a, final SessionReadModel m) {
         AlertDialog dialog = new AlertDialog.Builder(a).setTitle(R.string.tips_title)

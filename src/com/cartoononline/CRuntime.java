@@ -14,6 +14,8 @@ public class CRuntime {
     
     public static String CUR_FORMAT_TIME;
     
+    public static AccountPointInfo ACCOUNT_POINT_INFO = new AccountPointInfo();
+    
     public static String composeTime() {
         gCalendar.setTimeInMillis(System.currentTimeMillis());
         return gDateFormat.format(gCalendar.getTime());

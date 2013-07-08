@@ -58,10 +58,29 @@
     <string name="download_tips" formatted="false">是否要下载:%s</string>
     <string name="wall_info_detail">查看当前书币</string>
     <string name="download_count_text" formatted="false">下载次数:%s</string>
-	<string name="book_download_tips" formatted="false">图书 %s 已经下载到 %s</string>
-    
+    <string name="book_download_tips" formatted="false">图书 %s 已经下载到 %s</string>
+
     <item name="is_downloading" type="id"></item>
 
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="logout">注销</string>
+    <string name="login_title">积分宝账户登录</string>
+    <string name="download_jifenbao_title">积分宝下载</string>
+    <string name="open_jifenbao">打开积分宝</string>
+    <string name="user_not_exist">用户不存在，请先下载积分宝注册</string>
+    <string name="user_exist">此用户已经存在，请更换用户名</string>
+    <string name="user_or_password_empty">用户名密码不能为空</string>
+    <string name="password_error">用户名密码不正确</string>
+    <string name="logining">正在登录中，请稍后&#8230;</string>
+    <string name="registe_tips">正在注册中，请稍后&#8230;</string>
+    <string name="loading">正在加载中，请稍后&#8230;</string>
+    <string name="download_jifenbao">下载积分宝</string>
+    <string name="error_sync_point">同步积分信息失败，请稍后重试</string>
+    <string name="download_jifenbao_tips">您还没有安装积分宝。积分宝是一款可以给多个应用提供积分的免费应用，不同应用使用同一帐号登录以后，积分宝就可以为第三方应用提供积分服务。</string>
+    <string name="jifenbao_tips">积分宝是一款可以给多个应用提供积分的免费应用，不同应用使用同一帐号登录以后，积分宝就可以为第三方应用提供积分服务。\n如果您还没有积分宝帐号，可以下载积分宝注册来获取帐号和积分。</string>
+    
     <string name="tips_adview_close">温馨提示:如果您想关闭最下面的广告条，请点击右上角的设置按钮&#8212;>广告条设置来永久关闭广告条</string>
     <string name="tips_title">提示</string>
     <string name="local">本地图书</string>
@@ -74,10 +93,10 @@
     <string name="no_more_tips">暂时没有更多了哦~\n温馨提示：每天晚上八点都会更新哦</string>
     <string name="empty_download_tips">正在加载中，请稍后~\n温馨提示：每天晚上八点都会更新哦</string>
     <string name="tips_no_more">没有更多的了哦~</string>
-    <string name="offer_download_tips" formatted="false">您的书币已经不足%s(当前书币%s),需要下载软件获得%s书币才能继续下载,下载软件不会收取您的费用,请放心下载。</string>
-    <string name="offer_info_detail" formatted="false">您当前的书币%s,是否要马上下载?\n每下载一本书需要%s书币。</string>
+    <string name="offer_download_tips" formatted="false">您的书币已经不足%s(当前书币%s),需要通过积分宝获得%s书币才能继续下载,积分宝不会收取您的费用,请放心下载。</string>
+    <string name="offer_info_detail" formatted="false">您当前的书币%s,是否要马上下载?\n每下载一本书需要%s书币。获得积分可以使用积分宝来获取。</string>
     <string name="offer_download_cute_tips">温馨提示:下载应用以后请一定使用应用1分钟以上，才能获得书币哦。如果在几分钟内不能获得书币，请不要删除应用，一段时间以后会获得书币。</string>
-    
+
     <string-array name="title_array">
         <item>美腿丝袜城</item>
         <item>内涵漫画</item>
