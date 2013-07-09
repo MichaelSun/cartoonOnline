@@ -400,11 +400,9 @@ public class CartoonSplashActivity extends BaseActivity {
             showAboutDialog();
             break;
         case R.id.download_jifen:
-            Utils.downloadJifenbao(getApplicationContext());
+            // Utils.downloadJifenbao(getApplicationContext());
+            DialogUtils.showJifenBaoDownloadDialog(this, null);
             break;
-        // case R.id.close_adview:
-        // showAdViewSettingDialog();
-        // break;
         case R.id.wall_info:
             if (mShowAppWallInfo) {
                 showPointWithAccountCheck(new LoginInterfaceListener() {
@@ -577,16 +575,7 @@ public class CartoonSplashActivity extends BaseActivity {
                 dialogBuilder.setNegativeButton(R.string.open_jifenbao, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            Intent intent = new Intent();
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            intent.setAction(Intent.ACTION_MAIN);
-//                            intent.setDataAndType(Uri.fromFile(new File("/sdcard/1.jifen")), "*/*.jifen");
-                            intent.setType("*/*.jifen");
-                            startActivity(intent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        Utils.lanuchJifenBao(getApplicationContext());
                     }
                 });
             } else {
@@ -678,8 +667,11 @@ public class CartoonSplashActivity extends BaseActivity {
                                     @Override
                                     public void run() {
                                         mProgressDialog.dismiss();
-                                        Toast.makeText(getApplicationContext(), R.string.user_not_exist,
-                                                Toast.LENGTH_LONG).show();
+                                        // Toast.makeText(getApplicationContext(),
+                                        // R.string.user_not_exist,
+                                        // Toast.LENGTH_LONG).show();
+                                        DialogUtils.showJifenBaoDownloadDialog(CartoonSplashActivity.this,
+                                                getString(R.string.downalod_jifenbao_registe));
                                     }
                                 });
                                 break;

@@ -10,6 +10,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.Process;
 import android.text.TextUtils;
 
@@ -24,11 +27,51 @@ public final class CustomThreadPool extends SingleInstanceBase implements Destro
 
     private static final boolean USING_CUSTOM_THREADPOOL = true;
 
+    private static final int RETURN_RESULT = -40000;
+
+    public static abstract class TaskWrapperNew<T> extends TaskWrapper {
+        private Handler mMessageHandler = new Handler(Looper.getMainLooper()) {
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                case RETURN_RESULT:
+                    onResult((T) msg.obj);
+                    break;
+                }
+            }
+        };
+
+        public abstract T doRealJob();
+
+        public abstract void onResult(T result);
+
+        public TaskWrapperNew() {
+            super(null);
+        }
+
+        public TaskWrapperNew(String taskName) {
+            super(null, taskName);
+        }
+
+        @Override
+        public void run() {
+            if (!cancel) {
+                T ret = doRealJob();
+                if (mMessageHandler != null) {
+                    Message msg = Message.obtain();
+                    msg.what = RETURN_RESULT;
+                    msg.obj = ret;
+                    mMessageHandler.sendMessage(msg);
+                }
+            } else {
+            }
+        }
+    }
+
     public static class TaskWrapper implements Runnable {
 
-        private final Runnable runnable;
-        private boolean cancel;
-        private String mTaskName;
+        protected final Runnable runnable;
+        protected boolean cancel;
+        protected String mTaskName;
 
         public TaskWrapper(Runnable runnable) {
             this(runnable, null);
@@ -74,19 +117,19 @@ public final class CustomThreadPool extends SingleInstanceBase implements Destro
             return runnable.toString();
         }
     }
-    
+
     public static final class ThreadPoolSnapShot {
-    	public int taskCount;
-    	
-    	public int coreTreadCount;
-    	
-    	public final int ALLOWED_MAX_TAKS;
-    	
-    	ThreadPoolSnapShot(int taskCount, int coreThreadCount, int max) {
-    		this.taskCount = taskCount;
-    		this.coreTreadCount = coreThreadCount;
-    		this.ALLOWED_MAX_TAKS = max;
-    	}
+        public int taskCount;
+
+        public int coreTreadCount;
+
+        public final int ALLOWED_MAX_TAKS;
+
+        ThreadPoolSnapShot(int taskCount, int coreThreadCount, int max) {
+            this.taskCount = taskCount;
+            this.coreTreadCount = coreThreadCount;
+            this.ALLOWED_MAX_TAKS = max;
+        }
     }
 
     private static class InternalAsyncTask extends AsyncTask<TaskWrapper, Integer, Boolean> {
@@ -140,16 +183,16 @@ public final class CustomThreadPool extends SingleInstanceBase implements Destro
     private static final int CORE_THREAD_COUNT = 5;
     private static final int MAX_THREAD_COUNT = 64;
     private static final long KEEP_ALIVE_DELAY = 5 * 1000;
-    
+
     private static final int SPECIAL_CORE_THREAD_COUNT = 3;
-    
+
     private ThreadPoolExecutor mExecutorService;
     private HashMap<String, ThreadPoolExecutor> mSpecialExectorMap;
 
     public static CustomThreadPool getInstance() {
         return SingleInstanceBase.getInstance(CustomThreadPool.class);
     }
-    
+
     public static void asyncWork(Runnable run) {
         if (run != null) {
             CustomThreadPool.getInstance().excute(new TaskWrapper(run));
@@ -186,11 +229,11 @@ public final class CustomThreadPool extends SingleInstanceBase implements Destro
                             DebugLog.d(TAG, "one thread is rejected!!!");
                         }
                     });
-            
+
             mSpecialExectorMap = new HashMap<String, ThreadPoolExecutor>();
         }
     }
-    
+
     private ThreadPoolExecutor createSpecialThreadPoolExecutor(String specialName) {
         return new ThreadPoolExecutor(SPECIAL_CORE_THREAD_COUNT, SPECIAL_CORE_THREAD_COUNT, KEEP_ALIVE_DELAY,
                 TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), new PriorityThreadFactory(specialName,
@@ -220,7 +263,7 @@ public final class CustomThreadPool extends SingleInstanceBase implements Destro
 
         return true;
     }
-    
+
     public boolean excuteWithSpecialThread(String specialWorkName, TaskWrapper task) {
         if (TextUtils.isEmpty(specialWorkName)) {
             return excute(task);
@@ -228,38 +271,38 @@ public final class CustomThreadPool extends SingleInstanceBase implements Destro
             if (!mSpecialExectorMap.containsKey(specialWorkName)) {
                 mSpecialExectorMap.put(specialWorkName, createSpecialThreadPoolExecutor(specialWorkName));
             }
-            
+
             ThreadPoolExecutor e = mSpecialExectorMap.get(specialWorkName);
             if (e != null && !e.isShutdown()) {
                 e.execute(task);
             } else {
                 excute(task);
             }
-            
+
             return false;
         }
     }
-    
+
     public ThreadPoolSnapShot getSpecialThreadSnapShot(String name) {
-    	if (TextUtils.isEmpty(name)) {
-    		return getThreadSnapShot(mExecutorService);
-    	} else {
+        if (TextUtils.isEmpty(name)) {
+            return getThreadSnapShot(mExecutorService);
+        } else {
             if (!mSpecialExectorMap.containsKey(name)) {
                 mSpecialExectorMap.put(name, createSpecialThreadPoolExecutor(name));
             }
-            
+
             return getThreadSnapShot(mSpecialExectorMap.get(name));
-    	}
+        }
     }
-    
+
     private ThreadPoolSnapShot getThreadSnapShot(ThreadPoolExecutor e) {
-    	if (e != null) {
-    		return new ThreadPoolSnapShot(e.getQueue().size(), e.getCorePoolSize(), e.getMaximumPoolSize());
-    	}
-    	
-    	return null;
+        if (e != null) {
+            return new ThreadPoolSnapShot(e.getQueue().size(), e.getCorePoolSize(), e.getMaximumPoolSize());
+        }
+
+        return null;
     }
-    
+
     public boolean excuteDelay(TaskWrapper task, long delay) {
         if (USING_CUSTOM_THREADPOOL) {
             return internalCustomExcute(task, delay);

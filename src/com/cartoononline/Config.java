@@ -41,6 +41,8 @@ public class Config {
 
     public static final boolean ADVIEW_SHOW = true;
 
+    public static final String JIFENBAP_PACKAGE_NAME = "com.jifen.point";
+    
     // umeng event
     public static final String DOWNLOAD_ALUBM = "download_album";
     public static final String DOWNLOAD_ALUBM_HOT = "download_album_hot";
@@ -51,7 +53,7 @@ public class Config {
     public static final String OPEN_FB_DOWNLOAD = "open_fb_download";
     public static final String OPEN_BOOK_SELF = "open_book_self";
 
-    public static int DOWNLOAD_NEED_POINT = 5;
+    public static int DOWNLOAD_NEED_POINT = 10;
     public static final int DEFAULT_POINT = 5;
     public static final int CLOSE_ADVIEW_POINT = 20;
 

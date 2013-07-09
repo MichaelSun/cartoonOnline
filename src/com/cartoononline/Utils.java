@@ -59,6 +59,16 @@ public class Utils {
         void onPointUploadFailed(int code, String data);
     }
     
+    public static void lanuchJifenBao(Context context) {
+        try {
+            Intent intent = new Intent();
+            intent.setAction("com.jifenbao.lanuch");
+            context.sendBroadcast(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public static void downloadJifenbao(Context context) {
         Uri downloadUri = Uri.parse("http://bcs.duapp.com/jifenbao/jifenbao-release.apk?sign=MBO:27302677c46c1c5b7795853ba23d0329:0yCmmYSUIxd0kvaSYF9l8JtRw8U%3D");
         Intent it = new Intent(Intent.ACTION_VIEW, downloadUri);

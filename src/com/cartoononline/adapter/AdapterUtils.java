@@ -23,7 +23,7 @@ public class AdapterUtils {
         if (a == null) {
             return;
         }
-        if (false && Utils.isAvilible(a.getApplicationContext(), "com.jifen.point")) {
+        if (Utils.isAvilible(a.getApplicationContext(), "com.jifen.point")) {
             String tips = String.format(a.getString(R.string.offer_download_tips), Config.DOWNLOAD_NEED_POINT, point, Config.DOWNLOAD_NEED_POINT);
             AlertDialog dialog = new AlertDialog.Builder(a)
                                         .setTitle(R.string.tips_title)
@@ -32,16 +32,7 @@ public class AdapterUtils {
                                             
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                try {
-                                                    Intent intent = new Intent();
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                                    intent.setAction(Intent.ACTION_MAIN);
-//                                                    intent.setDataAndType(Uri.fromFile(new File("/sdcard/1.jifen")), "*/*.jifen");
-                                                    intent.setType("*/*.jifen");
-                                                    a.startActivity(intent);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
+                                                Utils.lanuchJifenBao(a.getApplicationContext());
                                             }
                                         })
                                         .setNegativeButton(R.string.cancel, null)
