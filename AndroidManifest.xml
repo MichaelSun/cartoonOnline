@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.album.leg"
-    android:versionCode="27"
-    android:versionName="3.7" >
+    android:versionCode="28"
+    android:versionName="3.8" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -55,6 +55,14 @@
             android:exported="true"
             android:process=":DownloadingService" >
         </service>
+
+        <receiver
+            android:name="com.cartoononline.loginReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.jifenbao.account.login" />
+            </intent-filter>
+        </receiver>
 
         <!-- youmi usage -->
         <!--

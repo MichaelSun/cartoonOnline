@@ -14,7 +14,7 @@ import com.plugin.common.utils.UtilsConfig;
  */
 public class BitmapUtils {
 
-    public static final int THUMBNAIL_BITMAP_SIZE = 72;
+    public static final int THUMBNAIL_BITMAP_SIZE = 200;
     public static final int USER_HEAD_STANDARD_SIZE = 150;
 
     @Deprecated()

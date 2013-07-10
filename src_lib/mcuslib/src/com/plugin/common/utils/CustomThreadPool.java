@@ -89,6 +89,8 @@ public final class CustomThreadPool extends SingleInstanceBase implements Destro
 
         @Override
         public void run() {
+            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+            
             if (!cancel) {
                 runnable.run();
             } else {
@@ -220,6 +222,7 @@ public final class CustomThreadPool extends SingleInstanceBase implements Destro
         if (USING_CUSTOM_THREADPOOL) {
             mExecutorService = new ThreadPoolExecutor(CORE_THREAD_COUNT, MAX_THREAD_COUNT, KEEP_ALIVE_DELAY,
                     TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>(true), new PriorityThreadFactory(
+//                            TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), new PriorityThreadFactory(
                             "custom-tpool", android.os.Process.THREAD_PRIORITY_BACKGROUND),
                     new ThreadPoolExecutor.DiscardPolicy() {
                         @Override

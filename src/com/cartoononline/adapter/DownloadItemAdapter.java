@@ -415,7 +415,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         }
 
         // set icon image
-        holder.icon.setImageURI(new Uri.Builder().path(item.coverUrl).build());
+        holder.icon.setImageURI(new Uri.Builder().path(item.coverUrl).build(), false);
         // Bitmap icon =
         // mCacheManager.getResourceFromMem(UtilsConfig.IMAGE_CACHE_CATEGORY_RAW,
         // item.coverUrl);

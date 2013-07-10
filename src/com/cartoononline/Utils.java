@@ -67,6 +67,11 @@ public class Utils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        HashMap<String, String> extra = new HashMap<String, String>();
+        extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+        MobclickAgent.onEvent(context, "open_jifenbao", extra);
+        MobclickAgent.flush(context);
     }
     
     public static void downloadJifenbao(Context context) {
@@ -82,6 +87,11 @@ public class Utils {
             context.startActivity(it);
         } else {
         }
+        
+        HashMap<String, String> extra = new HashMap<String, String>();
+        extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+        MobclickAgent.onEvent(context, "download_jifenbao", extra);
+        MobclickAgent.flush(context);
     }
     
     public static void asyncFetchCurrentPoint(final Context context, final String userName, final String password, final PointFetchListener pointFetchListener) {

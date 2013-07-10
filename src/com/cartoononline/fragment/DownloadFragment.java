@@ -108,7 +108,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         mToast.setDuration(Toast.LENGTH_LONG);
 
         mLayoutInflater = inflater;
-        return makeDownloadView(mLayoutInflater);
+        return makeDownloadView(mLayoutInflater, container);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         });
     }
 
-    private View makeDownloadView(LayoutInflater layoutInflater) {
+    private View makeDownloadView(LayoutInflater layoutInflater, ViewGroup parent) {
         View ret = layoutInflater.inflate(R.layout.download_view, null);
 
         mPullRefreshGridView = (PullToRefreshGridView) ret.findViewById(R.id.pull_refresh_grid);

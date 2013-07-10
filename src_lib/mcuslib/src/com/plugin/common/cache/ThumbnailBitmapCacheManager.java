@@ -20,7 +20,7 @@ final class ThumbnailBitmapCacheManager extends AbsBitmapCacheManager {
 	 */
 	@Override
 	LruCache<String, BitmapObject> makeLruCacheObj() {
-		return new LruCache<String, BitmapObject>(1024 * 1024) {
+		return new LruCache<String, BitmapObject>(1024 * 1024 * 2) {
 			@Override
 			protected int sizeOf(String key, BitmapObject value) {
 				if (value != null) {

@@ -264,11 +264,11 @@ public class CartoonSplashActivity extends BaseActivity {
     }
 
     private void initAdView() {
-        AdView adView = new AdView(this, AdSize.SIZE_320x50);
-        LinearLayout adLayout = (LinearLayout) findViewById(R.id.ad_region);
-        adLayout.removeAllViews();
-        adLayout.setVisibility(View.VISIBLE);
-        adLayout.addView(adView);
+        // AdView adView = new AdView(this, AdSize.SIZE_320x50);
+        // LinearLayout adLayout = (LinearLayout) findViewById(R.id.ad_region);
+        // adLayout.removeAllViews();
+        // adLayout.setVisibility(View.VISIBLE);
+        // adLayout.addView(adView);
     }
 
     @Override
@@ -422,6 +422,11 @@ public class CartoonSplashActivity extends BaseActivity {
                     }
                 });
             }
+
+            HashMap<String, String> extra = new HashMap<String, String>();
+            extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+            MobclickAgent.onEvent(getApplicationContext(), "show_wall_info", extra);
+            MobclickAgent.flush(getApplicationContext());
             break;
         case R.id.action_load:
             switch (mCurPageIndex) {
@@ -566,6 +571,11 @@ public class CartoonSplashActivity extends BaseActivity {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            HashMap<String, String> extra = new HashMap<String, String>();
+                            extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                            MobclickAgent.onEvent(getApplicationContext(), "login_jifenbao", extra);
+                            MobclickAgent.flush(getApplicationContext());
+
                             final String userName = userNameEditText.getEditableText().toString();
                             final String password = passwordEditText.getEditableText().toString();
                             tryToLogin(userName, password, l);
@@ -705,8 +715,8 @@ public class CartoonSplashActivity extends BaseActivity {
         int localPoint = SettingManager.getInstance().getPointInt();
 
         int point = currentUserPoint;
-        String tips = String.format(getString(R.string.offer_info_detail), point + localPoint,
-                Config.DOWNLOAD_NEED_POINT);
+        String tips = String.format(getString(R.string.offer_info_detail), SettingManager.getInstance().getUserName(),
+                point + localPoint, Config.DOWNLOAD_NEED_POINT);
         View view = this.getLayoutInflater().inflate(R.layout.offer_tips_view, null);
         TextView tv = (TextView) view.findViewById(R.id.tips);
         tv.setText(tips);

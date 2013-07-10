@@ -48,7 +48,7 @@ public class WebImageView extends ImageView {
     private String mUrl;
 
     private Drawable mDefaultSrc;
-    
+
     private DownloadRequest mCurrentDownloadRequest;
 
     private static final int LOCAL_LOAD_IMAGE_SUCCESS = 10000;
@@ -135,12 +135,16 @@ public class WebImageView extends ImageView {
 
     @Override
     public void setImageURI(Uri uri) {
+        setImageURI(uri, true);
+    }
+    
+    public void setImageURI(Uri uri, boolean forceOriginLoad) {
         unRegistehandler();
-        
+
         if (uri != null) {
             String path = uri.getPath();
             if (!TextUtils.isEmpty(path) && path.toLowerCase().startsWith("http")) {
-                this.setImageUrl(uri.getPath(), true);
+                this.setImageUrl(uri.getPath(), forceOriginLoad);
             }
         } else {
             if (mCurrentDownloadRequest != null) {
@@ -185,42 +189,44 @@ public class WebImageView extends ImageView {
             }
         }
     }
-    
+
     /**
      * 
      * @param url
      * @param syncLoad
      *            标示支持同步加载，如果不支持同步加载的，就是fastload模式
      */
-    private void setImageUrl(final String url, boolean syncLoad) {
+    private void setImageUrl(final String url, final boolean forceOriginLoad) {
         if (!TextUtils.isEmpty(url)) {
             mUrl = url;
             Bitmap bt = mImageCache.getResourceFromMem(mCategory, url);
             if (bt == null) {
-                if (!syncLoad) {
-                    bt = mImageCache.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB, url);
-                } else {
-                    CustomThreadPool.asyncWork(new Runnable() {
-                        @Override
-                        public void run() {
-                            Bitmap bt = mImageCache.getResource(mCategory, url);
-                            if (bt == null) {
-                                registeHandler();
-                                if (mCurrentDownloadRequest != null) {
-                                    mCurrentDownloadRequest.cancelDownload();
-                                }
-                                mCurrentDownloadRequest = new ImageFetchRequest(DownloadRequest.DOWNLOAD_TYPE.IMAGE,
-                                        url, UtilsConfig.IMAGE_CACHE_CATEGORY_RAW);
-                                mImageDownloaer.postRequest(mCurrentDownloadRequest);
-                            } else {
-                                Message msg = Message.obtain();
-                                msg.what = LOCAL_LOAD_IMAGE_SUCCESS;
-                                msg.obj = bt;
-                                mHandler.sendMessageDelayed(msg, 30);
-                            }
+                CustomThreadPool.asyncWork(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bt = null;
+                        if (!forceOriginLoad) {
+                            bt = mImageCache.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB, url);
                         }
-                    });
-                }
+                        if (bt == null) {
+                            bt = mImageCache.getResource(mCategory, url);
+                        }
+                        if (bt == null) {
+                            registeHandler();
+                            if (mCurrentDownloadRequest != null) {
+                                mCurrentDownloadRequest.cancelDownload();
+                            }
+                            mCurrentDownloadRequest = new ImageFetchRequest(DownloadRequest.DOWNLOAD_TYPE.IMAGE, url,
+                                    UtilsConfig.IMAGE_CACHE_CATEGORY_RAW);
+                            mImageDownloaer.postRequest(mCurrentDownloadRequest);
+                        } else {
+                            Message msg = Message.obtain();
+                            msg.what = LOCAL_LOAD_IMAGE_SUCCESS;
+                            msg.obj = bt;
+                            mHandler.sendMessageDelayed(msg, 30);
+                        }
+                    }
+                });
 
                 if (bt != null) {
                     setImageBitmap(bt, false);
@@ -242,38 +248,42 @@ public class WebImageView extends ImageView {
      * @param url
      * @param syncLoad
      */
-//    public void setImageUrlNoThumb(String url, boolean syncLoad) {
-//        if (!TextUtils.isEmpty(url)) {
-//            mUrl = url;
-//            Bitmap bt = mImageCache.getResourceFromMem(mCategory, url);
-//            if (bt == null) {
-//                bt = mImageCache.getResourceFromMem(UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB, url);
-//                if (bt == null) {
-//                    if (syncLoad) {
-//                        bt = mImageCache.getResource(mCategory, url);
-//                    }
-//                    if (bt != null) {
-//                        setImageBitmap(bt, false);
-//                    } else {
-//                        if (mHasAnimation) {
-//                            this.clearAnimation();
-//                        }
-//                        this.setImageDrawable(mDefaultSrc);
-//                    }
-//                } else {
-//                    setImageBitmap(bt, false);
-//                }
-//            } else {
-//                setImageBitmap(bt, false);
-//            }
-//
-//            if (syncLoad && bt == null) {
-//                registeHandler();
-//                mImageDownloaer.postRequest(new ImageFetchRequest(DownloadRequest.DOWNLOAD_TYPE.IMAGE, url,
-//                        UtilsConfig.IMAGE_CACHE_CATEGORY_USER_HEAD_ROUNDED, new CycleBitmapOpration()));
-//            }
-//        }
-//    }
+    // public void setImageUrlNoThumb(String url, boolean syncLoad) {
+    // if (!TextUtils.isEmpty(url)) {
+    // mUrl = url;
+    // Bitmap bt = mImageCache.getResourceFromMem(mCategory, url);
+    // if (bt == null) {
+    // bt =
+    // mImageCache.getResourceFromMem(UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB,
+    // url);
+    // if (bt == null) {
+    // if (syncLoad) {
+    // bt = mImageCache.getResource(mCategory, url);
+    // }
+    // if (bt != null) {
+    // setImageBitmap(bt, false);
+    // } else {
+    // if (mHasAnimation) {
+    // this.clearAnimation();
+    // }
+    // this.setImageDrawable(mDefaultSrc);
+    // }
+    // } else {
+    // setImageBitmap(bt, false);
+    // }
+    // } else {
+    // setImageBitmap(bt, false);
+    // }
+    //
+    // if (syncLoad && bt == null) {
+    // registeHandler();
+    // mImageDownloaer.postRequest(new
+    // ImageFetchRequest(DownloadRequest.DOWNLOAD_TYPE.IMAGE, url,
+    // UtilsConfig.IMAGE_CACHE_CATEGORY_USER_HEAD_ROUNDED, new
+    // CycleBitmapOpration()));
+    // }
+    // }
+    // }
 
     private void registeHandler() {
         if (mImageDownloaer != null) {

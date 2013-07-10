@@ -1,107 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/context_region"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="160dp"
+    android:layout_margin="5dp"
     android:background="@drawable/picture_frame"
-    android:padding="11dp" >
+    android:padding="10dp" >
+
+    <com.plugin.common.view.WebImageView
+        android:id="@+id/item_icon"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
-        android:id="@+id/context_region"
         android:layout_width="match_parent"
-        android:layout_height="160dp" >
+        android:layout_height="55dp"
+        android:layout_alignBottom="@id/item_icon"
+        android:background="@color/bg_black"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp" >
 
-        <com.plugin.common.view.WebImageView
-            android:id="@+id/item_icon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_alignBottom="@id/item_icon"
-            android:background="@color/bg_black"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp" >
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:textColor="@color/white"
-                android:textSize="18sp" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/download_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingLeft="1dp"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" >
-            </TextView>
-
-            <ImageView
-                android:id="@+id/status_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@id/description"
-                android:layout_marginRight="5dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/download_button" >
-            </ImageView>
-
-            <TextView
-                android:id="@+id/size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/download_count"
-                android:layout_alignRight="@id/status_icon"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:singleLine="true"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                android:textStyle="bold" >
-            </TextView>
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/news_tips"
+        <TextView
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/download_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/new_tips"
-            android:visibility="gone" >
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingLeft="1dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <ImageView
+            android:id="@+id/status_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/description"
+            android:layout_marginRight="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/download_button" >
         </ImageView>
 
         <TextView
-            android:id="@+id/readstatus"
+            android:id="@+id/size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/item_icon"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="3dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="3dp"
+            android:layout_alignBottom="@id/download_count"
+            android:layout_alignRight="@id/status_icon"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="14sp" />
-
+            android:textSize="10sp"
+            android:textStyle="bold" >
+        </TextView>
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/news_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/new_tips"
+        android:visibility="gone" >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/readstatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/item_icon"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="3dp"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
 </RelativeLayout>
