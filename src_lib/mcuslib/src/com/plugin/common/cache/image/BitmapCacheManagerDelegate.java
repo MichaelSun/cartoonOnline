@@ -226,10 +226,10 @@ public final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
             throw new IllegalArgumentException("strategy can not be NULL");
         }
 
-        if (mOption.needThumbnail) {
-            mThumbnailBitmapCacheManager.setCacheStrategy(strategy);
-        }
-        return mBigBitmapCacheManager.setCacheStrategy(strategy);
+        ICacheStrategy def = BitmapDiskTools.sDefaultCacheStrategy;
+        BitmapDiskTools.sDefaultCacheStrategy = strategy;
+        
+        return def;
     }
 
 }

@@ -28,6 +28,10 @@ class BitmapDiskTools {
 
 		@Override
 		public String onMakeImageCacheFullPath(String rootPath, String key, String ext) {
+		    if (DEBUG) {
+		        LOGD("[[onMakeImageCacheFullPath]] rootPath = " + rootPath + " key = " + key + " ext = " + ext);
+		    }
+		    
 	        StringBuilder sb = new StringBuilder(256);
 	        if (!rootPath.endsWith(File.separator)) {
 	            if (UtilsConfig.UTILS_DEBUG) {
@@ -42,6 +46,11 @@ class BitmapDiskTools {
 	                sb.append(rootPath).append(StringUtils.MD5Encode(key)).append(ext);
 	            }
 	        }
+	        
+	           if (DEBUG) {
+	                LOGD("[[onMakeImageCacheFullPath]] sb = " + sb.toString());
+	            }
+	        
 	        return sb.toString();
 		}
 		
@@ -208,7 +217,12 @@ class BitmapDiskTools {
     }
 
     private static String makeCacheImageFullPathStrategy(String rootPath, String key, String ext) {
-    	return sDefaultCacheStrategy.onMakeImageCacheFullPath(rootPath, key, ext);
+    	String fullPath = sDefaultCacheStrategy.onMakeImageCacheFullPath(rootPath, key, ext);
+    	if (DEBUG) {
+    	    LOGD("[[makeCacheImageFullPathStrategy]] image full path : " + fullPath);
+    	}
+    	
+    	return fullPath;
     }
     
     private static final void LOGD(String msg) {

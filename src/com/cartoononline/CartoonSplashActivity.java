@@ -1,11 +1,8 @@
 package com.cartoononline;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
-import net.youmi.android.banner.AdSize;
-import net.youmi.android.banner.AdView;
 import net.youmi.android.offers.OffersManager;
 import net.youmi.android.offers.PointsManager;
 import net.youmi.android.spot.SpotManager;
@@ -146,6 +143,10 @@ public class CartoonSplashActivity extends BaseActivity {
 
             @Override
             public String onMakeImageCacheFullPath(String rootPath, String key, String ext) {
+                if (DEBUG) {
+                    LOGD("[[CartoonSplashActivity::onMakeImageCacheFullPath]] rootPath = " + rootPath + " key = " + key + " ext = " + ext);
+                }
+                
                 return null;
             }
 
