@@ -54,7 +54,7 @@ public class Config {
     public static final String OPEN_BOOK_SELF = "open_book_self";
 
     public static int DOWNLOAD_NEED_POINT = 10;
-    public static final int DEFAULT_POINT = 5;
+    public static final int DEFAULT_POINT = 0;
     public static final int CLOSE_ADVIEW_POINT = 20;
 
     // public static final String PACKAGE_CARTOON = PACKAGE_NAME[0];
