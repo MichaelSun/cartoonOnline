@@ -1,7 +1,7 @@
 /**
  * BigBitmapCacheManager.java
  */
-package com.plugin.common.cache;
+package com.plugin.common.cache.image;
 
 import android.support.v4.util.LruCache;
 import android.text.TextUtils;
@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileOperatorHelper;
 import com.plugin.common.utils.files.FileUtil;
-import com.plugin.common.utils.image.BitmapUtils;
 
 /**
  * @author Guoqing Sun Jan 22, 20133:30:27 PM

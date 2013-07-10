@@ -1,10 +1,12 @@
 package com.plugin.common.cache;
 
+import com.plugin.common.cache.image.BitmapCacheManagerDelegate;
+import com.plugin.common.cache.image.BitmapCacheOption;
+
+
 public class CacheFactory {
 
-    public static final class Option {
-        public boolean needThumbnail;
-    }
+
     
     public enum TYPE_CACHE {
         TYPE_IMAGE,
@@ -26,7 +28,7 @@ public class CacheFactory {
         throw new IllegalArgumentException("Cache type not supported");
     }
     
-    public static void init(Option opt) {
+    public static void init(BitmapCacheOption opt) {
         BitmapCacheManagerDelegate.getInstance().init(opt);
     }
     

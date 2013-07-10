@@ -1,27 +1,27 @@
 /**
  * BitmapCacheManagerDelegate.java
  */
-package com.plugin.common.cache;
+package com.plugin.common.cache.image;
 
 import java.io.InputStream;
 
 import android.graphics.Bitmap;
 
-import com.plugin.common.cache.CacheFactory.Option;
+import com.plugin.common.cache.ICacheManager;
+import com.plugin.common.cache.ICacheStrategy;
 import com.plugin.common.utils.UtilsConfig;
-import com.plugin.common.utils.image.BitmapUtils;
 
 /**
  * @author Guoqing Sun Jan 22, 20134:02:00 PM
  */
 
-final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
+public final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
     
     private static BitmapCacheManagerDelegate gBitmapCacheManagerDelegate;
 
     private static Object mIOLockObject = new Object();
-    
-    private Option mOption;
+
+    private BitmapCacheOption mOption;
 
     private ICacheManager<Bitmap> mBigBitmapCacheManager = new BigBitmapCacheManager();
 
@@ -40,14 +40,20 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
     }
 
     private BitmapCacheManagerDelegate() {
-        mOption = new Option();
+        mOption = new BitmapCacheOption();
         mOption.needThumbnail = true;
+        mOption.openThumbnailSizeCheck = true;
+        mOption.thumbnailSize = 200;
     }
-    
-    public void init(Option opt) {
-        mOption = opt;
+
+    public void init(BitmapCacheOption opt) {
+        if (opt != null) {
+            mOption = opt;
+            ((AbsBitmapCacheManager) mBigBitmapCacheManager).setBitmapCacheOption(opt);
+            ((AbsBitmapCacheManager) mThumbnailBitmapCacheManager).setBitmapCacheOption(opt);
+        }
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -63,11 +69,13 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
             Bitmap ret = mBigBitmapCacheManager.getResource(category, key);
             if (mOption.needThumbnail && ret != null) {
                 Bitmap thumbRet = mThumbnailBitmapCacheManager.getResource(UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB, key);
-                if (thumbRet == null) {
-                    BitmapUtils.makeThumbnail(ret, UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB, key);
+                if (thumbRet == null || thumbRet.getWidth() != mOption.thumbnailSize
+                        || thumbRet.getHeight() != mOption.thumbnailSize) {
+                    BitmapUtils.makeThumbnail(ret, UtilsConfig.IMAGE_CACHE_CATEGORY_THUMB, key, mOption.thumbnailSize,
+                            mOption.thumbnailSize);
                 }
             }
-            
+
             return ret;
         }
     }
@@ -206,19 +214,22 @@ final class BitmapCacheManagerDelegate implements ICacheManager<Bitmap> {
         mBigBitmapCacheManager.clearResource();
     }
 
-	/* (non-Javadoc)
-	 * @see com.plugin.cache.ICacheManager#setCacheStrategy(com.plugin.cache.ICacheStrategy)
-	 */
-	@Override
-	public ICacheStrategy setCacheStrategy(ICacheStrategy strategy) {
-		if (strategy == null) {
-			throw new IllegalArgumentException("strategy can not be NULL");
-		}
-		
-		if (mOption.needThumbnail) {
-		    mThumbnailBitmapCacheManager.setCacheStrategy(strategy);
-		}
-		return mBigBitmapCacheManager.setCacheStrategy(strategy);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.plugin.cache.ICacheManager#setCacheStrategy(com.plugin.cache.
+     * ICacheStrategy)
+     */
+    @Override
+    public ICacheStrategy setCacheStrategy(ICacheStrategy strategy) {
+        if (strategy == null) {
+            throw new IllegalArgumentException("strategy can not be NULL");
+        }
+
+        if (mOption.needThumbnail) {
+            mThumbnailBitmapCacheManager.setCacheStrategy(strategy);
+        }
+        return mBigBitmapCacheManager.setCacheStrategy(strategy);
+    }
 
 }

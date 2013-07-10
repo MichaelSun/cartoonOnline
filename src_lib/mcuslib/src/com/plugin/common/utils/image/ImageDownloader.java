@@ -156,17 +156,11 @@ public class ImageDownloader extends FileDownloader implements Runnable, Destroy
                             downloadBt.recycle();
                             downloadBt = null;
                         }
-
-                        if (bt != null) {
-                            BitmapUtils.makeThumbnail(bt, request.mCategory, request.getmDownloadUrl());
-                        }
                     }
                 } else {
                     localPath = mCacheManager.putResource(request.mCategory, request.getmDownloadUrl(),
                             downloadLocalPath);
                     bt = mCacheManager.getResource(request.mCategory, request.getmDownloadUrl());
-
-                    BitmapUtils.makeThumbnail(bt, request.mCategory, request.getmDownloadUrl());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -1,7 +1,7 @@
 /**
  * DiskTools.java
  */
-package com.plugin.common.cache;
+package com.plugin.common.cache.image;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import java.io.InputStream;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
+import com.plugin.common.cache.ICacheStrategy;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.StringUtils;
 import com.plugin.common.utils.files.DiskManager;

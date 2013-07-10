@@ -1,7 +1,7 @@
 /**
  * AbsBitmapCacheManager.java
  */
-package com.plugin.common.cache;
+package com.plugin.common.cache.image;
 
 import java.io.File;
 import java.io.InputStream;
@@ -11,6 +11,8 @@ import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 import android.text.TextUtils;
 
+import com.plugin.common.cache.ICacheManager;
+import com.plugin.common.cache.ICacheStrategy;
 import com.plugin.common.utils.DebugLog;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileOperatorHelper;
@@ -27,7 +29,9 @@ abstract class AbsBitmapCacheManager implements ICacheManager<Bitmap> {
     protected static final boolean DEBUG = UtilsConfig.UTILS_DEBUG;
 
     protected final boolean ENABLE_BITMAP_REUSE;
-
+    
+    protected BitmapCacheOption mOption;
+    
     protected static final class BitmapObject {
         int btSize;
         int btWidth;
@@ -88,6 +92,10 @@ abstract class AbsBitmapCacheManager implements ICacheManager<Bitmap> {
     abstract LruCache<String, BitmapObject> makeLruCacheObj();
 
     abstract BitmapObject searchReusedBitmapObj(String category);
+    
+    public void setBitmapCacheOption(BitmapCacheOption option) {
+        mOption = option;
+    }
 
     @Override
     public String getResourcePath(String category, String key) {

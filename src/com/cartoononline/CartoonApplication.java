@@ -4,8 +4,6 @@ import java.io.File;
 
 import android.app.Application;
 
-import com.plugin.common.cache.CacheFactory;
-import com.plugin.common.cache.CacheFactory.Option;
 import com.plugin.common.utils.Environment;
 import com.plugin.common.utils.UtilsConfig;
 import com.umeng.analytics.MobclickAgent;
@@ -31,8 +29,6 @@ public class CartoonApplication extends Application {
         
         UtilsConfig.init(getApplicationContext());
         SettingManager.getInstance().init(getApplicationContext());
-        Option opt = new Option();
-        CacheFactory.init(opt);
 
         initUMeng();
         

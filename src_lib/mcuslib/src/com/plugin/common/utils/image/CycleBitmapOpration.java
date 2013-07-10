@@ -18,7 +18,7 @@ public final class CycleBitmapOpration implements BitmapOperationListener {
     @Override
     public Bitmap onAfterBitmapDownload(Bitmap downloadBt) {
         if (downloadBt != null && !downloadBt.isRecycled()) {
-            return ImageUtils.createCircleBitmapWithScale(downloadBt, BitmapUtils.USER_HEAD_STANDARD_SIZE, BitmapUtils.USER_HEAD_STANDARD_SIZE);
+            return ImageUtils.createCircleBitmapWithScale(downloadBt, 150, 150);
         }
         
         return null;
