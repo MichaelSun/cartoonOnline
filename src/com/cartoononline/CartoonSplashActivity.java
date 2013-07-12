@@ -1,7 +1,6 @@
 package com.cartoononline;
 
 import java.util.HashMap;
-import java.util.List;
 
 import net.youmi.android.offers.OffersManager;
 import net.youmi.android.offers.PointsManager;
@@ -10,9 +9,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,6 +28,7 @@ import android.widget.Toast;
 
 import com.album.leg.R;
 import com.cartoononline.Utils.PointFetchListener;
+import com.cartoononline.Utils.RegisteListener;
 import com.cartoononline.api.LoginRequest;
 import com.cartoononline.api.LoginResponse;
 import com.cartoononline.fragment.DownloadFragment;
@@ -582,28 +579,55 @@ public class CartoonSplashActivity extends BaseActivity {
                             tryToLogin(userName, password, l);
                         }
                     });
-            if (Utils.isAvilible(getApplicationContext(), "com.jifen.point")) {
-                dialogBuilder.setNegativeButton(R.string.open_jifenbao, new DialogInterface.OnClickListener() {
+            if (false && Utils.isAvilible(getApplicationContext(), Config.JIFENBAP_PACKAGE_NAME)) {
+                dialogBuilder.setNegativeButton(R.string.fetch_jifen_btn, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Utils.lanuchJifenBao(getApplicationContext());
                     }
                 });
             } else {
-                dialogBuilder.setNegativeButton(R.string.download_jifenbao, new DialogInterface.OnClickListener() {
+                dialogBuilder.setNegativeButton(R.string.registe_btn, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Uri downloadUri = Uri.parse(Config.JIFENBAO_DOWNLOAD_URL);
-                        Intent it = new Intent(Intent.ACTION_VIEW, downloadUri);
-                        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        PackageManager packageManager = getPackageManager();
-                        List<ResolveInfo> activities = packageManager.queryIntentActivities(it, 0);
-                        boolean isIntentSafe = activities.size() > 0;
+                        String userName = userNameEditText.getEditableText().toString();
+                        String password = passwordEditText.getEditableText().toString();
+                        if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password)) {
+                            mProgressDialog.setMessage(getString(R.string.registe_tips));
+                            mProgressDialog.show();
+                            Utils.registeAccount(getApplicationContext(), userName, password, new RegisteListener() {
 
-                        // Start an activity if it's safe
-                        if (isIntentSafe) {
-                            startActivity(it);
+                                @Override
+                                public void onRegisteSuccess(final int currentPoint) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mProgressDialog.dismiss();
+                                            showWallInfoDialog(currentPoint);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onRegisteFailed(final int code, String data) {
+                                    runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            mProgressDialog.dismiss();
+                                            switch (code) {
+                                            case LoginResponse.CODE_USER_EXIST:
+                                                Toast.makeText(CartoonSplashActivity.this, R.string.user_exist, Toast.LENGTH_LONG).show();
+                                                break;
+                                            default:
+                                                Toast.makeText(CartoonSplashActivity.this, R.string.registe_failed, Toast.LENGTH_LONG).show();
+                                                break;
+                                            }
+                                        }
+                                    });
+                                }
+                                
+                            });
                         } else {
+                            Toast.makeText(CartoonSplashActivity.this, R.string.user_or_password_empty, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -722,7 +746,17 @@ public class CartoonSplashActivity extends BaseActivity {
         TextView tv = (TextView) view.findViewById(R.id.tips);
         tv.setText(tips);
         AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.tips_title).setView(view)
-                .setPositiveButton(R.string.confirm, null)
+                .setPositiveButton(R.string.fetch_jifen_btn, new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Utils.isAvilible(getApplicationContext(), Config.JIFENBAP_PACKAGE_NAME)) {
+                            Utils.lanuchJifenBao(getApplicationContext());
+                        } else {
+                            Utils.downloadJifenbao(getApplicationContext());
+                        }
+                    }
+                })
                 .setNegativeButton(R.string.logout, new DialogInterface.OnClickListener() {
 
                     @Override

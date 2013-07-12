@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 
 import com.plugin.common.cache.CacheFactory;
-import com.plugin.common.cache.CacheFactory.TYPE_CACHE;
 import com.plugin.common.utils.UtilsConfig;
 
 /**

@@ -16,8 +16,8 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -30,6 +30,8 @@ import android.widget.Toast;
 import com.album.leg.R;
 import com.cartoononline.api.LoginRequest;
 import com.cartoononline.api.LoginResponse;
+import com.cartoononline.api.RegisteRequest;
+import com.cartoononline.api.RegisteResponse;
 import com.cartoononline.api.UploadPointRequest;
 import com.cartoononline.api.UploadPointResponse;
 import com.cartoononline.model.SessionReadModel;
@@ -46,36 +48,92 @@ public class Utils {
     private static final boolean DEBUG = Config.DEBUG;
 
     private static final String SESSION_KEY = "infos";
-    
+
     public interface PointFetchListener {
         void onPointFetchSuccess(int current);
-        
+
         void onPointFetchFailed(int code, String data);
     }
-    
+
     public interface PointUploadListener {
         void onPointUploadSuccess(int currentPoint);
-        
+
         void onPointUploadFailed(int code, String data);
     }
-    
+
+    public interface RegisteListener {
+        void onRegisteSuccess(int currentPoint);
+
+        void onRegisteFailed(int code, String data);
+    }
+
     public static void lanuchJifenBao(Context context) {
         try {
+//            Log.d("lanuch", "try to lanuch jifebao with : " + SettingManager.getInstance().getUserName());
+            
             Intent intent = new Intent();
             intent.setAction("com.jifenbao.lanuch");
+            if (!TextUtils.isEmpty(SettingManager.getInstance().getUserName())
+                    && !TextUtils.isEmpty(SettingManager.getInstance().getPassword())) {
+                intent.putExtra("u", SettingManager.getInstance().getUserName());
+                intent.putExtra("p", SettingManager.getInstance().getPassword());
+            }
             context.sendBroadcast(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         HashMap<String, String> extra = new HashMap<String, String>();
         extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
         MobclickAgent.onEvent(context, "open_jifenbao", extra);
         MobclickAgent.flush(context);
     }
-    
+
+    public static void registeAccount(final Context context, final String username, final String password,
+            final RegisteListener l) {
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+            CustomThreadPool.asyncWork(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        RegisteResponse response = InternetUtils.request(context,
+                                new RegisteRequest(username, username));
+                        if (response != null) {
+                            switch (response.code) {
+                            case LoginResponse.CODE_SUCCESS:
+                                HashMap<String, String> extra = new HashMap<String, String>();
+                                extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                MobclickAgent.onEvent(context, "registe_jifenbao", extra);
+                                MobclickAgent.flush(context);
+                                if (l != null) {
+                                    l.onRegisteSuccess(0);
+                                }
+                                return;
+                            case LoginResponse.CODE_USER_EXIST:
+                                if (l != null) {
+                                    l.onRegisteFailed(LoginResponse.CODE_USER_EXIST, null);
+                                }
+                                return;
+                            default:
+                                break;
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    if (l != null) {
+                        l.onRegisteFailed(-1, null);
+                    }
+                }
+            });
+        }
+    }
+
     public static void downloadJifenbao(Context context) {
-        Uri downloadUri = Uri.parse("http://bcs.duapp.com/jifenbao/jifenbao-release.apk?sign=MBO:27302677c46c1c5b7795853ba23d0329:0yCmmYSUIxd0kvaSYF9l8JtRw8U%3D");
+        Uri downloadUri = Uri
+                .parse("http://bcs.duapp.com/jifenbao/jifenbao-release.apk?sign=MBO:27302677c46c1c5b7795853ba23d0329:0yCmmYSUIxd0kvaSYF9l8JtRw8U%3D");
         Intent it = new Intent(Intent.ACTION_VIEW, downloadUri);
         it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PackageManager packageManager = context.getPackageManager();
@@ -87,16 +145,17 @@ public class Utils {
             context.startActivity(it);
         } else {
         }
-        
+
         HashMap<String, String> extra = new HashMap<String, String>();
         extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
         MobclickAgent.onEvent(context, "download_jifenbao", extra);
         MobclickAgent.flush(context);
     }
-    
-    public static void asyncFetchCurrentPoint(final Context context, final String userName, final String password, final PointFetchListener pointFetchListener) {
+
+    public static void asyncFetchCurrentPoint(final Context context, final String userName, final String password,
+            final PointFetchListener pointFetchListener) {
         CustomThreadPool.asyncWork(new Runnable() {
-            
+
             @Override
             public void run() {
                 LoginRequest request = new LoginRequest(userName, password);
@@ -123,11 +182,12 @@ public class Utils {
             }
         });
     }
-    
-    public static void asyncUploadPoint(final Context context, final String userName, final int currentPoint, final PointUploadListener l) {
+
+    public static void asyncUploadPoint(final Context context, final String userName, final int currentPoint,
+            final PointUploadListener l) {
         if (!TextUtils.isEmpty(userName) && currentPoint > 0) {
             CustomThreadPool.asyncWork(new Runnable() {
-                
+
                 @Override
                 public void run() {
                     UploadPointRequest request = new UploadPointRequest(userName, String.valueOf(currentPoint));
@@ -154,7 +214,6 @@ public class Utils {
             });
         }
     }
-    
 
     public static void showDownloadFBDialog(final Activity a, final SessionReadModel m) {
         AlertDialog dialog = new AlertDialog.Builder(a).setTitle(R.string.tips_title)
@@ -203,7 +262,7 @@ public class Utils {
                 if (!downloadDirBook.exists()) {
                     FileOperatorHelper.copyFile(m.localFullPath + filename, Config.BOOK_DOWNLOAD_DIR + filename);
                 }
-                
+
                 if (downloadDirBook.exists()) {
                     startReadBookIntent(a, Config.BOOK_DOWNLOAD_DIR + filename, filename);
                 } else {

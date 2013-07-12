@@ -22,7 +22,7 @@ public class DialogUtils {
         AlertDialog dialog = new AlertDialog.Builder(a)
                 .setTitle(R.string.download_jifenbao_title)
                 .setMessage(content)
-                .setPositiveButton(installed ? R.string.redownload : R.string.download_jifenbao_content,
+                .setPositiveButton(installed ? R.string.redownload : R.string.download_jifenbao,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
