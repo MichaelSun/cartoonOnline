@@ -34,7 +34,7 @@ public class Config {
             "f112e41a8f0b1e6d", "6e40438e92373bcb", "e46163352bdba86c", "e46163352bdba86c" };
     public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "82417303556b6b77", "a3b8473046176ba2",
             "22effcfb92694f35", "4fff1820c9c76e06", "d1764ac7070d96dd", "d1764ac7070d96dd" };
-    public static final String[] PACKAGE_NAME = new String[] { "com.album.legnew", "com.michael.manhua",
+    public static final String[] PACKAGE_NAME = new String[] { "com.album.legnew", "com.album.manhua",
             "com.album.rosinil", "com.read.book", "com.read.booknew", "com.album.leg"};
     public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi", "bookread", "bookread", "psave" };
 
