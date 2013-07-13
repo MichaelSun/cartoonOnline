@@ -21,6 +21,7 @@ init_optprarse.add_option('-p', '--package', dest='package')
 init_optprarse.add_option('-n', '--name', dest='name')
 init_optprarse.add_option('-c', '--channel', dest='channel')
 init_optprarse.add_option('-t', '--target', dest='target')
+init_optprarse.add_option('-k', '--key', dest='umengkey')
 
 class ARGUMENTS_ERROR(Exception):
     """ replace text failure
@@ -99,6 +100,7 @@ def __main(args):
     name = opt.name
     channel = opt.channel
     target = opt.target
+    umengkey = opt.umengkey
 
     if new_package == None:
         raise ARGUMENTS_ERROR()
@@ -116,6 +118,9 @@ def __main(args):
 
     if channel != None and len(channel) > 0:
         myLib.replce_text_in_file(STRING_FILE, 'umeng_channel.*>', 'umeng_channel">%s</string>' % channel)
+
+    if umengkey != None and len(umengkey) > 0:
+        myLib.replce_text_in_file(STRING_FILE, 'umeng_key.*>', 'umeng_key">%s</string>' % umengkey)
 
     print '='*20 + ' build prepare finish ' + '='*20
     print 'begin build now'

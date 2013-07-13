@@ -23,7 +23,7 @@
         android:theme="@style/LeftOutRightInActivityAnimationNoTitleTheme" >
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="51df2a5156240b341602e801" >
+            android:value="@string/umeng_key" >
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
