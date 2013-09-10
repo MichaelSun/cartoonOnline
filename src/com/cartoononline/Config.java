@@ -35,7 +35,7 @@ public class Config {
 //    public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "82417303556b6b77", "a3b8473046176ba2",
 //            "22effcfb92694f35", "4fff1820c9c76e06", "d1764ac7070d96dd", "d1764ac7070d96dd" };
     public static final String[] PACKAGE_NAME = new String[] { "com.album.legnew",
-                                                               "com.album.manhua",
+                                                               "com.album.manhuarw",
                                                                "com.album.rosinil",
                                                                "com.album.sibao",
                                                                "com.read.booknew",
