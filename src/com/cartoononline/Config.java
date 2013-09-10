@@ -26,17 +26,26 @@ public class Config {
     public static String CURRENT_PACKAGE_NAME;
 
     public static final String INI_FILE = "info.ini";
-    
+
     public static int INDEX = -1;
-    
-    //last item is for debug only
-    public static final String[] YOUMI_APP_ID = new String[] { "f3d95e27c4e24153", "556af9dfcb127141",
-            "f112e41a8f0b1e6d", "6e40438e92373bcb", "e46163352bdba86c", "e46163352bdba86c" };
-    public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "82417303556b6b77", "a3b8473046176ba2",
-            "22effcfb92694f35", "4fff1820c9c76e06", "d1764ac7070d96dd", "d1764ac7070d96dd" };
-    public static final String[] PACKAGE_NAME = new String[] { "com.album.legnew", "com.album.manhua",
-            "com.album.rosinil", "com.album.sibao", "com.read.booknew", "com.album.leg"};
-    public static final String[] DOMAIN_NAME = new String[] { "psave", "xiee", "rosi", "disi", "bookread", "psave" };
+
+//    //last item is for debug only
+//    public static final String[] YOUMI_APP_ID = new String[] { "f3d95e27c4e24153", "556af9dfcb127141",
+//            "f112e41a8f0b1e6d", "6e40438e92373bcb", "e46163352bdba86c", "e46163352bdba86c" };
+//    public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "82417303556b6b77", "a3b8473046176ba2",
+//            "22effcfb92694f35", "4fff1820c9c76e06", "d1764ac7070d96dd", "d1764ac7070d96dd" };
+    public static final String[] PACKAGE_NAME = new String[] { "com.album.legnew",
+                                                               "com.album.manhua",
+                                                               "com.album.rosinil",
+                                                               "com.album.sibao",
+                                                               "com.read.booknew",
+                                                               "com.album.leg"};
+    public static final String[] DOMAIN_NAME = new String[] { "psave",
+                                                              "xiee",
+                                                              "rosi",
+                                                              "disi",
+                                                              "bookread",
+                                                              "psave" };
 
     public static final String KEY_SHOW_WALL = "show_app_wall";
     public static final String KEY_ADVIEW = "_adview";
@@ -44,7 +53,7 @@ public class Config {
     public static final boolean ADVIEW_SHOW = true;
 
     public static final String JIFENBAP_PACKAGE_NAME = "com.jifen.point";
-    
+
     // umeng event
     public static final String DOWNLOAD_ALUBM = "download_album";
     public static final String DOWNLOAD_ALUBM_HOT = "download_album_hot";

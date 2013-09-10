@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager" forced_jdk="true">
+    <libelement value="jar://$MODULE_DIR$/src_lib/abs/libs/android-support-v4.jar!/" />
+    <conelement value="com.android.ide.eclipse.adt.DEPENDENCIES" />
+    <src_description expected_position="3">
+      <src_folder value="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK" expected_position="0" />
+      <src_folder value="com.android.ide.eclipse.adt.LIBRARIES" expected_position="1" />
+      <src_folder value="file://$MODULE_DIR$/src_lib/abs/src" expected_position="4" />
+      <src_folder value="file://$MODULE_DIR$/src_lib/abs/gen" expected_position="5" />
+    </src_description>
+  </component>
+  <component name="FacetManager">
+    <facet type="android" name="Android">
+      <configuration>
+        <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/src_lib/abs/gen" />
+        <option name="GEN_FOLDER_RELATIVE_PATH_AIDL" value="/src_lib/abs/gen" />
+        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src_lib/abs/AndroidManifest.xml" />
+        <option name="RES_FOLDER_RELATIVE_PATH" value="/src_lib/abs/res" />
+        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src_lib/abs/assets" />
+        <option name="LIBS_FOLDER_RELATIVE_PATH" value="/src_lib/abs/libs" />
+        <option name="LIBRARY_PROJECT" value="true" />
+        <resOverlayFolders>
+          <path>/src_lib/abs/res-overlay</path>
+        </resOverlayFolders>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/src_lib/abs/bin/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/src_lib/abs">
+      <sourceFolder url="file://$MODULE_DIR$/src_lib/abs/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src_lib/abs/gen" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="Android 4.0 Platform" jdkType="Android SDK" />
+    <orderEntry type="library" exported="" name="com.android.ide.eclipse.adt.DEPENDENCIES" level="application" />
+    <orderEntry type="module-library" exported="">
+      <library name="android-support-v4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/src_lib/abs/libs/android-support-v4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+

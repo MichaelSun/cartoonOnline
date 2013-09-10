@@ -34,7 +34,7 @@ public class AlbumActivity extends BaseActivity {
     public static final String KEY_INDEX = "index";
     public static final String KEY_SESSION_NAME = "sessionName";
     public static final String KEY_DESC = "desc";
- 
+
     private LayoutInflater mLayoutInflater;
     private ViewPager mViewPager;
     private String mPath;
@@ -44,9 +44,9 @@ public class AlbumActivity extends BaseActivity {
     private ICacheManager<Bitmap> mCacheManager;
 
     private ICacheStrategy mOldICacheStrategy;
-    
+
     private Handler mHandler = new Handler();
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +81,12 @@ public class AlbumActivity extends BaseActivity {
         mViewPager.setAdapter(new MyPagerAdapter());
 
         initActionbar();
-        
-        //umeng log
+
+        // umeng log
         HashMap<String, String> extra = new HashMap<String, String>();
         extra.put("name", mDescription);
         MobclickAgent.onEvent(this.getApplicationContext(), Config.OPEN_ALUBM, extra);
-        
+
         if (SettingManager.getInstance().getShowAdView()) {
             initAdView();
         }
@@ -98,7 +98,7 @@ public class AlbumActivity extends BaseActivity {
         adLayout.setVisibility(View.VISIBLE);
         adLayout.addView(adView);
     }
-    
+
     @Override
     public void onStart() {
         super.onStart();
@@ -109,7 +109,7 @@ public class AlbumActivity extends BaseActivity {
                     SpotManager.getInstance(getApplicationContext()).showSpotAds(AlbumActivity.this);
                 }
             }, 100);
-            
+
         }
     }
 
@@ -253,7 +253,7 @@ public class AlbumActivity extends BaseActivity {
                 holder.imageView.setStartBeginTop(startTop(show));
                 image.setImageBitmap(show);
                 image.setImageFullPath(mCacheManager.getResourcePath(mSessionName, String.valueOf(pos + 1)));
-                
+
                 holder.pageCount.setText(String.format(getString(R.string.page_count), pos + 1, mCount));
                 mViewArray.add(retView);
                 ((ViewPager) arg0).addView(retView);
