@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushConstnts;
 import com.baidu.android.pushservice.PushManager;
 
 public class PushServiceReceiver extends BroadcastReceiver {
