@@ -36,7 +36,7 @@ public class Config {
 //            "22effcfb92694f35", "4fff1820c9c76e06", "d1764ac7070d96dd", "d1764ac7070d96dd" };
     public static final String[] PACKAGE_NAME = new String[] { "com.album.legnew",
                                                                "com.album.manhua1",
-                                                               "com.album.rosinil",
+                                                               "com.album.rosi1",
                                                                "com.album.sibao",
                                                                "com.read.booknew",
                                                                "com.album.leg"};
