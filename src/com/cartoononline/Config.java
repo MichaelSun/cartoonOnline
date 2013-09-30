@@ -38,7 +38,7 @@ public class Config {
                                                                "com.album.manhua1",
                                                                "com.album.rosi1",
                                                                "com.album.sibao",
-                                                               "com.read.booknew",
+                                                               "com.read.book1",
                                                                "com.album.leg"};
     public static final String[] DOMAIN_NAME = new String[] { "psave",
                                                               "xiee",
