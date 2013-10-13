@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager" forced_jdk="true">
-    <libelement value="jar://$MODULE_DIR$/libs/YoumiSdk_Banner_Spot_Offers_2013-04-17.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/libs/umeng_sdk.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/libs/android-support-v4.jar!/" />
     <conelement value="com.android.ide.eclipse.adt.DEPENDENCIES" />
-    <src_description expected_position="7">
+    <src_description expected_position="3">
       <src_folder value="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK" expected_position="0" />
       <src_folder value="com.android.ide.eclipse.adt.LIBRARIES" expected_position="1" />
-      <src_folder value="file://$MODULE_DIR$/src" expected_position="8" />
-      <src_folder value="file://$MODULE_DIR$/gen" expected_position="9" />
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="4" />
+      <src_folder value="file://$MODULE_DIR$/gen" expected_position="5" />
     </src_description>
   </component>
   <component name="FacetManager">
     <facet type="android" name="Android">
-      <configuration />
+      <configuration>
+        <option name="LIBRARY_PROJECT" value="true" />
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
@@ -24,29 +25,16 @@
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Android 4.0 Platform" jdkType="Android SDK" />
-    <orderEntry type="module" module-name="CustomActionBar" exported="" />
-    <orderEntry type="module" module-name="pullToRefresh" exported="" />
-    <orderEntry type="module-library">
-      <library name="YoumiSdk_Banner_Spot_Offers_2013-04-17.jar">
+    <orderEntry type="module-library" exported="" scope="PROVIDED">
+      <library name="android-support-v4.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/YoumiSdk_Banner_Spot_Offers_2013-04-17.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/android-support-v4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="umeng_sdk.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/umeng_sdk.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module" module-name="mcuslib" exported="" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="mcuslib" exported="" />
   </component>
 </module>
 

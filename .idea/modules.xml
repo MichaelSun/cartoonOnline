@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CartoonOnline.iml" filepath="$PROJECT_DIR$/CartoonOnline.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src_lib/abs/CustomActionBar.iml" filepath="$PROJECT_DIR$/src_lib/abs/CustomActionBar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src_lib/mcuslib/mcuslib.iml" filepath="$PROJECT_DIR$/src_lib/mcuslib/mcuslib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src_lib/PullToRefresh/pullToRefresh.iml" filepath="$PROJECT_DIR$/src_lib/PullToRefresh/pullToRefresh.iml" />
+    </modules>
+  </component>
+</project>
+
