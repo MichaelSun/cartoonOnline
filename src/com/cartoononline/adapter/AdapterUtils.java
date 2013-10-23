@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.album.leg.R;
+import com.album.legnew.R;
 import com.cartoononline.CRuntime;
 import com.cartoononline.CartoonSplashActivity;
 import com.cartoononline.CartoonSplashActivity.LoginInterfaceListener;

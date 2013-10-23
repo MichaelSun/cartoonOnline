@@ -27,7 +27,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.album.leg.R;
+import com.album.legnew.R;
 import com.cartoononline.AlbumActivity;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;

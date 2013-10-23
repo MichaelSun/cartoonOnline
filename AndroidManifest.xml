@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.album.leg"
-    android:versionCode="31"
-    android:versionName="4.0" >
+          package="com.album.legnew"
+          android:versionCode="31"
+          android:versionName="4.0">
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="14" />
+        android:targetSdkVersion="14"/>
 
     <!-- Push service 运行需要的权限 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name="com.cartoononline.CartoonApplication"
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/LeftOutRightInActivityAnimationNoTitleTheme" >
+        android:theme="@style/LeftOutRightInActivityAnimationNoTitleTheme">
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="@string/umeng_key" >
+            android:value="@string/umeng_key">
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="@string/umeng_channel" />
+            android:value="@string/umeng_channel"/>
 
         <activity
             android:name="com.cartoononline.CartoonSplashActivity"
@@ -35,11 +35,11 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Theme_ActionBar_Style"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
@@ -47,20 +47,20 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme_ActionBar_Style"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
 
         <service
             android:name="com.umeng.common.net.DownloadingService"
             android:exported="true"
-            android:process=":DownloadingService" >
+            android:process=":DownloadingService">
         </service>
 
         <receiver
             android:name="com.cartoononline.loginReceiver"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.jifenbao.account.login" />
+                <action android:name="com.jifenbao.account.login"/>
             </intent-filter>
         </receiver>
 

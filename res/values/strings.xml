@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="umeng_channel">google_情色小说</string>
+    <string name="umeng_channel">google_美腿丝袜new</string>
     <string name="umeng_params_channel">google</string>
     <string name="youmi_channel">10010</string>
-    <string name="umeng_key">51df2a5156240b341602e801</string>
-    <string name="app_name">情色小说(实时更新)</string>
+    <string name="umeng_key">51e0db8256240b5330085cd8</string>
+    <string name="app_name">美腿丝袜</string>
     <string name="menu_settings">Settings</string>
     <string name="offer_point">offer_point</string>
     <string name="pre_point">pre_point</string>

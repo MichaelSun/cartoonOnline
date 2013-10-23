@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.album.leg.R;
+import com.album.legnew.R;
 import com.cartoononline.Config;
 import com.cartoononline.model.SessionReadModel;
 import com.plugin.common.cache.CacheFactory;
