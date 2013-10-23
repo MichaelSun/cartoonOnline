@@ -25,7 +25,6 @@ import com.plugin.common.utils.CustomThreadPool;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.common.utils.files.FileDownloader;
 import com.plugin.common.utils.files.FileDownloader.DownloadRequest;
-import com.plugin.common.utils.image.CycleBitmapOpration;
 import com.plugin.common.utils.image.ImageDownloader;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchRequest;
 import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;

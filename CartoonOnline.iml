@@ -26,15 +26,6 @@
     <orderEntry type="jdk" jdkName="Android 4.0 Platform" jdkType="Android SDK" />
     <orderEntry type="module" module-name="CustomActionBar" exported="" />
     <orderEntry type="module" module-name="pullToRefresh" exported="" />
-    <orderEntry type="module-library">
-      <library name="YoumiSdk_Banner_Spot_Offers_2013-04-17.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/YoumiSdk_Banner_Spot_Offers_2013-04-17.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module-library" exported="">
       <library name="umeng_sdk.jar">
         <CLASSES>
@@ -46,7 +37,6 @@
     </orderEntry>
     <orderEntry type="module" module-name="mcuslib" exported="" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="mcuslib" exported="" />
   </component>
 </module>
 

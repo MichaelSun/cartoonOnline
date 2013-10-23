@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.youmi.android.offers.OffersManager;
-import net.youmi.android.offers.PointsManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -673,37 +671,37 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
 
     }
 
-    private boolean checkeOfferWallShouldShow() {
-        int localPoint = SettingManager.getInstance().getPointInt();
-        int serverPoint = PointsManager.getInstance(mContext).queryPoints();
-        int point = localPoint + serverPoint;
-        if (point >= 5 || !Config.ADVIEW_SHOW) {
-            return true;
-        } else {
-            String tips = String.format(mContext.getString(R.string.offer_download_tips), Config.DOWNLOAD_NEED_POINT,
-                    point, Config.DOWNLOAD_NEED_POINT);
-            View view = mLayoutInflater.inflate(R.layout.offer_tips_view, null);
-            TextView tv = (TextView) view.findViewById(R.id.tips);
-            tv.setText(tips);
-            AlertDialog dialog = new AlertDialog.Builder(mActivity).setTitle(R.string.tips_title).setView(view)
-                    .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            OffersManager.getInstance(mActivity).showOffersWall();
-
-                            MobclickAgent.onEvent(mContext, "download_app_open");
-                            MobclickAgent.flush(mContext);
-                        }
-                    }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            MobclickAgent.onEvent(mContext, "download_app_cancel");
-                            MobclickAgent.flush(mContext);
-                        }
-                    }).create();
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-            return false;
-        }
-    }
+//    private boolean checkeOfferWallShouldShow() {
+//        int localPoint = SettingManager.getInstance().getPointInt();
+//        int serverPoint = PointsManager.getInstance(mContext).queryPoints();
+//        int point = localPoint + serverPoint;
+//        if (point >= 5 || !Config.ADVIEW_SHOW) {
+//            return true;
+//        } else {
+//            String tips = String.format(mContext.getString(R.string.offer_download_tips), Config.DOWNLOAD_NEED_POINT,
+//                    point, Config.DOWNLOAD_NEED_POINT);
+//            View view = mLayoutInflater.inflate(R.layout.offer_tips_view, null);
+//            TextView tv = (TextView) view.findViewById(R.id.tips);
+//            tv.setText(tips);
+//            AlertDialog dialog = new AlertDialog.Builder(mActivity).setTitle(R.string.tips_title).setView(view)
+//                    .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            OffersManager.getInstance(mActivity).showOffersWall();
+//
+//                            MobclickAgent.onEvent(mContext, "download_app_open");
+//                            MobclickAgent.flush(mContext);
+//                        }
+//                    }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            MobclickAgent.onEvent(mContext, "download_app_cancel");
+//                            MobclickAgent.flush(mContext);
+//                        }
+//                    }).create();
+//            dialog.setCanceledOnTouchOutside(false);
+//            dialog.show();
+//            return false;
+//        }
+//    }
 
     private void onDeleteItem(HotItemModel item) {
         if (!TextUtils.isEmpty(item.getLocalFullPath())) {

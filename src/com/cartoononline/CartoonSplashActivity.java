@@ -2,9 +2,6 @@ package com.cartoononline;
 
 import java.util.HashMap;
 
-import net.youmi.android.offers.OffersManager;
-import net.youmi.android.offers.PointsManager;
-import net.youmi.android.spot.SpotManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -53,6 +50,7 @@ public class CartoonSplashActivity extends BaseActivity {
     private static final boolean DEBUG = Config.DEBUG;
 
     public interface LoginInterfaceListener {
+
         void onLoginSuccess(int currentPoint);
 
         void onLoginFailed(int code);
@@ -243,23 +241,23 @@ public class CartoonSplashActivity extends BaseActivity {
         }
     }
 
-    private void showCloseTipsDialog() {
-        if (SettingManager.getInstance().getShowAdView()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.tips_title);
-            builder.setMessage(R.string.tips_adview_close);
-            builder.setPositiveButton(R.string.confirm, null);
-            builder.setNegativeButton(R.string.close_now, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    showAdViewSettingDialog();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-    }
+//    private void showCloseTipsDialog() {
+//        if (SettingManager.getInstance().getShowAdView()) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setTitle(R.string.tips_title);
+//            builder.setMessage(R.string.tips_adview_close);
+//            builder.setPositiveButton(R.string.confirm, null);
+//            builder.setNegativeButton(R.string.close_now, new DialogInterface.OnClickListener() {
+//
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+////                    showAdViewSettingDialog();
+//                }
+//            });
+//            AlertDialog dialog = builder.create();
+//            dialog.show();
+//        }
+//    }
 
     private void initAdView() {
         // AdView adView = new AdView(this, AdSize.SIZE_320x50);
@@ -272,9 +270,9 @@ public class CartoonSplashActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (Config.SPOT_ADVIEW_SHOW) {
-            SpotManager.getInstance(this).loadSpotAds();
-        }
+//        if (Config.SPOT_ADVIEW_SHOW) {
+//            SpotManager.getInstance(this).loadSpotAds();
+//        }
 
         // CustomThreadPool.getInstance().excute(new TaskWrapper(new Runnable()
         // {
@@ -361,7 +359,7 @@ public class CartoonSplashActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        OffersManager.getInstance(this).onAppExit();
+//        OffersManager.getInstance(this).onAppExit();
         mCacheManager.releaseAllResource();
     }
 
@@ -482,81 +480,81 @@ public class CartoonSplashActivity extends BaseActivity {
         dialog.show();
     }
 
-    private void showAdViewSettingDialog() {
-        final int localPoint = SettingManager.getInstance().getPointInt();
-        int point = PointsManager.getInstance(this).queryPoints();
-        final int totalPoint = localPoint + point;
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.adview_setting);
-
-        if (!SettingManager.getInstance().getShowAdView()) {
-            builder.setMessage(R.string.adview_open);
-            builder.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    SettingManager.getInstance().setShowAdView(true);
-
-                    MobclickAgent.onEvent(CartoonSplashActivity.this.getApplicationContext(), "open_adview");
-                    MobclickAgent.flush(CartoonSplashActivity.this.getApplicationContext());
-
-                    mHandler.sendEmptyMessage(FORCE_REFRESH_ADVIEW);
-                }
-            });
-        } else {
-            if (totalPoint > Config.CLOSE_ADVIEW_POINT) {
-                builder.setMessage(String.format(getString(R.string.adview_close_tips), totalPoint));
-                builder.setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int leftPoint = Config.CLOSE_ADVIEW_POINT;
-                        if (localPoint > 0) {
-                            leftPoint = leftPoint - localPoint;
-                        }
-                        if (leftPoint < 0) {
-                            leftPoint = -leftPoint;
-                            SettingManager.getInstance().setPointInt(leftPoint);
-                        } else {
-                            SettingManager.getInstance().setPointInt(0);
-                        }
-
-                        PointsManager.getInstance(CartoonSplashActivity.this).spendPoints(leftPoint);
-
-                        SettingManager.getInstance().setShowAdView(false);
-
-                        MobclickAgent.onEvent(CartoonSplashActivity.this.getApplicationContext(), "close_adview");
-                        MobclickAgent.flush(CartoonSplashActivity.this.getApplicationContext());
-
-                        mHandler.sendEmptyMessage(FORCE_REFRESH_ADVIEW);
-                    }
-                });
-            } else {
-                if (SettingManager.getInstance().getShowAdView()) {
-                    View view = this.getLayoutInflater().inflate(R.layout.offer_tips_view, null);
-                    TextView tv = (TextView) view.findViewById(R.id.tips);
-                    tv.setText(String.format(getString(R.string.adview_close_nopoint_tips), totalPoint));
-                    builder.setView(view);
-
-                    builder.setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            OffersManager.getInstance(CartoonSplashActivity.this).showOffersWall();
-
-                            MobclickAgent.onEvent(CartoonSplashActivity.this.getApplicationContext(),
-                                    "download_app_open");
-                            MobclickAgent.flush(CartoonSplashActivity.this.getApplicationContext());
-                        }
-                    });
-                }
-            }
-
-        }
-        builder.setNegativeButton(R.string.cancel, null);
-
-        AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-    }
+//    private void showAdViewSettingDialog() {
+//        final int localPoint = SettingManager.getInstance().getPointInt();
+//        int point = PointsManager.getInstance(this).queryPoints();
+//        final int totalPoint = localPoint + point;
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle(R.string.adview_setting);
+//
+//        if (!SettingManager.getInstance().getShowAdView()) {
+//            builder.setMessage(R.string.adview_open);
+//            builder.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    SettingManager.getInstance().setShowAdView(true);
+//
+//                    MobclickAgent.onEvent(CartoonSplashActivity.this.getApplicationContext(), "open_adview");
+//                    MobclickAgent.flush(CartoonSplashActivity.this.getApplicationContext());
+//
+//                    mHandler.sendEmptyMessage(FORCE_REFRESH_ADVIEW);
+//                }
+//            });
+//        } else {
+//            if (totalPoint > Config.CLOSE_ADVIEW_POINT) {
+//                builder.setMessage(String.format(getString(R.string.adview_close_tips), totalPoint));
+//                builder.setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        int leftPoint = Config.CLOSE_ADVIEW_POINT;
+//                        if (localPoint > 0) {
+//                            leftPoint = leftPoint - localPoint;
+//                        }
+//                        if (leftPoint < 0) {
+//                            leftPoint = -leftPoint;
+//                            SettingManager.getInstance().setPointInt(leftPoint);
+//                        } else {
+//                            SettingManager.getInstance().setPointInt(0);
+//                        }
+//
+//                        PointsManager.getInstance(CartoonSplashActivity.this).spendPoints(leftPoint);
+//
+//                        SettingManager.getInstance().setShowAdView(false);
+//
+//                        MobclickAgent.onEvent(CartoonSplashActivity.this.getApplicationContext(), "close_adview");
+//                        MobclickAgent.flush(CartoonSplashActivity.this.getApplicationContext());
+//
+//                        mHandler.sendEmptyMessage(FORCE_REFRESH_ADVIEW);
+//                    }
+//                });
+//            } else {
+//                if (SettingManager.getInstance().getShowAdView()) {
+//                    View view = this.getLayoutInflater().inflate(R.layout.offer_tips_view, null);
+//                    TextView tv = (TextView) view.findViewById(R.id.tips);
+//                    tv.setText(String.format(getString(R.string.adview_close_nopoint_tips), totalPoint));
+//                    builder.setView(view);
+//
+//                    builder.setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            OffersManager.getInstance(CartoonSplashActivity.this).showOffersWall();
+//
+//                            MobclickAgent.onEvent(CartoonSplashActivity.this.getApplicationContext(),
+//                                    "download_app_open");
+//                            MobclickAgent.flush(CartoonSplashActivity.this.getApplicationContext());
+//                        }
+//                    });
+//                }
+//            }
+//
+//        }
+//        builder.setNegativeButton(R.string.cancel, null);
+//
+//        AlertDialog dialog = builder.create();
+//        dialog.setCanceledOnTouchOutside(false);
+//        dialog.show();
+//    }
 
     public void showPointWithAccountCheck(final LoginInterfaceListener l) {
         SettingManager sm = SettingManager.getInstance();
