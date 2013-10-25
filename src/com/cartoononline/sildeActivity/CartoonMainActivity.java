@@ -155,7 +155,7 @@ public class CartoonMainActivity extends BaseActivity {
         initContentData();
 
         mCurrentTitle = mPlanetTitles[Config.CURRENT_DOMAIN];
-        mActionBar.setIcon(R.drawable.icon_rosi);
+        getActionBar().setIcon(R.drawable.icon_rosi);
         selectItem(0);
     }
 
