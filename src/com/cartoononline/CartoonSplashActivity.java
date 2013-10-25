@@ -772,7 +772,7 @@ public class CartoonSplashActivity extends BaseActivity {
         mActionBar.setDisplayHomeAsUpEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(true);
         mActionBar.setTitle(R.string.app_name);
-        mActionBar.setIcon(R.drawable.icon);
+        mActionBar.setIcon(R.drawable.icon_rosi);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

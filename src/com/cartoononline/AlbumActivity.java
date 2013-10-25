@@ -149,7 +149,7 @@ public class AlbumActivity extends BaseActivity {
 
         switch (Config.CURRENT_DOMAIN) {
             case 0:
-                mActionBar.setIcon(R.drawable.icon);
+                mActionBar.setIcon(R.drawable.icon_rosi);
                 break;
             case 1:
                 mActionBar.setIcon(R.drawable.icon_leg);

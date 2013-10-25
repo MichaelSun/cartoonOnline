@@ -112,7 +112,7 @@ public class CartoonMainActivity extends BaseActivity {
                 ImageView image = (ImageView) ret.findViewById(R.id.icon);
                 switch (position) {
                     case 0:
-                        image.setImageResource(R.drawable.icon);
+                        image.setImageResource(R.drawable.icon_leg);
                         break;
                     case 1:
                         image.setImageResource(R.drawable.icon_leg);
@@ -331,7 +331,7 @@ public class CartoonMainActivity extends BaseActivity {
             switch (position) {
                 case 0:
                     Config.CURRENT_DOMAIN = 0;
-                    getActionBar().setIcon(R.drawable.icon);
+                    getActionBar().setIcon(R.drawable.icon_rosi);
                     break;
                 case 1:
                     Config.CURRENT_DOMAIN = 1;
