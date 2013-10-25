@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.album.legnew.R;
+import com.album.mmall.R;
 import com.umeng.analytics.MobclickAgent;
 
 public class BaseActivity extends SherlockFragmentActivity {

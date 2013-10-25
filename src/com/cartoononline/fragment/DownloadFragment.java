@@ -14,7 +14,7 @@ import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.album.legnew.R;
+import com.album.mmall.R;
 import com.cartoononline.Config;
 import com.cartoononline.adapter.DownloadItemAdapter;
 import com.cartoononline.model.DataBaseInterface;
@@ -215,7 +215,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         });
 
         mEmptyTV.setVisibility(View.VISIBLE);
-        asyncLoadDataLocal(true);
+        asyncLoadDataLocal(false);
 
         return ret;
     }

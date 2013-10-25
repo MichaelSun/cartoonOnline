@@ -14,7 +14,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.album.legnew.R;
+import com.album.mmall.R;
 import com.cartoononline.Config;
 import com.cartoononline.adapter.HotIAdapter;
 import com.cartoononline.model.*;
@@ -154,7 +154,7 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
 
         this.mEmptyTV = (TextView) ret.findViewById(R.id.empty_tips);
         mEmptyTV.setVisibility(View.VISIBLE);
-        asyncLoadDataLocal(true);
+        asyncLoadDataLocal(false);
 
         return ret;
     }

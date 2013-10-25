@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.actionbarsherlock.view.MenuItem;
-import com.album.legnew.R;
+import com.album.mmall.R;
 import com.cartoononline.*;
 import com.cartoononline.api.LoginRequest;
 import com.cartoononline.api.LoginResponse;
@@ -112,7 +112,7 @@ public class CartoonMainActivity extends BaseActivity {
                 ImageView image = (ImageView) ret.findViewById(R.id.icon);
                 switch (position) {
                     case 0:
-                        image.setImageResource(R.drawable.icon_leg);
+                        image.setImageResource(R.drawable.icon_rosi);
                         break;
                     case 1:
                         image.setImageResource(R.drawable.icon_leg);

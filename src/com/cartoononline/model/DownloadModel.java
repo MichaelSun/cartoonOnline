@@ -1,22 +1,20 @@
 package com.cartoononline.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import android.content.Context;
-
 import com.cartoononline.Config;
 import com.cartoononline.SettingManager;
 import com.cartoononline.api.NewSessionRequest1;
 import com.cartoononline.api.NewSessionResponse;
 import com.cartoononline.api.NewSessionResponse.SessionItem;
-import com.plugin.common.utils.DataModelBase;
 import com.plugin.common.utils.UtilsConfig;
 import com.plugin.database.dao.helper.DBTableAccessHelper;
 import com.plugin.database.dao.helper.SyncDBTableAccessHelper;
 import com.plugin.internet.InternetUtils;
 import com.plugin.internet.core.RequestBase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class DownloadModel extends DataBaseInterface {
 

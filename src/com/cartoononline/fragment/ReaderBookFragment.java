@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.album.legnew.R;
+import com.album.mmall.R;
 import com.cartoononline.AlbumActivity;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;

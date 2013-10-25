@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.album.legnew.R;
+import com.album.mmall.R;
 import com.cartoononline.Config;
 import com.plugin.common.utils.UtilsConfig;
 

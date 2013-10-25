@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="umeng_channel">google_美腿丝袜new</string>
+    <string name="umeng_channel">google_mmall</string>
     <string name="umeng_params_channel">google</string>
     <string name="youmi_channel">10010</string>
     <string name="umeng_key">51e0db8256240b5330085cd8</string>
-    <string name="app_name">美腿丝袜</string>
+    <string name="app_name">美女写真合集</string>
     <string name="menu_settings">Settings</string>
     <string name="offer_point">offer_point</string>
     <string name="pre_point">pre_point</string>

@@ -6,7 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.widget.Toast;
-import com.album.legnew.R;
+import com.album.mmall.R;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;
 import com.cartoononline.SettingManager;

@@ -20,7 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.album.legnew.R;
+import com.album.mmall.R;
 import com.cartoononline.*;
 import com.cartoononline.api.DownloadAlbumRequest;
 import com.cartoononline.api.DownloadAlbumResponse;

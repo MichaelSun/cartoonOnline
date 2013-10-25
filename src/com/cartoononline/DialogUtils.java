@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.TextUtils;
 
-import com.album.legnew.R;
+import com.album.mmall.R;
 
 public class DialogUtils {
 

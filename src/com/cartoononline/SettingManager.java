@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.album.legnew.R;
+import com.album.mmall.R;
 
 public class SettingManager {
 
