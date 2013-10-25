@@ -1,9 +1,5 @@
 package com.cartoononline.fragment;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -18,20 +14,18 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.album.legnew.R;
 import com.cartoononline.Config;
 import com.cartoononline.adapter.HotIAdapter;
-import com.cartoononline.model.DownloadItemModel;
-import com.cartoononline.model.DownloadModel;
-import com.cartoononline.model.HotItemModel;
-import com.cartoononline.model.HotModel;
+import com.cartoononline.model.*;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.plugin.common.utils.DataModelBase.DataDownloadListener;
-import com.plugin.common.utils.SingleInstanceBase;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HotFragment extends Fragment implements FragmentStatusInterface {
 
@@ -95,14 +89,14 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
-
-        mDownloadModel = SingleInstanceBase.getInstance(HotModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
         mContext = mActivity.getApplicationContext();
+
+        mDownloadModel = HotModel.getDownloadModelFactory(Config.CURRENT_DOMAIN, mContext);
         
         mLayoutInflater = inflater;
         return makeHotView();
@@ -160,13 +154,13 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
 
         this.mEmptyTV = (TextView) ret.findViewById(R.id.empty_tips);
         mEmptyTV.setVisibility(View.VISIBLE);
-        asyncLoadDataLocal();
+        asyncLoadDataLocal(true);
 
         return ret;
     }
 
-    private void asyncLoadDataLocal() {
-        mDownloadModel.asyncLoadDataLocal(new DataDownloadListener() {
+    private void asyncLoadDataLocal(final boolean withForeLoad) {
+        mDownloadModel.asyncLoadDataLocal(new DataBaseInterface.DataDownloadListener() {
 
             @Override
             public void onDataLoadSuccess(Object loadData) {
@@ -180,6 +174,15 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
                     mDownloadList.clear();
                     mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
                 }
+
+                if (withForeLoad && mDownloadList.size() == 0) {
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onForceRefresh();
+                        }
+                    }, 200);
+                }
             }
 
             @Override
@@ -191,7 +194,8 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
     }
 
     private void loadDownloadDataServer(final boolean repalceOld) {
-        mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
+        mDownloadModel = HotModel.getDownloadModelFactory(Config.CURRENT_DOMAIN, mContext);
+        mDownloadModel.asyncLoadDataServer(new DataBaseInterface.DataDownloadListener() {
 
             @Override
             public void onDataLoadSuccess(Object loadData) {
@@ -230,9 +234,10 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
     }
 
     private void onLoadMorePage() {
+        mDownloadModel = HotModel.getDownloadModelFactory(Config.CURRENT_DOMAIN, mContext);
         mDownloadModel.increasePageNo();
         // mProgress.show();
-        mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
+        mDownloadModel.asyncLoadDataServer(new DataBaseInterface.DataDownloadListener() {
 
             @Override
             public void onDataLoadSuccess(Object loadData) {
@@ -257,7 +262,7 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
             if (mDownloadList == null || mDownloadList.size() == 0) {
                 mListView.setRefreshing();
             } else {
-                asyncLoadDataLocal();
+                asyncLoadDataLocal(true);
             }
         } else {
             if (mHotAdapter != null) {
@@ -276,6 +281,24 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
         if (mHotAdapter != null) {
             mHotAdapter.onStop();
         }
+    }
+
+    @Override
+    public void onClear() {
+        if (mDownloadList != null) {
+            mDownloadList.clear();
+        }
+    }
+
+    @Override
+    public void onDataSourceChanged() {
+        if (mDownloadList != null) {
+            mDownloadList.clear();
+        }
+
+        mDownloadModel = HotModel.getDownloadModelFactory(Config.CURRENT_DOMAIN, mContext);
+        mRealListView.setSelection(0);
+        asyncLoadDataLocal(true);
     }
 
     @Override

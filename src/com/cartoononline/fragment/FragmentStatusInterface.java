@@ -7,5 +7,9 @@ public interface FragmentStatusInterface {
     void onForceRefresh();
     
     void onStopShow();
+
+    void onClear();
+
+    void onDataSourceChanged();
     
 }

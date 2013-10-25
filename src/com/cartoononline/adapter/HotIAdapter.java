@@ -109,42 +109,42 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-            case REFRESH_ICONS:
-                int hashCode = msg.arg1;
-                if (mIconImageViewList != null && mIconImageViewList.size() > 0) {
-                    for (ImageView i : mIconImageViewList) {
-                        int code = (Integer) i.getTag();
-                        if (hashCode == code) {
-                            i.setImageBitmap((Bitmap) msg.obj);
-                            if (!mIsFling && msg.arg2 == LOAD_FROM_SERVER) {
-                                if (mFadeInAnim != null) {
-                                    i.startAnimation(mFadeInAnim);
+                case REFRESH_ICONS:
+                    int hashCode = msg.arg1;
+                    if (mIconImageViewList != null && mIconImageViewList.size() > 0) {
+                        for (ImageView i : mIconImageViewList) {
+                            int code = (Integer) i.getTag();
+                            if (hashCode == code) {
+                                i.setImageBitmap((Bitmap) msg.obj);
+                                if (!mIsFling && msg.arg2 == LOAD_FROM_SERVER) {
+                                    if (mFadeInAnim != null) {
+                                        i.startAnimation(mFadeInAnim);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                break;
-            case REFRESH_LIST:
-                notifyDataSetChanged();
-                if (mProgress != null && mProgress.isShowing()) {
-                    mProgress.dismiss();
-                }
-                // try to unzip
-                asyncUnzipSession((HotItemModel) msg.obj);
-                break;
-            case DISMISS_DIALOG:
-                if (mProgress != null) {
-                    mProgress.dismiss();
-                }
-                break;
-            case DISMISS_UNZIP_DIALOG:
-                mUnZipProgress.dismiss();
-                break;
-            case DELETE_ITEM_REFRESH:
-                notifyDataSetChanged();
-                deleteSession((HotItemModel) msg.obj);
-                break;
+                    break;
+                case REFRESH_LIST:
+                    notifyDataSetChanged();
+                    if (mProgress != null && mProgress.isShowing()) {
+                        mProgress.dismiss();
+                    }
+                    // try to unzip
+                    asyncUnzipSession((HotItemModel) msg.obj);
+                    break;
+                case DISMISS_DIALOG:
+                    if (mProgress != null) {
+                        mProgress.dismiss();
+                    }
+                    break;
+                case DISMISS_UNZIP_DIALOG:
+                    mUnZipProgress.dismiss();
+                    break;
+                case DELETE_ITEM_REFRESH:
+                    notifyDataSetChanged();
+                    deleteSession((HotItemModel) msg.obj);
+                    break;
             }
         }
     };
@@ -187,6 +187,8 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
             return;
         }
 
+        String rootDir = Config.ROOT_DIR + String.valueOf(r.category) + File.separator;
+
         String downloadUrl = r.getDownloadUrl();
         String unzipTarget = null;
         int pos = downloadUrl.indexOf(Config.SESSION_REFIX);
@@ -198,7 +200,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
         }
 
         if (!TextUtils.isEmpty(unzipTarget)) {
-            String targetPath = Config.ROOT_DIR + unzipTarget + File.separator;
+            String targetPath = rootDir + unzipTarget + File.separator;
             File targetFile = new File(targetPath);
             if (targetFile.exists()) {
                 FileInfo info = FileUtil.getFileInfo(targetFile);
@@ -233,8 +235,14 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                     }
                 }
 
+                String rootDir = Config.ROOT_DIR + String.valueOf(r.category) + File.separator;
+                File rootFile = new File(rootDir);
+                if (!rootFile.exists()) {
+                    rootFile.mkdirs();
+                }
+
                 if (!TextUtils.isEmpty(unzipTarget)) {
-                    String targetPath = Config.ROOT_DIR + unzipTarget + File.separator;
+                    String targetPath = rootDir + unzipTarget + File.separator;
                     File targetFile = new File(targetPath);
                     if (targetFile.exists()) {
                         FileInfo info = FileUtil.getFileInfo(targetFile);
@@ -242,7 +250,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                     }
 
                     if (!targetFile.exists()) {
-                        if (Utils.unzipSrcToTarget(localPath, Config.ROOT_DIR)) {
+                        if (Utils.unzipSrcToTarget(localPath, rootDir)) {
                             SessionInfo sInfo = Utils.getSessionInfo(targetPath);
                             if (sInfo != null) {
                                 SessionReadModel m = new SessionReadModel();
@@ -256,18 +264,20 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                                 m.sessionMakeTime = sInfo.time;
                                 m.unzipTime = System.currentTimeMillis();
                                 m.localFullPathHashCode = m.localFullPath.hashCode();
+                                m.category = r.category;
+                                m.srcURIhashCode = m.srcURI.hashCode();
                                 SingleInstanceBase.getInstance(SessionModel.class).insertOrRelace(m);
-                                SingleInstanceBase.getInstance(HotModel.class).updateItemModel(r);
-                                SingleInstanceBase.getInstance(HotModel.class).setDataChanged(false);
+                                HotModel.getDownloadModelFactory(r.category, mContext).updateItemModel(r);
+                                HotModel.getDownloadModelFactory(r.category, mContext).setDataChanged(false);
 
                                 DownloadItemModel searchItem = new DownloadItemModel();
                                 searchItem.downloadUrlHashCode = r.downloadUrlHashCode;
-                                DownloadItemModel result = SingleInstanceBase.getInstance(DownloadModel.class).getItem(
-                                        searchItem);
+                                DownloadItemModel result = DownloadModel.getDownloadModelFactory(r.category, mContext).getItem(
+                                                                                                                                  searchItem);
                                 if (result != null) {
                                     updateDownloadItem(result, r);
-                                    SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(result);
-                                    SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(true);
+                                    DownloadModel.getDownloadModelFactory(r.category, mContext).updateItemModel(result);
+                                    DownloadModel.getDownloadModelFactory(r.category, mContext).setDataChanged(true);
                                 }
 
                                 mHandler.sendEmptyMessage(DISMISS_UNZIP_DIALOG);
@@ -295,6 +305,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
         src.downloadStatus = data.downloadStatus;
         src.time = data.time;
         src.readStatus = data.readStatus;
+        src.category = data.category;
     }
 
     public void setData(List<HotItemModel> data) {
@@ -346,13 +357,13 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
 
         if (item.downloadStatus == DownloadItemModel.DOWNLOADED) {
             holder.statusIcon.setImageResource(R.drawable.delete_button);
-            if (item.readStatus == DownloadItemModel.UNREAD) {
-                holder.readStatus.setText(R.string.unreaded);
-                holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
-            } else {
-                holder.readStatus.setText(R.string.readed);
+//            if (item.readStatus == DownloadItemModel.UNREAD) {
+//                holder.readStatus.setText(R.string.unreaded);
+//                holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
+//            } else {
+                holder.readStatus.setText(R.string.downloaded);
                 holder.readStatus.setBackgroundResource(R.drawable.read_bg);
-            }
+//            }
         } else if (item.downloadStatus == DownloadItemModel.UNDOWNLOAD) {
             holder.statusIcon.setImageResource(R.drawable.download_button);
             holder.readStatus.setText(R.string.undownload);
@@ -375,7 +386,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
 
         if (item.downloadCount > 0) {
             holder.downloadTV.setText(String.format(mContext.getString(R.string.download_count_text),
-                    String.valueOf(item.downloadCount)));
+                                                       String.valueOf(item.downloadCount)));
         }
 
         holder.icon.setImageURI(new Uri.Builder().path(item.coverUrl).build());
@@ -420,26 +431,26 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                     mHandler.sendMessage(msg);
                 } else {
                     mImageDownloader.postRequest(new ImageFetchRequest(url, mCustomCycleBitmapOpration),
-                            new DownloadListener() {
+                                                    new DownloadListener() {
 
-                                @Override
-                                public void onDownloadProcess(int fileSize, int downloadSize) {
-                                }
+                                                        @Override
+                                                        public void onDownloadProcess(int fileSize, int downloadSize) {
+                                                        }
 
-                                @Override
-                                public void onDownloadFinished(int status, Object response) {
-                                    if (response != null && status == ImageDownloader.DOWNLOAD_SUCCESS) {
-                                        ImageFetchResponse r = (ImageFetchResponse) response;
-                                        Message msg = new Message();
-                                        msg.what = REFRESH_ICONS;
-                                        msg.arg1 = r.getDownloadUrl().hashCode();
-                                        msg.arg2 = LOAD_FROM_SERVER;
-                                        msg.obj = r.getmBt();
-                                        mHandler.sendMessage(msg);
-                                    }
-                                }
+                                                        @Override
+                                                        public void onDownloadFinished(int status, Object response) {
+                                                            if (response != null && status == ImageDownloader.DOWNLOAD_SUCCESS) {
+                                                                ImageFetchResponse r = (ImageFetchResponse) response;
+                                                                Message msg = new Message();
+                                                                msg.what = REFRESH_ICONS;
+                                                                msg.arg1 = r.getDownloadUrl().hashCode();
+                                                                msg.arg2 = LOAD_FROM_SERVER;
+                                                                msg.obj = r.getmBt();
+                                                                mHandler.sendMessage(msg);
+                                                            }
+                                                        }
 
-                            });
+                                                    });
                 }
             }
         });
@@ -456,81 +467,79 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                             @Override
                             public void onCanDownlaod() {
                                 AlertDialog dialog = new AlertDialog.Builder(mActivity)
-                                        .setMessage(
-                                                String.format(mActivity.getString(R.string.download_tips),
-                                                        item.description)).setNegativeButton(R.string.cancel, null)
-                                        .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (!TextUtils.isEmpty(item.downloadUrl)) {
-                                                    HashMap<String, String> extra = new HashMap<String, String>();
-                                                    extra.put("name", item.description);
-                                                    MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM_HOT, extra);
-                                                    MobclickAgent.flush(mContext);
+                                                         .setMessage(
+                                                                        String.format(mActivity.getString(R.string.download_tips),
+                                                                                         item.description)).setNegativeButton(R.string.cancel, null)
+                                                         .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
+                                                             @Override
+                                                             public void onClick(DialogInterface dialog, int which) {
+                                                                 if (!TextUtils.isEmpty(item.downloadUrl)) {
+                                                                     HashMap<String, String> extra = new HashMap<String, String>();
+                                                                     extra.put("name", item.description);
+                                                                     MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM_HOT, extra);
+                                                                     MobclickAgent.flush(mContext);
 
-                                                    if (mProgress != null && !mProgress.isShowing()) {
-                                                        mProgress.show();
-                                                    }
+                                                                     if (mProgress != null && !mProgress.isShowing()) {
+                                                                         mProgress.show();
+                                                                     }
 
-                                                    int pos = item.downloadUrl.lastIndexOf("session");
-                                                    int endPost = item.downloadUrl.lastIndexOf(".zip");
-                                                    if (pos != -1 && endPost != -1) {
-                                                        String index = item.downloadUrl.substring(
-                                                                pos + "session".length(), endPost);
-                                                        increaseDownloadCount(Integer.valueOf(index));
-                                                    }
+                                                                     int pos = item.downloadUrl.lastIndexOf("session");
+                                                                     int endPost = item.downloadUrl.lastIndexOf(".zip");
+                                                                     if (pos != -1 && endPost != -1) {
+                                                                         String index = item.downloadUrl.substring(
+                                                                                                                      pos + "session".length(), endPost);
+                                                                         increaseDownloadCount(Integer.valueOf(index));
+                                                                     }
 
-                                                    mFileDownloader.postRequest(new DownloadRequest(item.downloadUrl),
-                                                            new DownloadListener() {
+                                                                     mFileDownloader.postRequest(new DownloadRequest(item.downloadUrl),
+                                                                                                    new DownloadListener() {
 
-                                                                @Override
-                                                                public void onDownloadProcess(int fileSize,
-                                                                        int downloadSize) {
+                                                                                                        @Override
+                                                                                                        public void onDownloadProcess(int fileSize,
+                                                                                                                                      int downloadSize) {
 
-                                                                }
+                                                                                                        }
 
-                                                                @Override
-                                                                public void onDownloadFinished(int status,
-                                                                        Object response) {
-                                                                    if (status == FileDownloader.DOWNLOAD_SUCCESS
-                                                                            && response != null) {
-                                                                        LOGD("Download success, respose = " + response);
-                                                                        DownloadResponse r = (DownloadResponse) response;
-                                                                        item.downloadStatus = DownloadItemModel.DOWNLOADED;
-                                                                        item.localFullPath = r.getRawLocalPath();
+                                                                                                        @Override
+                                                                                                        public void onDownloadFinished(int status,
+                                                                                                                                       Object response) {
+                                                                                                            if (status == FileDownloader.DOWNLOAD_SUCCESS
+                                                                                                                    && response != null) {
+                                                                                                                LOGD("Download success, respose = " + response);
+                                                                                                                DownloadResponse r = (DownloadResponse) response;
+                                                                                                                item.downloadStatus = DownloadItemModel.DOWNLOADED;
+                                                                                                                item.localFullPath = r.getRawLocalPath();
 
-                                                                        Message msg = new Message();
-                                                                        msg.what = REFRESH_LIST;
-                                                                        msg.obj = item;
-                                                                        mHandler.sendMessage(msg);
+                                                                                                                Message msg = new Message();
+                                                                                                                msg.what = REFRESH_LIST;
+                                                                                                                msg.obj = item;
+                                                                                                                mHandler.sendMessage(msg);
 
-                                                                        // spend
-                                                                        // point
-                                                                        int localPoint = SettingManager.getInstance()
-                                                                                .getPointInt();
-                                                                        if (localPoint >= 5) {
-                                                                            SettingManager.getInstance().setPointInt(
-                                                                                    localPoint - 5);
-                                                                        } else {
-                                                                            SettingManager.getInstance().setPointInt(0);
-                                                                            int uploadPoint = CRuntime.ACCOUNT_POINT_INFO.currentPoint
-                                                                                    - Config.DOWNLOAD_NEED_POINT;
-                                                                            uploadPoint = uploadPoint > 0 ? uploadPoint
-                                                                                    : 0;
-                                                                            Utils.asyncUploadPoint(mContext,
-                                                                                    SettingManager.getInstance()
-                                                                                            .getUserName(),
-                                                                                    uploadPoint, null);
-                                                                        }
-                                                                    }
+                                                                                                                // spend
+                                                                                                                // point
+                                                                                                                int localPoint = SettingManager.getInstance()
+                                                                                                                                     .getPointInt();
+                                                                                                                if (localPoint >= 5) {
+                                                                                                                    SettingManager.getInstance().setPointInt(
+                                                                                                                                                                localPoint - 5);
+                                                                                                                } else {
+                                                                                                                    SettingManager.getInstance().setPointInt(0);
+                                                                                                                    int uploadPoint = CRuntime.ACCOUNT_POINT_INFO.currentPoint
+                                                                                                                                          - Config.DOWNLOAD_NEED_POINT;
+                                                                                                                    uploadPoint = uploadPoint > 0 ? uploadPoint : 1;
+                                                                                                                    Utils.asyncUploadPoint(mContext,
+                                                                                                                                              SettingManager.getInstance().getUserName(),
+                                                                                                                                              uploadPoint, null);
+                                                                                                                }
+                                                                                                            }
 
-                                                                    mHandler.sendEmptyMessage(DISMISS_DIALOG);
-                                                                }
+                                                                                                            mHandler.sendEmptyMessage(DISMISS_DIALOG);
+                                                                                                        }
 
-                                                            });
-                                                }
-                                            }
-                                        }).create();
+                                                                                                    });
+                                                                 }
+                                                             }
+                                                         }).create();
                                 dialog.show();
                             }
 
@@ -554,14 +563,14 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                     final String local = item.getLocalFullPath();
                     if (!TextUtils.isEmpty(local)) {
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
-                                .setMessage(String.format(mActivity.getString(R.string.delete_tips), item.sessionName))
-                                .setNegativeButton(R.string.cancel, null)
-                                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        onDeleteItem(item);
-                                    }
-                                }).create();
+                                                 .setMessage(String.format(mActivity.getString(R.string.delete_tips), item.sessionName))
+                                                 .setNegativeButton(R.string.cancel, null)
+                                                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                                                     @Override
+                                                     public void onClick(DialogInterface dialog, int which) {
+                                                         onDeleteItem(item);
+                                                     }
+                                                 }).create();
                         dialog.show();
                     }
                 }
@@ -577,14 +586,14 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                     final String local = item.getLocalFullPath();
                     if (!TextUtils.isEmpty(local)) {
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
-                                .setMessage(String.format(mActivity.getString(R.string.delete_tips), item.sessionName))
-                                .setNegativeButton(R.string.cancel, null)
-                                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        onDeleteItem(item);
-                                    }
-                                }).create();
+                                                 .setMessage(String.format(mActivity.getString(R.string.delete_tips), item.sessionName))
+                                                 .setNegativeButton(R.string.cancel, null)
+                                                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                                                     @Override
+                                                     public void onClick(DialogInterface dialog, int which) {
+                                                         onDeleteItem(item);
+                                                     }
+                                                 }).create();
                         dialog.show();
                     }
                 }
@@ -607,6 +616,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                                 intent.putExtra(AlbumActivity.KEY_INDEX, data.localFullPath);
                                 intent.putExtra(AlbumActivity.KEY_SESSION_NAME, data.sessionName);
                                 intent.putExtra(AlbumActivity.KEY_DESC, data.description);
+                                intent.putExtra(AlbumActivity.KEY_CATEGORY, data.category);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 mContext.startActivity(intent);
 
@@ -616,16 +626,16 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                                         data.isRead = 1;
                                         sm.updateItem(data);
                                         item.readStatus = DownloadItemModel.DOWNLOAD_READ;
-                                        SingleInstanceBase.getInstance(HotModel.class).updateItemModel(item);
+                                        HotModel.getDownloadModelFactory(item.category, mContext).updateItemModel(item);
 
                                         DownloadItemModel searchItem = new DownloadItemModel();
                                         searchItem.downloadUrlHashCode = item.downloadUrlHashCode;
-                                        DownloadItemModel result = SingleInstanceBase.getInstance(DownloadModel.class)
-                                                .getItem(searchItem);
+                                        DownloadItemModel result = DownloadModel.getDownloadModelFactory(item.category, mContext)
+                                                                       .getItem(searchItem);
                                         if (result != null) {
                                             result.readStatus = DownloadItemModel.DOWNLOAD_READ;
-                                            SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(result);
-                                            SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(true);
+                                            DownloadModel.getDownloadModelFactory(item.category, mContext).updateItemModel(result);
+                                            DownloadModel.getDownloadModelFactory(item.category, mContext).setDataChanged(true);
                                         }
                                     }
                                 });
@@ -657,7 +667,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
             public void run() {
                 try {
                     DownloadAlbumResponse response = InternetUtils.request(mContext, new DownloadAlbumRequest(
-                            Config.DOMAIN_NAME[Config.INDEX], String.valueOf(fileIndex)));
+                                                                                                                 Config.DOMAIN_NAME[Config.CURRENT_DOMAIN], String.valueOf(fileIndex)));
                     if (response != null) {
                         UtilsConfig.LOGD(response.toString());
                     } else {
@@ -716,7 +726,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
         }
 
         item.downloadStatus = HotItemModel.UNDOWNLOAD;
-        SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(true);
+        DownloadModel.getDownloadModelFactory(item.category, mContext).setDataChanged(true);
 
         Message msg = new Message();
         msg.what = DELETE_ITEM_REFRESH;

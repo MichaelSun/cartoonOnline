@@ -108,11 +108,11 @@
     <string name="offer_download_cute_tips">温馨提示:下载应用以后请一定使用应用1分钟以上，才能获得书币哦。如果在几分钟内不能获得书币，请不要删除应用，一段时间以后会获得书币。</string>
 
     <string-array name="title_array">
-        <item>美腿丝袜城</item>
+        <item>肉丝写真</item>
+        <item>美腿丝袜</item>
         <item>内涵漫画</item>
-        <item>每日更新</item>
-        <item>书城</item>
-        <item>书城</item>
     </string-array>
+
+    <string name="drawer_open">期刊</string>
 
 </resources>

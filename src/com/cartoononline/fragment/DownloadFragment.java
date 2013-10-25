@@ -1,9 +1,5 @@
 package com.cartoononline.fragment;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -18,18 +14,20 @@ import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.album.legnew.R;
 import com.cartoononline.Config;
 import com.cartoononline.adapter.DownloadItemAdapter;
+import com.cartoononline.model.DataBaseInterface;
 import com.cartoononline.model.DownloadItemModel;
 import com.cartoononline.model.DownloadModel;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshGridView;
-import com.plugin.common.utils.DataModelBase.DataDownloadListener;
-import com.plugin.common.utils.SingleInstanceBase;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DownloadFragment extends Fragment implements FragmentStatusInterface {
 
@@ -62,6 +60,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     private static final int NOTIFY_DOWNLOAD_CHANGED = 10003;
     private static final int DISSMISS_PROGRESS = 10004;
     private static final int STOP_REFRESH = 10005;
+    private static final int FORCE_REFRESH = 10006;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -85,6 +84,9 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
             case STOP_REFRESH:
                 mPullRefreshGridView.onRefreshComplete();
                 break;
+            case FORCE_REFRESH:
+                    mPullRefreshGridView.setRefreshing();
+                    break;
             }
         }
     };
@@ -96,7 +98,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
+//        mDownloadModel = SingleInstanceBase.getInstance(DownloadModel.class);
     }
 
     @Override
@@ -106,6 +108,8 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         mToast = Toast.makeText(mContext, R.string.tips_no_more, Toast.LENGTH_LONG);
         mToast.setText(R.string.tips_no_more);
         mToast.setDuration(Toast.LENGTH_LONG);
+
+        mDownloadModel = DownloadModel.getDownloadModelFactory(Config.CURRENT_DOMAIN, mContext);
 
         mLayoutInflater = inflater;
         return makeDownloadView(mLayoutInflater, container);
@@ -127,7 +131,8 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
 
     private void loadDownloadDataServer(final boolean repalceOld) {
         // mProgress.show();
-        mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
+        mDownloadModel = DownloadModel.getDownloadModelFactory(Config.CURRENT_DOMAIN, mContext);
+        mDownloadModel.asyncLoadDataServer(new DataBaseInterface.DataDownloadListener() {
 
             @Override
             public void onDataLoadSuccess(Object loadData) {
@@ -137,6 +142,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
                     }
                     mDownloadList.addAll((List<DownloadItemModel>) loadData);
                     checkDownloadItemStatus(mDownloadList);
+                    mHandler.sendEmptyMessage(STOP_REFRESH);
                     mHandler.sendEmptyMessage(NOTIFY_DOWNLOAD_CHANGED);
                 }
             }
@@ -209,12 +215,13 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         });
 
         mEmptyTV.setVisibility(View.VISIBLE);
-        asyncLoadDataLocal();
+        asyncLoadDataLocal(true);
 
         return ret;
     }
-    private void asyncLoadDataLocal() {
-        mDownloadModel.asyncLoadDataLocal(new DataDownloadListener() {
+
+    private void asyncLoadDataLocal(final boolean withForeLoad) {
+        mDownloadModel.asyncLoadDataLocal(new DataBaseInterface.DataDownloadListener() {
 
             @Override
             public void onDataLoadSuccess(Object loadData) {
@@ -227,7 +234,17 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
                     mDownloadList.clear();
                 }
                 
-                mHandler.sendEmptyMessageDelayed(NOTIFY_DOWNLOAD_CHANGED, 200);
+                mHandler.sendEmptyMessageDelayed(NOTIFY_DOWNLOAD_CHANGED, 100);
+
+                if (withForeLoad && mDownloadList.size() == 0) {
+//                    mHandler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            onForceRefresh();
+//                        }
+//                    }, 300);
+                    mHandler.sendEmptyMessageDelayed(FORCE_REFRESH, 200);
+                }
             }
 
             @Override
@@ -264,9 +281,10 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     };
 
     private void onLoadMorePage() {
+        mDownloadModel = DownloadModel.getDownloadModelFactory(Config.CURRENT_DOMAIN, mContext);
         mDownloadModel.increasePageNo();
         // mProgress.show();
-        mDownloadModel.asyncLoadDataServer(new DataDownloadListener() {
+        mDownloadModel.asyncLoadDataServer(new DataBaseInterface.DataDownloadListener() {
 
             @Override
             public void onDataLoadSuccess(Object loadData) {
@@ -291,7 +309,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
             if (mDownloadList == null || mDownloadList.size() == 0) {
                 mPullRefreshGridView.setRefreshing();
             } else {
-                asyncLoadDataLocal();
+                asyncLoadDataLocal(true);
             }
         } else {
             if (mDownlaodListAdapter != null) {
@@ -311,5 +329,24 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         if (mDownlaodListAdapter != null) {
             mDownlaodListAdapter.onStop();
         }
+    }
+
+    @Override
+    public void onClear() {
+        if (mDownloadList != null) {
+            mDownloadList.clear();
+        }
+    }
+
+    @Override
+    public void onDataSourceChanged() {
+        if (mDownloadList != null) {
+            mDownloadList.clear();
+        }
+
+        mDownloadModel = DownloadModel.getDownloadModelFactory(Config.CURRENT_DOMAIN, mContext);
+        mDownloadGridView.setSelection(0);
+
+        asyncLoadDataLocal(true);
     }
 }

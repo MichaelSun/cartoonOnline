@@ -18,7 +18,28 @@ import com.plugin.database.dao.helper.SyncDBTableAccessHelper;
 import com.plugin.internet.InternetUtils;
 import com.plugin.internet.core.RequestBase;
 
-public class DownloadModel extends DataModelBase {
+public class DownloadModel extends DataBaseInterface {
+
+    private static HashMap<Integer, DownloadModel> gDMMap = new HashMap<Integer, DownloadModel>();
+
+    public static DownloadModel getDownloadModelFactory(int category, Context context) {
+        DownloadModel ret = gDMMap.get(category);
+        if (ret == null) {
+            ret = new DownloadModel(category);
+            ret.init(context);
+            gDMMap.put(category, ret);
+        }
+
+        return ret;
+    }
+
+    public static void removeDownloadModel(int category) {
+        gDMMap.remove(category);
+    }
+
+    public static void clearAllDwonloadModel() {
+        gDMMap.clear();
+    }
 
     private int mCurPage;
 
@@ -28,13 +49,23 @@ public class DownloadModel extends DataModelBase {
 
     private boolean mDataChanged;
 
+    private int mCategory;
+
+    public DownloadModel(int category) {
+        mCategory = category;
+    }
+
     @Override
-    protected void init(Context context) {
+    public void init(Context context) {
         super.init(context);
         mCurPage = 0;
         mOnLoading = false;
         mDownloadHelper = new SyncDBTableAccessHelper<DownloadItemModel>(context, DownloadItemModel.class);
         mDataChanged = false;
+    }
+
+    public int getCategory() {
+        return mCategory;
     }
 
     public boolean isDataChanged() {
@@ -65,7 +96,7 @@ public class DownloadModel extends DataModelBase {
 
     public void resetPageNo() {
         mCurPage = 0;
-        SettingManager.getInstance().setHasMore(true);
+        SettingManager.getInstance().setHasMore(false);
         mDataChanged = false;
     }
 
@@ -93,8 +124,7 @@ public class DownloadModel extends DataModelBase {
             @Override
             public void run() {
                 try {
-                    RequestBase<NewSessionResponse> request = new NewSessionRequest1(mCurPage, 20,
-                            Config.DOMAIN_NAME[Config.INDEX]);
+                    RequestBase<NewSessionResponse> request = new NewSessionRequest1(mCurPage, 20, Config.DOMAIN_NAME[mCategory]);
                     NewSessionResponse response = InternetUtils.request(mContext, request);
                     UtilsConfig.LOGD("[[:::::::::]] response = " + response);
 
@@ -115,12 +145,13 @@ public class DownloadModel extends DataModelBase {
                                 ditem.downloadTime = System.currentTimeMillis() + timeIndex;
                                 ditem.time = item.time;
                                 ditem.downloadCount = item.count;
+                                ditem.category = mCategory;
                                 saveData[index] = ditem;
 
                                 timeIndex++;
                             }
 
-                            List<DownloadItemModel> old = mDownloadHelper.queryItems();
+                            List<DownloadItemModel> old = mDownloadHelper.queryItems("category = ?", String.valueOf(mCategory));
                             if (old != null && old.size() > 0) {
                                 HashMap<Integer, DownloadItemModel> map = new HashMap<Integer, DownloadItemModel>();
                                 for (DownloadItemModel item : old) {
@@ -136,11 +167,14 @@ public class DownloadModel extends DataModelBase {
                             }
 
                             List<DownloadItemModel> ret = new ArrayList<DownloadItemModel>();
-                            if (mCurPage == 0) {
-                                mDownloadHelper.deleteAll();
+                            if (mCurPage == 0 && old != null) {
+//                                mDownloadHelper.deleteAll();
+                                DownloadItemModel[] itemsDelete = new DownloadItemModel[old.size()];
+                                old.toArray(itemsDelete);
+                                mDownloadHelper.delete(itemsDelete);
                             }
                             mDownloadHelper.blukInsertOrReplace(saveData);
-                            ret = mDownloadHelper.queryItems();
+                            ret = mDownloadHelper.queryItems("category = ?", String.valueOf(mCategory));
 
                             UtilsConfig.LOGD("[[:::::::::]] after replace code, lit  = " + ret);
 
@@ -172,7 +206,7 @@ public class DownloadModel extends DataModelBase {
         asyncWork(new Runnable() {
             @Override
             public void run() {
-                List<DownloadItemModel> ret = mDownloadHelper.queryItems();
+                List<DownloadItemModel> ret = mDownloadHelper.queryItems("category = ?", String.valueOf(mCategory));
 
                 mDataChanged = false;
                 if (l != null) {
@@ -180,6 +214,13 @@ public class DownloadModel extends DataModelBase {
                 }
             }
         });
+    }
+
+    @Override
+    public void clearLocalData() {
+        mDownloadHelper.delete("category = ?", String.valueOf(mCategory));
+        setDataChanged(true);
+        resetPageNo();
     }
 
 }

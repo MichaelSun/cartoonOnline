@@ -30,12 +30,14 @@ public class AlbumActivity extends BaseActivity {
     public static final String KEY_INDEX = "index";
     public static final String KEY_SESSION_NAME = "sessionName";
     public static final String KEY_DESC = "desc";
+    public static final String KEY_CATEGORY = "category";
 
     private LayoutInflater mLayoutInflater;
     private ViewPager mViewPager;
     private String mPath;
     private String mSessionName;
     private String mDescription;
+    private int mCategory;
 
     private ICacheManager<Bitmap> mCacheManager;
 
@@ -52,6 +54,7 @@ public class AlbumActivity extends BaseActivity {
         mPath = getIntent().getStringExtra(KEY_INDEX);
         mSessionName = getIntent().getStringExtra(KEY_SESSION_NAME);
         mDescription = getIntent().getStringExtra(KEY_DESC);
+        mCategory = getIntent().getIntExtra(KEY_CATEGORY, 0);
         mCacheManager = CacheFactory.getCacheManager(CacheFactory.TYPE_CACHE.TYPE_IMAGE);
         mOldICacheStrategy = mCacheManager.setCacheStrategy(new ICacheStrategy() {
 
@@ -61,7 +64,7 @@ public class AlbumActivity extends BaseActivity {
                     rootPath = rootPath + File.separator;
                 }
 
-                return rootPath + key + ".jpg";
+                return rootPath /*+ String.valueOf(mCategory) + File.separator*/ + key + ".jpg";
             }
 
             @Override
@@ -143,7 +146,21 @@ public class AlbumActivity extends BaseActivity {
         } else {
             mActionBar.setTitle(mDescription);
         }
-        mActionBar.setIcon(R.drawable.icon);
+
+        switch (Config.CURRENT_DOMAIN) {
+            case 0:
+                mActionBar.setIcon(R.drawable.icon);
+                break;
+            case 1:
+                mActionBar.setIcon(R.drawable.icon_leg);
+                break;
+            case 2:
+                mActionBar.setIcon(R.drawable.icon_manhua);
+                break;
+            default:
+                mActionBar.setIcon(R.drawable.icon);
+        }
+
     }
 
     class MyPagerAdapter extends PagerAdapter {

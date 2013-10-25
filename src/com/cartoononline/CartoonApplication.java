@@ -4,6 +4,8 @@ import java.io.File;
 
 import android.app.Application;
 
+import com.plugin.common.cache.CacheFactory;
+import com.plugin.common.cache.image.BitmapCacheOption;
 import com.plugin.common.utils.Environment;
 import com.plugin.common.utils.UtilsConfig;
 import com.umeng.analytics.MobclickAgent;
@@ -29,6 +31,11 @@ public class CartoonApplication extends Application {
         
         UtilsConfig.init(getApplicationContext());
         SettingManager.getInstance().init(getApplicationContext());
+        BitmapCacheOption opt = new BitmapCacheOption();
+        opt.needThumbnail = false;
+        opt.openThumbnailSizeCheck = false;
+        opt.thumbnailSize = 200;
+        CacheFactory.init(opt);
 
         initUMeng();
         

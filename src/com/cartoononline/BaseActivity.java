@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.album.legnew.R;
 import com.umeng.analytics.MobclickAgent;
 
 public class BaseActivity extends SherlockFragmentActivity {
@@ -13,6 +14,8 @@ public class BaseActivity extends SherlockFragmentActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+
+        getWindow().setBackgroundDrawableResource(R.drawable.transparent);
     }
     
     @Override

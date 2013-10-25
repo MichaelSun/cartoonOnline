@@ -34,4 +34,6 @@ public abstract class DataModelBase extends SingleInstanceBase {
     
     public abstract void asyncLoadDataLocal(DataDownloadListener l);
 
+    public abstract void clearLocalData();
+
 }

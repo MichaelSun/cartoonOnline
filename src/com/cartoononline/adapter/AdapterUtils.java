@@ -4,18 +4,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.Toast;
-
 import com.album.legnew.R;
 import com.cartoononline.CRuntime;
-import com.cartoononline.CartoonSplashActivity;
-import com.cartoononline.CartoonSplashActivity.LoginInterfaceListener;
 import com.cartoononline.Config;
 import com.cartoononline.SettingManager;
 import com.cartoononline.Utils;
 import com.cartoononline.Utils.PointFetchListener;
+import com.cartoononline.sildeActivity.CartoonMainActivity;
 
 public class AdapterUtils {
 
@@ -77,7 +74,7 @@ public class AdapterUtils {
         if (TextUtils.isEmpty(SettingManager.getInstance().getUserName())
                 || TextUtils.isEmpty(SettingManager.getInstance().getPassword())) {
             if (a != null) {
-                ((CartoonSplashActivity) a).showPointWithAccountCheck(new LoginInterfaceListener() {
+                ((CartoonMainActivity) a).showPointWithAccountCheck(new CartoonMainActivity.LoginInterfaceListener() {
                             @Override
                             public void onLoginSuccess(int currentPoint) {
                                 CRuntime.ACCOUNT_POINT_INFO.currentPoint = currentPoint;

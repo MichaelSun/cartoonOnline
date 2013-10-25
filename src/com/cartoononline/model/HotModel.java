@@ -18,7 +18,28 @@ import com.plugin.database.dao.helper.SyncDBTableAccessHelper;
 import com.plugin.internet.InternetUtils;
 import com.plugin.internet.core.RequestBase;
 
-public class HotModel extends DataModelBase {
+public class HotModel extends DataBaseInterface {
+
+    private static HashMap<Integer, HotModel> gDMMap = new HashMap<Integer, HotModel>();
+
+    public static HotModel getDownloadModelFactory(int category, Context context) {
+        HotModel ret = gDMMap.get(category);
+        if (ret == null) {
+            ret = new HotModel(category);
+            ret.init(context);
+            gDMMap.put(category, ret);
+        }
+
+        return ret;
+    }
+
+    public static void removeDownloadModel(int category) {
+        gDMMap.remove(category);
+    }
+
+    public static void clearAllDwonloadModel() {
+        gDMMap.clear();
+    }
 
     private int mCurPage;
 
@@ -28,13 +49,23 @@ public class HotModel extends DataModelBase {
 
     private boolean mDataChanged;
 
+    private int mCategory;
+
+    public HotModel(int category) {
+        mCategory = category;
+    }
+
     @Override
-    protected void init(Context context) {
+    public void init(Context context) {
         super.init(context);
         mCurPage = 0;
         mOnLoading = false;
         mDownloadHelper = new SyncDBTableAccessHelper<HotItemModel>(context, HotItemModel.class);
         mDataChanged = false;
+    }
+
+    public int getCategory() {
+        return mCategory;
     }
 
     public boolean isDataChanged() {
@@ -93,7 +124,7 @@ public class HotModel extends DataModelBase {
             @Override
             public void run() {
                 try {
-                    RequestBase<NewSessionResponse> request = new HotSessionRequest(Config.DOMAIN_NAME[Config.INDEX]);
+                    RequestBase<NewSessionResponse> request = new HotSessionRequest(Config.DOMAIN_NAME[mCategory]);
                     NewSessionResponse response = InternetUtils.request(mContext, request);
                     UtilsConfig.LOGD("[[:::::::::]] response = " + response);
 
@@ -114,12 +145,13 @@ public class HotModel extends DataModelBase {
                                 ditem.downloadTime = System.currentTimeMillis() + timeIndex;
                                 ditem.time = item.time;
                                 ditem.downloadCount = item.count;
+                                ditem.category = mCategory;
                                 saveData[index] = ditem;
 
                                 timeIndex++;
                             }
 
-                            List<HotItemModel> old = mDownloadHelper.queryItems();
+                            List<HotItemModel> old = mDownloadHelper.queryItems("category = ?", String.valueOf(mCategory));
                             if (old != null && old.size() > 0) {
                                 HashMap<Integer, HotItemModel> map = new HashMap<Integer, HotItemModel>();
                                 for (HotItemModel item : old) {
@@ -136,10 +168,13 @@ public class HotModel extends DataModelBase {
 
                             List<HotItemModel> ret = new ArrayList<HotItemModel>();
                             if (mCurPage == 0) {
-                                mDownloadHelper.deleteAll();
+                                HotItemModel[] itemsDelete = new HotItemModel[old.size()];
+                                old.toArray(itemsDelete);
+                                mDownloadHelper.delete(itemsDelete);
+//                                mDownloadHelper.deleteAll();
                             }
                             mDownloadHelper.blukInsertOrReplace(saveData);
-                            ret = mDownloadHelper.queryItems();
+                            ret = mDownloadHelper.queryItems("category = ?", String.valueOf(mCategory));
 
                             UtilsConfig.LOGD("[[:::::::::]] after replace code, lit  = " + ret);
 
@@ -171,7 +206,7 @@ public class HotModel extends DataModelBase {
         asyncWork(new Runnable() {
             @Override
             public void run() {
-                List<HotItemModel> ret = mDownloadHelper.queryItems();
+                List<HotItemModel> ret = mDownloadHelper.queryItems("category = ?", String.valueOf(mCategory));
 
                 mDataChanged = false;
                 if (l != null) {
@@ -179,5 +214,12 @@ public class HotModel extends DataModelBase {
                 }
             }
         });
+    }
+
+    @Override
+    public void clearLocalData() {
+        mDownloadHelper.delete("category = ?", String.valueOf(mCategory));
+        setDataChanged(true);
+        resetPageNo();
     }
 }

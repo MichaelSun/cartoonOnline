@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/transparent">
 
     <com.handmark.pulltorefresh.library.PullToRefreshGridView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
@@ -18,7 +19,7 @@
         android:verticalSpacing="@dimen/image_thumbnail_spacing"
         ptr:ptrHeaderSubTextColor="@drawable/gray8"
         ptr:ptrHeaderTextColor="@drawable/gray8"
-        ptr:ptrMode="both" />
+        ptr:ptrMode="both"/>
 
     <TextView
         android:id="@+id/empty_tips"

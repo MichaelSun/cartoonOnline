@@ -28,7 +28,9 @@ public class DownloadItemModel {
     public String time;
     
     public String coverUrl;
-    
+
+    public int category;
+
     public String description;
     
     @OrderBy(order = "ASC")
@@ -48,7 +50,15 @@ public class DownloadItemModel {
     
     @Ignore()
     public int downloadStatus;
-    
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
+
     public int getReadStatus() {
         return readStatus;
     }

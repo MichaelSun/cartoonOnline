@@ -29,20 +29,22 @@ public class Config {
 
     public static int INDEX = -1;
 
+    public static int CURRENT_DOMAIN = 0;
+
 //    //last item is for debug only
 //    public static final String[] YOUMI_APP_ID = new String[] { "f3d95e27c4e24153", "556af9dfcb127141",
 //            "f112e41a8f0b1e6d", "6e40438e92373bcb", "e46163352bdba86c", "e46163352bdba86c" };
 //    public static final String[] YOUMI_APP_SECRET_KEY = new String[] { "82417303556b6b77", "a3b8473046176ba2",
 //            "22effcfb92694f35", "4fff1820c9c76e06", "d1764ac7070d96dd", "d1764ac7070d96dd" };
-    public static final String[] PACKAGE_NAME = new String[] { "com.album.legnew",
+    public static final String[] PACKAGE_NAME = new String[] { "com.album.rosi1",
+                                                               "com.album.legnew",
                                                                "com.album.manhua1",
-                                                               "com.album.rosi1",
                                                                "com.album.sibao",
                                                                "com.read.book1",
                                                                "com.album.leg"};
-    public static final String[] DOMAIN_NAME = new String[] { "psave",
+    public static final String[] DOMAIN_NAME = new String[] { "rosi",
+                                                              "psave",
                                                               "xiee",
-                                                              "rosi",
                                                               "disi",
                                                               "bookread",
                                                               "psave" };

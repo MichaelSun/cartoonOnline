@@ -24,18 +24,38 @@ public final class SessionReadModel {
     public String localFullPath;
     
     public String sessionMakeTime;
-    
+
+    public int category;
+
     @OrderBy(order = "DESC")
     public long unzipTime;
     
     public String srcURI;
+
+    public int srcURIhashCode;
     
     @Ignore()
     public Bitmap coverBt;
 
     public SessionReadModel() {
     }
-    
+
+    public int getSrcURIhashCode() {
+        return srcURIhashCode;
+    }
+
+    public void setSrcURIhashCode(int srcURIhashCode) {
+        this.srcURIhashCode = srcURIhashCode;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
+
     public int getLocalFullPathHashCode() {
         return localFullPathHashCode;
     }

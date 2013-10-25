@@ -25,6 +25,10 @@
     <drawable name="gray8">#c3c3c1</drawable>
     <drawable name="transparent">#00000000</drawable>
 
+    <color name="transparent">#00000000</color>
+
+    <color name="gray2">#999999</color>
+
     <color name="publisher_color_bg">#4C000000</color>
     <!-- notify center -->
     <drawable name="notify_normal_bg_drawable">#00000000</drawable>

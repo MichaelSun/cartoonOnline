@@ -24,7 +24,7 @@ public class SessionModel extends DataModelBase {
 
     private ICacheManager<Bitmap> mCacheManager;
 
-    private HashMap<Integer, SessionReadModel> mSessionMapData = new HashMap<Integer, SessionReadModel>();
+//    private HashMap<Integer, SessionReadModel> mSessionMapData = new HashMap<Integer, SessionReadModel>();
 
     @Override
     public void init(Context context) {
@@ -41,65 +41,65 @@ public class SessionModel extends DataModelBase {
         mHelper.insertOrReplace(item);
         mDataChanged = true;
 
-        if (item != null && !TextUtils.isEmpty(item.srcURI)) {
-            int downloadHashCode = item.srcURI.hashCode();
-            int findKey = 0;
-            for (Integer key : mSessionMapData.keySet()) {
-                SessionReadModel data = mSessionMapData.get(key);
-                int downloadCode = data.srcURI.hashCode();
-                if (key != null && downloadCode == downloadHashCode) {
-                    findKey = key;
-                    break;
-                }
-            }
-            if (findKey != 0) {
-                mSessionMapData.remove(findKey);
-            }
-            mSessionMapData.put(downloadHashCode, item);
-        }
+//        if (item != null && !TextUtils.isEmpty(item.srcURI)) {
+//            int downloadHashCode = item.srcURI.hashCode();
+//            int findKey = 0;
+//            for (Integer key : mSessionMapData.keySet()) {
+//                SessionReadModel data = mSessionMapData.get(key);
+//                int downloadCode = data.srcURI.hashCode();
+//                if (key != null && downloadCode == downloadHashCode) {
+//                    findKey = key;
+//                    break;
+//                }
+//            }
+//            if (findKey != 0) {
+//                mSessionMapData.remove(findKey);
+//            }
+//            mSessionMapData.put(downloadHashCode, item);
+//        }
     }
 
     public void updateItem(SessionReadModel item) {
         mHelper.update(item);
         mDataChanged = true;
 
-        if (item != null && !TextUtils.isEmpty(item.srcURI)) {
-            int downloadHashCode = item.srcURI.hashCode();
-            int findKey = 0;
-            for (Integer key : mSessionMapData.keySet()) {
-                SessionReadModel data = mSessionMapData.get(key);
-                int downloadCode = data.srcURI.hashCode();
-                if (key != null && downloadCode == downloadHashCode) {
-                    findKey = key;
-                    break;
-                }
-            }
-            if (findKey != 0) {
-                mSessionMapData.remove(findKey);
-                mSessionMapData.put(downloadHashCode, item);
-            }
-        }
+//        if (item != null && !TextUtils.isEmpty(item.srcURI)) {
+//            int downloadHashCode = item.srcURI.hashCode();
+//            int findKey = 0;
+//            for (Integer key : mSessionMapData.keySet()) {
+//                SessionReadModel data = mSessionMapData.get(key);
+//                int downloadCode = data.srcURI.hashCode();
+//                if (key != null && downloadCode == downloadHashCode) {
+//                    findKey = key;
+//                    break;
+//                }
+//            }
+//            if (findKey != 0) {
+//                mSessionMapData.remove(findKey);
+//                mSessionMapData.put(downloadHashCode, item);
+//            }
+//        }
     }
 
     public void deleteItem(SessionReadModel item) {
         mHelper.delete(item);
         mDataChanged = true;
 
-        if (item != null && !TextUtils.isEmpty(item.srcURI)) {
-            int downloadHashCode = item.srcURI.hashCode();
-            int findKey = 0;
-            for (Integer key : mSessionMapData.keySet()) {
-                SessionReadModel data = mSessionMapData.get(key);
-                int downloadCode = data.srcURI.hashCode();
-                if (key != null && downloadCode == downloadHashCode) {
-                    findKey = key;
-                    break;
-                }
-            }
-            if (findKey != 0) {
-                mSessionMapData.remove(findKey);
-            }
-        }
+//        if (item != null && !TextUtils.isEmpty(item.srcURI)) {
+//            int downloadHashCode = item.srcURI.hashCode();
+//            int findKey = 0;
+//            for (Integer key : mSessionMapData.keySet()) {
+//                SessionReadModel data = mSessionMapData.get(key);
+//                int downloadCode = data.srcURI.hashCode();
+//                if (key != null && downloadCode == downloadHashCode) {
+//                    findKey = key;
+//                    break;
+//                }
+//            }
+//            if (findKey != 0) {
+//                mSessionMapData.remove(findKey);
+//            }
+//        }
     }
 
     @Override
@@ -109,23 +109,27 @@ public class SessionModel extends DataModelBase {
 
     public List<SessionReadModel> syncLoadDataLocal() {
         List<SessionReadModel> ret = mHelper.queryItems();
-        if (ret != null) {
-            mSessionMapData.clear();
-            for (SessionReadModel data : ret) {
-                mSessionMapData.put(data.srcURI.hashCode(), data);
-            }
-        }
+//        if (ret != null) {
+//            mSessionMapData.clear();
+//            for (SessionReadModel data : ret) {
+//                mSessionMapData.put(data.srcURI.hashCode(), data);
+//            }
+//        }
 
         return ret;
     }
 
     public SessionReadModel syncQueryDataLocalBy(int srcIdHashCode) {
-        if (mSessionMapData != null) {
-            for (SessionReadModel data : mSessionMapData.values()) {
-                if (data != null && data.srcURI.hashCode() == srcIdHashCode) {
-                    return data;
-                }
-            }
+//        if (mSessionMapData != null) {
+//            for (SessionReadModel data : mSessionMapData.values()) {
+//                if (data != null && data.srcURI.hashCode() == srcIdHashCode) {
+//                    return data;
+//                }
+//            }
+//        }
+        List<SessionReadModel> ret = mHelper.queryItems("srcURIhashCode = ?", String.valueOf(srcIdHashCode));
+        if (ret != null && ret.size() > 0) {
+            return ret.get(0);
         }
 
         return null;
@@ -153,10 +157,10 @@ public class SessionModel extends DataModelBase {
                     }
                 }
 
-                mSessionMapData.clear();
-                for (SessionReadModel data : lists) {
-                    mSessionMapData.put(data.srcURI.hashCode(), data);
-                }
+//                mSessionMapData.clear();
+//                for (SessionReadModel data : lists) {
+//                    mSessionMapData.put(data.srcURI.hashCode(), data);
+//                }
 
                 if (l != null) {
                     l.onDataLoadSuccess(ret);
@@ -164,6 +168,11 @@ public class SessionModel extends DataModelBase {
                 mDataChanged = false;
             }
         });
+    }
+
+    @Override
+    public void clearLocalData() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
 }

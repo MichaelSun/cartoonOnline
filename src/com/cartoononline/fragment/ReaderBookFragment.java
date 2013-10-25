@@ -415,4 +415,14 @@ public class ReaderBookFragment extends Fragment implements FragmentStatusInterf
             mReaderListAdapter.onStop();
         }
     }
+
+    @Override
+    public void onClear() {
+        //TODO:
+    }
+
+    @Override
+    public void onDataSourceChanged() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

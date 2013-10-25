@@ -1,13 +1,5 @@
 package com.cartoononline.adapter;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -28,23 +20,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.album.legnew.R;
-import com.cartoononline.AlbumActivity;
-import com.cartoononline.CRuntime;
-import com.cartoononline.Config;
-import com.cartoononline.CustomCycleBitmapOpration;
-import com.cartoononline.SessionInfo;
-import com.cartoononline.SettingManager;
-import com.cartoononline.Utils;
+import com.cartoononline.*;
 import com.cartoononline.api.DownloadAlbumRequest;
 import com.cartoononline.api.DownloadAlbumResponse;
-import com.cartoononline.model.DownloadItemModel;
-import com.cartoononline.model.DownloadModel;
-import com.cartoononline.model.HotItemModel;
-import com.cartoononline.model.HotModel;
-import com.cartoononline.model.SessionModel;
-import com.cartoononline.model.SessionReadModel;
+import com.cartoononline.model.*;
 import com.plugin.common.cache.CacheFactory;
 import com.plugin.common.cache.ICacheManager;
 import com.plugin.common.utils.CustomThreadPool;
@@ -64,6 +44,9 @@ import com.plugin.common.utils.image.ImageDownloader.ImageFetchResponse;
 import com.plugin.common.view.WebImageView;
 import com.plugin.internet.InternetUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.io.File;
+import java.util.*;
 
 public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedListener {
 
@@ -187,6 +170,8 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
             return;
         }
 
+        String rootDir = Config.ROOT_DIR + String.valueOf(r.category) + File.separator;
+
         String downloadUrl = r.getDownloadUrl();
         String unzipTarget = null;
         int pos = downloadUrl.indexOf(Config.SESSION_REFIX);
@@ -198,7 +183,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         }
 
         if (!TextUtils.isEmpty(unzipTarget)) {
-            String targetPath = Config.ROOT_DIR + unzipTarget + File.separator;
+            String targetPath = rootDir + unzipTarget + File.separator;
             File targetFile = new File(targetPath);
             if (targetFile.exists()) {
                 FileInfo info = FileUtil.getFileInfo(targetFile);
@@ -223,6 +208,12 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                     return;
                 }
 
+                String rootDir = Config.ROOT_DIR + String.valueOf(r.category) + File.separator;
+                File rootFile = new File(rootDir);
+                if (!rootFile.exists()) {
+                    rootFile.mkdirs();
+                }
+
                 String downloadUrl = r.getDownloadUrl();
                 String unzipTarget = null;
                 int pos = downloadUrl.indexOf("session");
@@ -234,7 +225,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                 }
 
                 if (!TextUtils.isEmpty(unzipTarget)) {
-                    String targetPath = Config.ROOT_DIR + unzipTarget + File.separator;
+                    String targetPath = rootDir + unzipTarget + File.separator;
                     File targetFile = new File(targetPath);
                     if (targetFile.exists()) {
                         FileInfo info = FileUtil.getFileInfo(targetFile);
@@ -242,7 +233,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                     }
 
                     if (!targetFile.exists()) {
-                        if (Utils.unzipSrcToTarget(localPath, Config.ROOT_DIR)) {
+                        if (Utils.unzipSrcToTarget(localPath, rootDir)) {
                             SessionInfo sInfo = Utils.getSessionInfo(targetPath);
                             if (sInfo != null) {
                                 SessionReadModel m = new SessionReadModel();
@@ -256,43 +247,46 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                 m.sessionMakeTime = sInfo.time;
                                 m.unzipTime = System.currentTimeMillis();
                                 m.localFullPathHashCode = m.localFullPath.hashCode();
+                                m.category = r.category;
+                                m.srcURIhashCode = m.srcURI.hashCode();
                                 SingleInstanceBase.getInstance(SessionModel.class).insertOrRelace(m);
-                                SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(r);
-                                SingleInstanceBase.getInstance(DownloadModel.class).setDataChanged(false);
+                                DownloadModel.getDownloadModelFactory(r.category, mContext).updateItemModel(r);
+                                DownloadModel.getDownloadModelFactory(r.category, mContext).setDataChanged(false);
 
                                 HotItemModel searchItem = new HotItemModel();
                                 searchItem.downloadUrlHashCode = r.downloadUrlHashCode;
-                                HotItemModel result = SingleInstanceBase.getInstance(HotModel.class)
-                                        .getItem(searchItem);
+                                HotItemModel result = HotModel.getDownloadModelFactory(r.category, mContext).getItem(searchItem);
                                 if (result != null) {
                                     updateHotItem(result, r);
-                                    SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
-                                    SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
+//                                    SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
+//                                    SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
+                                    HotModel.getDownloadModelFactory(r.category, mContext).updateItemModel(result);
+                                    HotModel.getDownloadModelFactory(r.category, mContext).setDataChanged(true);
                                 }
 
-                                if (Config.BOOK_REVIEW) {
-                                    // copy book
-                                    File unzipFileDir = new File(m.localFullPath);
-                                    String[] files = unzipFileDir.list(new FilenameFilter() {
-                                        @Override
-                                        public boolean accept(File dir, String filename) {
-                                            if (filename.endsWith(".epub")) {
-                                                return true;
-                                            }
-                                            return false;
-                                        }
-                                    });
-                                    if (files != null && files.length > 0) {
-                                        FileOperatorHelper.copyFile(m.localFullPath + files[0],
-                                                Config.BOOK_DOWNLOAD_DIR + files[0]);
-                                    }
-
-                                    Message msg = Message.obtain();
-                                    msg.what = SHOW_BOOK_DOWNLOAD_TIPS;
-                                    msg.obj = String.format(mContext.getString(R.string.book_download_tips),
-                                            m.description, Config.BOOK_DOWNLOAD_DIR + files[0]);
-                                    mHandler.sendMessageDelayed(msg, 200);
-                                }
+//                                if (Config.BOOK_REVIEW) {
+//                                    // copy book
+//                                    File unzipFileDir = new File(m.localFullPath);
+//                                    String[] files = unzipFileDir.list(new FilenameFilter() {
+//                                        @Override
+//                                        public boolean accept(File dir, String filename) {
+//                                            if (filename.endsWith(".epub")) {
+//                                                return true;
+//                                            }
+//                                            return false;
+//                                        }
+//                                    });
+//                                    if (files != null && files.length > 0) {
+//                                        FileOperatorHelper.copyFile(m.localFullPath + files[0],
+//                                                Config.BOOK_DOWNLOAD_DIR + files[0]);
+//                                    }
+//
+//                                    Message msg = Message.obtain();
+//                                    msg.what = SHOW_BOOK_DOWNLOAD_TIPS;
+//                                    msg.obj = String.format(mContext.getString(R.string.book_download_tips),
+//                                            m.description, Config.BOOK_DOWNLOAD_DIR + files[0]);
+//                                    mHandler.sendMessageDelayed(msg, 200);
+//                                }
 
                                 mHandler.sendEmptyMessage(DISMISS_UNZIP_DIALOG);
 
@@ -319,6 +313,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         src.downloadStatus = data.downloadStatus;
         src.time = data.time;
         src.readStatus = data.readStatus;
+        src.category = data.category;
     }
 
     public void setData(List<DownloadItemModel> data) {
@@ -381,18 +376,20 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         }
 
         if (item.downloadStatus == DownloadItemModel.DOWNLOADED) {
-            if (!Config.BOOK_REVIEW) {
+//            if (!Config.BOOK_REVIEW) {
                 if (item.readStatus == DownloadItemModel.UNREAD) {
-                    holder.readStatus.setText(R.string.unreaded);
-                    holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
+//                    holder.readStatus.setText(R.string.unreaded);
+                    holder.readStatus.setText(R.string.downloaded);
+                    holder.readStatus.setBackgroundResource(R.drawable.read_bg);
                 } else {
-                    holder.readStatus.setText(R.string.readed);
+//                    holder.readStatus.setText(R.string.readed);
+                    holder.readStatus.setText(R.string.downloaded);
                     holder.readStatus.setBackgroundResource(R.drawable.read_bg);
                 }
-            } else {
-                holder.readStatus.setText(R.string.downloaded);
-                holder.readStatus.setBackgroundResource(R.drawable.read_bg);
-            }
+//            } else {
+//                holder.readStatus.setText(R.string.downloaded);
+//                holder.readStatus.setBackgroundResource(R.drawable.read_bg);
+//            }
         } else {
             holder.readStatus.setText(R.string.undownload);
             holder.readStatus.setBackgroundResource(R.drawable.unread_bg);
@@ -537,17 +534,14 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
 
                                                                         // spend
                                                                         // point
-                                                                        int localPoint = SettingManager.getInstance()
-                                                                                .getPointInt();
+                                                                        int localPoint = SettingManager.getInstance().getPointInt();
                                                                         if (localPoint >= 5) {
-                                                                            SettingManager.getInstance().setPointInt(
-                                                                                    localPoint - 5);
+                                                                            SettingManager.getInstance().setPointInt(localPoint - 5);
                                                                         } else {
                                                                             SettingManager.getInstance().setPointInt(0);
                                                                             int uploadPoint = CRuntime.ACCOUNT_POINT_INFO.currentPoint
                                                                                     - Config.DOWNLOAD_NEED_POINT;
-                                                                            uploadPoint = uploadPoint > 0 ? uploadPoint
-                                                                                    : 0;
+                                                                            uploadPoint = uploadPoint > 0 ? uploadPoint : 1;
                                                                             Utils.asyncUploadPoint(mContext,
                                                                                     SettingManager.getInstance()
                                                                                             .getUserName(),
@@ -629,21 +623,21 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
             @Override
             public void onClick(View v) {
                 if (mDownloadItemModelList != null && position < mDownloadItemModelList.size()) {
-                    if (Config.BOOK_REVIEW) {
-                        int downloadHasdCode = item.getDownloadUrlHashCode();
-                        if (downloadHasdCode != 0) {
-                            SessionModel sm = SingleInstanceBase.getInstance(SessionModel.class);
-                            if (sm != null) {
-                                SessionReadModel data = sm.syncQueryDataLocalBy(downloadHasdCode);
-                                if (Utils.isAvilible(mContext, "org.geometerplus.zlibrary.ui.android")) {
-                                    Utils.tryStartRead(mActivity, data);
-                                } else {
-                                    Utils.showDownloadFBDialog(mActivity, data);
-                                }
-                            }
-                        }
-                    } else {
-                        int downloadHasdCode = item.getDownloadUrlHashCode();
+//                    if (Config.BOOK_REVIEW) {
+//                        int downloadHasdCode = item.getDownloadUrlHashCode();
+//                        if (downloadHasdCode != 0) {
+//                            SessionModel sm = SingleInstanceBase.getInstance(SessionModel.class);
+//                            if (sm != null) {
+//                                SessionReadModel data = sm.syncQueryDataLocalBy(downloadHasdCode);
+//                                if (Utils.isAvilible(mContext, "org.geometerplus.zlibrary.ui.android")) {
+//                                    Utils.tryStartRead(mActivity, data);
+//                                } else {
+//                                    Utils.showDownloadFBDialog(mActivity, data);
+//                                }
+//                            }
+//                        }
+//                    } else {
+                        int downloadHasdCode = item.getDownloadUrl().hashCode();
                         if (downloadHasdCode != 0) {
                             final SessionModel sm = SingleInstanceBase.getInstance(SessionModel.class);
                             if (sm != null) {
@@ -654,6 +648,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                     intent.putExtra(AlbumActivity.KEY_INDEX, data.localFullPath);
                                     intent.putExtra(AlbumActivity.KEY_SESSION_NAME, data.sessionName);
                                     intent.putExtra(AlbumActivity.KEY_DESC, data.description);
+                                    intent.putExtra(AlbumActivity.KEY_CATEGORY, data.category);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     mContext.startActivity(intent);
 
@@ -663,16 +658,16 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                             data.isRead = 1;
                                             sm.updateItem(data);
                                             item.readStatus = DownloadItemModel.DOWNLOAD_READ;
-                                            SingleInstanceBase.getInstance(DownloadModel.class).updateItemModel(item);
+                                            DownloadModel.getDownloadModelFactory(item.category, mContext).updateItemModel(item);
                                             // update hot status
                                             HotItemModel searchItem = new HotItemModel();
                                             searchItem.downloadUrlHashCode = item.downloadUrlHashCode;
-                                            HotItemModel result = SingleInstanceBase.getInstance(HotModel.class)
+                                            HotItemModel result = HotModel.getDownloadModelFactory(item.category, mContext)
                                                     .getItem(searchItem);
                                             if (result != null) {
                                                 result.readStatus = DownloadItemModel.DOWNLOAD_READ;
-                                                SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
-                                                SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
+                                                HotModel.getDownloadModelFactory(item.category, mContext).updateItemModel(result);
+                                                HotModel.getDownloadModelFactory(item.category, mContext).setDataChanged(true);
                                             }
                                         }
                                     });
@@ -681,8 +676,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                         }
                     }
                 }
-            }
-        };
+            };
 
         if (item.downloadStatus == DownloadItemModel.UNDOWNLOAD) {
             holder.statusIcon.setOnClickListener(itemOnClickListener);
@@ -705,7 +699,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
             public void run() {
                 try {
                     DownloadAlbumResponse response = InternetUtils.request(mContext, new DownloadAlbumRequest(
-                            Config.DOMAIN_NAME[Config.INDEX], String.valueOf(fileIndex)));
+                            Config.DOMAIN_NAME[Config.CURRENT_DOMAIN], String.valueOf(fileIndex)));
                     if (response != null) {
                         UtilsConfig.LOGD(response.toString());
                     } else {
@@ -764,7 +758,8 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         }
 
         item.downloadStatus = DownloadItemModel.UNDOWNLOAD;
-        SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
+//        SingleInstanceBase.getInstance(HotModel.class).setDataChanged(true);
+        HotModel.getDownloadModelFactory(item.category, mContext).setDataChanged(true);
 
         Message msg = new Message();
         msg.what = DELETE_ITEM_REFRESH;
