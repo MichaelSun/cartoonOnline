@@ -25,12 +25,10 @@
     </option>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="" />
     <ignored path="cartoonOnline.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382669032492" ignored="false" />
+    <file path="/Dummy.txt" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382693250906" ignored="false" />
     <file path="/fragment.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1381799902189" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/internet/core/json/JsonProperty.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633911" ignored="false" />
     <file path="/CartoonMainActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690251313" ignored="false" />
@@ -63,13 +61,13 @@
     <file path="/drawer_list_about.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382657950966" ignored="false" />
     <file path="/CartoonSplashActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382660719419" ignored="false" />
     <file path="$PROJECT_DIR$/../quick-settings/gen/com/xstd/quick/R.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382668286628" ignored="false" />
-    <file path="$PROJECT_DIR$/../xstd_plugin/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382673500509" ignored="false" />
+    <file path="$PROJECT_DIR$/../xstd_plugin/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382693654478" ignored="false" />
     <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/receiver/PackageInstallBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382672147085" ignored="false" />
     <file path="/PackageInstallBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382672145985" ignored="false" />
     <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/receiver/PackageBindCheckBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382672151935" ignored="false" />
     <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/receiver/ScreenBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382673500509" ignored="false" />
     <file path="/ScreenBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382672294180" ignored="false" />
-    <file path="$PROJECT_DIR$/../xstd_plugin/src/com/googl/plugin/x/FakeActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382673500509" ignored="false" />
+    <file path="$PROJECT_DIR$/../xstd_plugin/src/com/googl/plugin/x/FakeActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382693998856" ignored="false" />
     <file path="$PROJECT_DIR$/res/anim/slide_in_from_left.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
     <file path="$PROJECT_DIR$/res/anim/push_up_out.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
     <file path="$PROJECT_DIR$/res/anim/layout_bottom_to_top_slide.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
@@ -245,6 +243,8 @@
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/PullToRefreshScrollView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/OverscrollHelper.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/LoadingLayoutProxy.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
+    <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/Utils/FakeWindow.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382693623100" ignored="false" />
+    <file path="/FakeActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382693925431" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -343,7 +343,7 @@
       <file leaf-file-name="CartoonMainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="0" selection-start="5593" selection-end="5593" vertical-scroll-proportion="0.2891892">
+            <state line="165" column="34" selection-start="5898" selection-end="5898" vertical-scroll-proportion="0.5054054">
               <folding />
             </state>
           </provider>
@@ -1343,7 +1343,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="0" selection-start="5593" selection-end="5593" vertical-scroll-proportion="0.2891892">
+        <state line="165" column="34" selection-start="5898" selection-end="5898" vertical-scroll-proportion="0.5054054">
           <folding />
         </state>
       </provider>
