@@ -183,14 +183,15 @@ public class Utils {
         });
     }
 
-    public static void asyncUploadPoint(final Context context, final String userName, final int currentPoint,
+    public static void asyncUploadPoint(final Context context, final String userName, int currentPoint,
             final PointUploadListener l) {
+        final int point = currentPoint > 0 ? currentPoint : 1;
         if (!TextUtils.isEmpty(userName) && currentPoint > 0) {
             CustomThreadPool.asyncWork(new Runnable() {
 
                 @Override
                 public void run() {
-                    UploadPointRequest request = new UploadPointRequest(userName, String.valueOf(currentPoint));
+                    UploadPointRequest request = new UploadPointRequest(userName, String.valueOf(point));
                     try {
                         UploadPointResponse response = InternetUtils.request(context, request);
                         if (response != null) {

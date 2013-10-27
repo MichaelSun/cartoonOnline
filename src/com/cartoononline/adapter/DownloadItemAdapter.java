@@ -547,7 +547,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                                                             int uploadPoint = CRuntime.ACCOUNT_POINT_INFO.currentPoint
                                                                                     - Config.DOWNLOAD_NEED_POINT;
                                                                             uploadPoint = uploadPoint > 0 ? uploadPoint
-                                                                                    : 0;
+                                                                                    : 1;
                                                                             Utils.asyncUploadPoint(mContext,
                                                                                     SettingManager.getInstance()
                                                                                             .getUserName(),
