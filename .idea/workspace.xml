@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="" />
+    <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
+    </list>
     <ignored path="cartoonOnline.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382858903276" ignored="false" />
     <file path="/fragment.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1381799902189" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/internet/core/json/JsonProperty.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633911" ignored="false" />
-    <file path="$PROJECT_DIR$/src/com/cartoononline/model/DownloadModel.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633912" ignored="false" />
-    <file path="$PROJECT_DIR$/src/com/cartoononline/model/HotModel.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633919" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633927" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633927" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/abs/src/com/actionbarsherlock/app/SherlockFragmentActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633927" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/abs/src/com/actionbarsherlock/app/ActionBar.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633927" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/abs/src/com/actionbarsherlock/view/MenuItem.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633954" ignored="false" />
-    <file path="$PROJECT_DIR$/src/com/cartoononline/api/LoginResponse.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633975" ignored="false" />
     <file path="/Utils.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382858996457" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -130,10 +126,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Config.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Config.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Config.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="79" selection-start="1679" selection-end="1679" vertical-scroll-proportion="0.021592442">
+            <state line="38" column="79" selection-start="1679" selection-end="1679" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="53" selection-start="266" selection-end="266" vertical-scroll-proportion="0.12955466">
               <folding />
             </state>
           </provider>
@@ -163,6 +168,7 @@
         <option value="$PROJECT_DIR$/src/com/cartoononline/Utils.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/Config.java" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
       </list>
     </option>
   </component>
@@ -267,6 +273,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="adapter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cartoonOnline" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cartoonOnline" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cartoonOnline" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cartoonOnline" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -633,7 +671,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Config.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="79" selection-start="1679" selection-end="1679" vertical-scroll-proportion="0.021592442">
+        <state line="38" column="79" selection-start="1679" selection-end="1679" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="53" selection-start="266" selection-end="266" vertical-scroll-proportion="0.12955466">
           <folding />
         </state>
       </provider>
