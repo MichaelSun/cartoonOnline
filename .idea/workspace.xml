@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/Utils.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/Utils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/Config.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/Config.java" />
     </list>
     <ignored path="cartoonOnline.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -81,10 +78,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="60" selection-start="468" selection-end="468" vertical-scroll-proportion="0.25464192">
+            <state line="21" column="40" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -135,10 +132,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Config.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Config.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Config.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="59" selection-start="410" selection-end="410" vertical-scroll-proportion="0.0">
+            <state line="38" column="79" selection-start="1679" selection-end="1679" vertical-scroll-proportion="0.021592442">
               <folding />
             </state>
           </provider>
@@ -167,6 +164,7 @@
         <option value="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/Utils.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/Config.java" />
       </list>
     </option>
   </component>
@@ -593,13 +591,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="59" selection-start="410" selection-end="410" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="55" column="37" selection-start="1971" selection-end="1971" vertical-scroll-proportion="0.0">
@@ -637,7 +628,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="60" selection-start="468" selection-end="468" vertical-scroll-proportion="0.25464192">
+        <state line="21" column="40" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="79" selection-start="1679" selection-end="1679" vertical-scroll-proportion="0.021592442">
           <folding />
         </state>
       </provider>
