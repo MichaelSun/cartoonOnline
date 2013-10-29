@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.album.mmall.R;
+import com.album.mmall1.R;
 
 public class SettingManager {
 
@@ -29,6 +29,17 @@ public class SettingManager {
         }
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mEditor = mSharedPreferences.edit();
+    }
+
+    private static final String KEY_CURRENT_POINT = "key_point";
+
+    public void setCurrentPoint(int point) {
+        mEditor.putInt(KEY_CURRENT_POINT, point);
+        mEditor.commit();
+    }
+
+    public int getCurrentPoint() {
+        return mSharedPreferences.getInt(KEY_CURRENT_POINT, 0);
     }
     
     public String getUserName() {

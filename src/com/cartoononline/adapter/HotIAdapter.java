@@ -27,7 +27,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.album.mmall.R;
+import com.album.mmall1.R;
 import com.cartoononline.AlbumActivity;
 import com.cartoononline.CRuntime;
 import com.cartoononline.Config;
@@ -527,6 +527,7 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                                                                                                                     int uploadPoint = CRuntime.ACCOUNT_POINT_INFO.currentPoint
                                                                                                                                           - Config.DOWNLOAD_NEED_POINT;
                                                                                                                     uploadPoint = uploadPoint > 0 ? uploadPoint : 1;
+                                                                                                                    CRuntime.ACCOUNT_POINT_INFO.currentPoint = uploadPoint;
                                                                                                                     Utils.asyncUploadPoint(mContext,
                                                                                                                                               SettingManager.getInstance().getUserName(),
                                                                                                                                               uploadPoint, null);

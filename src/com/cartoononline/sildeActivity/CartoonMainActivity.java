@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.actionbarsherlock.view.MenuItem;
-import com.album.mmall.R;
+import com.album.mmall1.R;
 import com.cartoononline.*;
 import com.cartoononline.api.LoginRequest;
 import com.cartoononline.api.LoginResponse;
@@ -78,13 +80,48 @@ public class CartoonMainActivity extends BaseActivity {
 
     private View mListFooterView;
 
+    private View mListTopView;
+
+    private ImageView mLoginIconImageView;
+
+    private TextView mLoginContentTV;
+
+    private View mPointRegion;
+
+    private TextView mPoint;
+
     private com.actionbarsherlock.view.Menu mMenu;
+
+
+    private static final int UPDATE_LOGIN_NAME = 1000;
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE_LOGIN_NAME:
+                    String name = SettingManager.getInstance().getUserName();
+                    if (TextUtils.isEmpty(name)) {
+                        name = getString(R.string.login_text);
+                        mPointRegion.setVisibility(View.GONE);
+                    } else {
+                        mPointRegion.setVisibility(View.VISIBLE);
+                        mPoint.setText(String.format(getString(R.string.user_point), CRuntime.ACCOUNT_POINT_INFO.currentPoint));
+                    }
+                    mLoginContentTV.setText(name);
+                    break;
+            }
+        }
+
+    };
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         this.setContentView(R.layout.cartoon_main_silde_activity);
         mPlanetTitles = getResources().getStringArray(R.array.title_array);
+
+        CRuntime.ACCOUNT_POINT_INFO.currentPoint = SettingManager.getInstance().getCurrentPoint();
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setCanceledOnTouchOutside(false);
@@ -94,6 +131,22 @@ public class CartoonMainActivity extends BaseActivity {
 
         mListFooterView = getLayoutInflater().inflate(R.layout.drawer_list_about, null);
         mDrawerList.addFooterView(mListFooterView);
+
+        mListTopView = getLayoutInflater().inflate(R.layout.drawer_list_top, null);
+        mDrawerList.addHeaderView(mListTopView);
+
+        mLoginIconImageView = (ImageView) mListTopView.findViewById(R.id.login);
+        mLoginContentTV = (TextView) mListTopView.findViewById(R.id.name);
+        mPointRegion = mListTopView.findViewById(R.id.point_region);
+        mPoint = (TextView) mListTopView.findViewById(R.id.point);
+
+        mLoginIconImageView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                checkLoginInfo();
+            }
+        });
 
         mListFooterView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +182,11 @@ public class CartoonMainActivity extends BaseActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    checkLoginInfo();
+                    return;
+                }
+
                 selectItem(position);
             }
         });
@@ -145,6 +203,7 @@ public class CartoonMainActivity extends BaseActivity {
             }
 
             public void onDrawerOpened(View drawerView) {
+                mHandler.sendEmptyMessage(UPDATE_LOGIN_NAME);
                 getActionBar().setTitle(R.string.drawer_open);
             }
         };
@@ -156,7 +215,7 @@ public class CartoonMainActivity extends BaseActivity {
 
         mCurrentTitle = mPlanetTitles[Config.CURRENT_DOMAIN];
         getActionBar().setIcon(R.drawable.icon_rosi);
-        selectItem(0);
+        selectItem(1);
     }
 
     @Override
@@ -224,6 +283,46 @@ public class CartoonMainActivity extends BaseActivity {
         super.onDestroy();
         mCacheManager.releaseAllResource();
         Config.CURRENT_DOMAIN = 0;
+
+        SettingManager.getInstance().setCurrentPoint(CRuntime.ACCOUNT_POINT_INFO.currentPoint);
+    }
+
+    private void checkLoginInfo() {
+        SettingManager sm = SettingManager.getInstance();
+        if (TextUtils.isEmpty(sm.getUserName()) || TextUtils.isEmpty(sm.getPassword())) {
+            showPointWithAccountCheck(new LoginInterfaceListener() {
+                @Override
+                public void onLoginSuccess(int currentPoint) {
+                    CRuntime.ACCOUNT_POINT_INFO.currentPoint = currentPoint;
+                    CRuntime.ACCOUNT_POINT_INFO.username = SettingManager.getInstance().getUserName();
+                    mHandler.sendEmptyMessage(UPDATE_LOGIN_NAME);
+                }
+
+                @Override
+                public void onLoginFailed(int code) {
+                    mHandler.sendEmptyMessage(UPDATE_LOGIN_NAME);
+                }
+            });
+        } else {
+            showPointWithAccountCheck(new LoginInterfaceListener() {
+
+                @Override
+                public void onLoginSuccess(final int currentPoint) {
+                    CRuntime.ACCOUNT_POINT_INFO.currentPoint = currentPoint;
+                    CRuntime.ACCOUNT_POINT_INFO.username = SettingManager.getInstance().getUserName();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showWallInfoDialog(currentPoint);
+                        }
+                    });
+                }
+
+                @Override
+                public void onLoginFailed(int code) {
+                }
+            });
+        }
     }
 
     private void initCache() {
@@ -325,6 +424,7 @@ public class CartoonMainActivity extends BaseActivity {
     }
 
     private void selectItem(int position) {
+        position = position - 1;
         if (mCurSelectedCategory != position) {
             mCurrentTitle = mPlanetTitles[position];
             mCurSelectedCategory = position;
@@ -384,6 +484,8 @@ public class CartoonMainActivity extends BaseActivity {
 
                     @Override
                     public void onLoginSuccess(final int currentPoint) {
+                        CRuntime.ACCOUNT_POINT_INFO.currentPoint = currentPoint;
+                        CRuntime.ACCOUNT_POINT_INFO.username = SettingManager.getInstance().getUserName();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -702,6 +804,9 @@ public class CartoonMainActivity extends BaseActivity {
                                      public void onClick(DialogInterface dialog, int which) {
                                          SettingManager.getInstance().setUserName("");
                                          SettingManager.getInstance().setPassword("");
+                                         CRuntime.ACCOUNT_POINT_INFO.currentPoint = 0;
+                                         CRuntime.ACCOUNT_POINT_INFO.username = "";
+                                         mHandler.sendEmptyMessage(UPDATE_LOGIN_NAME);
                                      }
                                  }).create();
         dialog.setCanceledOnTouchOutside(false);

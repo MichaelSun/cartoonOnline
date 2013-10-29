@@ -20,7 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.album.mmall.R;
+import com.album.mmall1.R;
 import com.cartoononline.*;
 import com.cartoononline.api.DownloadAlbumRequest;
 import com.cartoononline.api.DownloadAlbumResponse;
@@ -542,6 +542,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                                                             int uploadPoint = CRuntime.ACCOUNT_POINT_INFO.currentPoint
                                                                                     - Config.DOWNLOAD_NEED_POINT;
                                                                             uploadPoint = uploadPoint > 0 ? uploadPoint : 1;
+                                                                            CRuntime.ACCOUNT_POINT_INFO.currentPoint = uploadPoint;
                                                                             Utils.asyncUploadPoint(mContext,
                                                                                     SettingManager.getInstance()
                                                                                             .getUserName(),

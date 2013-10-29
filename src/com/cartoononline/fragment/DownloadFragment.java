@@ -14,7 +14,7 @@ import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.album.mmall.R;
+import com.album.mmall1.R;
 import com.cartoononline.Config;
 import com.cartoononline.adapter.DownloadItemAdapter;
 import com.cartoononline.model.DataBaseInterface;

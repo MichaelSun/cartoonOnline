@@ -115,4 +115,7 @@
 
     <string name="drawer_open">期刊</string>
 
+    <string name="login_text">立刻登录</string>
+    <string name="user_point" formatted="false">%S分</string>
+
 </resources>

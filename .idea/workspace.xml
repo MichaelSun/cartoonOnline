@@ -26,22 +26,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/AdapterUtils.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/AdapterUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/AlbumActivity.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/AlbumActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/BaseActivity.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/BaseActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/fragment/MoreBookFragment.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/fragment/MoreBookFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/fragment/ReaderBookFragment.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/fragment/ReaderBookFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/ReaderListAdapter.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/ReaderListAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/SettingManager.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/SettingManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/Utils.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/Utils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/common/utils/UtilsConfig.java" afterPath="$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/common/utils/UtilsConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/drawer_list_item.xml" afterPath="$PROJECT_DIR$/res/layout/drawer_list_item.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cartoonOnline.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382860813296" ignored="false" />
-    <file path="/fragment.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1381799902189" ignored="false" />
+    <file path="/Dummy.txt" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383016503700" ignored="false" />
+    <file path="/fragment.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382954351829" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/internet/core/json/JsonProperty.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633911" ignored="false" />
-    <file path="/CartoonMainActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690251313" ignored="false" />
-    <file path="/strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382510779332" ignored="false" />
+    <file path="/CartoonMainActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383031106204" ignored="false" />
+    <file path="/strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383027949912" ignored="false" />
     <file path="/cartoon_main_silde_activity.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382658738807" ignored="false" />
     <file path="/BaseActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382511079716" ignored="false" />
     <file path="/DownloadModel.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382654401809" ignored="false" />
-    <file path="/Config.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382511389082" ignored="false" />
+    <file path="/Config.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382938746172" ignored="false" />
     <file path="/CartoonApplication.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382607290713" ignored="false" />
     <file path="/HotModel.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382541790621" ignored="false" />
-    <file path="/DownloadItemAdapter.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382606247630" ignored="false" />
+    <file path="/DownloadItemAdapter.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383030276603" ignored="false" />
     <file path="/HotIAdapter.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382659249357" ignored="false" />
     <file path="/DataModelBase.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382511716174" ignored="false" />
     <file path="/FragmentStatusInterface.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382542214555" ignored="false" />
@@ -50,7 +69,7 @@
     <file path="/ReaderBookFragment.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382529981295" ignored="false" />
     <file path="/DownloadItemModel.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382532787935" ignored="false" />
     <file path="/DataBaseInterface.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382540161561" ignored="false" />
-    <file path="/drawer_list_item.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382657285569" ignored="false" />
+    <file path="/drawer_list_item.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383015715183" ignored="false" />
     <file path="/AdapterUtils.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382591880005" ignored="false" />
     <file path="/Utils.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382600732887" ignored="false" />
     <file path="/AlbumActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382660796203" ignored="false" />
@@ -63,190 +82,46 @@
     <file path="/drawer_list_about.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382657950966" ignored="false" />
     <file path="/CartoonSplashActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382660719419" ignored="false" />
     <file path="$PROJECT_DIR$/../quick-settings/gen/com/xstd/quick/R.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382668286628" ignored="false" />
-    <file path="$PROJECT_DIR$/../xstd_plugin/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382693654478" ignored="false" />
+    <file path="$PROJECT_DIR$/../xstd_plugin/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382932347393" ignored="false" />
     <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/receiver/PackageInstallBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382672147085" ignored="false" />
     <file path="/PackageInstallBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382672145985" ignored="false" />
     <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/receiver/PackageBindCheckBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382672151935" ignored="false" />
     <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/receiver/ScreenBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382673500509" ignored="false" />
     <file path="/ScreenBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382672294180" ignored="false" />
-    <file path="$PROJECT_DIR$/../xstd_plugin/src/com/googl/plugin/x/FakeActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382693998856" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/slide_in_from_left.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/push_up_out.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/layout_bottom_to_top_slide.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/pull_in.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/slide_out_to_bottom.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/slide_right.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/slide_in_from_right.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/activity_slide_in_from_right.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/push_up_in.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/anim_imageview.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/fade_in.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/res/values/strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/activity_slide_out_to_right.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/res/values/styles.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/login_icon_anim.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/res/values-v11/styles.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/activity_slide_in_from_left.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/push_out.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/activity_slide_out_to_left.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/bubble_animation.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/slide_out_to_right.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/slide_out_to_left.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/fade_out.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/loading_anim.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/bubble_animation_reverse.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/anim/slide_out_to_top.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/menu/detail_actionbar.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/menu/action_refresh.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/menu/activity_main.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281382" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/umeng_common_gradient_red.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/download_button.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/topbar_btn_back.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/android_db_actionbar_selectable_selected_bg.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/android_db_actionbar_selectable_bg.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/photogrid_list_selector.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/umeng_common_gradient_orange.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/android_db_actionbar_report.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/delete_button.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/actionbar_new_msg_container_bg.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/actionbar_msg.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281384" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/actionbar_profile.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/unread_bg.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/android_db_actionbar_searchview_close.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/android_db_actionbar_bg.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/android_db_actionbar_more.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/read_bg.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/actionbar_refresh.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/res/drawable/android_db_actionbar_searchview_search.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/res/values-zh/umeng_update_string.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/res/values-zh/umeng_common_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/res/values-v14/strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
+    <file path="$PROJECT_DIR$/../xstd_plugin/src/com/googl/plugin/x/FakeActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382928400423" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/internet/core/HttpRequestHookListener.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout-xlarge/abs__screen_action_bar.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-w360dp/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-w480dp/abs__bools.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-w500dp/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-w600dp/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-xlarge/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/VectorF.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/GestureImageViewListener.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/ZoomAnimation.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/RectF.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/Animation.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/FlingListener.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/MoveAnimation.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/FlingAnimationListener.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/GestureImageViewTouchListener.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/FlingAnimation.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/MoveAnimationListener.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/ZoomAnimationListener.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/MathUtils.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/polites/android/Animator.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/pom.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/color/abs__primary_text_disable_only_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281386" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/color/abs__primary_text_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281386" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/color/abs__primary_text_holo_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/color/abs__primary_text_disable_only_holo_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-sw600dp/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__list_menu_item_radio.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-sw600dp/abs__bools.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__screen_simple_overlay_action_mode.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-large-hdpi-1024x600/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__list_menu_item_checkbox.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-large-mdpi-1024x600/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__action_bar_title_item.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__action_bar_tab_bar_view.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-large-land-hdpi-1024x600/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__activity_chooser_view_list_item.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-large-land-mdpi-1024x600/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__dialog_title_holo.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__action_bar_tab.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__list_menu_item_layout.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__action_menu_layout.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__action_bar_home.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__action_mode_bar.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__screen_action_bar.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__action_mode_close_item.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/sherlock_spinner_item.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__screen_simple.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__action_menu_item_layout.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/pom.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__activity_chooser_view.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__popup_menu_item_layout.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__search_view.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/anim/slide_out_to_bottom.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/build.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281387" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__simple_dropdown_hint.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/anim/slide_in_from_top.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/abs__screen_action_bar_overlay.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/anim/slide_out_to_top.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout/sherlock_spinner_dropdown_item.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/anim/slide_in_from_bottom.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values/abs__bools.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/layout/pull_to_refresh_header_vertical.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values/abs__themes.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/layout/pull_to_refresh_header_horizontal.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values/abs__attrs.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values/abs__colors.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values/attrs.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values/abs__config.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values/abs__styles.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/drawable/indicator_bg_top.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/drawable/indicator_bg_bottom.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values/abs__strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-ar/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__list_selector_background_transition_holo_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-de/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__textfield_searchview_right_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-es/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__progress_horizontal_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-fi/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-fr/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__list_selector_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-he/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__ic_clear_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-it/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__ic_menu_moreoverflow_holo_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-iw/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__search_dropdown_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-ja/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__item_background_holo_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__btn_cab_done_holo_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-nl/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__ic_clear.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__list_selector_background_transition_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-pt/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__search_dropdown_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__textfield_searchview_holo_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-ru/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__item_background_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__spinner_ab_holo_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__tab_indicator_ab_holo.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__progress_medium_holo.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__textfield_searchview_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__textfield_searchview_right_holo_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__list_selector_holo_dark.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/res/values-pt-rBR/pull_refresh_strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__btn_cab_done_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__activated_background_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable/abs__ic_menu_moreoverflow_holo_light.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout-v14/sherlock_spinner_item.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-v14/abs__themes.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/PullToRefreshWebView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-land/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/drawable-v11/abs__progress_medium_holo.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/IPullToRefresh.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/layout-large/abs__action_mode_close_item.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/abs/res/values-large/abs__dimens.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/PullToRefreshHorizontalScrollView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/PullToRefreshExpandableListView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/PullToRefreshScrollView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/OverscrollHelper.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/LoadingLayoutProxy.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/Utils/FakeWindow.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382693623100" ignored="false" />
+    <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/Utils/FakeWindow.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382931168574" ignored="false" />
     <file path="/FakeActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382693925431" ignored="false" />
+    <file path="/FakeWindow.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382931165398" ignored="false" />
+    <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/binddevice/DeviceBindBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382929811416" ignored="false" />
+    <file path="$PROJECT_DIR$/../quick-settings/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382939246500" ignored="false" />
+    <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/service/PluginService.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382932281530" ignored="false" />
+    <file path="/PluginService.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382932281530" ignored="false" />
+    <file path="/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382932347393" ignored="false" />
+    <file path="$PROJECT_DIR$/../quick-settings/src/com/xstd/qm/receiver/PackageAddBrc.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382932940949" ignored="false" />
+    <file path="/PackageAddBrc.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382932940246" ignored="false" />
+    <file path="$PROJECT_DIR$/../quick-settings/src/com/xstd/qm/DemonService.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382933629735" ignored="false" />
+    <file path="/DemonService.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382933578187" ignored="false" />
+    <file path="$PROJECT_DIR$/../quick-settings/src/com/xstd/qm/receiver/ScreenBroadcastReceiver.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382944398357" ignored="false" />
+    <file path="$PROJECT_DIR$/../quick-settings/src/com/xstd/qm/Config.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382938774718" ignored="false" />
+    <file path="/ScreenBroadcastReceiver.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382944397757" ignored="false" />
+    <file path="$PROJECT_DIR$/../quick-settings/src/com/xstd/qm/UtilOperator.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382944683412" ignored="false" />
+    <file path="$PROJECT_DIR$/../jugeili/code/src/com/tugou/jgl/api/GetListGroupRequest.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382956415250" ignored="false" />
+    <file path="/GetListGroupRequest.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382948267978" ignored="false" />
+    <file path="$PROJECT_DIR$/../jugeili/code/src_lib/mcuslib/src/com/plugin/internet/core/RequestBase.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382948460182" ignored="false" />
+    <file path="$PROJECT_DIR$/../jugeili/code/src/com/tugou/jgl/api/base/PMRequestBase.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382954353656" ignored="false" />
+    <file path="/AbsBitmapCacheManager.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382955234362" ignored="false" />
+    <file path="$PROJECT_DIR$/../jugeili/code/src_lib/mcuslib/src/com/plugin/common/cache/image/AbsBitmapCacheManager.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382955234829" ignored="false" />
+    <file path="$PROJECT_DIR$/../jugeili/code/src_lib/mcuslib/src/com/plugin/internet/core/impl/BeanRequestDefaultImplInternal.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382955611509" ignored="false" />
+    <file path="/drawer_list_top.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383019042334" ignored="false" />
+    <file path="/SettingManager.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383029940195" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -312,28 +187,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DownloadModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/model/DownloadModel.java">
+      <file leaf-file-name="DownloadItemAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="25" selection-start="606" selection-end="606" vertical-scroll-proportion="0.0">
+            <state line="544" column="131" selection-start="25573" selection-end="25628" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DownloadFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java">
+      <file leaf-file-name="HotIAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="30" selection-start="2910" selection-end="2910" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="519" column="86" selection-start="25039" selection-end="25039" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2669#2683#0" expanded="true" />
+                <element signature="e#2749#2758#0" expanded="true" />
+                <element signature="e#3445#3456#0" expanded="true" />
+                <element signature="e#20577#20593#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HotFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java">
+      <file leaf-file-name="CRuntime.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CRuntime.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="268" column="39" selection-start="9316" selection-end="9316" vertical-scroll-proportion="0.0">
+            <state line="16" column="53" selection-start="530" selection-end="548" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -342,16 +223,18 @@
       <file leaf-file-name="CartoonMainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="165" column="34" selection-start="5898" selection-end="5898" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="181" column="0" selection-start="6164" selection-end="6164" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BaseActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/BaseActivity.java">
+      <file leaf-file-name="SettingManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/SettingManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="24" selection-start="313" selection-end="313" vertical-scroll-proportion="0.0">
+            <state line="35" column="31" selection-start="1046" selection-end="1061" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -360,43 +243,46 @@
       <file leaf-file-name="AlbumActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/AlbumActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="33" selection-start="345" selection-end="345" vertical-scroll-proportion="0.0">
+            <state line="145" column="16" selection-start="4763" selection-end="4763" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UtilsConfig.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/common/utils/UtilsConfig.java">
+      <file leaf-file-name="AdapterUtils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/AdapterUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="51" selection-start="357" selection-end="357" vertical-scroll-proportion="0.0">
+            <state line="90" column="9" selection-start="4301" selection-end="4301" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="39" selection-start="1076" selection-end="1085" vertical-scroll-proportion="0.0">
+            <state line="4" column="34" selection-start="214" selection-end="214" vertical-scroll-proportion="0.08499336">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="drawer_list_top.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/drawer_list_top.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="34" selection-start="1365" selection-end="1370" vertical-scroll-proportion="-19.185184">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="52" selection-start="1658" selection-end="1658" vertical-scroll-proportion="0.77732795">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DownloadItemAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="34" selection-start="2669" selection-end="2669" vertical-scroll-proportion="0.0">
+            <state line="94" column="30" selection-start="5294" selection-end="5294" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -420,22 +306,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/res/layout/download_view.xml" />
-        <option value="$PROJECT_DIR$/res/layout/hot_content.xml" />
-        <option value="$PROJECT_DIR$/res/layout/drawer_list_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/drawer_list_about.xml" />
         <option value="$PROJECT_DIR$/res/layout/cartoon_main_silde_activity.xml" />
-        <option value="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" />
         <option value="$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/common/utils/UtilsConfig.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/AlbumActivity.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/model/DownloadModel.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/drawer_list_item.xml" />
+        <option value="$PROJECT_DIR$/res/layout/drawer_list_top.xml" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/SettingManager.java" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -544,6 +430,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -885,24 +775,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cartoonOnline" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cartoonOnline" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -921,11 +797,11 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -967,6 +843,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -992,19 +881,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1113,28 +989,28 @@
     <frame x="50" y="22" width="1390" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935917" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.6722151" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277849" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962743" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39948782" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290653" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32266325" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2585693" sideWeight="0.6760563" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2585693" sideWeight="0.6722151" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277849" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="74" y="333" width="1342" height="256" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935917" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935917" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.6722151" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277849" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32394367" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962743" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1204,9 +1080,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/download_view.xml">
+    <entry file="file://$PROJECT_DIR$/res/layout/drawer_list_item.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="43" selection-start="602" selection-end="613" vertical-scroll-proportion="-7.703704">
+        <state line="37" column="44" selection-start="1263" selection-end="1343" vertical-scroll-proportion="-16.814816">
           <folding />
         </state>
       </provider>
@@ -1216,7 +1092,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/cartoon_main_silde_activity.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="40" selection-start="2400" selection-end="2400" vertical-scroll-proportion="-16.814816">
+        <state line="65" column="51" selection-start="2649" selection-end="2658" vertical-scroll-proportion="0.7369146">
           <folding />
         </state>
       </provider>
@@ -1224,54 +1100,21 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java">
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="358" column="73" selection-start="14178" selection-end="14178" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2668#2682#0" expanded="true" />
-            <element signature="e#2748#2757#0" expanded="true" />
-            <element signature="e#3444#3455#0" expanded="true" />
-            <element signature="e#20576#20592#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/common/utils/UtilsConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="51" selection-start="357" selection-end="357" vertical-scroll-proportion="0.0">
+        <state line="94" column="30" selection-start="5294" selection-end="5294" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/AlbumActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/drawer_list_top.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="33" selection-start="345" selection-end="345" vertical-scroll-proportion="0.0">
+        <state line="39" column="34" selection-start="1365" selection-end="1370" vertical-scroll-proportion="-19.185184">
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="268" column="39" selection-start="9316" selection-end="9316" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/FragmentStatusInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="9" selection-start="114" selection-end="114" vertical-scroll-proportion="0.12749004">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="615" column="53" selection-start="25273" selection-end="25278" vertical-scroll-proportion="0.33286715">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/model/DownloadModel.java">
@@ -1281,51 +1124,87 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/PullToRefreshBase.java">
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1502" column="28" selection-start="42604" selection-end="42604" vertical-scroll-proportion="0.33333334">
+        <state line="84" column="30" selection-start="2942" selection-end="2942" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/AccountPointInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="39" selection-start="1076" selection-end="1085" vertical-scroll-proportion="0.0">
+        <state line="2" column="13" selection-start="41" selection-end="41" vertical-scroll-proportion="0.04249668">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CRuntime.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="53" selection-start="530" selection-end="548" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/AdapterUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="9" selection-start="4301" selection-end="4301" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/SettingManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="31" selection-start="1046" selection-end="1061" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="34" selection-start="2669" selection-end="2669" vertical-scroll-proportion="0.0">
+        <state line="544" column="131" selection-start="25573" selection-end="25628" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java">
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="30" selection-start="2910" selection-end="2910" vertical-scroll-proportion="0.0">
+        <state line="519" column="86" selection-start="25039" selection-end="25039" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2669#2683#0" expanded="true" />
+            <element signature="e#2749#2758#0" expanded="true" />
+            <element signature="e#3445#3456#0" expanded="true" />
+            <element signature="e#20577#20593#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/AlbumActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="145" column="16" selection-start="4763" selection-end="4763" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/BaseActivity.java">
+    <entry file="file://$USER_HOME$/mybackup/software/android-sdk-mac_x86/sources/android-14/android/widget/AbsListView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="24" selection-start="313" selection-end="313" vertical-scroll-proportion="0.0">
+        <state line="3291" column="0" selection-start="116589" selection-end="116589" vertical-scroll-proportion="0.33333334">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="34" selection-start="5898" selection-end="5898" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="181" column="0" selection-start="6164" selection-end="6164" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="52" selection-start="1658" selection-end="1658" vertical-scroll-proportion="0.77732795">
+        <state line="4" column="34" selection-start="214" selection-end="214" vertical-scroll-proportion="0.08499336">
           <folding />
         </state>
       </provider>

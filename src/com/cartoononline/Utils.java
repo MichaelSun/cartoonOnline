@@ -27,7 +27,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.album.mmall.R;
+import com.album.mmall1.R;
 import com.cartoononline.api.LoginRequest;
 import com.cartoononline.api.LoginResponse;
 import com.cartoononline.api.RegisteRequest;

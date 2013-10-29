@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.album.mmall.R;
+import com.album.mmall1.R;
 import com.cartoononline.Utils.PointFetchListener;
 import com.cartoononline.Utils.RegisteListener;
 import com.cartoononline.api.LoginRequest;
