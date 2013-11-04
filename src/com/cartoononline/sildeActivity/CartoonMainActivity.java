@@ -173,6 +173,8 @@ public class CartoonMainActivity extends BaseActivity {
                     case 2:
                         image.setImageResource(R.drawable.icon_manhua);
                         break;
+                    case 3:
+                        image.setImageResource(R.drawable.icon_disi);
                 }
 
                 return ret;
@@ -441,6 +443,10 @@ public class CartoonMainActivity extends BaseActivity {
                 case 2:
                     Config.CURRENT_DOMAIN = 2;
                     getActionBar().setIcon(R.drawable.icon_manhua);
+                    break;
+                case 3:
+                    Config.CURRENT_DOMAIN = 3;
+                    getActionBar().setIcon(R.drawable.icon_disi);
                     break;
             }
 

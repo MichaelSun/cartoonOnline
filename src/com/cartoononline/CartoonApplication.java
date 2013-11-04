@@ -16,18 +16,18 @@ public class CartoonApplication extends Application {
         super.onCreate();
 
         Config.CURRENT_PACKAGE_NAME = Environment.getPackageName(this);
-        for (int index = 0; index < Config.PACKAGE_NAME.length; ++index) {
-            if (Config.PACKAGE_NAME[index].equals(Config.CURRENT_PACKAGE_NAME)) {
-                Config.INDEX = index;
-                break;
-            }
-        }
-        
-        //init special case
-        if (Config.INDEX == 3 || Config.INDEX == 4) {
-            Config.BOOK_REVIEW = true;
-            Config.DOWNLOAD_NEED_POINT = 20;
-        }
+//        for (int index = 0; index < Config.PACKAGE_NAME.length; ++index) {
+//            if (Config.PACKAGE_NAME[index].equals(Config.CURRENT_PACKAGE_NAME)) {
+//                Config.INDEX = index;
+//                break;
+//            }
+//        }
+//
+//        //init special case
+//        if (Config.INDEX == 3 || Config.INDEX == 4) {
+//            Config.BOOK_REVIEW = true;
+//            Config.DOWNLOAD_NEED_POINT = 20;
+//        }
         
         UtilsConfig.init(getApplicationContext());
         SettingManager.getInstance().init(getApplicationContext());
