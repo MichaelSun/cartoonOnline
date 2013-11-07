@@ -26,8 +26,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cartoonOnline.iws" />
@@ -86,7 +84,7 @@
     <file path="$PROJECT_DIR$/../quick-settings/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383054306303" ignored="false" />
     <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/service/PluginService.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383101268574" ignored="false" />
     <file path="/PluginService.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382932281530" ignored="false" />
-    <file path="/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383118439237" ignored="false" />
+    <file path="/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383814796798" ignored="false" />
     <file path="$PROJECT_DIR$/../quick-settings/src/com/xstd/qm/receiver/PackageAddBrc.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383039459681" ignored="false" />
     <file path="/PackageAddBrc.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383039122660" ignored="false" />
     <file path="$PROJECT_DIR$/../quick-settings/src/com/xstd/qm/DemonService.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382933629735" ignored="false" />
@@ -166,7 +164,7 @@
     <file path="/XSTDPluginActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383121973342" ignored="false" />
     <file path="/PrivateSMSBRC.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383122799535" ignored="false" />
     <file path="$PROJECT_DIR$/../xstd_plugin/src/com/xstd/plugin/Utils/LocationUtils.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383123906844" ignored="false" />
-    <file path="$PROJECT_DIR$/../jifenbao/code/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383529813182" ignored="false" />
+    <file path="$PROJECT_DIR$/../jifenbao/code/AndroidManifest.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383814864975" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/common/view/RoundRectDrawable.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383531555238" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/photoview/PhotoViewAttacher.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383531625698" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/photoview/SDK16.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383531625698" ignored="false" />
@@ -177,6 +175,7 @@
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/photoview/Compat.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383531625698" ignored="false" />
     <file path="/DialogUtils.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383814412869" ignored="false" />
     <file path="/CRuntime.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383809022217" ignored="false" />
+    <file path="$PROJECT_DIR$/../jifenbao/code/src/com/jifen/point/LanuchBroadcastReceiver.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383824959274" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,10 +241,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CartoonMainActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CartoonMainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="810" column="85" selection-start="35272" selection-end="35272" vertical-scroll-proportion="0.3124183">
+            <state line="807" column="9" selection-start="34951" selection-end="34951" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -269,10 +268,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Utils.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Utils.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Utils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="23" selection-start="5898" selection-end="5898" vertical-scroll-proportion="0.0">
+            <state line="144" column="23" selection-start="5898" selection-end="5898" vertical-scroll-proportion="1.8405229">
               <folding />
             </state>
           </provider>
@@ -1148,13 +1147,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="23" selection-start="5898" selection-end="5898" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="157" column="54" selection-start="5456" selection-end="5457" vertical-scroll-proportion="-9.84">
@@ -1164,7 +1156,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="810" column="85" selection-start="35272" selection-end="35272" vertical-scroll-proportion="0.3124183">
+        <state line="807" column="9" selection-start="34951" selection-end="34951" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="144" column="23" selection-start="5898" selection-end="5898" vertical-scroll-proportion="1.8405229">
           <folding />
         </state>
       </provider>
