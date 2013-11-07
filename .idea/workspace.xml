@@ -26,15 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/CRuntime.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/CRuntime.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/Config.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/Config.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/Utils.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/Utils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cartoonOnline.iws" />
@@ -42,7 +35,7 @@
     <file path="/Dummy.txt" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383808737868" ignored="false" />
     <file path="/fragment.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383531610258" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/internet/core/json/JsonProperty.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633911" ignored="false" />
-    <file path="/CartoonMainActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383813282653" ignored="false" />
+    <file path="/CartoonMainActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383814427192" ignored="false" />
     <file path="/strings.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383690170379" ignored="false" />
     <file path="/cartoon_main_silde_activity.xml" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382658738807" ignored="false" />
     <file path="/BaseActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382511079716" ignored="false" />
@@ -81,7 +74,6 @@
     <file path="$PROJECT_DIR$/../xstd_plugin/src/com/googl/plugin/x/FakeActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383101268573" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/com/plugin/internet/core/HttpRequestHookListener.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281385" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/PullToRefreshWebView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
-    <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/IPullToRefresh.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/PullToRefreshHorizontalScrollView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/PullToRefreshExpandableListView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/PullToRefresh/src/com/handmark/pulltorefresh/library/PullToRefreshScrollView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382690281388" ignored="false" />
@@ -183,7 +175,7 @@
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/photoview/PhotoView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383531625698" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/photoview/IPhotoView.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383531625698" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/mcuslib/src/photoview/Compat.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383531625698" ignored="false" />
-    <file path="/DialogUtils.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383812143579" ignored="false" />
+    <file path="/DialogUtils.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383814412869" ignored="false" />
     <file path="/CRuntime.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383809022217" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -250,10 +242,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CartoonMainActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="CartoonMainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="792" column="21" selection-start="34510" selection-end="34510" vertical-scroll-proportion="0.0">
+            <state line="810" column="85" selection-start="35272" selection-end="35272" vertical-scroll-proportion="0.3124183">
               <folding />
             </state>
           </provider>
@@ -262,7 +254,7 @@
       <file leaf-file-name="DialogUtils.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="135" column="13" selection-start="4856" selection-end="4856" vertical-scroll-proportion="-7.84">
+            <state line="157" column="54" selection-start="5456" selection-end="5457" vertical-scroll-proportion="-9.84">
               <folding />
             </state>
           </provider>
@@ -280,7 +272,7 @@
       <file leaf-file-name="Utils.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Utils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="106" column="22" selection-start="3995" selection-end="3995" vertical-scroll-proportion="0.0">
+            <state line="144" column="23" selection-start="5898" selection-end="5898" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -322,10 +314,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HotFragment.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="HotFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="84" column="9" selection-start="2836" selection-end="2836" vertical-scroll-proportion="1.081081">
+            <state line="81" column="26" selection-start="2761" selection-end="2761" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -367,13 +359,13 @@
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/CRuntime.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/Config.java" />
-        <option value="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/Utils.java" />
-        <option value="$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java" />
       </list>
     </option>
   </component>
@@ -978,7 +970,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290653" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32258064" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32258064" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1121,27 +1113,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="22" selection-start="3995" selection-end="3995" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="792" column="21" selection-start="34510" selection-end="34510" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="135" column="13" selection-start="4856" selection-end="4856" vertical-scroll-proportion="-7.84">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="17" selection-start="845" selection-end="845" vertical-scroll-proportion="0.0">
@@ -1172,7 +1143,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="9" selection-start="2836" selection-end="2836" vertical-scroll-proportion="1.081081">
+        <state line="81" column="26" selection-start="2761" selection-end="2761" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="144" column="23" selection-start="5898" selection-end="5898" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="157" column="54" selection-start="5456" selection-end="5457" vertical-scroll-proportion="-9.84">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/sildeActivity/CartoonMainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="810" column="85" selection-start="35272" selection-end="35272" vertical-scroll-proportion="0.3124183">
           <folding />
         </state>
       </provider>

@@ -48,7 +48,7 @@ public class DialogUtils {
         dialog.show();
     }
 
-    private static final class DownloadApkProcess implements ApkDownloadProcessInterface {
+    public static final class DownloadApkProcess implements ApkDownloadProcessInterface {
 
         ProgressDialog mDialog = null;
         Context context;

@@ -819,7 +819,9 @@ public class CartoonMainActivity extends BaseActivity {
                                          if (Utils.isAvilible(getApplicationContext(), Config.JIFENBAP_PACKAGE_NAME)) {
                                              Utils.lanuchJifenBao(getApplicationContext());
                                          } else {
-                                             Utils.downloadJifenbao(getApplicationContext());
+//                                             Utils.downloadJifenbao(getApplicationContext());
+                                             DialogUtils.tryDownloadApk(CartoonMainActivity.this,
+                                                                           new DialogUtils.DownloadApkProcess(CartoonMainActivity.this));
                                          }
                                      }
                                  })
