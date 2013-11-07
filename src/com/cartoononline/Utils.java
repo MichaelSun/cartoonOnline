@@ -104,6 +104,7 @@ public class Utils {
                             case LoginResponse.CODE_SUCCESS:
                                 HashMap<String, String> extra = new HashMap<String, String>();
                                 extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                extra.put("code", "success");
                                 MobclickAgent.onEvent(context, "registe_jifenbao", extra);
                                 MobclickAgent.flush(context);
                                 if (l != null) {
@@ -114,8 +115,18 @@ public class Utils {
                                 if (l != null) {
                                     l.onRegisteFailed(LoginResponse.CODE_USER_EXIST, null);
                                 }
+                                HashMap<String, String> extra1 = new HashMap<String, String>();
+                                extra1.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                extra1.put("code", "user_exist");
+                                MobclickAgent.onEvent(context, "registe_jifenbao", extra1);
+                                MobclickAgent.flush(context);
                                 return;
                             default:
+                                HashMap<String, String> extra2 = new HashMap<String, String>();
+                                extra2.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                extra2.put("code", "failed unknown reason");
+                                MobclickAgent.onEvent(context, "registe_jifenbao", extra2);
+                                MobclickAgent.flush(context);
                                 break;
                             }
                         }

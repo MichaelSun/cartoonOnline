@@ -15,6 +15,8 @@ public class CRuntime {
     public static String CUR_FORMAT_TIME;
     
     public static AccountPointInfo ACCOUNT_POINT_INFO = new AccountPointInfo();
+
+    public static AtomicBoolean DOWNLOAD_PROCESS_RUNNING = new AtomicBoolean(false);
     
     public static String composeTime() {
         gCalendar.setTimeInMillis(System.currentTimeMillis());

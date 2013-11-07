@@ -99,7 +99,8 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                         int code = (Integer) i.getTag();
                         if (hashCode == code) {
                             i.setImageBitmap((Bitmap) msg.obj);
-                            if (!mIsFling && msg.arg2 == LOAD_FROM_SERVER) {
+                            if (!mIsFling && msg.arg2 == LOAD_FROM_SERVER
+                                && mFadeInAnim != null) {
                                 i.startAnimation(mFadeInAnim);
                             }
                         }
@@ -146,7 +147,9 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         initProgressBar();
         initUnZipProgressBar();
 
-        mFadeInAnim = AnimationUtils.loadAnimation(a.getApplicationContext(), R.anim.fade_in);
+        if (a != null) {
+            mFadeInAnim = AnimationUtils.loadAnimation(a.getApplicationContext(), R.anim.fade_in);
+        }
 
         if (data != null) {
             for (DownloadItemModel item : data) {

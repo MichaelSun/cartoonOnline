@@ -733,6 +733,7 @@ public class CartoonMainActivity extends BaseActivity {
                                 }
                             });
 
+                            HashMap<String, String> extra = new HashMap<String, String>();
                             switch (response.code) {
                                 case LoginResponse.CODE_SUCCESS:
                                     final String point = response.data;
@@ -756,6 +757,10 @@ public class CartoonMainActivity extends BaseActivity {
                                                                                       getString(R.string.downalod_jifenbao_registe));
                                         }
                                     });
+                                    extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                    extra.put("code", "user_not_exist");
+                                    MobclickAgent.onEvent(getApplicationContext(), "login_jifenbao", extra);
+                                    MobclickAgent.flush(getApplicationContext());
                                     break;
                                 case LoginResponse.CODE_PASSWORD_ERROR:
                                     runOnUiThread(new Runnable() {
@@ -766,11 +771,25 @@ public class CartoonMainActivity extends BaseActivity {
                                                               Toast.LENGTH_LONG).show();
                                         }
                                     });
+                                    extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                    extra.put("code", "password_error");
+                                    MobclickAgent.onEvent(getApplicationContext(), "login_jifenbao", extra);
+                                    MobclickAgent.flush(getApplicationContext());
                                     break;
+                                default:
+                                    extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                    extra.put("code", "failed_unknown_reason");
+                                    MobclickAgent.onEvent(getApplicationContext(), "login_jifenbao", extra);
+                                    MobclickAgent.flush(getApplicationContext());
                             }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        HashMap<String, String> extra = new HashMap<String, String>();
+                        extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                        extra.put("code", e.getMessage());
+                        MobclickAgent.onEvent(getApplicationContext(), "login_jifenbao", extra);
+                        MobclickAgent.flush(getApplicationContext());
                     }
                 }
             });
