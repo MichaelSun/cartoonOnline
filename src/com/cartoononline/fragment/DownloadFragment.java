@@ -65,26 +65,28 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
-            case NOTIFY_DOWNLOAD_CHANGED:
-                mPullRefreshGridView.onRefreshComplete();
-                if (mDownloadList != null && mDownloadList.size() > 0) {
-                    mEmptyTV.setVisibility(View.GONE);
-                }
-                if (mDownlaodListAdapter == null) {
-                    mDownlaodListAdapter = new DownloadItemAdapter(mActivity, mDownloadList, mLayoutInflater);
-                    if (mDownloadGridView != null) {
-                        mDownloadGridView.setAdapter(mDownlaodListAdapter);
+                case NOTIFY_DOWNLOAD_CHANGED:
+                    mPullRefreshGridView.onRefreshComplete();
+                    if (mDownloadList != null && mDownloadList.size() > 0) {
+                        mEmptyTV.setVisibility(View.GONE);
                     }
-                } else {
-                    mDownlaodListAdapter.setData(mDownloadList);
-                }
-                break;
-            case DISSMISS_PROGRESS:
-                mPullRefreshGridView.onRefreshComplete();
-                break;
-            case STOP_REFRESH:
-                mPullRefreshGridView.onRefreshComplete();
-                break;
+                    if (mDownlaodListAdapter == null) {
+                        if (mActivity != null) {
+                            mDownlaodListAdapter = new DownloadItemAdapter(mActivity, mDownloadList, mLayoutInflater);
+                            if (mDownloadGridView != null) {
+                                mDownloadGridView.setAdapter(mDownlaodListAdapter);
+                            }
+                        }
+                    } else {
+                        mDownlaodListAdapter.setData(mDownloadList);
+                    }
+                    break;
+                case DISSMISS_PROGRESS:
+                    mPullRefreshGridView.onRefreshComplete();
+                    break;
+                case STOP_REFRESH:
+                    mPullRefreshGridView.onRefreshComplete();
+                    break;
             }
         }
     };
@@ -116,6 +118,8 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         Config.LOGD("[[DownloadFragment::onDestroyView]]");
 
         super.onDestroyView();
+        mHandler.removeCallbacksAndMessages(null);
+
         if (mDownlaodListAdapter != null) {
             mDownlaodListAdapter.onDestroy();
         }
@@ -161,13 +165,13 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
-                case SCROLL_STATE_FLING:
-                case SCROLL_STATE_TOUCH_SCROLL:
-                    mIsFling = true;
-                    break;
-                case SCROLL_STATE_IDLE:
-                    mIsFling = false;
-                    break;
+                    case SCROLL_STATE_FLING:
+                    case SCROLL_STATE_TOUCH_SCROLL:
+                        mIsFling = true;
+                        break;
+                    case SCROLL_STATE_IDLE:
+                        mIsFling = false;
+                        break;
                 }
 
                 if (mDownlaodListAdapter != null) {
@@ -213,6 +217,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
 
         return ret;
     }
+
     private void asyncLoadDataLocal() {
         mDownloadModel.asyncLoadDataLocal(new DataDownloadListener() {
 
@@ -226,7 +231,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
                 } else {
                     mDownloadList.clear();
                 }
-                
+
                 mHandler.sendEmptyMessageDelayed(NOTIFY_DOWNLOAD_CHANGED, 200);
             }
 
@@ -305,7 +310,7 @@ public class DownloadFragment extends Fragment implements FragmentStatusInterfac
         // loadDownloadDataServer(true);
         mPullRefreshGridView.setRefreshing();
     }
-    
+
     @Override
     public void onStopShow() {
         if (mDownlaodListAdapter != null) {

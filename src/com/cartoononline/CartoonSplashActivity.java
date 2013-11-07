@@ -569,6 +569,7 @@ public class CartoonSplashActivity extends BaseActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             HashMap<String, String> extra = new HashMap<String, String>();
                             extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                            extra.put("code", "login");
                             MobclickAgent.onEvent(getApplicationContext(), "login_jifenbao", extra);
                             MobclickAgent.flush(getApplicationContext());
 
@@ -684,6 +685,7 @@ public class CartoonSplashActivity extends BaseActivity {
                                 }
                             });
 
+                            HashMap<String, String> extra = new HashMap<String, String>();
                             switch (response.code) {
                             case LoginResponse.CODE_SUCCESS:
                                 final String point = response.data;
@@ -707,6 +709,10 @@ public class CartoonSplashActivity extends BaseActivity {
                                                 getString(R.string.downalod_jifenbao_registe));
                                     }
                                 });
+                                extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                extra.put("code", "user_exists");
+                                MobclickAgent.onEvent(getApplicationContext(), "login_jifenbao", extra);
+                                MobclickAgent.flush(getApplicationContext());
                                 break;
                             case LoginResponse.CODE_PASSWORD_ERROR:
                                 runOnUiThread(new Runnable() {
@@ -717,7 +723,16 @@ public class CartoonSplashActivity extends BaseActivity {
                                                 Toast.LENGTH_LONG).show();
                                     }
                                 });
+                                extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                extra.put("code", "password_error");
+                                MobclickAgent.onEvent(getApplicationContext(), "login_jifenbao", extra);
+                                MobclickAgent.flush(getApplicationContext());
                                 break;
+                            default:
+                                extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                extra.put("code", "login_failed_unknown");
+                                MobclickAgent.onEvent(getApplicationContext(), "login_jifenbao", extra);
+                                MobclickAgent.flush(getApplicationContext());
                             }
                         }
                     } catch (Exception e) {

@@ -504,6 +504,11 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                                                                         msg.obj = item;
                                                                         mHandler.sendMessage(msg);
 
+                                                                        HashMap<String, String> extra = new HashMap<String, String>();
+                                                                        extra.put("name", item.description);
+                                                                        extra.put("code", "success");
+                                                                        MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM, extra);
+                                                                        MobclickAgent.flush(mContext);
                                                                         // spend
                                                                         // point
                                                                         int localPoint = SettingManager.getInstance()
@@ -522,8 +527,15 @@ public class HotIAdapter extends BaseAdapter implements OnStateChangedListener {
                                                                                             .getUserName(),
                                                                                     uploadPoint, null);
                                                                         }
+
+                                                                        return;
                                                                     }
 
+                                                                    HashMap<String, String> extra = new HashMap<String, String>();
+                                                                    extra.put("name", item.description);
+                                                                    extra.put("code", "failed");
+                                                                    MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM, extra);
+                                                                    MobclickAgent.flush(mContext);
                                                                     mHandler.sendEmptyMessage(DISMISS_DIALOG);
                                                                 }
 

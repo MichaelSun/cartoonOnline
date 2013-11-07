@@ -100,10 +100,11 @@ public class Utils {
                         RegisteResponse response = InternetUtils.request(context,
                                 new RegisteRequest(username, username));
                         if (response != null) {
+                            HashMap<String, String> extra = new HashMap<String, String>();
                             switch (response.code) {
                             case LoginResponse.CODE_SUCCESS:
-                                HashMap<String, String> extra = new HashMap<String, String>();
                                 extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                extra.put("code", "success");
                                 MobclickAgent.onEvent(context, "registe_jifenbao", extra);
                                 MobclickAgent.flush(context);
                                 if (l != null) {
@@ -114,13 +115,27 @@ public class Utils {
                                 if (l != null) {
                                     l.onRegisteFailed(LoginResponse.CODE_USER_EXIST, null);
                                 }
+                                extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                extra.put("code", "user_exists");
+                                MobclickAgent.onEvent(context, "registe_jifenbao", extra);
+                                MobclickAgent.flush(context);
                                 return;
                             default:
+                                extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                                extra.put("code", "failed_unknown");
+                                MobclickAgent.onEvent(context, "registe_jifenbao", extra);
+                                MobclickAgent.flush(context);
                                 break;
                             }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+
+                        HashMap<String, String> extra = new HashMap<String, String>();
+                        extra.put("packageName", Config.CURRENT_PACKAGE_NAME);
+                        extra.put("code", e.getMessage());
+                        MobclickAgent.onEvent(context, "registe_jifenbao", extra);
+                        MobclickAgent.flush(context);
                     }
 
                     if (l != null) {

@@ -2,16 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/Utils.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/Utils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cartoonOnline.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382858903276" ignored="false" />
+    <file path="/Dummy.txt" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383825302107" ignored="false" />
     <file path="/fragment.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1381799902189" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/abs/src/com/actionbarsherlock/app/SherlockFragmentActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633927" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/abs/src/com/actionbarsherlock/app/ActionBar.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633927" ignored="false" />
     <file path="$PROJECT_DIR$/src_lib/abs/src/com/actionbarsherlock/view/MenuItem.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382500633954" ignored="false" />
-    <file path="/Utils.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1382858996457" ignored="false" />
+    <file path="/Utils.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383825944454" ignored="false" />
+    <file path="/DownloadFragment.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383825589363" ignored="false" />
+    <file path="/HotFragment.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383825627748" ignored="false" />
+    <file path="/CartoonSplashActivity.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383825805580" ignored="false" />
+    <file path="/DownloadItemAdapter.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383826034932" ignored="false" />
+    <file path="/HotIAdapter.java" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383826128555" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,20 +83,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="40" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="DownloadItemAdapter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="548" column="91" selection-start="25362" selection-end="25362" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="565" column="108" selection-start="29810" selection-end="30464" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2742#2761#0" expanded="true" />
+                <element signature="e#2826#2835#0" expanded="true" />
+                <element signature="e#3416#3427#0" expanded="true" />
+                <element signature="e#21854#21870#0" expanded="true" />
+                <element signature="e#26139#26155#0" expanded="true" />
+                <element signature="e#29853#29869#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -93,8 +103,11 @@
       <file leaf-file-name="HotIAdapter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="519" column="92" selection-start="23744" selection-end="23744" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="520" column="53" selection-start="23831" selection-end="23831" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#22417#22433#0" expanded="true" />
+                <element signature="e#25007#25023#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -102,43 +115,73 @@
       <file leaf-file-name="Utils.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Utils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="197" column="78" selection-start="8123" selection-end="8123" vertical-scroll-proportion="0.0">
+            <state line="148" column="23" selection-start="6053" selection-end="6053" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.py">
+      <file leaf-file-name="FragmentStatusInterface.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/FragmentStatusInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="2" column="17" selection-start="54" selection-end="54" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CartoonSplashActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="DownloadFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="74" column="67" selection-start="2528" selection-end="2528" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CartoonSplashActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="37" selection-start="1971" selection-end="1971" vertical-scroll-proportion="0.0">
+            <state line="777" column="69" selection-start="33935" selection-end="33935" vertical-scroll-proportion="0.8423154">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Config.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Config.java">
+      <file leaf-file-name="HotFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="79" selection-start="1679" selection-end="1679" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="74" column="52" selection-start="2477" selection-end="2477" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1630#1644#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="53" selection-start="266" selection-end="266" vertical-scroll-proportion="0.12955466">
+            <state line="16" column="24" selection-start="704" selection-end="704" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="loginReceiver.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/loginReceiver.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="13" selection-start="178" selection-end="178" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DialogUtils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="47" selection-start="1194" selection-end="1210" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -162,13 +205,15 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" />
-        <option value="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" />
-        <option value="$PROJECT_DIR$/src/com/cartoononline/Utils.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/Config.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/Utils.java" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" />
       </list>
     </option>
   </component>
@@ -204,6 +249,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -251,6 +297,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="cartoononline" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cartoonOnline" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cartoonOnline" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cartoononline" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fragment" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -324,7 +392,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -343,8 +410,8 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Android Application.cartoon">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -359,19 +426,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -399,6 +453,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -487,28 +554,28 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="47" y="22" width="1393" height="878" extended-state="6" />
+    <frame x="47" y="22" width="1393" height="878" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287841" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32754344" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24907063" sideWeight="0.6722151" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25843504" sideWeight="0.67245656" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277849" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277849" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -578,34 +645,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="17" selection-start="1239" selection-end="1239" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="37" selection-start="1971" selection-end="1971" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="59" selection-start="410" selection-end="410" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="62" column="33" selection-start="2148" selection-end="2148" vertical-scroll-proportion="0.0">
@@ -623,34 +662,6 @@
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="30" selection-start="303" selection-end="303" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="37" selection-start="1971" selection-end="1971" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="548" column="91" selection-start="25362" selection-end="25362" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="519" column="92" selection-start="23744" selection-end="23744" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="197" column="78" selection-start="8123" selection-end="8123" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -678,7 +689,84 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="53" selection-start="266" selection-end="266" vertical-scroll-proportion="0.12955466">
+        <state line="16" column="24" selection-start="704" selection-end="704" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/loginReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="13" selection-start="178" selection-end="178" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="47" selection-start="1194" selection-end="1210" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/FragmentStatusInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="17" selection-start="54" selection-end="54" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="52" selection-start="2477" selection-end="2477" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1630#1644#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="67" selection-start="2528" selection-end="2528" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="565" column="108" selection-start="29810" selection-end="30464" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2742#2761#0" expanded="true" />
+            <element signature="e#2826#2835#0" expanded="true" />
+            <element signature="e#3416#3427#0" expanded="true" />
+            <element signature="e#21854#21870#0" expanded="true" />
+            <element signature="e#26139#26155#0" expanded="true" />
+            <element signature="e#29853#29869#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="520" column="53" selection-start="23831" selection-end="23831" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#22417#22433#0" expanded="true" />
+            <element signature="e#25007#25023#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="148" column="23" selection-start="6053" selection-end="6053" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="777" column="69" selection-start="33935" selection-end="33935" vertical-scroll-proportion="0.8423154">
           <folding />
         </state>
       </provider>

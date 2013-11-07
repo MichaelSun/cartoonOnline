@@ -65,26 +65,28 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
-            case NOTIFY_DOWNLOAD_CHANGED:
-                mListView.onRefreshComplete();
-                if (mDownloadList != null && mDownloadList.size() > 0) {
-                    mEmptyTV.setVisibility(View.GONE);
-                }
-                if (mHotAdapter == null) {
-                    mHotAdapter = new HotIAdapter(mActivity, mDownloadList, mLayoutInflater);
-                    if (mRealListView != null) {
-                        mRealListView.setAdapter(mHotAdapter);
+                case NOTIFY_DOWNLOAD_CHANGED:
+                    mListView.onRefreshComplete();
+                    if (mDownloadList != null && mDownloadList.size() > 0) {
+                        mEmptyTV.setVisibility(View.GONE);
                     }
-                } else {
-                    mHotAdapter.setData(mDownloadList);
-                }
-                break;
-            case DISSMISS_PROGRESS:
-                mListView.onRefreshComplete();
-                break;
-            case STOP_REFRESH:
-                mListView.onRefreshComplete();
-                break;
+                    if (mHotAdapter == null) {
+                        if (mActivity != null) {
+                            mHotAdapter = new HotIAdapter(mActivity, mDownloadList, mLayoutInflater);
+                            if (mRealListView != null) {
+                                mRealListView.setAdapter(mHotAdapter);
+                            }
+                        }
+                    } else {
+                        mHotAdapter.setData(mDownloadList);
+                    }
+                    break;
+                case DISSMISS_PROGRESS:
+                    mListView.onRefreshComplete();
+                    break;
+                case STOP_REFRESH:
+                    mListView.onRefreshComplete();
+                    break;
             }
         }
     };
@@ -103,7 +105,7 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
         mContext = mActivity.getApplicationContext();
-        
+
         mLayoutInflater = inflater;
         return makeHotView();
     }
@@ -137,13 +139,13 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
-                case SCROLL_STATE_FLING:
-                case SCROLL_STATE_TOUCH_SCROLL:
-                    mIsFling = true;
-                    break;
-                case SCROLL_STATE_IDLE:
-                    mIsFling = false;
-                    break;
+                    case SCROLL_STATE_FLING:
+                    case SCROLL_STATE_TOUCH_SCROLL:
+                        mIsFling = true;
+                        break;
+                    case SCROLL_STATE_IDLE:
+                        mIsFling = false;
+                        break;
                 }
 
                 if (mHotAdapter != null) {
@@ -270,7 +272,7 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
     public void onForceRefresh() {
         mListView.setRefreshing();
     }
-    
+
     @Override
     public void onStopShow() {
         if (mHotAdapter != null) {
@@ -281,8 +283,9 @@ public class HotFragment extends Fragment implements FragmentStatusInterface {
     @Override
     public void onDestroyView() {
         Config.LOGD("[[HotFragment::onDestroyView]]");
-        
+
         super.onDestroyView();
+        mHandler.removeCallbacksAndMessages(null);
         if (mHotAdapter != null) {
             mHotAdapter.onDestroy();
         }

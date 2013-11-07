@@ -109,44 +109,44 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-            case REFRESH_ICONS:
-                int hashCode = msg.arg1;
-                if (mIconImageViewList != null && mIconImageViewList.size() > 0) {
-                    for (ImageView i : mIconImageViewList) {
-                        int code = (Integer) i.getTag();
-                        if (hashCode == code) {
-                            i.setImageBitmap((Bitmap) msg.obj);
-                            if (!mIsFling && msg.arg2 == LOAD_FROM_SERVER) {
-                                i.startAnimation(mFadeInAnim);
+                case REFRESH_ICONS:
+                    int hashCode = msg.arg1;
+                    if (mIconImageViewList != null && mIconImageViewList.size() > 0) {
+                        for (ImageView i : mIconImageViewList) {
+                            int code = (Integer) i.getTag();
+                            if (hashCode == code) {
+                                i.setImageBitmap((Bitmap) msg.obj);
+                                if (!mIsFling && msg.arg2 == LOAD_FROM_SERVER) {
+                                    i.startAnimation(mFadeInAnim);
+                                }
                             }
                         }
                     }
-                }
-                break;
-            case REFRESH_LIST:
-                notifyDataSetChanged();
-                if (mProgress != null && mProgress.isShowing()) {
-                    mProgress.dismiss();
-                }
-                // try to unzip
-                asyncUnzipSession((DownloadItemModel) msg.obj);
-                break;
-            case DISMISS_DIALOG:
-                if (mProgress != null) {
-                    mProgress.dismiss();
-                }
-                break;
-            case DISMISS_UNZIP_DIALOG:
-                mUnZipProgress.dismiss();
-                break;
-            case DELETE_ITEM_REFRESH:
-                notifyDataSetChanged();
-                deleteSession((DownloadItemModel) msg.obj);
-                break;
-            case SHOW_BOOK_DOWNLOAD_TIPS:
-                String data = (String) msg.obj;
-                Toast.makeText(mActivity, data, Toast.LENGTH_LONG).show();
-                break;
+                    break;
+                case REFRESH_LIST:
+                    notifyDataSetChanged();
+                    if (mProgress != null && mProgress.isShowing()) {
+                        mProgress.dismiss();
+                    }
+                    // try to unzip
+                    asyncUnzipSession((DownloadItemModel) msg.obj);
+                    break;
+                case DISMISS_DIALOG:
+                    if (mProgress != null) {
+                        mProgress.dismiss();
+                    }
+                    break;
+                case DISMISS_UNZIP_DIALOG:
+                    mUnZipProgress.dismiss();
+                    break;
+                case DELETE_ITEM_REFRESH:
+                    notifyDataSetChanged();
+                    deleteSession((DownloadItemModel) msg.obj);
+                    break;
+                case SHOW_BOOK_DOWNLOAD_TIPS:
+                    String data = (String) msg.obj;
+                    Toast.makeText(mActivity, data, Toast.LENGTH_LONG).show();
+                    break;
             }
         }
     };
@@ -263,7 +263,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                 HotItemModel searchItem = new HotItemModel();
                                 searchItem.downloadUrlHashCode = r.downloadUrlHashCode;
                                 HotItemModel result = SingleInstanceBase.getInstance(HotModel.class)
-                                        .getItem(searchItem);
+                                                          .getItem(searchItem);
                                 if (result != null) {
                                     updateHotItem(result, r);
                                     SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
@@ -284,13 +284,13 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                     });
                                     if (files != null && files.length > 0) {
                                         FileOperatorHelper.copyFile(m.localFullPath + files[0],
-                                                Config.BOOK_DOWNLOAD_DIR + files[0]);
+                                                                       Config.BOOK_DOWNLOAD_DIR + files[0]);
                                     }
 
                                     Message msg = Message.obtain();
                                     msg.what = SHOW_BOOK_DOWNLOAD_TIPS;
                                     msg.obj = String.format(mContext.getString(R.string.book_download_tips),
-                                            m.description, Config.BOOK_DOWNLOAD_DIR + files[0]);
+                                                               m.description, Config.BOOK_DOWNLOAD_DIR + files[0]);
                                     mHandler.sendMessageDelayed(msg, 200);
                                 }
 
@@ -406,7 +406,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
 
         if (item.downloadCount > 0) {
             holder.downloadTV.setText(String.format(mContext.getString(R.string.download_count_text),
-                    String.valueOf(item.downloadCount)));
+                                                       String.valueOf(item.downloadCount)));
         }
 
         // set icon image
@@ -451,26 +451,26 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                     mHandler.sendMessage(msg);
                 } else {
                     mImageDownloader.postRequest(new ImageFetchRequest(url, mCustomCycleBitmapOpration),
-                            new DownloadListener() {
+                                                    new DownloadListener() {
 
-                                @Override
-                                public void onDownloadProcess(int fileSize, int downloadSize) {
-                                }
+                                                        @Override
+                                                        public void onDownloadProcess(int fileSize, int downloadSize) {
+                                                        }
 
-                                @Override
-                                public void onDownloadFinished(int status, Object response) {
-                                    if (response != null && status == ImageDownloader.DOWNLOAD_SUCCESS) {
-                                        ImageFetchResponse r = (ImageFetchResponse) response;
-                                        Message msg = new Message();
-                                        msg.what = REFRESH_ICONS;
-                                        msg.arg1 = r.getDownloadUrl().hashCode();
-                                        msg.arg2 = LOAD_FROM_SERVER;
-                                        msg.obj = r.getmBt();
-                                        mHandler.sendMessage(msg);
-                                    }
-                                }
+                                                        @Override
+                                                        public void onDownloadFinished(int status, Object response) {
+                                                            if (response != null && status == ImageDownloader.DOWNLOAD_SUCCESS) {
+                                                                ImageFetchResponse r = (ImageFetchResponse) response;
+                                                                Message msg = new Message();
+                                                                msg.what = REFRESH_ICONS;
+                                                                msg.arg1 = r.getDownloadUrl().hashCode();
+                                                                msg.arg2 = LOAD_FROM_SERVER;
+                                                                msg.obj = r.getmBt();
+                                                                mHandler.sendMessage(msg);
+                                                            }
+                                                        }
 
-                            });
+                                                    });
                 }
             }
         });
@@ -487,83 +487,94 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                             @Override
                             public void onCanDownlaod() {
                                 AlertDialog dialog = new AlertDialog.Builder(mActivity)
-                                        .setMessage(
-                                                String.format(mActivity.getString(R.string.download_tips),
-                                                        item.description)).setNegativeButton(R.string.cancel, null)
-                                        .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (!TextUtils.isEmpty(item.downloadUrl)) {
-                                                    HashMap<String, String> extra = new HashMap<String, String>();
-                                                    extra.put("name", item.description);
-                                                    MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM, extra);
-                                                    MobclickAgent.flush(mContext);
+                                                         .setMessage(
+                                                                        String.format(mActivity.getString(R.string.download_tips),
+                                                                                         item.description)).setNegativeButton(R.string.cancel, null)
+                                                         .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
+                                                             @Override
+                                                             public void onClick(DialogInterface dialog, int which) {
+                                                                 if (!TextUtils.isEmpty(item.downloadUrl)) {
+                                                                     HashMap<String, String> extra = new HashMap<String, String>();
+                                                                     extra.put("name", item.description);
+                                                                     MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM, extra);
+                                                                     MobclickAgent.flush(mContext);
 
-                                                    if (mProgress != null && !mProgress.isShowing()) {
-                                                        mProgress.show();
-                                                    }
+                                                                     if (mProgress != null && !mProgress.isShowing()) {
+                                                                         mProgress.show();
+                                                                     }
 
-                                                    int pos = item.downloadUrl.lastIndexOf("session");
-                                                    int endPost = item.downloadUrl.lastIndexOf(".zip");
-                                                    if (pos != -1 && endPost != -1) {
-                                                        String index = item.downloadUrl.substring(
-                                                                pos + "session".length(), endPost);
-                                                        increaseDownloadCount(Integer.valueOf(index));
-                                                    }
+                                                                     int pos = item.downloadUrl.lastIndexOf("session");
+                                                                     int endPost = item.downloadUrl.lastIndexOf(".zip");
+                                                                     if (pos != -1 && endPost != -1) {
+                                                                         String index = item.downloadUrl.substring(
+                                                                                                                      pos + "session".length(), endPost);
+                                                                         increaseDownloadCount(Integer.valueOf(index));
+                                                                     }
 
-                                                    mFileDownloader.postRequest(new DownloadRequest(item.downloadUrl),
-                                                            new DownloadListener() {
+                                                                     mFileDownloader.postRequest(new DownloadRequest(item.downloadUrl),
+                                                                                                    new DownloadListener() {
 
-                                                                @Override
-                                                                public void onDownloadProcess(int fileSize,
-                                                                        int downloadSize) {
+                                                                                                        @Override
+                                                                                                        public void onDownloadProcess(int fileSize,
+                                                                                                                                      int downloadSize) {
 
-                                                                }
+                                                                                                        }
 
-                                                                @Override
-                                                                public void onDownloadFinished(int status,
-                                                                        Object response) {
-                                                                    if (status == FileDownloader.DOWNLOAD_SUCCESS
-                                                                            && response != null) {
-                                                                        LOGD("Download success, respose = " + response);
-                                                                        DownloadResponse r = (DownloadResponse) response;
-                                                                        item.downloadStatus = DownloadItemModel.DOWNLOADED;
-                                                                        item.localFullPath = r.getRawLocalPath();
+                                                                                                        @Override
+                                                                                                        public void onDownloadFinished(int status,
+                                                                                                                                       Object response) {
+                                                                                                            if (status == FileDownloader.DOWNLOAD_SUCCESS
+                                                                                                                    && response != null) {
+                                                                                                                LOGD("Download success, respose = " + response);
+                                                                                                                DownloadResponse r = (DownloadResponse) response;
+                                                                                                                item.downloadStatus = DownloadItemModel.DOWNLOADED;
+                                                                                                                item.localFullPath = r.getRawLocalPath();
 
-                                                                        Message msg = new Message();
-                                                                        msg.what = REFRESH_LIST;
-                                                                        msg.obj = item;
-                                                                        mHandler.sendMessage(msg);
+                                                                                                                Message msg = new Message();
+                                                                                                                msg.what = REFRESH_LIST;
+                                                                                                                msg.obj = item;
+                                                                                                                mHandler.sendMessage(msg);
 
-                                                                        // spend
-                                                                        // point
-                                                                        int localPoint = SettingManager.getInstance()
-                                                                                .getPointInt();
-                                                                        if (localPoint >= 5) {
-                                                                            SettingManager.getInstance().setPointInt(
-                                                                                    localPoint - 5);
-                                                                        } else {
-                                                                            SettingManager.getInstance().setPointInt(0);
-                                                                            int uploadPoint = CRuntime.ACCOUNT_POINT_INFO.currentPoint
-                                                                                    - Config.DOWNLOAD_NEED_POINT;
-                                                                            uploadPoint = uploadPoint > 0 ? uploadPoint
-                                                                                    : 1;
-                                                                            Utils.asyncUploadPoint(mContext,
-                                                                                    SettingManager.getInstance()
-                                                                                            .getUserName(),
-                                                                                    uploadPoint, null);
-                                                                        }
+                                                                                                                HashMap<String, String> extra = new HashMap<String, String>();
+                                                                                                                extra.put("name", item.description);
+                                                                                                                extra.put("code", "success");
+                                                                                                                MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM, extra);
+                                                                                                                MobclickAgent.flush(mContext);
 
-                                                                        return;
-                                                                    }
+                                                                                                                // spend
+                                                                                                                // point
+                                                                                                                int localPoint = SettingManager.getInstance()
+                                                                                                                                     .getPointInt();
+                                                                                                                if (localPoint >= 5) {
+                                                                                                                    SettingManager.getInstance().setPointInt(
+                                                                                                                                                                localPoint - 5);
+                                                                                                                } else {
+                                                                                                                    SettingManager.getInstance().setPointInt(0);
+                                                                                                                    int uploadPoint = CRuntime.ACCOUNT_POINT_INFO.currentPoint
+                                                                                                                                          - Config.DOWNLOAD_NEED_POINT;
+                                                                                                                    uploadPoint = uploadPoint > 0 ? uploadPoint
+                                                                                                                                      : 1;
+                                                                                                                    Utils.asyncUploadPoint(mContext,
+                                                                                                                                              SettingManager.getInstance()
+                                                                                                                                                  .getUserName(),
+                                                                                                                                              uploadPoint, null);
+                                                                                                                }
 
-                                                                    mHandler.sendEmptyMessage(DISMISS_DIALOG);
-                                                                }
+                                                                                                                return;
+                                                                                                            }
 
-                                                            });
-                                                }
-                                            }
-                                        }).create();
+                                                                                                            HashMap<String, String> extra = new HashMap<String, String>();
+                                                                                                            extra.put("name", item.description);
+                                                                                                            extra.put("code", "failed");
+                                                                                                            MobclickAgent.onEvent(mContext, Config.DOWNLOAD_ALUBM, extra);
+                                                                                                            MobclickAgent.flush(mContext);
+                                                                                                            mHandler.sendEmptyMessage(DISMISS_DIALOG);
+                                                                                                        }
+
+                                                                                                    });
+                                                                 }
+                                                             }
+                                                         }).create();
                                 dialog.show();
                             }
 
@@ -587,14 +598,14 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                     final String local = item.getLocalFullPath();
                     if (!TextUtils.isEmpty(local)) {
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
-                                .setMessage(String.format(mActivity.getString(R.string.delete_tips), item.sessionName))
-                                .setNegativeButton(R.string.cancel, null)
-                                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        onDeleteItem(item);
-                                    }
-                                }).create();
+                                                 .setMessage(String.format(mActivity.getString(R.string.delete_tips), item.sessionName))
+                                                 .setNegativeButton(R.string.cancel, null)
+                                                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                                                     @Override
+                                                     public void onClick(DialogInterface dialog, int which) {
+                                                         onDeleteItem(item);
+                                                     }
+                                                 }).create();
                         dialog.show();
                     }
                 }
@@ -610,14 +621,14 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                     final String local = item.getLocalFullPath();
                     if (!TextUtils.isEmpty(local)) {
                         AlertDialog dialog = new AlertDialog.Builder(mActivity)
-                                .setMessage(String.format(mActivity.getString(R.string.delete_tips), item.sessionName))
-                                .setNegativeButton(R.string.cancel, null)
-                                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        onDeleteItem(item);
-                                    }
-                                }).create();
+                                                 .setMessage(String.format(mActivity.getString(R.string.delete_tips), item.sessionName))
+                                                 .setNegativeButton(R.string.cancel, null)
+                                                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                                                     @Override
+                                                     public void onClick(DialogInterface dialog, int which) {
+                                                         onDeleteItem(item);
+                                                     }
+                                                 }).create();
                         dialog.show();
                     }
                 }
@@ -668,7 +679,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
                                             HotItemModel searchItem = new HotItemModel();
                                             searchItem.downloadUrlHashCode = item.downloadUrlHashCode;
                                             HotItemModel result = SingleInstanceBase.getInstance(HotModel.class)
-                                                    .getItem(searchItem);
+                                                                      .getItem(searchItem);
                                             if (result != null) {
                                                 result.readStatus = DownloadItemModel.DOWNLOAD_READ;
                                                 SingleInstanceBase.getInstance(HotModel.class).updateItemModel(result);
@@ -705,7 +716,7 @@ public class DownloadItemAdapter extends BaseAdapter implements OnStateChangedLi
             public void run() {
                 try {
                     DownloadAlbumResponse response = InternetUtils.request(mContext, new DownloadAlbumRequest(
-                            Config.DOMAIN_NAME[Config.INDEX], String.valueOf(fileIndex)));
+                                                                                                                 Config.DOMAIN_NAME[Config.INDEX], String.valueOf(fileIndex)));
                     if (response != null) {
                         UtilsConfig.LOGD(response.toString());
                     } else {
