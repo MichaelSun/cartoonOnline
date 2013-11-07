@@ -41,7 +41,8 @@ public class DialogUtils {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Utils.downloadJifenbao(a.getApplicationContext());
+//                                Utils.downloadJifenbao(a.getApplicationContext());
+                                tryDownloadApk(a, new DownloadApkProcess(a));
                             }
                         }).setNegativeButton(R.string.confirm, null).create();
         dialog.show();
