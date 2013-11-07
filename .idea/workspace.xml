@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/fragment/DownloadFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/DownloadItemAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/fragment/HotFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/Utils.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/Utils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="" />
     <ignored path="cartoonOnline.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" time="1383825302107" ignored="false" />
@@ -142,7 +134,7 @@
       <file leaf-file-name="CartoonSplashActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="777" column="69" selection-start="33935" selection-end="33935" vertical-scroll-proportion="0.8423154">
+            <state line="770" column="21" selection-start="33576" selection-end="33576" vertical-scroll-proportion="0.40522876">
               <folding />
             </state>
           </provider>
@@ -566,7 +558,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32754344" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32754344" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -766,7 +758,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/CartoonSplashActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="777" column="69" selection-start="33935" selection-end="33935" vertical-scroll-proportion="0.8423154">
+        <state line="770" column="21" selection-start="33576" selection-end="33576" vertical-scroll-proportion="0.40522876">
           <folding />
         </state>
       </provider>
