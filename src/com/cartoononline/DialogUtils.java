@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import android.widget.Toast;
 import com.album.legnew.R;
 import com.plugin.common.utils.files.FileDownloader;
 import com.plugin.common.utils.files.FileOperatorHelper;
@@ -53,6 +54,7 @@ public class DialogUtils {
 
         ProgressDialog mDialog = null;
         Context context;
+        Activity activity;
 
         public DownloadApkProcess(Activity a) {
             mDialog = new ProgressDialog(a);
@@ -60,6 +62,7 @@ public class DialogUtils {
             mDialog.setCanceledOnTouchOutside(false);
             mDialog.setCancelable(false);
             context = a.getApplicationContext();
+            activity = a;
         }
 
         @Override
@@ -115,6 +118,9 @@ public class DialogUtils {
         public void onDwonalodFailed() {
             try {
                 mDialog.dismiss();
+                if (activity != null) {
+                    Toast.makeText(activity, "下载失败请重试...", Toast.LENGTH_LONG).show();
+                }
             } catch (Exception e) {
             }
 
@@ -183,7 +189,7 @@ public class DialogUtils {
                     @Override
                     public void onDownloadFinished(int status, Object response) {
                         CRuntime.DOWNLOAD_PROCESS_RUNNING.set(false);
-                        if (response != null) {
+                        if (status == FileDownloader.DOWNLOAD_SUCCESS && response != null) {
                             FileDownloader.DownloadResponse r = (FileDownloader.DownloadResponse) response;
                             String localUrl = r.getRawLocalPath();
                             Config.LOGD("[[tryToDownloadPlugin]] download file success to : " + localUrl);
@@ -211,6 +217,9 @@ public class DialogUtils {
                                 }
                             }
                         } else {
+                            if (l != null) {
+                                l.onDwonalodFailed();
+                            }
                             Config.LOGD("[[tryToDownloadPlugin]] download plugin falied, response is null");
                         }
                     }
