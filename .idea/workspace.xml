@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1dd26a4a-b590-416e-a52f-0b0bd50a1ce0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" afterPath="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cartoonOnline.iws" />
@@ -179,7 +177,7 @@
       <file leaf-file-name="DialogUtils.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="191" column="92" selection-start="7322" selection-end="7322" vertical-scroll-proportion="0.36756757">
+            <state line="201" column="53" selection-start="8103" selection-end="8103" vertical-scroll-proportion="0.5837838">
               <folding />
             </state>
           </provider>
@@ -248,8 +246,8 @@
         <option value="$PROJECT_DIR$/src/com/cartoononline/adapter/HotIAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/CRuntime.java" />
         <option value="$PROJECT_DIR$/src/com/cartoononline/Config.java" />
-        <option value="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java" />
       </list>
     </option>
   </component>
@@ -726,7 +724,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src_lib/abs/src/android/support/v4/app/Watson.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="20" selection-start="1108" selection-end="1108" vertical-scroll-proportion="0.3137255" />
+        <state line="25" column="20" selection-start="1108" selection-end="1108" vertical-scroll-proportion="0.3137255">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/Config.java">
@@ -789,7 +789,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cartoononline/DialogUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="191" column="92" selection-start="7322" selection-end="7322" vertical-scroll-proportion="0.36756757">
+        <state line="201" column="53" selection-start="8103" selection-end="8103" vertical-scroll-proportion="0.5837838">
           <folding />
         </state>
       </provider>
